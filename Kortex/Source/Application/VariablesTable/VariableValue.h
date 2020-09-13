@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex::VariablesTable
 {
@@ -25,12 +25,12 @@ namespace Kortex
 			using Type = VariablesTable::Type;
 
 		private:
-			wxString m_Value;
+			kxf::String m_Value;
 			std::optional<Type> m_Type = Type::String;
 			std::optional<Override> m_Override;
 
 		private:
-			template<class T> static T ToInt(const wxString& value, T defaultValue)
+			template<class T> static T ToInt(const kxf::String& value, T defaultValue)
 			{
 				using Tint = std::conditional_t<std::is_unsigned_v<T>, wxULongLong_t, wxLongLong_t>;
 				Tint intValue = static_cast<Tint>(defaultValue);
@@ -51,7 +51,7 @@ namespace Kortex
 				}
 				return defaultValue;
 			}
-			template<class T> static T ToFloat(const wxString& value, T defaultValue)
+			template<class T> static T ToFloat(const kxf::String& value, T defaultValue)
 			{
 				double floatValue = static_cast<double>(defaultValue);
 				if (value.ToCDouble(&floatValue))
@@ -75,24 +75,24 @@ namespace Kortex
 				return !m_Value.IsEmpty();
 			}
 
-			wxString Expand() const;
+			kxf::String Expand() const;
 			template<class T> void Assign(const T& value)
 			{
-				if constexpr(std::is_convertible_v<T, wxString> || std::is_assignable_v<wxString, T>)
+				if constexpr(std::is_convertible_v<T, kxf::String> || std::is_assignable_v<kxf::String, T>)
 				{
 					m_Value = value;
 				}
 				else
 				{
-					m_Value = KxString::Format(wxS("%1"), value);
+					m_Value = kxf::String::Format(wxS("%1"), value);
 				}
 			}
 
-			const wxString& AsString() const
+			const kxf::String& AsString() const
 			{
 				return m_Value;
 			}
-			wxString ExpandAsString() const
+			kxf::String ExpandAsString() const
 			{
 				return Expand();
 			}
@@ -151,7 +151,7 @@ namespace Kortex
 				return !IsOK();
 			}
 			
-			operator const wxString&() const
+			operator const kxf::String&() const
 			{
 				return m_Value;
 			}

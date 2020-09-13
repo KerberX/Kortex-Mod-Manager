@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "DisplayModel.h"
 #include <KxFramework/KxStdDialog.h>
 class KxButton;

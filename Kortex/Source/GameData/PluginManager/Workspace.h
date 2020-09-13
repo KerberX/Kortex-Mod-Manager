@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include <KxFramework/KxSplitterWindow.h>
 #include <KxFramework/KxAuiToolBar.h>
@@ -25,7 +25,7 @@ namespace Kortex::PluginManager
 	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
 	{
 		public:
-			static ImageResourceID GetStatusImageForPlugin(const IGamePlugin* plugin = nullptr);
+			static Imagekxf::ResourceID GetStatusImageForPlugin(const IGamePlugin* plugin = nullptr);
 
 		private:
 			BroadcastReciever m_BroadcastReciever;
@@ -54,11 +54,11 @@ namespace Kortex::PluginManager
 			~Workspace();
 
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			ResourceID GetIcon() const override
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::PlugDisconnect;
+				return Imagekxf::ResourceID::PlugDisconnect;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

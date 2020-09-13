@@ -7,10 +7,10 @@ namespace Kortex
 	class ModTagStoreTag: public IModTag
 	{
 		private:
-			wxString m_ID;
+			kxf::String m_ID;
 
 		public:
-			ModTagStoreTag(const wxString& id)
+			ModTagStoreTag(const kxf::String& id)
 				:m_ID(id)
 			{
 			}
@@ -33,16 +33,16 @@ namespace Kortex
 			{
 			}
 
-			wxString GetID() const override
+			kxf::String GetID() const override
 			{
 				return m_ID;
 			}
-			void SetID(const wxString& value) override
+			void SetID(const kxf::String& value) override
 			{
 				m_ID = value;
 			}
 
-			wxString GetName() const override
+			kxf::String GetName() const override
 			{
 				if (auto name = GetTranslatedNameByID(m_ID))
 				{
@@ -50,7 +50,7 @@ namespace Kortex
 				}
 				return m_ID;
 			}
-			void SetName(const wxString& label) override
+			void SetName(const kxf::String& label) override
 			{
 				m_ID = label;
 			}
@@ -67,15 +67,16 @@ namespace Kortex
 
 namespace Kortex
 {
-	template<class MapT, class Functor> void VisitHelper(MapT&& map, Functor&& functor)
+	template<class MapT, class TFunc>
+	void VisitHelper(MapT&& map, TFunc&& func)
 	{
 		IModTagManager* manager = IModTagManager::GetInstance();
 
-		for (const wxString& tagID: map)
+		for (const kxf::String& tagID: map)
 		{
 			if (IModTag* realTag = manager->FindTagByID(tagID))
 			{
-				if (!functor(*realTag))
+				if (!func(*realTag))
 				{
 					break;
 				}
@@ -83,7 +84,7 @@ namespace Kortex
 			else
 			{
 				ModTagStoreTag tag(tagID);
-				if (!functor(tag))
+				if (!func(tag))
 				{
 					break;
 				}
@@ -102,7 +103,7 @@ namespace Kortex
 		}
 		return false;
 	}
-	bool ModTagStore::HasTag(const wxString& tagID) const
+	bool ModTagStore::HasTag(const kxf::String& tagID) const
 	{
 		if (!tagID.IsEmpty())
 		{
@@ -118,7 +119,7 @@ namespace Kortex
 			AddTag(tag.GetID());
 		}
 	}
-	void ModTagStore::AddTag(const wxString& tagID)
+	void ModTagStore::AddTag(const kxf::String& tagID)
 	{
 		if (!tagID.IsEmpty())
 		{
@@ -133,7 +134,7 @@ namespace Kortex
 			RemoveTag(tag.GetID());
 		}
 	}
-	void ModTagStore::RemoveTag(const wxString& tagID)
+	void ModTagStore::RemoveTag(const kxf::String& tagID)
 	{
 		if (!tagID.IsEmpty())
 		{
@@ -148,7 +149,7 @@ namespace Kortex
 			addTag ? AddTag(tag) : RemoveTag(tag);
 		}
 	}
-	void ModTagStore::ToggleTag(const wxString& tagID, bool addTag)
+	void ModTagStore::ToggleTag(const kxf::String& tagID, bool addTag)
 	{
 		if (!tagID.IsEmpty())
 		{
@@ -178,7 +179,7 @@ namespace Kortex
 		}
 		return nullptr;
 	}
-	wxString ModTagStore::GetPrimaryTagID() const
+	kxf::String ModTagStore::GetPrimaryTagID() const
 	{
 		return m_PrimaryTag;
 	}
@@ -197,7 +198,7 @@ namespace Kortex
 		}
 		return false;
 	}
-	bool ModTagStore::SetPrimaryTag(const wxString& tagID)
+	bool ModTagStore::SetPrimaryTag(const kxf::String& tagID)
 	{
 		if (tagID.IsEmpty())
 		{
@@ -222,7 +223,7 @@ namespace Kortex
 	KxStringVector ModTagStore::GetIDs() const
 	{
 		KxStringVector values;
-		for (const wxString& tagID: m_TagIDs)
+		for (const kxf::String& tagID: m_TagIDs)
 		{
 			values.push_back(tagID);
 		}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include <KxFramework/KxSingleton.h>
@@ -11,10 +11,10 @@ namespace Kortex::NetworkManager
 		public KxRTTI::ExtendInterface<LoversLabModNetwork, IModNetwork>,
 		public KxSingletonPtr<LoversLabModNetwork>
 	{
-		KxDecalreIID(LoversLabModNetwork, {0xfd953e5d, 0x2c04, 0x4e82, {0x9f, 0x59, 0x6c, 0xc6, 0x91, 0xb6, 0xa3, 0x73}});
+		KxRTTI_DeclareIID(LoversLabModNetwork, {0xfd953e5d, 0x2c04, 0x4e82, {0x9f, 0x59, 0x6c, 0xc6, 0x91, 0xb6, 0xa3, 0x73}});
 
 		private:
-			wxString GetAPIURL() const;
+			kxf::String GetAPIURL() const;
 
 		protected:
 			void OnInit() override
@@ -23,7 +23,7 @@ namespace Kortex::NetworkManager
 			void OnExit() override
 			{
 			}
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode) override
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode) override
 			{
 			}
 
@@ -31,14 +31,14 @@ namespace Kortex::NetworkManager
 			LoversLabModNetwork();
 
 		public:
-			ResourceID GetIcon() const override;
-			wxString GetName() const override;
+			kxf::ResourceID GetIcon() const override;
+			kxf::String GetName() const override;
 
-			wxString TranslateGameIDToNetwork(const GameID& id = {}) const override
+			kxf::String TranslateGameIDToNetwork(const GameID& id = {}) const override
 			{
 				return {};
 			}
-			GameID TranslateGameIDFromNetwork(const wxString& id) const override
+			GameID TranslateGameIDFromNetwork(const kxf::String& id) const override
 			{
 				return {};
 			}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 
 namespace Kortex
@@ -34,7 +34,7 @@ namespace Kortex
 				:m_SavesArray(saves)
 			{
 			}
-			SaveEvent(const wxString& name)
+			SaveEvent(const kxf::String& name)
 			{
 				SetString(name);
 			}
@@ -53,7 +53,7 @@ namespace Kortex
 			{
 				return m_Save;
 			}
-			wxString GetSaveName() const;
+			kxf::String GetSaveName() const;
 
 			bool HasSavesArray() const
 			{

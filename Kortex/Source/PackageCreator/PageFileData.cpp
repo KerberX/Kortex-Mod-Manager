@@ -36,7 +36,7 @@ namespace Kortex::PackageDesigner
 
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(m_MainListPane, KTr("PackageCreator.PageFileData.MainList"));
-		mainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		mainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Sizer
 		wxBoxSizer* foldersSizer = new wxBoxSizer(wxVERTICAL);
@@ -55,7 +55,7 @@ namespace Kortex::PackageDesigner
 
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(m_FolderContentPane, KTr("PackageCreator.PageFileData.FolderContent"));
-		mainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		mainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		wxBoxSizer* filesSizer = new wxBoxSizer(wxVERTICAL);
 		mainSizer->Add(filesSizer, 1, wxEXPAND|wxLEFT, ms_LeftMargin);
@@ -108,11 +108,11 @@ namespace Kortex::PackageDesigner
 		}
 	}
 	
-	wxString PageFileData::GetID() const
+	kxf::String PageFileData::GetID() const
 	{
 		return "KPackageCreator.FileData";
 	}
-	wxString PageFileData::GetPageName() const
+	kxf::String PageFileData::GetPageName() const
 	{
 		return KTr("PackageCreator.PageFileData.Name");
 	}

@@ -19,37 +19,37 @@ namespace Kortex::PackageProject
 
 	namespace
 	{
-		void SaveLabeledValueArray(const Utility::LabeledValue::Vector& array, KxXMLNode& arrayNode, const wxString& labelName = wxS("Label"))
+		void SaveLabeledValueArray(const Utility::LabeledValue::Vector& array, kxf::XMLNode& arrayNode, const kxf::String& labelName = wxS("Label"))
 		{
 			arrayNode.ClearChildren();
 
 			for (const Utility::LabeledValue& value: array)
 			{
-				KxXMLNode elementNode = arrayNode.NewElement("Entry");
+				kxf::XMLNode elementNode = arrayNode.NewElement("Entry");
 
 				elementNode.SetValue(value.GetValue());
 				elementNode.SetAttribute(labelName, value.GetLabel(), WriteEmpty::Never);
 			}
 		}
-		void LoadLabeledValueArray(Utility::LabeledValue::Vector& array, const KxXMLNode& arrayNode, const wxString& labelName = wxS("Label"))
+		void LoadLabeledValueArray(Utility::LabeledValue::Vector& array, const kxf::XMLNode& arrayNode, const kxf::String& labelName = wxS("Label"))
 		{
-			for (KxXMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				array.emplace_back(Utility::LabeledValue(node.GetValue(), node.GetAttribute(labelName)));
 			}
 		}
 	
-		void SaveStringArray(const KxStringVector& array, KxXMLNode& arrayNode, const wxString& elementNodeName = wxS("Item"))
+		void SaveStringArray(const KxStringVector& array, kxf::XMLNode& arrayNode, const kxf::String& elementNodeName = wxS("Item"))
 		{
 			arrayNode.ClearChildren();
-			for (const wxString& value: array)
+			for (const kxf::String& value: array)
 			{
 				arrayNode.NewElement(elementNodeName).SetValue(value, WriteEmpty::Never);
 			}
 		}
-		void LoadStringArray(KxStringVector& array, const KxXMLNode& arrayNode)
+		void LoadStringArray(KxStringVector& array, const kxf::XMLNode& arrayNode)
 		{
-			for (KxXMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				array.emplace_back(node.GetValue());
 			}
@@ -57,7 +57,7 @@ namespace Kortex::PackageProject
 	}
 	namespace
 	{
-		void WriteCondition(const Condition& condition, KxXMLNode& conditionNode, bool confitionFlags)
+		void WriteCondition(const Condition& condition, kxf::XMLNode& conditionNode, bool confitionFlags)
 		{
 			if (!confitionFlags)
 			{
@@ -68,13 +68,13 @@ namespace Kortex::PackageProject
 			{
 				if (flag.HasName())
 				{
-					KxXMLNode flagNode = conditionNode.NewElement("Flag");
+					kxf::XMLNode flagNode = conditionNode.NewElement("Flag");
 					flagNode.SetValue(flag.GetValue());
 					flagNode.SetAttribute("Name", flag.GetName());
 				}
 			}
 		}
-		void WriteConditionGroup(const ConditionGroup& conditionGroup, KxXMLNode& groupNode)
+		void WriteConditionGroup(const ConditionGroup& conditionGroup, kxf::XMLNode& groupNode)
 		{
 			groupNode.SetAttribute("Operator", ModPackageProject::OperatorToString(conditionGroup.GetOperator()));
 			for (const Condition& condition: conditionGroup.GetConditions())
@@ -86,18 +86,18 @@ namespace Kortex::PackageProject
 			}
 		}
 		
-		void ReadCondition(Condition& condition, const KxXMLNode& conditionNode)
+		void ReadCondition(Condition& condition, const kxf::XMLNode& conditionNode)
 		{
 			condition.SetOperator(ModPackageProject::StringToOperator(conditionNode.GetAttribute("Operator"), false, Operator::And));
-			for (KxXMLNode node = conditionNode.GetFirstChildElement(); node; node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = conditionNode.GetFirstChildElement(); node; node = node.GetNextSiblingElement())
 			{
 				condition.GetFlags().emplace_back(node.GetValue(), node.GetAttribute("Name"));
 			}
 		}
-		void ReadConditionGroup(ConditionGroup& conditionGroup, const KxXMLNode& groupNode)
+		void ReadConditionGroup(ConditionGroup& conditionGroup, const kxf::XMLNode& groupNode)
 		{
 			conditionGroup.SetOperator(ModPackageProject::StringToOperator(groupNode.GetAttribute("Operator"), false, Operator::And));
-			for (KxXMLNode conditionNode = groupNode.GetFirstChildElement(); conditionNode.IsOK(); conditionNode = conditionNode.GetNextSiblingElement())
+			for (kxf::XMLNode conditionNode = groupNode.GetFirstChildElement(); conditionNode.IsOK(); conditionNode = conditionNode.GetNextSiblingElement())
 			{
 				Condition& condition = conditionGroup.GetConditions().emplace_back();
 				ReadCondition(condition, conditionNode);
@@ -109,11 +109,11 @@ namespace Kortex::PackageProject
 		}
 	
 		template<class T>
-		void WriteLabeledValueArray(const Utility::LabeledValue::Vector& array, KxXMLNode& arrayNode, const T& Func, bool isCDATA = false)
+		void WriteLabeledValueArray(const Utility::LabeledValue::Vector& array, kxf::XMLNode& arrayNode, const T& Func, bool isCDATA = false)
 		{
 			for (const Utility::LabeledValue& value: array)
 			{
-				KxXMLNode elementNode = arrayNode.NewElement("Item");
+				kxf::XMLNode elementNode = arrayNode.NewElement("Item");
 	
 				elementNode.SetValue(Func(value));
 				elementNode.SetAttribute("Name", value.GetLabel(), WriteEmpty::Never);
@@ -126,18 +126,18 @@ namespace Kortex::PackageProject
 {
 	void NativeSerializer::ReadBase()
 	{
-		if (KxXMLNode baseNode = m_XML.QueryElement("Package"))
+		if (kxf::XMLNode baseNode = m_XML.QueryElement("Package"))
 		{
 			m_ProjectLoad->SetFormatVersion(baseNode.GetAttribute("FormatVersion"));
 			m_ProjectLoad->SetModID(baseNode.GetAttribute("ID"));
 			
-			KxXMLNode targetProfileNode = baseNode.GetFirstChildElement("TargetProfile");
+			kxf::XMLNode targetProfileNode = baseNode.GetFirstChildElement("TargetProfile");
 			m_ProjectLoad->SetTargetProfileID(targetProfileNode.GetAttribute("ID"));
 		}
 	}
 	void NativeSerializer::ReadConfig()
 	{
-		if (KxXMLNode configNode = m_XML.QueryElement("Package/PackageConfig"))
+		if (kxf::XMLNode configNode = m_XML.QueryElement("Package/PackageConfig"))
 		{
 			ConfigSection& config = m_ProjectLoad->GetConfig();
 	
@@ -151,7 +151,7 @@ namespace Kortex::PackageProject
 	}
 	void NativeSerializer::ReadInfo()
 	{
-		if (KxXMLNode infoNode = m_XML.QueryElement("Package/Info"))
+		if (kxf::XMLNode infoNode = m_XML.QueryElement("Package/Info"))
 		{
 			InfoSection& info = m_ProjectLoad->GetInfo();
 			
@@ -181,7 +181,7 @@ namespace Kortex::PackageProject
 			
 			// Tags
 			ModTagStore& tagStore = info.GetTagStore();
-			for (KxXMLNode node = infoNode.GetFirstChildElement("Tags").GetFirstChildElement(); node; node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = infoNode.GetFirstChildElement("Tags").GetFirstChildElement(); node; node = node.GetNextSiblingElement())
 			{
 				auto tag = IModTagManager::GetInstance()->NewTag();
 				tag->SetID(node.GetValue());
@@ -191,13 +191,13 @@ namespace Kortex::PackageProject
 	}
 	void NativeSerializer::ReadInterface()
 	{
-		if (KxXMLNode interfaceNode = m_XML.QueryElement("Package/Interface"))
+		if (kxf::XMLNode interfaceNode = m_XML.QueryElement("Package/Interface"))
 		{
 			InterfaceSection& interfaceConfig = m_ProjectLoad->GetInterface();
 			TitleConfig& titleConfig = interfaceConfig.GetTitleConfig();
 	
 			// Read customization
-			if (KxXMLNode titleConfigNode = interfaceNode.GetFirstChildElement("Caption"))
+			if (kxf::XMLNode titleConfigNode = interfaceNode.GetFirstChildElement("Caption"))
 			{
 				titleConfig.SetAlignment((wxAlignment)titleConfigNode.GetAttributeInt("Alignment", TitleConfig::ms_InvalidAlignment));
 				
@@ -209,7 +209,7 @@ namespace Kortex::PackageProject
 			}
 	
 			// Read special images config
-			auto ReadImageConfig = [](const KxXMLNode& node) -> ImageItem
+			auto ReadImageConfig = [](const kxf::XMLNode& node) -> ImageItem
 			{
 				ImageItem item;
 				if (node.IsOK())
@@ -225,8 +225,8 @@ namespace Kortex::PackageProject
 			interfaceConfig.SetHeaderImage(ReadImageConfig(interfaceNode.GetFirstChildElement("HeaderImage")).GetPath());
 			
 			// Read images list
-			KxXMLNode imagesNode = interfaceNode.GetFirstChildElement("Images");
-			for (KxXMLNode node = imagesNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			kxf::XMLNode imagesNode = interfaceNode.GetFirstChildElement("Images");
+			for (kxf::XMLNode node = imagesNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				interfaceConfig.GetImages().emplace_back(ReadImageConfig(node));
 			}
@@ -234,12 +234,12 @@ namespace Kortex::PackageProject
 	}
 	void NativeSerializer::ReadFiles()
 	{
-		if (KxXMLNode fileDataNode = m_XML.QueryElement("Package/Files"))
+		if (kxf::XMLNode fileDataNode = m_XML.QueryElement("Package/Files"))
 		{
 			FileDataSection& fileData = m_ProjectLoad->GetFileData();
 			
 			// Folder
-			for (KxXMLNode folderNode = fileDataNode.GetFirstChildElement(); folderNode.IsOK(); folderNode = folderNode.GetNextSiblingElement())
+			for (kxf::XMLNode folderNode = fileDataNode.GetFirstChildElement(); folderNode.IsOK(); folderNode = folderNode.GetNextSiblingElement())
 			{
 				FileItem& item = folderNode.GetName() == "Folder" ? fileData.AddFolder(std::make_unique<FolderItem>()) : fileData.AddFile(std::make_unique<FileItem>());
 				item.SetID(folderNode.GetAttribute("ID"));
@@ -249,7 +249,7 @@ namespace Kortex::PackageProject
 				
 				if (FolderItem* folderItem; m_AsProject && item.QueryInterface(folderItem))
 				{
-					for (KxXMLNode fileNode = folderNode.GetFirstChildElement(); fileNode.IsOK(); fileNode = fileNode.GetNextSiblingElement())
+					for (kxf::XMLNode fileNode = folderNode.GetFirstChildElement(); fileNode.IsOK(); fileNode = fileNode.GetNextSiblingElement())
 					{
 						FileItem& fileItem = folderItem->AddFile();
 						fileItem.SetDestination(fileNode.GetValue());
@@ -263,17 +263,17 @@ namespace Kortex::PackageProject
 	{
 		RequirementsSection& requirements = m_ProjectLoad->GetRequirements();
 		
-		if (KxXMLNode requirementsNode = m_XML.QueryElement("Package/Requirements"))
+		if (kxf::XMLNode requirementsNode = m_XML.QueryElement("Package/Requirements"))
 		{
 			LoadStringArray(requirements.GetDefaultGroup(), requirementsNode.GetFirstChildElement("DefaultGroups"));
 			
-			for (KxXMLNode groupNode = requirementsNode.GetFirstChildElement("Groups").GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
+			for (kxf::XMLNode groupNode = requirementsNode.GetFirstChildElement("Groups").GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
 			{
 				RequirementGroup* requirementGroup = requirements.GetGroups().emplace_back(std::make_unique<RequirementGroup>()).get();
 				requirementGroup->SetID(groupNode.GetAttribute("ID"));
 				requirementGroup->SetOperator(ModPackageProject::StringToOperator(groupNode.GetAttribute("Operator"), false, requirements.ms_DefaultGroupOperator));
 				
-				for (KxXMLNode itemNode = groupNode.GetFirstChildElement(); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement())
+				for (kxf::XMLNode itemNode = groupNode.GetFirstChildElement(); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement())
 				{
 					ReqType type = requirements.StringToTypeDescriptor(itemNode.GetAttribute("Type"));
 					
@@ -282,15 +282,15 @@ namespace Kortex::PackageProject
 					item->SetName(itemNode.GetFirstChildElement("Name").GetValue());
 					
 					// Object
-					KxXMLNode objectNode = itemNode.GetFirstChildElement("Object");
+					kxf::XMLNode objectNode = itemNode.GetFirstChildElement("Object");
 					item->SetObject(objectNode.GetValue());
 					item->SetObjectFunction(requirements.StringToObjectFunction(objectNode.GetAttribute("Function")));
 					
 					// Version
-					KxXMLNode versionNode = itemNode.GetFirstChildElement("Version");
+					kxf::XMLNode versionNode = itemNode.GetFirstChildElement("Version");
 					item->SetRequiredVersion(versionNode.GetValue());
 
-					wxString operatorString = versionNode.GetAttribute("Operator");
+					kxf::String operatorString = versionNode.GetAttribute("Operator");
 					if (operatorString.IsEmpty())
 					{
 						// There was an error with required version operator were written as 'Function'.
@@ -311,37 +311,37 @@ namespace Kortex::PackageProject
 	{
 		ComponentsSection& components = m_ProjectLoad->GetComponents();
 	
-		if (KxXMLNode componentsNode = m_XML.QueryElement("Package/Components"))
+		if (kxf::XMLNode componentsNode = m_XML.QueryElement("Package/Components"))
 		{
 			// Read required files
 			LoadStringArray(components.GetRequiredFileData(), componentsNode.GetFirstChildElement("RequiredFiles"));
 			
 			// Read steps
-			for (KxXMLNode stepNode = componentsNode.GetFirstChildElement("Steps").GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
+			for (kxf::XMLNode stepNode = componentsNode.GetFirstChildElement("Steps").GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
 			{
 				auto& step = components.GetSteps().emplace_back(std::make_unique<ComponentStep>());
 				step->SetName(stepNode.GetAttribute("Name"));
 
-				KxXMLNode stepConditionGroupNode = stepNode.GetFirstChildElement("ConditionGroup");
+				kxf::XMLNode stepConditionGroupNode = stepNode.GetFirstChildElement("ConditionGroup");
 				if (!stepConditionGroupNode)
 				{
 					stepConditionGroupNode = stepNode.GetFirstChildElement("Conditions");
 				}
 				ReadConditionGroup(step->GetConditionGroup(), stepConditionGroupNode);
 				
-				for (KxXMLNode groupNode = stepNode.GetFirstChildElement("Groups").GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
+				for (kxf::XMLNode groupNode = stepNode.GetFirstChildElement("Groups").GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
 				{
 					auto& group = step->GetGroups().emplace_back(std::make_unique<ComponentGroup>());
 					group->SetName(groupNode.GetAttribute("Name"));
 					group->SetSelectionMode(components.StringToSelectionMode(groupNode.GetAttribute("SelectionMode")));
 	
-					KxXMLNode groupArrayNode = groupNode.GetFirstChildElement("Items");
+					kxf::XMLNode groupArrayNode = groupNode.GetFirstChildElement("Items");
 					if (!groupArrayNode.IsOK())
 					{
 						// v1.3.1-
 						groupArrayNode = groupNode.GetFirstChildElement("Entries");
 					}
-					for (KxXMLNode itemNode = groupArrayNode.GetFirstChildElement(); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement())
+					for (kxf::XMLNode itemNode = groupArrayNode.GetFirstChildElement(); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement())
 					{
 						auto& item = group->GetItems().emplace_back(std::make_unique<ComponentItem>());
 						item->SetName(itemNode.GetFirstChildElement("Name").GetValue());
@@ -349,13 +349,13 @@ namespace Kortex::PackageProject
 						item->SetDescription(itemNode.GetFirstChildElement("Description").GetValue());
 	
 						// Type descriptor
-						KxXMLNode typeDescriptorNode = itemNode.GetFirstChildElement("TypeDescriptor");
+						kxf::XMLNode typeDescriptorNode = itemNode.GetFirstChildElement("TypeDescriptor");
 						item->SetTDDefaultValue(components.StringToTypeDescriptor(typeDescriptorNode.GetAttribute("DefaultValue")));
 						item->SetTDConditionalValue(components.StringToTypeDescriptor(typeDescriptorNode.GetAttribute("ConditionalValue"), TypeDescriptor::Invalid));
 						
-						if (m_ProjectLoad->GetFormatVersion() < KxVersion("1.3"))
+						if (m_ProjectLoad->GetFormatVersion() < kxf::Version("1.3"))
 						{
-							if (KxXMLNode conditionsNode = typeDescriptorNode.GetFirstChildElement("Conditions"))
+							if (kxf::XMLNode conditionsNode = typeDescriptorNode.GetFirstChildElement("Conditions"))
 							{
 								ConditionGroup& conditionGroup = item->GetTDConditionGroup();
 								Condition& condition = conditionGroup.GetOrCreateFirstCondition();
@@ -367,7 +367,7 @@ namespace Kortex::PackageProject
 						}
 						else
 						{
-							KxXMLNode itemConditionGroupNode = typeDescriptorNode.GetFirstChildElement("ConditionGroup");
+							kxf::XMLNode itemConditionGroupNode = typeDescriptorNode.GetFirstChildElement("ConditionGroup");
 							if (!itemConditionGroupNode)
 							{
 								itemConditionGroupNode = typeDescriptorNode.GetFirstChildElement("Conditions");
@@ -385,7 +385,7 @@ namespace Kortex::PackageProject
 						LoadStringArray(item->GetRequirements(), itemNode.GetFirstChildElement("Requirements"));
 						
 						// Conditional flags
-						KxXMLNode conditionFlagsNode = itemNode.GetFirstChildElement("ConditionFlags");
+						kxf::XMLNode conditionFlagsNode = itemNode.GetFirstChildElement("ConditionFlags");
 						if (!conditionFlagsNode)
 						{
 							conditionFlagsNode = itemNode.GetFirstChildElement("ConditionalFlags");
@@ -399,13 +399,13 @@ namespace Kortex::PackageProject
 				}
 			}
 	
-			auto ReadConditionalSteps = [&componentsNode, &components](const wxString& rootNodeName, const wxString& nodeName)
+			auto ReadConditionalSteps = [&componentsNode, &components](const kxf::String& rootNodeName, const kxf::String& nodeName)
 			{
-				for (KxXMLNode stepNode = componentsNode.GetFirstChildElement(rootNodeName).GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
+				for (kxf::XMLNode stepNode = componentsNode.GetFirstChildElement(rootNodeName).GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
 				{
 					auto& step = components.GetConditionalSteps().emplace_back(std::make_unique<ConditionalComponentStep>());
 
-					KxXMLNode stepConditionGroupNode = stepNode.GetFirstChildElement("ConditionGroup");
+					kxf::XMLNode stepConditionGroupNode = stepNode.GetFirstChildElement("ConditionGroup");
 					if (!stepConditionGroupNode)
 					{
 						stepConditionGroupNode = stepNode.GetFirstChildElement("Conditions");
@@ -419,9 +419,9 @@ namespace Kortex::PackageProject
 		}
 	}
 	
-	KxXMLNode NativeSerializer::WriteBase()
+	kxf::XMLNode NativeSerializer::WriteBase()
 	{
-		KxXMLNode baseNode = m_XML.NewElement("Package");
+		kxf::XMLNode baseNode = m_XML.NewElement("Package");
 		baseNode.SetAttribute("FormatVersion", ModPackagesModule::GetInstance()->GetModuleInfo().GetVersion());
 
 		if (m_ProjectSave->GetModID() != m_ProjectSave->GetInfo().GetName())
@@ -430,16 +430,16 @@ namespace Kortex::PackageProject
 		}
 		
 		// Install engine version
-		KxXMLNode targetProfileNode = baseNode.NewElement("TargetProfile");
+		kxf::XMLNode targetProfileNode = baseNode.NewElement("TargetProfile");
 		targetProfileNode.SetAttribute("ID", IGameInstance::GetActive()->GetGameID());
 	
 		return baseNode;
 	}
-	void NativeSerializer::WriteConfig(KxXMLNode& baseNode)
+	void NativeSerializer::WriteConfig(kxf::XMLNode& baseNode)
 	{
 		if (m_AsProject)
 		{
-			KxXMLNode configNode = baseNode.NewElement("PackageConfig");
+			kxf::XMLNode configNode = baseNode.NewElement("PackageConfig");
 			const ConfigSection& config = m_ProjectSave->GetConfig();
 	
 			configNode.NewElement("InstallPackageFile").SetValue(config.GetInstallPackageFile(), WriteEmpty::Never);
@@ -450,9 +450,9 @@ namespace Kortex::PackageProject
 			configNode.NewElement("CompressionSolidArchive").SetValue(config.IsSolidArchive());
 		}
 	}
-	void NativeSerializer::WriteInfo(KxXMLNode& baseNode)
+	void NativeSerializer::WriteInfo(kxf::XMLNode& baseNode)
 	{
-		KxXMLNode infoNode = baseNode.NewElement("Info");
+		kxf::XMLNode infoNode = baseNode.NewElement("Info");
 		const InfoSection& info = m_ProjectSave->GetInfo();
 	
 		// Basic info
@@ -479,7 +479,7 @@ namespace Kortex::PackageProject
 		}
 	
 		// Source
-		KxXMLNode providerNode = infoNode.NewElement("Source");
+		kxf::XMLNode providerNode = infoNode.NewElement("Source");
 		info.GetModSourceStore().Save(providerNode);
 	
 		// Documents
@@ -495,7 +495,7 @@ namespace Kortex::PackageProject
 		const ModTagStore& tagStore = info.GetTagStore();
 		if (!tagStore.IsEmpty())
 		{
-			KxXMLNode tagsNode = infoNode.NewElement("Tags");
+			kxf::XMLNode tagsNode = infoNode.NewElement("Tags");
 			tagStore.Visit([&tagsNode](const IModTag& tag)
 			{
 				tagsNode.NewElement("Item").SetValue(tag.GetID());
@@ -503,16 +503,16 @@ namespace Kortex::PackageProject
 			});
 		}
 	}
-	void NativeSerializer::WriteInterface(KxXMLNode& baseNode)
+	void NativeSerializer::WriteInterface(kxf::XMLNode& baseNode)
 	{
 		const InterfaceSection& interfaceConfig = m_ProjectSave->GetInterface();
 		const TitleConfig& titleConfig = interfaceConfig.GetTitleConfig();
-		KxXMLNode interfaceNode = baseNode.NewElement("Interface");
+		kxf::XMLNode interfaceNode = baseNode.NewElement("Interface");
 	
 		// Write customization
 		if (titleConfig.IsOK())
 		{
-			KxXMLNode node = interfaceNode.NewElement("Caption");
+			kxf::XMLNode node = interfaceNode.NewElement("Caption");
 			if (titleConfig.HasAlignment())
 			{
 				node.SetAttribute("Alignment", (int)titleConfig.GetAlignment());
@@ -524,13 +524,13 @@ namespace Kortex::PackageProject
 		}
 	
 		// Write special images config
-		auto WriteImageConfig = [this](KxXMLNode& rootNode, const wxString& name, const ImageItem* item, bool isListItem)
+		auto WriteImageConfig = [this](kxf::XMLNode& rootNode, const kxf::String& name, const ImageItem* item, bool isListItem)
 		{
 			if (item)
 			{
 				if (!isListItem || item->HasPath())
 				{
-					KxXMLNode node = rootNode.NewElement(name);
+					kxf::XMLNode node = rootNode.NewElement(name);
 					node.SetAttribute("Path", m_AsProject ? item->GetPath() : PathNameToPackage(item->GetPath(), ContentType::Images));
 					node.SetAttribute("Visible", item->IsVisible());
 	
@@ -556,22 +556,22 @@ namespace Kortex::PackageProject
 		// Write images list
 		if (!interfaceConfig.GetImages().empty())
 		{
-			KxXMLNode imagesNode = interfaceNode.NewElement("Images");
+			kxf::XMLNode imagesNode = interfaceNode.NewElement("Images");
 			for (const ImageItem& item: interfaceConfig.GetImages())
 			{
 				WriteImageConfig(imagesNode, "Item", &item, true);
 			}
 		}
 	}
-	void NativeSerializer::WriteFiles(KxXMLNode& baseNode)
+	void NativeSerializer::WriteFiles(kxf::XMLNode& baseNode)
 	{
-		KxXMLNode fileDataNode = baseNode.NewElement("Files");
+		kxf::XMLNode fileDataNode = baseNode.NewElement("Files");
 		const FileDataSection& fileData = m_ProjectSave->GetFileData();
 	
 		for (const auto& item: fileData.GetItems())
 		{
 			const FolderItem* folderItem = item->QueryInterface<FolderItem>();
-			KxXMLNode itemNode = fileDataNode.NewElement(folderItem ? "Folder" : "File");
+			kxf::XMLNode itemNode = fileDataNode.NewElement(folderItem ? "Folder" : "File");
 
 			if (m_AsProject)
 			{
@@ -596,33 +596,33 @@ namespace Kortex::PackageProject
 			{
 				for (const FileItem& folderFile: folderItem->GetFiles())
 				{
-					KxXMLNode node = itemNode.NewElement("Item");
+					kxf::XMLNode node = itemNode.NewElement("Item");
 					node.SetValue(folderFile.GetDestination());
 					node.SetAttribute("Source", folderFile.GetSource());
 				}
 			}
 		}
 	}
-	void NativeSerializer::WriteRequirements(KxXMLNode& baseNode)
+	void NativeSerializer::WriteRequirements(kxf::XMLNode& baseNode)
 	{
 		const RequirementsSection& requirements = m_ProjectSave->GetRequirements();
 
-		KxXMLNode requirementsNode = baseNode.NewElement("Requirements");
+		kxf::XMLNode requirementsNode = baseNode.NewElement("Requirements");
 		if (!requirements.IsDefaultGroupEmpty())
 		{
 			SaveStringArray(requirements.GetDefaultGroup(), requirementsNode.NewElement("DefaultGroups"));
 		}
 
-		KxXMLNode groupsArrayNode = groupsArrayNode = requirementsNode.NewElement("Groups");
+		kxf::XMLNode groupsArrayNode = groupsArrayNode = requirementsNode.NewElement("Groups");
 		for (const auto& group: requirements.GetGroups())
 		{
-			KxXMLNode groupNode = groupsArrayNode.NewElement("Group");
+			kxf::XMLNode groupNode = groupsArrayNode.NewElement("Group");
 			groupNode.SetAttribute("ID", group->GetID());
 			groupNode.SetAttribute("Operator", ModPackageProject::OperatorToString(group->GetOperator()));
 
 			for (const auto& item: group->GetItems())
 			{
-				KxXMLNode itemNode = groupNode.NewElement("Item");
+				kxf::XMLNode itemNode = groupNode.NewElement("Item");
 
 				// ID and type
 				itemNode.SetAttribute("ID", item->RawGetID(), WriteEmpty::Never);
@@ -632,26 +632,26 @@ namespace Kortex::PackageProject
 				itemNode.NewElement("Name").SetValue(item->RawGetName());
 
 				// Object
-				KxXMLNode objectNode = itemNode.NewElement("Object");
+				kxf::XMLNode objectNode = itemNode.NewElement("Object");
 				objectNode.SetValue(item->GetObject());
 				objectNode.SetAttribute("Function", requirements.ObjectFunctionToString(item->GetObjectFunction()));
 
 				// Version
-				KxXMLNode versionNode = itemNode.NewElement("Version");
+				kxf::XMLNode versionNode = itemNode.NewElement("Version");
 				versionNode.SetValue(item->GetRequiredVersion());
 				versionNode.SetAttribute("Operator", ModPackageProject::OperatorToString(item->GetRequiredVersionOperator()));
 
 				// Description
-				if (wxString value = item->GetDescription(); !value.IsEmpty())
+				if (kxf::String value = item->GetDescription(); !value.IsEmpty())
 				{
 					itemNode.NewElement("Description").SetValue(value);
 				}
 			}
 		}
 	}
-	void NativeSerializer::WriteComponents(KxXMLNode& baseNode)
+	void NativeSerializer::WriteComponents(kxf::XMLNode& baseNode)
 	{
-		KxXMLNode componentsNode = baseNode.NewElement("Components");
+		kxf::XMLNode componentsNode = baseNode.NewElement("Components");
 		const ComponentsSection& components = m_ProjectSave->GetComponents();
 	
 		// Write required files
@@ -661,11 +661,11 @@ namespace Kortex::PackageProject
 		}
 	
 		// Write steps
-		KxXMLNode stepsArrayNode = componentsNode.NewElement("Steps");
+		kxf::XMLNode stepsArrayNode = componentsNode.NewElement("Steps");
 		for (const auto& step: components.GetSteps())
 		{
 			// Header
-			KxXMLNode stepNode = stepsArrayNode.NewElement("Step");
+			kxf::XMLNode stepNode = stepsArrayNode.NewElement("Step");
 			stepNode.SetAttribute("Name", step->GetName(), WriteEmpty::Never);
 
 			// Step conditions
@@ -677,20 +677,20 @@ namespace Kortex::PackageProject
 			// Groups
 			if (!step->GetGroups().empty())
 			{
-				KxXMLNode groupsArrayNode = stepNode.NewElement("Groups");
+				kxf::XMLNode groupsArrayNode = stepNode.NewElement("Groups");
 				for (const auto& group: step->GetGroups())
 				{
-					KxXMLNode groupNode = groupsArrayNode.NewElement("Group");
+					kxf::XMLNode groupNode = groupsArrayNode.NewElement("Group");
 					groupNode.SetAttribute("Name", group->GetName(), WriteEmpty::Never);
 					groupNode.SetAttribute("SelectionMode", components.SelectionModeToString(group->GetSelectionMode()));
 
 					// Group entries
 					if (!group->GetItems().empty())
 					{
-						KxXMLNode itemArrayNode = groupNode.NewElement("Items");
+						kxf::XMLNode itemArrayNode = groupNode.NewElement("Items");
 						for (const auto& item: group->GetItems())
 						{
-							KxXMLNode itemNode = itemArrayNode.NewElement("Item");
+							kxf::XMLNode itemNode = itemArrayNode.NewElement("Item");
 
 							// Name is required
 							itemNode.NewElement("Name").SetValue(item->GetName());
@@ -698,7 +698,7 @@ namespace Kortex::PackageProject
 							// Image
 							if (!item->GetImage().IsEmpty())
 							{
-								wxString image = m_AsProject ? item->GetImage() : PathNameToPackage(item->GetImage(), ContentType::Images);
+								kxf::String image = m_AsProject ? item->GetImage() : PathNameToPackage(item->GetImage(), ContentType::Images);
 								itemNode.NewElement("Image").SetAttribute("Path", image);
 							}
 
@@ -709,7 +709,7 @@ namespace Kortex::PackageProject
 							}
 
 							// Type descriptor
-							KxXMLNode typeDescriptorNode = itemNode.NewElement("TypeDescriptor");
+							kxf::XMLNode typeDescriptorNode = itemNode.NewElement("TypeDescriptor");
 							typeDescriptorNode.SetAttribute("DefaultValue", components.TypeDescriptorToString(item->GetTDDefaultValue()));
 							if (item->GetTDConditionalValue() != TypeDescriptor::Invalid)
 							{
@@ -741,15 +741,15 @@ namespace Kortex::PackageProject
 			}
 		}
 	
-		[&componentsNode](const ConditionalComponentStep::Vector& steps, const wxString& rootNodeName, const wxString& nodeName)
+		[&componentsNode](const ConditionalComponentStep::Vector& steps, const kxf::String& rootNodeName, const kxf::String& nodeName)
 		{
 			if (!steps.empty())
 			{
-				KxXMLNode stepArrayNode = componentsNode.NewElement(rootNodeName);
+				kxf::XMLNode stepArrayNode = componentsNode.NewElement(rootNodeName);
 				for (const auto& step: steps)
 				{
 					// Header
-					KxXMLNode setNode = stepArrayNode.NewElement("Step");
+					kxf::XMLNode setNode = stepArrayNode.NewElement("Step");
 					if (step->GetConditionGroup().HasConditions())
 					{
 						WriteConditionGroup(step->GetConditionGroup(), setNode.NewElement("ConditionGroup"));
@@ -770,7 +770,7 @@ namespace Kortex::PackageProject
 		m_ProjectSave = &project;
 		m_XML = {};
 	
-		KxXMLNode baseNode = WriteBase();
+		kxf::XMLNode baseNode = WriteBase();
 		WriteConfig(baseNode);
 		WriteInfo(baseNode);
 		WriteFiles(baseNode);

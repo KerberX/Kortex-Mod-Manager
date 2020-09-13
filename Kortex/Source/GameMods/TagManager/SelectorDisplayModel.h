@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "KxFramework/KxDataViewListModelEx.h"
 
 namespace Kortex

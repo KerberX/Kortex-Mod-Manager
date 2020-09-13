@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include <Kortex/ModManager.hpp>
 #include "Network/ModSourceStore.h"
@@ -14,26 +14,26 @@ namespace Kortex::PackageProject
 	class Serializer
 	{
 		public:
-			static const wxString& GetDefaultFOModRoot()
+			static const kxf::String& GetDefaultFOModRoot()
 			{
-				static const wxString root = "FOMod";
+				static const kxf::String root = "FOMod";
 				return root;
 			}
-			static const wxString& GetDefaultKMPRoot()
+			static const kxf::String& GetDefaultKMPRoot()
 			{
-				static const wxString root = "KortexPackage";
+				static const kxf::String root = "KortexPackage";
 				return root;
 			}
 			
-			static ModSourceItem TryParseWebSite(const wxString& url, wxString* domainNameOut = nullptr);
-			static wxString ConvertBBCode(const wxString& bbSource);
+			static ModSourceItem TryParseWebSite(const kxf::String& url, kxf::String* domainNameOut = nullptr);
+			static kxf::String ConvertBBCode(const kxf::String& bbSource);
 	
 		private:
-			wxString m_PackageDataRoot;
+			kxf::String m_PackageDataRoot;
 			
 		protected:
-			wxString PathNameToPackage(const wxString& pathName, ContentType type) const;
-			bool CheckTag(const wxString& tagName) const;
+			kxf::String PathNameToPackage(const kxf::String& pathName, ContentType type) const;
+			bool CheckTag(const kxf::String& tagName) const;
 			
 		public:
 			virtual ~Serializer() = default;
@@ -42,11 +42,11 @@ namespace Kortex::PackageProject
 			virtual void Serialize(const ModPackageProject& project) = 0;
 			virtual void Structurize(ModPackageProject& project) = 0;
 			
-			const wxString& GetPackageDataRoot(const wxString& path) const
+			const kxf::String& GetPackageDataRoot(const kxf::String& path) const
 			{
 				return m_PackageDataRoot;
 			}
-			void SetPackageDataRoot(const wxString& path)
+			void SetPackageDataRoot(const kxf::String& path)
 			{
 				m_PackageDataRoot = path;
 			}

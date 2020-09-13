@@ -10,7 +10,7 @@ namespace
 {
 	Kortex::Notifications::TrayPopupHandler g_PopupHandler;
 
-	template<class T> void CopyTextEllipsize(wxString&& value, T& buffer)
+	template<class T> void CopyTextEllipsize(kxf::String&& value, T& buffer)
 	{
 		if (value.length() >= std::size(buffer))
 		{
@@ -123,7 +123,7 @@ namespace Kortex::Notifications
 		// Text
 		CopyTextEllipsize(notification.GetCaption(), m_NotifyInfo.szInfoTitle);
 		CopyTextEllipsize(notification.GetMessage(), m_NotifyInfo.szInfo);
-		CopyTextEllipsize(KxString::Format(wxS("%1: %2"), app->GetShortName(), notification.GetCaption()), m_NotifyInfo.szTip);
+		CopyTextEllipsize(kxf::String::Format(wxS("%1: %2"), app->GetShortName(), notification.GetCaption()), m_NotifyInfo.szTip);
 
 		// Icon
 		if (wxBitmap bitmap = notification.GetBitmap(); bitmap.IsOk())

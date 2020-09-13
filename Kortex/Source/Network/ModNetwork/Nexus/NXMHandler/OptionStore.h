@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/AppOption.h"
 #include <KxFramework/KxString.h>
 
@@ -10,7 +10,7 @@ namespace Kortex::NetworkManager::NXMHandler
 		public:
 			struct Instance
 			{
-				wxString ID;
+				kxf::String ID;
 
 				explicit operator bool() const
 				{
@@ -23,8 +23,8 @@ namespace Kortex::NetworkManager::NXMHandler
 			};
 			struct Command
 			{
-				wxString Executable;
-				wxString Arguments;
+				kxf::String Executable;
+				kxf::String Arguments;
 
 				explicit operator bool() const
 				{
@@ -37,7 +37,7 @@ namespace Kortex::NetworkManager::NXMHandler
 			};
 
 		private:
-			template<class T, class TItems> static T* DoGetOption(TItems&& items, const wxString& nexusID)
+			template<class T, class TItems> static T* DoGetOption(TItems&& items, const kxf::String& nexusID)
 			{
 				auto it = items.find(KxString::ToLower(nexusID));
 				if (it !=  items.end())
@@ -56,31 +56,31 @@ namespace Kortex::NetworkManager::NXMHandler
 			}
 
 		private:
-			std::unordered_map<wxString, std::variant<Instance, Command>> m_Options;
+			std::unordered_map<kxf::String, std::variant<Instance, Command>> m_Options;
 
 		public:
 			void Save(AppOption& option) const;
 			void Load(const AppOption& option);
 
-			template<class T> const T* GetOption(const wxString& nexusID) const;
-			template<> const Instance* GetOption(const wxString& nexusID) const
+			template<class T> const T* GetOption(const kxf::String& nexusID) const;
+			template<> const Instance* GetOption(const kxf::String& nexusID) const
 			{
 				return DoGetOption<const Instance>(m_Options, nexusID);
 			}
-			template<> const Command* GetOption(const wxString& nexusID) const
+			template<> const Command* GetOption(const kxf::String& nexusID) const
 			{
 				return DoGetOption<const Command>(m_Options, nexusID);
 			}
 
-			void SetOption(const wxString& nexusID, const Instance& value)
+			void SetOption(const kxf::String& nexusID, const Instance& value)
 			{
 				m_Options.insert_or_assign(KxString::ToLower(nexusID), value);
 			}
-			void SetOption(const wxString& nexusID, const Command& value)
+			void SetOption(const kxf::String& nexusID, const Command& value)
 			{
 				m_Options.insert_or_assign(KxString::ToLower(nexusID), value);
 			}
-			void RemoveOption(const wxString& nexusID)
+			void RemoveOption(const kxf::String& nexusID)
 			{
 				m_Options.erase(KxString::ToLower(nexusID));
 			}

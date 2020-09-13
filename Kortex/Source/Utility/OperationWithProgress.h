@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "QuickThread.h"
 #include <KxFramework/KxDualProgressDialog.h>
 #include <KxFramework/KxFileOperationEvent.h>
@@ -90,7 +90,7 @@ namespace Kortex::Utility
 			wxWindow* m_Parent = nullptr;
 			wxWindow* m_ExactParent = nullptr;
 			KxDualProgressDialog* m_ProgressDialog = nullptr;
-			wxString m_Caption;
+			kxf::String m_Caption;
 
 		private:
 			void OnDialogClose(wxCloseEvent& event);
@@ -103,7 +103,7 @@ namespace Kortex::Utility
 			virtual void Create() override;
 			virtual void RunOnEnd() override;
 			virtual void OnRunThread() override;
-			virtual wxString OnSetLabel(const wxString& label);
+			virtual kxf::String OnSetLabel(const kxf::String& label);
 
 		public:
 			OperationWithProgressDialogBase(bool allowCancel, wxWindow* window = nullptr);
@@ -117,11 +117,11 @@ namespace Kortex::Utility
 			{
 				return m_ProgressDialog;
 			}
-			const wxString& GetDialogCaption() const
+			const kxf::String& GetDialogCaption() const
 			{
 				return m_Caption;
 			}
-			void SetDialogCaption(const wxString& caption)
+			void SetDialogCaption(const kxf::String& caption)
 			{
 				m_Caption = caption;
 			}

@@ -105,11 +105,11 @@ namespace Kortex
 		return *items.emplace_back(std::move(tag));
 	}
 
-	IModTag& IModTagManager::EmplaceTagWith(const wxString& id, const wxString& name)
+	IModTag& IModTagManager::EmplaceTagWith(const kxf::String& id, const kxf::String& name)
 	{
 		return EmplaceTagWith(GetTags(), id, name);
 	}
-	IModTag& IModTagManager::EmplaceTagWith(IModTag::Vector& items, const wxString& id, const wxString& name)
+	IModTag& IModTagManager::EmplaceTagWith(IModTag::Vector& items, const kxf::String& id, const kxf::String& name)
 	{
 		if (IModTag* existingTag = FindTagByID(items, id))
 		{
@@ -149,11 +149,11 @@ namespace Kortex
 		return false;
 	}
 
-	bool IModTagManager::RemoveTagByID(const wxString& id)
+	bool IModTagManager::RemoveTagByID(const kxf::String& id)
 	{
 		RemoveTagByID(GetTags(), id);
 	}
-	bool IModTagManager::RemoveTagByID(IModTag::Vector& items, const wxString& id)
+	bool IModTagManager::RemoveTagByID(IModTag::Vector& items, const kxf::String& id)
 	{
 		IModTag::Vector::const_iterator it;
 		if (FindModTag<IModTag, FindBy::ID>(items, id, &it))
@@ -164,29 +164,29 @@ namespace Kortex
 		return false;
 	}
 
-	IModTag* IModTagManager::FindTagByID(const wxString& id) const
+	IModTag* IModTagManager::FindTagByID(const kxf::String& id) const
 	{
 		return FindModTag<IModTag, FindBy::ID>(GetTags(), id);
 	}
-	IModTag* IModTagManager::FindTagByID(const IModTag::Vector& items, const wxString& id) const
+	IModTag* IModTagManager::FindTagByID(const IModTag::Vector& items, const kxf::String& id) const
 	{
 		return FindModTag<IModTag, FindBy::ID>(items, id);
 	}
 
-	IModTag* IModTagManager::FindTagByName(const wxString& name) const
+	IModTag* IModTagManager::FindTagByName(const kxf::String& name) const
 	{
 		return FindModTag<IModTag, FindBy::Name>(GetTags(), name);
 	}
-	IModTag* IModTagManager::FindTagByName(const IModTag::Vector& items, const wxString& name) const
+	IModTag* IModTagManager::FindTagByName(const IModTag::Vector& items, const kxf::String& name) const
 	{
 		return FindModTag<IModTag, FindBy::Name>(items, name);
 	}
 
-	wxString IModTagManager::GetTagNameByID(const wxString& id) const
+	kxf::String IModTagManager::GetTagNameByID(const kxf::String& id) const
 	{
 		return GetTagNameByID(GetTags(), id);
 	}
-	wxString IModTagManager::GetTagNameByID(const IModTag::Vector& items, const wxString& id) const
+	kxf::String IModTagManager::GetTagNameByID(const IModTag::Vector& items, const kxf::String& id) const
 	{
 		if (const IModTag* tag = FindTagByID(items, id))
 		{

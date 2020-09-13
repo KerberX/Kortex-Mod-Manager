@@ -11,9 +11,9 @@ namespace Kortex::SaveManager::BethesdaSave
 		});
 	}
 
-	wxString BethesdaBasicSave::GetDisplayName() const
+	kxf::String BethesdaBasicSave::GetDisplayName() const
 	{
-		wxString displayName;
+		kxf::String displayName;
 		auto AddPart = [&displayName](const SaveInfoPair& value)
 		{
 			if (value.ShouldDisplay())
@@ -27,7 +27,7 @@ namespace Kortex::SaveManager::BethesdaSave
 				{
 					if (value.ShouldDisplayLabel() && value.HasLabel())
 					{
-						displayName += KxString::Format(wxS("%1: %2"), value.GetRawLabel(), value.GetValue());
+						displayName += kxf::String::Format(wxS("%1: %2"), value.GetRawLabel(), value.GetValue());
 					}
 					else
 					{

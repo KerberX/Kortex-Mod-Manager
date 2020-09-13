@@ -4,9 +4,9 @@
 
 namespace
 {
-	wxString ToWxString(const std::wstring_view& value)
+	kxf::String Tokxf::String(const std::wstring_view& value)
 	{
-		return wxString(value.data(), value.length());
+		return kxf::String(value.data(), value.length());
 	}
 
 	bool IsFileNamesEmbedded(const Kortex::BethesdaArchiveNS::Header& header)
@@ -22,19 +22,19 @@ namespace
 	{
 		static constexpr size_t InvalidIndex = std::numeric_limits<size_t>::max();
 
-		wxString m_SearchQuery;
+		kxf::String m_SearchQuery;
 		size_t m_NextIndex = InvalidIndex;
 
-		SearchData(const wxString& filter, size_t index = InvalidIndex)
+		SearchData(const kxf::String& filter, size_t index = InvalidIndex)
 			:m_SearchQuery(filter), m_NextIndex(index)
 		{
 		}
 	};
-	bool SearchFiles(const std::vector<Kortex::BethesdaArchive::FileItem>& files, const wxString& filter, KxFileItem& item, size_t startAt, size_t& nextIndex)
+	bool SearchFiles(const std::vector<Kortex::BethesdaArchive::FileItem>& files, const kxf::String& filter, KxFileItem& item, size_t startAt, size_t& nextIndex)
 	{
 		for (size_t i = startAt; i < files.size(); i++)
 		{
-			const wxString& path = files[i].Name;
+			const kxf::String& path = files[i].Name;
 			if (KxComparator::Matches(path, filter))
 			{
 				// Extract directory from path
@@ -44,8 +44,8 @@ namespace
 					std::wstring_view name(path.data() + pos + 1);
 					std::wstring_view directory(path.data(), pos);
 
-					item.SetName(ToWxString(name));
-					item.SetSource(ToWxString(directory));
+					item.SetName(Tokxf::String(name));
+					item.SetSource(Tokxf::String(directory));
 				}
 				else
 				{
@@ -67,7 +67,7 @@ namespace
 
 namespace Kortex
 {
-	uint64_t BethesdaArchive::HashFilePath(const wxString& sourcePath, bool isFolderPath, wxString* correctedPath)
+	uint64_t BethesdaArchive::HashFilePath(const kxf::String& sourcePath, bool isFolderPath, kxf::String* correctedPath)
 	{
 		// http://en.uesp.net/wiki/Tes4Mod:Hash_Calculation
 		// 
@@ -81,7 +81,7 @@ namespace Kortex
 
 		if (!sourcePath.IsEmpty())
 		{
-			wxString path = KxString::ToLower(sourcePath);
+			kxf::String path = KxString::ToLower(sourcePath);
 			path.Replace(wxS("/"), wxS("\\"));
 
 			uint64_t hash1 = 0;
@@ -277,7 +277,7 @@ namespace Kortex
 			uint8_t length = m_Stream.ReadObject<uint8_t>();
 
 			m_Stream.ReadBuffer(folderNameBuffer, length);
-			m_DirectoryRecods[i].Name = wxString::FromUTF8(folderNameBuffer, length - 1);
+			m_DirectoryRecods[i].Name = kxf::String::FromUTF8(folderNameBuffer, length - 1);
 
 			// Read file record
 			for (size_t filesRecordIndex = 0; filesRecordIndex < m_DirectoryRecods[i].Record.Count; filesRecordIndex++)
@@ -319,7 +319,7 @@ namespace Kortex
 			}
 			while (c);
 
-			m_FileRecords[i].Name = wxString::FromUTF8(folderNameBuffer);
+			m_FileRecords[i].Name = kxf::String::FromUTF8(folderNameBuffer);
 		}
 		return true;
 	}
@@ -357,7 +357,7 @@ namespace Kortex
 		return true;
 	}
 
-	bool BethesdaArchive::OpenArchive(const wxString& filePath)
+	bool BethesdaArchive::OpenArchive(const kxf::String& filePath)
 	{
 		if (m_Stream.Open(filePath, KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting, KxFileStream::Share::Read))
 		{
@@ -386,7 +386,7 @@ namespace Kortex
 	BethesdaArchive::BethesdaArchive()
 	{
 	}
-	BethesdaArchive::BethesdaArchive(const wxString& filePath)
+	BethesdaArchive::BethesdaArchive(const kxf::String& filePath)
 	{
 		OpenArchive(filePath);
 	}
@@ -400,7 +400,7 @@ namespace Kortex
 	{
 		return m_IsHeaderOK && m_Status == Status::Success;
 	}
-	bool BethesdaArchive::Open(const wxString& filePath)
+	bool BethesdaArchive::Open(const kxf::String& filePath)
 	{
 		Close();
 		return OpenArchive(filePath);
@@ -409,7 +409,7 @@ namespace Kortex
 	{
 		CloseArchive();
 	}
-	wxString BethesdaArchive::GetFilePath() const
+	kxf::String BethesdaArchive::GetFilePath() const
 	{
 		return m_Stream.GetFileName();
 	}
@@ -458,7 +458,7 @@ namespace Kortex
 	}
 
 	// KxIArchiveSearch
-	void* BethesdaArchive::FindFirstFile(const wxString& filter, KxFileItem& fileItem) const
+	void* BethesdaArchive::FindFirstFile(const kxf::String& filter, KxFileItem& fileItem) const
 	{
 		fileItem = {};
 		size_t nextIndex = SearchData::InvalidIndex;

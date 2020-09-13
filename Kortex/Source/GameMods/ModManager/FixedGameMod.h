@@ -1,12 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BasicGameMod.h"
 
 namespace Kortex::ModManager
 {
 	class FixedGameMod: public KxRTTI::ExtendInterface<FixedGameMod, BasicGameMod>
 	{
-		KxDecalreIID(FixedGameMod, {0xd68bba4, 0xf389, 0x4f45, {0x8d, 0x98, 0xe9, 0x95, 0xdb, 0x81, 0xff, 0x92}});
+		KxRTTI_DeclareIID(FixedGameMod, {0xd68bba4, 0xf389, 0x4f45, {0x8d, 0x98, 0xe9, 0x95, 0xdb, 0x81, 0xff, 0x92}});
 
 		private:
 			const intptr_t m_FixedOrder = -1;
@@ -18,7 +18,7 @@ namespace Kortex::ModManager
 			}
 
 		public:
-			bool LoadUsingSignature(const wxString& signature) override
+			bool LoadUsingSignature(const kxf::String& signature) override
 			{
 				return false;
 			}
@@ -37,9 +37,9 @@ namespace Kortex::ModManager
 				return true;
 			}
 
-			ResourceID GetIcon() const override
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Folders;
+				return Imagekxf::ResourceID::Folders;
 			}
 			intptr_t GetDisplayOrder() const override
 			{

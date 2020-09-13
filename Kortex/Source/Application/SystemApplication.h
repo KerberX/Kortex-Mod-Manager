@@ -1,10 +1,10 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ApplicationModule.h"
 #include "BroadcastProcessor.h"
-#include <KxFramework/KxApp.h>
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxURI.h>
+#include <kxf/Application/GUIApplication.h>
+#include <kxf/Serialization/XML.h>
+#include <kxf/Network/URI.h>
 #include <wx/apptrait.h>
 #include <wx/snglinst.h>
 
@@ -28,7 +28,7 @@ namespace Kortex::GameInstance
 namespace Kortex
 {
 	class SystemApplication;
-	class SystemApplicationTraits: public wxGUIAppTraits
+	class SystemApplicationTraits final: public wxGUIAppTraits
 	{
 		friend class SystemApplication;
 
@@ -51,7 +51,7 @@ namespace Kortex
 
 namespace Kortex
 {
-	class SystemApplication final: public KxApp<wxApp, SystemApplication>
+	class SystemApplication final: kxf::RTTI::ImplementInterface<SystemApplication, kxf::GUIApplication>
 	{
 		friend class SystemApplicationTraits;
 		friend class IApplication;
@@ -61,13 +61,19 @@ namespace Kortex
 		friend class GameInstance::TemplateLoader;
 		friend class GameID;
 
+		public:
+			static SystemApplication& GetInstance() noexcept
+			{
+				return static_cast<SystemApplication&>(*ICoreApplication::GetInstance());
+			}
+
 		private:
 			BroadcastProcessor m_BroadcastProcessor;
 			BroadcastReciever m_BroadcastReciever;
 
-			wxString m_RootFolder;
-			wxString m_ExecutableName;
-			wxString m_ExecutablePath;
+			kxf::String m_RootFolder;
+			kxf::String m_ExecutableName;
+			kxf::String m_ExecutablePath;
 
 			Application::ApplicationModule m_ApplicationModule;
 			std::unique_ptr<IApplication> m_Application;
@@ -82,7 +88,7 @@ namespace Kortex
 
 			SystemApplicationTraits* m_AppTraits = nullptr;
 			wxSingleInstanceChecker m_SingleInstanceChecker;
-			KxXMLDocument m_GlobalConfig;
+			kxf::XMLDocument m_GlobalConfig;
 
 		private:
 			void InitLogging();
@@ -102,7 +108,7 @@ namespace Kortex
 
 		private:
 			bool OnInit() override;
-			int OnExit() override;
+			void OnExit() override;
 			void OnError(LogEvent& event);
 
 			void OnGlobalConfigChanged(AppOption& option);
@@ -121,34 +127,31 @@ namespace Kortex
 			void AssignActiveGameInstance(std::unique_ptr<IGameInstance> instance);
 
 			bool OnException();
-			bool OnExceptionInMainLoop() override;
+			bool OnMainLoopException() override;
 			void OnUnhandledException() override;
 			void OnFatalException() override;
-			wxString RethrowCatchAndGetExceptionInfo() const;
-
-			wxAppTraits* CreateTraits() override;
-			void ExitApp(int exitCode) override;
+			kxf::String RethrowCatchAndGetExceptionInfo() const;
 
 		public:
 			bool IsAnotherRunning() const;
 			void ConfigureForInternetExplorer10(bool init) const;
-			bool QueueDownloadToMainProcess(const wxString& link) const;
+			bool QueueDownloadToMainProcess(const kxf::String& link) const;
 			
-			wxString GetShortName() const;
-			wxString GetRootFolder() const
+			kxf::String GetShortName() const;
+			kxf::String GetRootFolder() const
 			{
 				return m_RootFolder;
 			}
-			wxString GetExecutablePath() const
+			kxf::String GetExecutablePath() const
 			{
 				return m_ExecutablePath;
 			}
-			wxString GetExecutableName() const
+			kxf::String GetExecutableName() const
 			{
 				return m_ExecutableName;
 			}
 
-			KxXMLDocument& GetGlobalConfig()
+			kxf::XMLDocument& GetGlobalConfig()
 			{
 				return m_GlobalConfig;
 			}

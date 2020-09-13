@@ -13,7 +13,7 @@ namespace Kortex::IPC
 		private:
 			KxProcess m_Process;
 			bool m_IsProcessIdle = false;
-			wxString m_Library;
+			kxf::String m_Library;
 
 			HANDLE m_ProcessHandle = nullptr;
 			std::mutex m_ThreadMutex;
@@ -29,7 +29,7 @@ namespace Kortex::IPC
 			void OnSendMessage(const Message& message, const void* userData, size_t dataSize) override;
 
 		public:
-			FSController(const wxString& executablePath);
+			FSController(const kxf::String& executablePath);
 			virtual ~FSController();
 
 		public:
@@ -48,7 +48,7 @@ namespace Kortex::IPC
 				return m_Process;
 			}
 
-			void SetLibrary(const wxString& library)
+			void SetLibrary(const kxf::String& library)
 			{
 				m_Library = library;
 			}

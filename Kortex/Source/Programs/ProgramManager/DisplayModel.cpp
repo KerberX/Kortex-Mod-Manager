@@ -160,21 +160,21 @@ namespace Kortex::ProgramManager
 				}
 				case ColumnID::Name:
 				{
-					item->SetName(value.As<wxString>());
+					item->SetName(value.As<kxf::String>());
 					BroadcastProcessor::Get().QueueEvent(ProgramEvent::EvtRemoved, *item);
 
 					return true;
 				}
 				case ColumnID::Arguments:
 				{
-					item->SetArguments(value.As<wxString>());
+					item->SetArguments(value.As<kxf::String>());
 					BroadcastProcessor::Get().QueueEvent(ProgramEvent::EvtRemoved, *item);
 
 					return true;
 				}
 				case ColumnID::Executable:
 				{
-					item->SetExecutable(value.As<wxString>());
+					item->SetExecutable(value.As<kxf::String>());
 					IProgramManager::GetInstance()->LoadProgramIcons(*item);
 					BroadcastProcessor::Get().QueueEvent(ProgramEvent::EvtRemoved, *item);
 
@@ -182,7 +182,7 @@ namespace Kortex::ProgramManager
 				}
 				case ColumnID::WorkingDirectory:
 				{
-					item->SetWorkingDirectory(value.As<wxString>());
+					item->SetWorkingDirectory(value.As<kxf::String>());
 					BroadcastProcessor::Get().QueueEvent(ProgramEvent::EvtRemoved, *item);
 
 					return true;
@@ -275,34 +275,34 @@ namespace Kortex::ProgramManager
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RunProgram, KTr("ProgramManager.Menu.RunProgram")));
 				item->Enable(entry && entry->CanRunNow());
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ApplicationRun));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ApplicationRun));
 			}
 
 			menu.AddSeparator();
 			if (entry && column->IsEditable())
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::Edit, KTrf("ProgramManager.Menu.EditProgram", column->GetTitle())));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PencilSmall));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PencilSmall));
 			}
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::ChooseIcon, KTr("ProgramManager.Menu.ChooseIcon")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Image));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Image));
 				item->Enable(entry);
 			}
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::ShowExpandedValues, KTr("ProgramManager.Menu.ShowExpandedValues"), wxEmptyString, wxITEM_CHECK));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::EditCode));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::EditCode));
 				item->Check(m_ShowExpandedValues);
 			}
 
 			menu.AddSeparator();
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddProgram, KTr("ProgramManager.Menu.AddProgram")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
 			}
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RemoveProgram, KTr("ProgramManager.Menu.RemoveProgram")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::MinusSmall));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::MinusSmall));
 				item->Enable(entry);
 			}
 
@@ -313,7 +313,7 @@ namespace Kortex::ProgramManager
 			}
 			{
 				KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::LoadDefaultPrograms, KTr("ProgramManager.Menu.LoadDefaultPrograms")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ApplicationRun));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ApplicationRun));
 			}
 
 			switch (menu.Show(GetView()))
@@ -335,7 +335,7 @@ namespace Kortex::ProgramManager
 				}
 				case MenuID::ChooseIcon:
 				{
-					wxString path = AskSelectIcon(*entry);
+					kxf::String path = AskSelectIcon(*entry);
 					if (!path.IsEmpty() && path != entry->GetExecutable())
 					{
 						entry->SetIconPath(path);
@@ -452,7 +452,7 @@ namespace Kortex::ProgramManager
 		BroadcastProcessor::Get().QueueEvent(ProgramEvent::EvtRemoved, item);
 		IProgramManager::GetInstance()->RemoveProgram(item);
 	}
-	wxString DisplayModel::AskSelectIcon(const IProgramItem& entry) const
+	kxf::String DisplayModel::AskSelectIcon(const IProgramItem& entry) const
 	{
 		KxFileBrowseDialog dialog(GetViewTLW(), KxID_NONE, KxFBD_OPEN);
 		dialog.SetFolder(entry.GetIconPath());

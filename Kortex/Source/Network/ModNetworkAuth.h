@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "IModNetwork.h"
 #include <KxFramework/KxComponentSystem.h>
@@ -14,11 +14,11 @@ namespace Kortex
 			struct Credentials
 			{
 				public:
-					wxString UserID;
+					kxf::String UserID;
 					KxSecretValue Password;
 
 				public:
-					Credentials(const wxString& userID, KxSecretValue&& password)
+					Credentials(const kxf::String& userID, KxSecretValue&& password)
 						:UserID(userID), Password(std::move(password))
 					{
 					}
@@ -49,7 +49,7 @@ namespace Kortex
 				return const_cast<ModNetworkAuth*>(this)->GetCredentialsStore();
 			}
 			
-			wxBitmap DownloadSmallBitmap(const wxString& address) const;
+			wxBitmap DownloadSmallBitmap(const kxf::String& address) const;
 
 		public:
 			std::optional<Credentials> ShowCredentialsDialog(wxWindow* parent = nullptr) const;
@@ -58,7 +58,7 @@ namespace Kortex
 
 			void SetUserPicture(const wxBitmap& userPicture);
 			bool LoadUserPicture();
-			wxString GetUserPictureFile() const;
+			kxf::String GetUserPictureFile() const;
 			bool HasUserPicture() const
 			{
 				return m_UserPicture.IsOk();

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ModPackages/IPackageManager.h"
 #include "Application/IWorkspace.h"
 #include "IWithScriptExtender.h"
@@ -32,7 +32,7 @@ namespace Kortex::PackageDesigner
 			WithScriptExtender m_WithScriptExtender;
 
 		protected:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void OnInit() override;
 			void OnExit() override;
 			void CreateWorkspaces() override;
@@ -44,7 +44,7 @@ namespace Kortex::PackageDesigner
 			{
 				return m_StandardRequirements.GetItems();
 			}
-			const PackageProject::RequirementItem* FindStdReqirement(const wxString& id) const override
+			const PackageProject::RequirementItem* FindStdReqirement(const kxf::String& id) const override
 			{
 				return m_StandardRequirements.FindItem(id);
 			}

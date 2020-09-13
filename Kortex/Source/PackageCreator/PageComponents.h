@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PageBase.h"
 #include "PackageProject/ComponentsSection.h"
 class KxImageView;
@@ -25,9 +25,9 @@ namespace Kortex::PackageDesigner
 		friend class Workspace;
 
 		public:
-			static wxString FormatArrayToText(const KxStringVector& array);
-			static wxString ConditionToString(const PackageProject::Condition& condition, bool isRequired);
-			static wxString ConditionGroupToString(const PackageProject::ConditionGroup& conditionGroup);
+			static kxf::String FormatArrayToText(const KxStringVector& array);
+			static kxf::String ConditionToString(const PackageProject::Condition& condition, bool isRequired);
+			static kxf::String ConditionGroupToString(const PackageProject::ConditionGroup& conditionGroup);
 
 		private:
 			//KProgramOptionAI m_MainOptions;
@@ -57,11 +57,11 @@ namespace Kortex::PackageDesigner
 			~PageComponents();
 
 		public:
-			ResourceID GetIcon() const override
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Block;
+				return Imagekxf::ResourceID::Block;
 			}
-			wxString GetID() const override;
-			wxString GetPageName() const override;
+			kxf::String GetID() const override;
+			kxf::String GetPageName() const override;
 	};
 }

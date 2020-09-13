@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "StoreDisplayModel.h"
 #include <KxFramework/KxStdDialog.h>
 #include <KxFramework/KxMenu.h>

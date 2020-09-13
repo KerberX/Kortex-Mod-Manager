@@ -16,9 +16,9 @@ namespace Kortex::FSController
 	class Application: public KxApp<wxApp, Application>
 	{
 		private:
-			wxString m_RootFolder;
-			wxString m_DataFolder;
-			wxString m_LogFolder;
+			kxf::String m_RootFolder;
+			kxf::String m_DataFolder;
+			kxf::String m_LogFolder;
 
 			RecievingWindow* m_RecievingWindow = NULL;
 			std::unique_ptr<KxProcess> m_MainProcess;
@@ -40,18 +40,18 @@ namespace Kortex::FSController
 			void OnUnhandledException() override;
 
 		public:
-			wxString GetRootFolder() const
+			kxf::String GetRootFolder() const
 			{
 				return m_RootFolder;
 			}
-			wxString GetDataFolder() const
+			kxf::String GetDataFolder() const
 			{
 				return m_DataFolder;
 			}
-			wxString GetLogFolder() const
+			kxf::String GetLogFolder() const
 			{
 				return m_LogFolder;
 			}
-			wxString GetLibraryPath() const;
+			kxf::String GetLibraryPath() const;
 	};
 }

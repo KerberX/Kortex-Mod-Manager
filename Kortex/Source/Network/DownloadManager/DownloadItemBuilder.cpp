@@ -66,17 +66,17 @@ namespace Kortex
 		return *this;
 	}
 	
-	DownloadItemBuilder& DownloadItemBuilder::SetName(const wxString& value)
+	DownloadItemBuilder& DownloadItemBuilder::SetName(const kxf::String& value)
 	{
 		m_Item->m_FileInfo.Name = value;
 		return *this;
 	}
-	DownloadItemBuilder& DownloadItemBuilder::SetDisplayName(const wxString& value)
+	DownloadItemBuilder& DownloadItemBuilder::SetDisplayName(const kxf::String& value)
 	{
 		m_Item->m_FileInfo.DisplayName = value;
 		return *this;
 	}
-	DownloadItemBuilder& DownloadItemBuilder::SetVersion(const KxVersion& value)
+	DownloadItemBuilder& DownloadItemBuilder::SetVersion(const kxf::Version& value)
 	{
 		m_Item->m_FileInfo.Version = value;
 		return *this;

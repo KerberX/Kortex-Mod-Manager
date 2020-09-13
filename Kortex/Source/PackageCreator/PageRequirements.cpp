@@ -79,7 +79,7 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(this, KTr("PackageCreator.PageRequirements.Groups"));
-		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Sizer
 		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -101,13 +101,13 @@ namespace Kortex::PackageDesigner
 				m_Controller->ChangeNotify();
 			}
 		});
-		sizer->Add(m_DefaultGroupsButton, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+		sizer->Add(m_DefaultGroupsButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 	}
 	void PageRequirements::CreateEntriesControls()
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(this, KTr("PackageCreator.PageRequirements.Name"));
-		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Sizer
 		wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
@@ -122,7 +122,7 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(this, KTr("PackageCreator.PageRequirements.StdReqs"));
-		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Sizer
 		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -137,13 +137,13 @@ namespace Kortex::PackageDesigner
 		m_StdReqs_List = new KxComboBox(this, KxID_NONE);
 		m_StdReqs_List->Enable(false);
 		m_StdReqs_List->Bind(wxEVT_COMBOBOX, &PageRequirements::OnSelectStdReq, this);
-		sizer->Add(m_StdReqs_List, 1, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+		sizer->Add(m_StdReqs_List, 1, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 
 		// Add button
 		m_StdReqs_Add = new KxButton(this, KxID_NONE, KTr(KxID_ADD));
 		m_StdReqs_Add->Enable(false);
 		m_StdReqs_Add->Bind(wxEVT_BUTTON, &PageRequirements::OnAddStdReq, this);
-		sizer->Add(m_StdReqs_Add, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+		sizer->Add(m_StdReqs_Add, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 
 		// Add items
 		LoadStdReqs();
@@ -152,13 +152,13 @@ namespace Kortex::PackageDesigner
 	{
 		m_StdReqs_Categories->AddItem(KVarExp("<$T(Generic.All)>"));
 
-		std::unordered_set<wxString> categoriesSet;
+		std::unordered_set<kxf::String> categoriesSet;
 		for (const auto& item: IPackageManager::GetInstance()->GetStdRequirements())
 		{
 			if (categoriesSet.emplace(item->GetCategory()).second)
 			{
 				int index = m_StdReqs_Categories->AddItem(item->GetCategory());
-				m_StdReqs_Categories->SetClientObject(index, new wxStringClientData(item->GetCategory()));
+				m_StdReqs_Categories->SetClientObject(index, new kxf::StringClientData(item->GetCategory()));
 			}
 		}
 		SelectComboBoxItem(m_StdReqs_Categories, 0);
@@ -168,9 +168,9 @@ namespace Kortex::PackageDesigner
 		int index = event.GetInt();
 		if (index != -1)
 		{
-			wxString requestedCategory;
-			wxString lastCategory;
-			if (wxStringClientData* data = static_cast<wxStringClientData*>(m_StdReqs_Categories->GetClientObject(index)))
+			kxf::String requestedCategory;
+			kxf::String lastCategory;
+			if (kxf::StringClientData* data = static_cast<kxf::StringClientData*>(m_StdReqs_Categories->GetClientObject(index)))
 			{
 				requestedCategory = data->GetData();
 			}
@@ -183,11 +183,11 @@ namespace Kortex::PackageDesigner
 				{
 					if (lastCategory != item->GetCategory() && requestedCategory.IsEmpty())
 					{
-						m_StdReqs_List->AddItem(wxString::Format("-- %s", item->GetCategory()));
+						m_StdReqs_List->AddItem(kxf::String::Format("-- %s", item->GetCategory()));
 					}
 					lastCategory = item->GetCategory();
 
-					int index = m_StdReqs_List->AddItem(wxString::Format("%s - \"%s\"", item->GetID(), item->GetName()));
+					int index = m_StdReqs_List->AddItem(kxf::String::Format("%s - \"%s\"", item->GetID(), item->GetName()));
 					m_StdReqs_List->SetClientData(index, item.get());
 				}
 			}
@@ -228,11 +228,11 @@ namespace Kortex::PackageDesigner
 		}
 	}
 
-	wxString PageRequirements::GetID() const
+	kxf::String PageRequirements::GetID() const
 	{
 		return "KPackageCreator.PageRequirements";
 	}
-	wxString PageRequirements::GetPageName() const
+	kxf::String PageRequirements::GetPageName() const
 	{
 		return KTr("PackageCreator.PageRequirements.Name");
 	}

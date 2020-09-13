@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Utility/LabeledValue.h"
 
 namespace Kortex::SaveManager
@@ -16,7 +16,7 @@ namespace Kortex::SaveManager
 
 		public:
 			SaveInfoPair() = default;
-			SaveInfoPair(const wxString& value, const wxString& label = {})
+			SaveInfoPair(const kxf::String& value, const kxf::String& label = {})
 				:Utility::LabeledValue(value, label)
 			{
 			}

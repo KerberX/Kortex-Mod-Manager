@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "DataType.h"
 #include "ItemValue.h"
@@ -31,7 +31,7 @@ namespace Kortex::GameConfig
 			{
 				return m_Hash.has_value();
 			}
-			size_t Get(const Item& item, const wxString& value = {}) const;
+			size_t Get(const Item& item, const kxf::String& value = {}) const;
 	};
 }
 
@@ -42,26 +42,26 @@ namespace Kortex::GameConfig
 
 	class Item: public KxRTTI::ExtendInterface<Item, IViewItem, KxDataView2::Node>
 	{
-		KxDecalreIID(Item, {0xb2b4382c, 0x2bf1, 0x4d4a, {0x91, 0xf6, 0x26, 0xd0, 0x83, 0xf4, 0xfc, 0x30}});
+		KxRTTI_DeclareIID(Item, {0xb2b4382c, 0x2bf1, 0x4d4a, {0x91, 0xf6, 0x26, 0xd0, 0x83, 0xf4, 0xfc, 0x30}});
 
 		friend class ItemGroup;
 
 		private:
 			ItemGroup& m_Group;
-			wxString m_Category;
-			wxString m_Path;
-			wxString m_Name;
-			wxString m_Label;
+			kxf::String m_Category;
+			kxf::String m_Path;
+			kxf::String m_Name;
+			kxf::String m_Label;
 			ItemSamples m_Samples;
 			ItemOptions m_Options;
 			HashStore m_HashStore;
 			TypeID m_TypeID;
 
-			wxString m_ActionName;
+			kxf::String m_ActionName;
 			IntrinsicActionValue m_IntrinsicAction;
 
 			bool m_HasChanges = false;
-			mutable std::optional<wxString> m_DisplayPath;
+			mutable std::optional<kxf::String> m_DisplayPath;
 
 		protected:
 			virtual void Clear() = 0;
@@ -73,14 +73,14 @@ namespace Kortex::GameConfig
 			void UnregisterAsKnown();
 
 		public:
-			Item(ItemGroup& group, const KxXMLNode& itemNode = {});
+			Item(ItemGroup& group, const kxf::XMLNode& itemNode = {});
 			virtual ~Item();
 
 		public:
-			virtual bool Create(const KxXMLNode& itemNode = {}) = 0;
+			virtual bool Create(const kxf::XMLNode& itemNode = {}) = 0;
 			virtual bool IsOK() const;
 			virtual bool IsUnknown() const = 0;
-			virtual wxString GetFullPath() const;
+			virtual kxf::String GetFullPath() const;
 			size_t GetHash() const
 			{
 				return m_HashStore.Get(*this);
@@ -103,38 +103,38 @@ namespace Kortex::GameConfig
 			wxWindow* GetInvokingWindow() const;
 			wxWindow* GetInvokingTopLevelWindow() const;
 
-			wxString GetCategory() const
+			kxf::String GetCategory() const
 			{
 				return m_Category;
 			}
-			void SetCategory(const wxString& category)
+			void SetCategory(const kxf::String& category)
 			{
 				m_Category = category;
 			}
 			
-			virtual wxString GetPath() const
+			virtual kxf::String GetPath() const
 			{
 				return m_Path;
 			}
-			void SetPath(const wxString& path)
+			void SetPath(const kxf::String& path)
 			{
 				m_Path = path;
 			}
 
-			wxString GetName() const
+			kxf::String GetName() const
 			{
 				return m_Name;
 			}
-			void SetName(const wxString& name)
+			void SetName(const kxf::String& name)
 			{
 				m_Name = name;
 			}
 			
-			wxString GetLabel() const
+			kxf::String GetLabel() const
 			{
 				return m_Label.IsEmpty() ? m_Name : m_Label;
 			}
-			void SetLabel(const wxString& label)
+			void SetLabel(const kxf::String& label)
 			{
 				m_Label = label;
 			}
@@ -175,7 +175,7 @@ namespace Kortex::GameConfig
 			{
 				return !m_IntrinsicAction.IsDefault() || !m_ActionName.IsEmpty();
 			}
-			wxString GetActionName() const
+			kxf::String GetActionName() const
 			{
 				return m_ActionName;
 			}
@@ -188,7 +188,7 @@ namespace Kortex::GameConfig
 
 		public:
 			void OnActivate(KxDataView2::Column& column) override;
-			wxString GetViewString(ColumnID id) const override;
+			kxf::String GetViewString(ColumnID id) const override;
 
 			wxAny GetValue(const KxDataView2::Column& column) const override;
 			bool Compare(const KxDataView2::Node& node, const KxDataView2::Column& column) const override;

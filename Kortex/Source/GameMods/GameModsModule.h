@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxSingleton.h>
 
 namespace Kortex
@@ -25,7 +25,7 @@ namespace Kortex
 			std::unique_ptr<IModStatistics> m_ModStatistics;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 			virtual void OnInit() override;
 			virtual void OnExit() override;
 

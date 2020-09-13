@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 #include "VirtualFileSystem/IVirtualFileSystem.h"
 class KxProcess;

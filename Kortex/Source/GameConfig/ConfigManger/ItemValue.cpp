@@ -9,7 +9,7 @@ namespace
 	using Kortex::GameConfig::Item;
 	using Kortex::GameConfig::ItemOptions;
 
-	template<class T> wxString GetAs(const wxAny& anyValue, const Item& item)
+	template<class T> kxf::String GetAs(const wxAny& anyValue, const Item& item)
 	{
 		T value;
 		if (anyValue.GetAs(&value))
@@ -18,7 +18,7 @@ namespace
 		}
 		return {};
 	}
-	template<class T> wxString FormatAs(const T& value, const Item& item)
+	template<class T> kxf::String FormatAs(const T& value, const Item& item)
 	{
 		const ItemOptions& options = item.GetOptions();
 
@@ -32,7 +32,7 @@ namespace
 			return formatter(value);
 		}
 	}
-	template<class T> wxString GetAndFormat(const wxAny& anyValue, const Item& item)
+	template<class T> kxf::String GetAndFormat(const wxAny& anyValue, const Item& item)
 	{
 		T value;
 		if (anyValue.GetAs(&value))
@@ -41,21 +41,21 @@ namespace
 		}
 		return {};
 	}
-	wxString ProcessInputFormatting(const wxString& stringValue, const ItemOptions& options)
+	kxf::String ProcessInputFormatting(const kxf::String& stringValue, const ItemOptions& options)
 	{
 		if (options.HasInputFormat())
 		{
-			const wxString format = options.GetInputFormat();
-			wxString value = stringValue;
+			const kxf::String format = options.GetInputFormat();
+			kxf::String value = stringValue;
 			
 			// Remove formatting before %1
-			if (size_t pos = format.find(wxS("%1")); pos != wxString::npos)
+			if (size_t pos = format.find(wxS("%1")); pos != kxf::String::npos)
 			{
 				value.StartsWith(format.Left(pos), &value);
 			}
 
 			// Remove formatting after %1
-			if (size_t pos = format.rfind(wxS("%1")); pos != wxString::npos)
+			if (size_t pos = format.rfind(wxS("%1")); pos != kxf::String::npos)
 			{
 				value.EndsWith(format.Left(pos), &value);
 			}
@@ -66,7 +66,7 @@ namespace
 
 	namespace ToAny
 	{
-		bool GetAsBool(bool& value, const wxString& stringValue)
+		bool GetAsBool(bool& value, const kxf::String& stringValue)
 		{
 			if (stringValue == wxS("true") || stringValue == wxS("TRUE") || stringValue == wxS("1"))
 			{
@@ -80,7 +80,7 @@ namespace
 			}
 			return false;
 		}
-		template<class T> bool GetAsSignedInteger(T& value, const wxString& stringValue)
+		template<class T> bool GetAsSignedInteger(T& value, const kxf::String& stringValue)
 		{
 			static_assert(std::is_signed_v<T>);
 
@@ -92,7 +92,7 @@ namespace
 			}
 			return false;
 		}
-		template<class T> bool GetAsUnsignedInteger(T& value, const wxString& stringValue)
+		template<class T> bool GetAsUnsignedInteger(T& value, const kxf::String& stringValue)
 		{
 			static_assert(std::is_unsigned_v<T>);
 
@@ -104,7 +104,7 @@ namespace
 			}
 			return false;
 		}
-		template<class T> bool GetAsFloat(T& value, const wxString& stringValue)
+		template<class T> bool GetAsFloat(T& value, const kxf::String& stringValue)
 		{
 			static_assert(std::is_floating_point_v<T>);
 
@@ -120,39 +120,39 @@ namespace
 
 	namespace FromAny
 	{
-		wxString AsBool(const wxAny& value, const Item& item)
+		kxf::String AsBool(const wxAny& value, const Item& item)
 		{
 			bool boolValue = false;
 			value.GetAs(&boolValue);
 
 			return boolValue ? wxS("true") : wxS("false");
 		}
-		wxString AsSignedInteger(const wxAny& value, const Item& item)
+		kxf::String AsSignedInteger(const wxAny& value, const Item& item)
 		{
 			return GetAndFormat<int64_t>(value, item);
 		}
-		wxString AsUnsignedInteger(const wxAny& value, const Item& item)
+		kxf::String AsUnsignedInteger(const wxAny& value, const Item& item)
 		{
 			return GetAndFormat<uint64_t>(value, item);
 		}
-		wxString AsFloat32(const wxAny& value, const Item& item)
+		kxf::String AsFloat32(const wxAny& value, const Item& item)
 		{
 			return GetAndFormat<float>(value, item);
 		}
-		wxString AsFloat64(const wxAny& value, const Item& item)
+		kxf::String AsFloat64(const wxAny& value, const Item& item)
 		{
 			return GetAndFormat<double>(value, item);
 		}
-		wxString AsString(const wxAny& value, const Item& item)
+		kxf::String AsString(const wxAny& value, const Item& item)
 		{
-			return GetAndFormat<wxString>(value, item);
+			return GetAndFormat<kxf::String>(value, item);
 		}
 	}
 }
 
 namespace Kortex::GameConfig
 {
-	void ItemValue::DoDeserialize(const wxString& stringValue, const Item& item)
+	void ItemValue::DoDeserialize(const kxf::String& stringValue, const Item& item)
 	{
 		const TypeID type = item.GetTypeID();
 		const TypeID inputType = item.GetDataType().GetInputType();
@@ -178,7 +178,7 @@ namespace Kortex::GameConfig
 			DeserializeAsString(inputType, stringValue);
 		}
 	}
-	void ItemValue::DeserializeAsBool(TypeID inputType, const wxString& stringValue)
+	void ItemValue::DeserializeAsBool(TypeID inputType, const kxf::String& stringValue)
 	{
 		if (inputType.IsBool())
 		{
@@ -227,7 +227,7 @@ namespace Kortex::GameConfig
 			return;
 		}
 	}
-	void ItemValue::DeserializeAsSignedInteger(TypeID inputType, const wxString& stringValue)
+	void ItemValue::DeserializeAsSignedInteger(TypeID inputType, const kxf::String& stringValue)
 	{
 		if (inputType.IsSignedInteger())
 		{
@@ -276,12 +276,12 @@ namespace Kortex::GameConfig
 			return;
 		}
 	}
-	void ItemValue::DeserializeAsUnsignedInteger(TypeID inputType, const wxString& stringValue)
+	void ItemValue::DeserializeAsUnsignedInteger(TypeID inputType, const kxf::String& stringValue)
 	{
 		// Should be harmless
 		DeserializeAsSignedInteger(inputType, stringValue);
 	}
-	void ItemValue::DeserializeAsFloat(TypeID inputType, const wxString& stringValue)
+	void ItemValue::DeserializeAsFloat(TypeID inputType, const kxf::String& stringValue)
 	{
 		if (inputType.IsFloat())
 		{
@@ -330,14 +330,14 @@ namespace Kortex::GameConfig
 			return;
 		}
 	}
-	void ItemValue::DeserializeAsString(TypeID inputType, const wxString& stringValue)
+	void ItemValue::DeserializeAsString(TypeID inputType, const kxf::String& stringValue)
 	{
 		// There's no point in checking anything, just copy raw value
 		m_Type = DataTypeID::String;
 		m_Value = stringValue;
 	}
 
-	wxString ItemValue::DoSerialize(const Item& item, SerializeFor mode) const
+	kxf::String ItemValue::DoSerialize(const Item& item, SerializeFor mode) const
 	{
 		const TypeID type = item.GetTypeID();
 		const TypeID outputType = item.GetDataType().GetOutputType();
@@ -364,7 +364,7 @@ namespace Kortex::GameConfig
 		}
 		return {};
 	}
-	wxString ItemValue::SerializeFromBool(TypeID outputType, const Item& item, SerializeFor mode) const
+	kxf::String ItemValue::SerializeFromBool(TypeID outputType, const Item& item, SerializeFor mode) const
 	{
 		if (mode == SerializeFor::Storage)
 		{
@@ -387,7 +387,7 @@ namespace Kortex::GameConfig
 		}
 		return {};
 	}
-	wxString ItemValue::SerializeFromSignedInteger(TypeID outputType, const Item& item) const
+	kxf::String ItemValue::SerializeFromSignedInteger(TypeID outputType, const Item& item) const
 	{
 		if (outputType.IsInteger() || outputType.IsBool())
 		{
@@ -407,7 +407,7 @@ namespace Kortex::GameConfig
 		}
 		return {};
 	}
-	wxString ItemValue::SerializeFromUnsignedInteger(TypeID outputType, const Item& item) const
+	kxf::String ItemValue::SerializeFromUnsignedInteger(TypeID outputType, const Item& item) const
 	{
 		if (outputType.IsInteger() || outputType.IsBool())
 		{
@@ -427,7 +427,7 @@ namespace Kortex::GameConfig
 		}
 		return {};
 	}
-	wxString ItemValue::SerializeFromFloat(TypeID outputType, const Item& item) const
+	kxf::String ItemValue::SerializeFromFloat(TypeID outputType, const Item& item) const
 	{
 		if (outputType.IsType(DataTypeID::Float32) || outputType.IsString())
 		{
@@ -443,30 +443,30 @@ namespace Kortex::GameConfig
 		}
 		return {};
 	}
-	wxString ItemValue::SerializeFromString(TypeID outputType, const Item& item) const
+	kxf::String ItemValue::SerializeFromString(TypeID outputType, const Item& item) const
 	{
 		if (outputType.IsString())
 		{
-			return GetAndFormat<wxString>(m_Value, item);
+			return GetAndFormat<kxf::String>(m_Value, item);
 		}
 		if (outputType.IsFloat())
 		{
-			wxString value = GetAs<wxString>(m_Value, item);
+			kxf::String value = GetAs<kxf::String>(m_Value, item);
 			return FormatAs<double>(!value.IsEmpty(), item);
 		}
 		if (outputType.IsInteger() || outputType.IsBool())
 		{
-			wxString value = GetAs<wxString>(m_Value, item);
+			kxf::String value = GetAs<kxf::String>(m_Value, item);
 			return FormatAs<int>(!value.IsEmpty(), item);
 		}
 		return {};
 	}
 
-	wxString ItemValue::Serialize(const Item& item, SerializeFor mode) const
+	kxf::String ItemValue::Serialize(const Item& item, SerializeFor mode) const
 	{
-		return IsNull() ? wxString() : DoSerialize(item, mode);
+		return IsNull() ? kxf::String() : DoSerialize(item, mode);
 	}
-	bool ItemValue::Deserialize(const wxString& value, const Item& item)
+	bool ItemValue::Deserialize(const kxf::String& value, const Item& item)
 	{
 		DoDeserialize(ProcessInputFormatting(value, item.GetOptions()), item);
 		return !IsNull();

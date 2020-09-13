@@ -4,7 +4,7 @@
 
 namespace Kortex::Utility::String
 {
-	std::optional<bool> ToBool(const wxString& value)
+	std::optional<bool> ToBool(const kxf::String& value)
 	{
 		bool isUnknown = false;
 		const bool result = KxUtility::StringToBool(value, &isUnknown);

@@ -1,9 +1,9 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ITypeDetector.h"
 #include "Common.h"
 #include <KxFramework/KxIndexedEnum.h>
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex::GameConfig
 {
@@ -39,8 +39,8 @@ namespace Kortex::GameConfig
 	class ItemOptions
 	{
 		private:
-			wxString m_InputFormat;
-			wxString m_OutputFormat;
+			kxf::String m_InputFormat;
+			kxf::String m_OutputFormat;
 			SourceFormatValue m_SourceFormat;
 			TypeDetectorValue m_TypeDetector;
 			EditableBehaviorValue m_EditableBehavior;
@@ -48,7 +48,7 @@ namespace Kortex::GameConfig
 
 		public:
 			ItemOptions() = default;
-			ItemOptions(const KxXMLNode& node, const DataType& dataType = {})
+			ItemOptions(const kxf::XMLNode& node, const DataType& dataType = {})
 			{
 				Load(node, dataType);
 			}
@@ -72,7 +72,7 @@ namespace Kortex::GameConfig
 			{
 				return !m_InputFormat.IsEmpty();
 			}
-			wxString GetInputFormat() const
+			kxf::String GetInputFormat() const
 			{
 				return HasInputFormat() ? m_InputFormat : wxS("%1");
 			}
@@ -81,7 +81,7 @@ namespace Kortex::GameConfig
 			{
 				return !m_OutputFormat.IsEmpty();
 			}
-			wxString GetOutputFormat() const
+			kxf::String GetOutputFormat() const
 			{
 				return HasOutputFormat() ? m_OutputFormat : wxS("%1");
 			}
@@ -95,7 +95,7 @@ namespace Kortex::GameConfig
 				return m_Precision;
 			}
 
-			void Load(const KxXMLNode& node, const DataType& dataType = {});
+			void Load(const kxf::XMLNode& node, const DataType& dataType = {});
 			void CopyIfNotSpecified(const ItemOptions& other, const DataType& dataType = {}, ItemOptionsCopy copyWhat = ItemOptionsCopy::Everything);
 			void CopyPrecisionIfNotSpecified(const DataType& dataType);
 	};

@@ -16,7 +16,7 @@
 namespace
 {
 	using namespace Kortex;
-	wxBitmap LoadIconFromFile(const wxString& path)
+	wxBitmap LoadIconFromFile(const kxf::String& path)
 	{
 		wxBitmap bitmap(path, wxBITMAP_TYPE_ANY);
 		if (bitmap.IsOk())
@@ -45,7 +45,7 @@ namespace Kortex::GameInstance
 	class TemplateLoader
 	{
 		public:
-			void FindInstanceTemplates(const wxString& path, bool isSystem)
+			void FindInstanceTemplates(const kxf::String& path, bool isSystem)
 			{
 				KxFileFinder finder(path, wxS("*.xml"));
 				for (KxFileItem item = finder.FindNext(); item.IsOK(); item = finder.FindNext())
@@ -69,7 +69,7 @@ namespace Kortex::GameInstance
 //////////////////////////////////////////////////////////////////////////
 namespace Kortex
 {
-	bool IGameInstance::IsValidInstanceID(const wxString& id)
+	bool IGameInstance::IsValidInstanceID(const kxf::String& id)
 	{
 		// Restrict max ID length to 64 symbols
 		if (!id.IsEmpty() && id.Length() <= 64)
@@ -78,7 +78,7 @@ namespace Kortex
 		}
 		return false;
 	}
-	bool IGameInstance::IsValidProfileID(const wxString& id)
+	bool IGameInstance::IsValidProfileID(const kxf::String& id)
 	{
 		// Same rules
 		return IsValidInstanceID(id);
@@ -88,12 +88,12 @@ namespace Kortex
 	{
 		return LoadIconFromFile(GetGenericIconLocation());
 	}
-	wxString IGameInstance::GetGenericIconLocation()
+	kxf::String IGameInstance::GetGenericIconLocation()
 	{
 		return IApplication::GetInstance()->GetDataFolder() + wxS("\\UI\\kortex-logo-icon.ico");
 	}
 
-	IGameInstance* IGameInstance::CreateActive(const IGameInstance& instanceTemplate, const wxString& instanceID)
+	IGameInstance* IGameInstance::CreateActive(const IGameInstance& instanceTemplate, const kxf::String& instanceID)
 	{
 		AssignActive(std::move(std::make_unique<GameInstance::ActiveGameInstance>(instanceTemplate, instanceID)));
 
@@ -120,11 +120,11 @@ namespace Kortex
 	{
 		return SystemApplication::GetInstance()->GetShallowGameInstances();
 	}
-	IGameInstance* IGameInstance::GetShallowInstance(const wxString& instanceID)
+	IGameInstance* IGameInstance::GetShallowInstance(const kxf::String& instanceID)
 	{
 		return Util::FindObjectInVector<IGameInstance, Util::FindBy::InstanceID>(GetShallowInstances(), instanceID);
 	}
-	IGameInstance* IGameInstance::NewShallowInstance(const wxString& instanceID, const GameID& gameID)
+	IGameInstance* IGameInstance::NewShallowInstance(const kxf::String& instanceID, const GameID& gameID)
 	{
 		if (GetShallowInstance(instanceID) == nullptr)
 		{
@@ -144,11 +144,11 @@ namespace Kortex
 		return nullptr;
 	}
 
-	wxString IGameInstance::GetGameDefinitionsFolder()
+	kxf::String IGameInstance::GetGameDefinitionsFolder()
 	{
 		return IApplication::GetInstance()->GetDataFolder() + wxS("\\GameDefinitions");
 	}
-	wxString IGameInstance::GetUserGameDefinitionsFolder()
+	kxf::String IGameInstance::GetUserGameDefinitionsFolder()
 	{
 		return IApplication::GetInstance()->GetUserSettingsFolder() + wxS("\\GameDefinitions");
 	}
@@ -207,13 +207,13 @@ namespace Kortex
 		return GetTemplate(id) != nullptr;
 	}
 
-	wxBitmap IGameInstance::LoadIcon(const wxString& path) const
+	wxBitmap IGameInstance::LoadIcon(const kxf::String& path) const
 	{
 		return LoadIconFromFile(path);
 	}
-	wxString IGameInstance::GetDefaultIconLocation() const
+	kxf::String IGameInstance::GetDefaultIconLocation() const
 	{
-		return KxString::Format(wxS("%1\\Icons\\%2.ico"), IGameInstance::GetGameDefinitionsFolder(), GetGameID());
+		return kxf::String::Format(wxS("%1\\Icons\\%2.ico"), IGameInstance::GetGameDefinitionsFolder(), GetGameID());
 	}
 
 	const IGameInstance& IGameInstance::GetTemplate() const
@@ -274,7 +274,7 @@ namespace Kortex
 		return false;
 	}
 
-	wxString IGameInstance::GetActiveProfileID()
+	kxf::String IGameInstance::GetActiveProfileID()
 	{
 		if (const IGameProfile* profile = GetActiveProfile())
 		{
@@ -291,7 +291,7 @@ namespace Kortex
 		}
 		return nullptr;
 	}
-	bool IGameInstance::IsActiveProfileID(const wxString& id)
+	bool IGameInstance::IsActiveProfileID(const kxf::String& id)
 	{
 		if (const IGameProfile* profile = GetActiveProfile())
 		{

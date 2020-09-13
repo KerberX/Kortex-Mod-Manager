@@ -6,14 +6,14 @@
 
 namespace Kortex::GameConfig
 {
-	wxString CategoryItem::TranslateCategoryName() const
+	kxf::String CategoryItem::TranslateCategoryName() const
 	{
 		const IGameConfigManager* manager = IGameConfigManager::GetInstance();
 		if (!m_CategoryPath.IsEmpty())
 		{
-			wxString name = m_CategoryPath.AfterLast(wxS('/'));
+			kxf::String name = m_CategoryPath.AfterLast(wxS('/'));
 
-			wxString label = manager->TranslateItemLabel(name, wxS("Category"));
+			kxf::String label = manager->TranslateItemLabel(name, wxS("Category"));
 			if (label.IsEmpty())
 			{
 				label = manager->TranslateItemLabel(name, wxS("Category.ENB"));
@@ -23,11 +23,11 @@ namespace Kortex::GameConfig
 		return manager->GetTranslator().GetString(wxS("Category.None"));
 	}
 
-	CategoryItem::CategoryItem(const wxString& categoryPath)
+	CategoryItem::CategoryItem(const kxf::String& categoryPath)
 		:m_CategoryPath(categoryPath), m_CategoryName(TranslateCategoryName())
 	{
 	}
-	CategoryItem::CategoryItem(const wxString& categoryPath, const wxString& categoryName)
+	CategoryItem::CategoryItem(const kxf::String& categoryPath, const kxf::String& categoryName)
 		:m_CategoryPath(categoryPath), m_CategoryName(categoryName)
 	{
 	}
@@ -36,7 +36,7 @@ namespace Kortex::GameConfig
 		DetachAllChildren();
 	}
 
-	wxString CategoryItem::GetViewString(ColumnID id) const
+	kxf::String CategoryItem::GetViewString(ColumnID id) const
 	{
 		if (id == ColumnID::Path)
 		{
@@ -50,7 +50,7 @@ namespace Kortex::GameConfig
 				return m_CategoryName;
 			}
 		}
-		return wxString();
+		return kxf::String();
 	}
 	void CategoryItem::OnActivate(KxDataView2::Column& column)
 	{

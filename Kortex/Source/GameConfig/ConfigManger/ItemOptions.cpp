@@ -13,7 +13,7 @@ namespace
 			thisValue = otherValue;
 		}
 	}
-	template<> void CopyIfDefault(wxString& thisValue, const wxString& otherValue, IOC copyWhat, IOC thisType)
+	template<> void CopyIfDefault(kxf::String& thisValue, const kxf::String& otherValue, IOC copyWhat, IOC thisType)
 	{
 		if (copyWhat & thisType && thisValue.IsEmpty())
 		{
@@ -31,7 +31,7 @@ namespace
 
 namespace Kortex::GameConfig
 {
-	void ItemOptions::Load(const KxXMLNode& node, const DataType& dataType)
+	void ItemOptions::Load(const kxf::XMLNode& node, const DataType& dataType)
 	{
 		if (node.IsOK())
 		{

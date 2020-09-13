@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IThemeManager.h"
 
 namespace Kortex::Theme

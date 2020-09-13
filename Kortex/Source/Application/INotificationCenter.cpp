@@ -18,7 +18,7 @@ namespace Kortex
 	{
 		GetNotifications().clear();
 	}
-	void INotificationCenter::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void INotificationCenter::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 	}
 
@@ -86,38 +86,38 @@ namespace Kortex
 		return false;
 	}
 
-	void INotificationCenter::Notify(const wxString& caption, const wxString& message, KxIconType iconID)
+	void INotificationCenter::Notify(const kxf::String& caption, const kxf::String& message, KxIconType iconID)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(caption, message, iconID));
 	}
-	void INotificationCenter::Notify(const wxString& caption, const wxString& message, const wxBitmap& bitmap)
+	void INotificationCenter::Notify(const kxf::String& caption, const kxf::String& message, const wxBitmap& bitmap)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(caption, message, bitmap));
 	}
 	
-	void INotificationCenter::Notify(const IModule& module, const wxString& message, KxIconType iconID)
+	void INotificationCenter::Notify(const IModule& module, const kxf::String& message, KxIconType iconID)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(module.GetModuleInfo().GetName(), message, iconID));
 	}
-	void INotificationCenter::Notify(const IModule& module, const wxString& message, const wxBitmap& bitmap)
+	void INotificationCenter::Notify(const IModule& module, const kxf::String& message, const wxBitmap& bitmap)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(module.GetModuleInfo().GetName(), message, bitmap));
 	}
 
-	void INotificationCenter::Notify(const IManager& manager, const wxString& message, KxIconType iconID)
+	void INotificationCenter::Notify(const IManager& manager, const kxf::String& message, KxIconType iconID)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(manager.GetManagerInfo().GetName(), message, iconID));
 	}
-	void INotificationCenter::Notify(const IManager& manager, const wxString& message, const wxBitmap& bitmap)
+	void INotificationCenter::Notify(const IManager& manager, const kxf::String& message, const wxBitmap& bitmap)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(manager.GetManagerInfo().GetName(), message, bitmap));
 	}
 
-	void INotificationCenter::Notify(const IModNetwork& modNetwork, const wxString& message, KxIconType iconID)
+	void INotificationCenter::Notify(const IModNetwork& modNetwork, const kxf::String& message, KxIconType iconID)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(modNetwork.GetName(), message, iconID));
 	}
-	void INotificationCenter::Notify(const IModNetwork& modNetwork, const wxString& message, const wxBitmap& bitmap)
+	void INotificationCenter::Notify(const IModNetwork& modNetwork, const kxf::String& message, const wxBitmap& bitmap)
 	{
 		GetInstance()->QueueNotification(std::make_unique<SimpleNotification>(modNetwork.GetName(), message, bitmap));
 	}

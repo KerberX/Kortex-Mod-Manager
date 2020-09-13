@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/AppOption.h"
 
 namespace Kortex
@@ -22,15 +22,15 @@ namespace Kortex::Application
 	class BasicOption: public AppOption
 	{
 		protected:
-			void Create(Disposition disposition, KxXMLDocument& xml, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IApplication& app, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IGameInstance& instance, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IGameProfile& profile, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IModule& module, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IManager& manager, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IWorkspace& workspace, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const IMainWindow& mainWindow, const wxString& branch = wxEmptyString);
-			void Create(Disposition disposition, KxXMLDocument& xml, const InstallWizard::WizardDialog& installWizard, const wxString& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IApplication& app, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IGameInstance& instance, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IGameProfile& profile, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IModule& module, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IManager& manager, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IWorkspace& workspace, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const IMainWindow& mainWindow, const kxf::String& branch = wxEmptyString);
+			void Create(Disposition disposition, kxf::XMLDocument& xml, const InstallWizard::WizardDialog& installWizard, const kxf::String& branch = wxEmptyString);
 	};
 }
 
@@ -39,7 +39,7 @@ namespace Kortex::Application
 	class GlobalOption: public BasicOption
 	{
 		private:
-			KxXMLDocument& GetXML() const;
+			kxf::XMLDocument& GetXML() const;
 
 		public:
 			template<class... Args> GlobalOption(Args&&... arg)
@@ -52,7 +52,7 @@ namespace Kortex::Application
 	{
 		private:
 			IConfigurableGameInstance* GetConfigurableInstance(IGameInstance* instance) const;
-			KxXMLDocument& GetXML(IConfigurableGameInstance* instance) const;
+			kxf::XMLDocument& GetXML(IConfigurableGameInstance* instance) const;
 
 		public:
 			template<class... Args> InstanceOption(IGameInstance* instance, Args&&... arg)
@@ -80,7 +80,7 @@ namespace Kortex::Application
 	class ProfileOption: public BasicOption
 	{
 		private:
-			KxXMLDocument& GetXML(IGameProfile& profile) const;
+			kxf::XMLDocument& GetXML(IGameProfile& profile) const;
 
 		public:
 			template<class... Args> ProfileOption(IGameProfile* profile, Args&&... arg)

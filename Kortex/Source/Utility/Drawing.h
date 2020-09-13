@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxStringUtility.h>
 
 namespace Kortex::Utility::Drawing

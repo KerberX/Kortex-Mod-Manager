@@ -4,7 +4,7 @@
 
 namespace Kortex::Archive
 {
-	Format DetectFormat(const wxString& filePath)
+	Format DetectFormat(const kxf::String& filePath)
 	{
 		GenericArchive archive(filePath);
 		if (archive)
@@ -14,7 +14,7 @@ namespace Kortex::Archive
 		return Format::Unknown;
 	}
 
-	wxString GetExtensionFromFormat(Format format)
+	kxf::String GetExtensionFromFormat(Format format)
 	{
 		switch (format)
 		{
@@ -62,7 +62,7 @@ namespace Kortex::Archive
 		}
 		return {};
 	}
-	wxString GetFormatName(Format format)
+	kxf::String GetFormatName(Format format)
 	{
 		switch (format)
 		{

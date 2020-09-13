@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageProject/Serializer.h"
 #include <KxFramework/KxXML.h>
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 
 namespace Kortex
 {
@@ -16,22 +16,22 @@ namespace Kortex::PackageProject
 	class LegacySerializer: public Serializer
 	{
 		private:
-			KxVersion m_ProjectVersion;
+			kxf::Version m_ProjectVersion;
 			ModPackageProject* m_Project = nullptr;
-			wxString m_Data;
-			KxXMLDocument m_XML;
+			kxf::String m_Data;
+			kxf::XMLDocument m_XML;
 			
 		private:
-			wxString ConvertMultiLine(const wxString& source) const;
-			wxString ConvertVariable(const wxString& sOldVariable) const;
-			void AddSite(const wxString& url);
+			kxf::String ConvertMultiLine(const kxf::String& source) const;
+			kxf::String ConvertVariable(const kxf::String& sOldVariable) const;
+			void AddSite(const kxf::String& url);
 			void FixRequirementID(RequirementItem* entry) const;
 			bool IsComponentsUsed() const;
-			void ReadInterface3x4x5x(const wxString& sLogoNodeName);
+			void ReadInterface3x4x5x(const kxf::String& sLogoNodeName);
 			void ReadFiles3x4x();
 			
 		private:
-			KxVersion ReadBase();
+			kxf::Version ReadBase();
 			void ReadConfig();
 			
 			// 3.0+
@@ -62,11 +62,11 @@ namespace Kortex::PackageProject
 			}
 			void Structurize(ModPackageProject& project) override;
 			
-			const wxString& GetData() const
+			const kxf::String& GetData() const
 			{
 				return m_Data;
 			}
-			void SetData(const wxString& sData)
+			void SetData(const kxf::String& sData)
 			{
 				m_Data = sData;
 			}

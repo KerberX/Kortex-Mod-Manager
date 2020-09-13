@@ -7,10 +7,10 @@
 
 namespace Kortex::GameConfig
 {
-	void DefaultGameConfigManager::LoadGroup(const KxXMLNode& definitionNode, ItemGroup& group)
+	void DefaultGameConfigManager::LoadGroup(const kxf::XMLNode& definitionNode, ItemGroup& group)
 	{
-		KxXMLNode groupsNode = definitionNode.GetFirstChildElement(wxS("Groups"));
-		for (KxXMLNode node = groupsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		kxf::XMLNode groupsNode = definitionNode.GetFirstChildElement(wxS("Groups"));
+		for (kxf::XMLNode node = groupsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			if (node.GetAttribute(wxS("ID")) == group.GetID())
 			{
@@ -34,7 +34,7 @@ namespace Kortex::GameConfig
 	{
 		IConfigManager::OnExit();
 	}
-	void DefaultGameConfigManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultGameConfigManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		IConfigManager::OnLoadInstance(instance, managerNode);
 		if (LoadTranslation(m_Translation, "GameConfig"))
@@ -42,10 +42,10 @@ namespace Kortex::GameConfig
 			m_Translator.Push(m_Translation);
 		}
 
-		const KxXMLNode definitionsNode = managerNode.GetFirstChildElement("Definitions");
-		for (KxXMLNode defNode = definitionsNode.GetFirstChildElement(); defNode.IsOK(); defNode = defNode.GetNextSiblingElement())
+		const kxf::XMLNode definitionsNode = managerNode.GetFirstChildElement("Definitions");
+		for (kxf::XMLNode defNode = definitionsNode.GetFirstChildElement(); defNode.IsOK(); defNode = defNode.GetNextSiblingElement())
 		{
-			wxString id = defNode.GetAttribute("ID");
+			kxf::String id = defNode.GetAttribute("ID");
 
 			auto definition = std::make_unique<Definition>(*this, id, GetDefinitionFileByID(id));
 			if (definition->Load())

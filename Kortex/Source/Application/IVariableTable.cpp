@@ -6,13 +6,13 @@
 
 namespace Kortex
 {
-	wxString IVariableTable::Expand(const wxString& variables) const
+	kxf::String IVariableTable::Expand(const kxf::String& variables) const
 	{
 		if (!variables.IsEmpty() && !IsEmpty())
 		{
-			wxString out = variables;
-			size_t entryStartPos = wxString::npos;
-			size_t varNameStartPos = wxString::npos;
+			kxf::String out = variables;
+			size_t entryStartPos = kxf::String::npos;
+			size_t varNameStartPos = kxf::String::npos;
 			bool isTranslationVar = false;
 			bool isShellFolderVar = false;
 			bool isEnvVar = false;
@@ -64,20 +64,20 @@ namespace Kortex
 				}
 
 				// We are at the beginning of the variable name
-				if (entryStartPos != wxString::npos && out[i] == wxS('('))
+				if (entryStartPos != kxf::String::npos && out[i] == wxS('('))
 				{
 					varNameStartPos = i + 1;
 				}
 
 				// All data collected, do replace
-				if (entryStartPos != wxString::npos && varNameStartPos != wxString::npos && out[i] == wxS(')'))
+				if (entryStartPos != kxf::String::npos && varNameStartPos != kxf::String::npos && out[i] == wxS(')'))
 				{
 					size_t varEntryLength = i - entryStartPos + 1;
 					size_t varNameLength = i - varNameStartPos;
-					wxString varName = out.Mid(varNameStartPos, varNameLength);
+					kxf::String varName = out.Mid(varNameStartPos, varNameLength);
 					if (!varName.IsEmpty())
 					{
-						wxString value;
+						kxf::String value;
 						if (isTranslationVar)
 						{
 							value = KTr(varName);
@@ -113,8 +113,8 @@ namespace Kortex
 					}
 
 					// Reset parser state
-					entryStartPos = wxString::npos;
-					varNameStartPos = wxString::npos;
+					entryStartPos = kxf::String::npos;
+					varNameStartPos = kxf::String::npos;
 					isTranslationVar = false;
 					isShellFolderVar = false;
 					isEnvVar = false;

@@ -69,7 +69,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 					}
 					case InfoKind::ID:
 					{
-						return KxString::Format(wxS("%1 (%2)"), packageConfig.GetModID(), packageConfig.GetSignature());
+						return kxf::String::Format(wxS("%1 (%2)"), packageConfig.GetModID(), packageConfig.GetSignature());
 					}
 					case InfoKind::Name:
 					{
@@ -113,7 +113,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 			{
 				case InfoKind::ID:
 				{
-					wxString id = value.As<wxString>();
+					kxf::String id = value.As<kxf::String>();
 					if (id != packageConfig.GetModID() && CheckModID(id))
 					{
 						packageConfig.SetModID(id);
@@ -124,7 +124,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 				}
 				case InfoKind::Name:
 				{
-					packageConfig.GetInfo().SetName(value.As<wxString>());
+					packageConfig.GetInfo().SetName(value.As<kxf::String>());
 					return true;
 				}
 			};
@@ -170,7 +170,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 		return false;
 	}
 
-	bool InfoDisplayModel::CheckModID(const wxString& id)
+	bool InfoDisplayModel::CheckModID(const kxf::String& id)
 	{
 		if (id.IsEmpty())
 		{
@@ -253,7 +253,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 		// Events
 		view->Bind(EvtITEM_ACTIVATED, &InfoDisplayModel::OnActivateItem, this);
 	}
-	void InfoDisplayModel::AddItem(const Utility::LabeledValue& value, const ResourceID& image, InfoKind type)
+	void InfoDisplayModel::AddItem(const Utility::LabeledValue& value, const kxf::ResourceID& image, InfoKind type)
 	{
 		Item& item = m_Items.emplace_back(value);
 		item.IconID = image;

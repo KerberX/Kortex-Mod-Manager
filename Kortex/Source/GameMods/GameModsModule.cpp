@@ -10,10 +10,10 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo GameModsTypeInfo("GameMods", "GameModsModule.Name", "1.3", ImageResourceID::Puzzle);
+		const SimpleModuleInfo GameModsTypeInfo("GameMods", "GameModsModule.Name", "1.3", Imagekxf::ResourceID::Puzzle);
 	}
 
-	void GameModsModule::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void GameModsModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		m_TagManager = std::make_unique<ModTagManager::DefaultTagManager>();
 		m_ModManager = std::make_unique<ModManager::DefaultModManager>();

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "InfoPage.h"
 #include <KxFramework/DataView2/DataView2.h>
 
@@ -20,7 +20,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 
 		private:
 			Utility::LabeledValue Value;
-			ResourceID IconID;
+			kxf::ResourceID IconID;
 			InfoKind Type = InfoKind::None;
 
 		public:
@@ -46,7 +46,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 			bool IsEnabled(const Node& node, const Column& column) const override;
 			bool GetAttributes(const Node& node, const Column& column, const CellState& cellState, CellAttributes& attributes) const override;
 
-			bool CheckModID(const wxString& id);
+			bool CheckModID(const kxf::String& id);
 			void OnActivateItem(Event& event);
 
 		public:
@@ -58,6 +58,6 @@ namespace Kortex::InstallWizard::InfoPageNS
 
 		public:
 			void CreateView(wxWindow* parent);
-			void AddItem(const Utility::LabeledValue& value, const ResourceID& image = {}, InfoKind type = InfoKind::None);
+			void AddItem(const Utility::LabeledValue& value, const kxf::ResourceID& image = {}, InfoKind type = InfoKind::None);
 	};
 }

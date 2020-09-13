@@ -192,7 +192,7 @@ namespace Kortex::Utility
 
 		OperationWithProgressBase::OnRunThread();
 	}
-	wxString OperationWithProgressDialogBase::OnSetLabel(const wxString& label)
+	kxf::String OperationWithProgressDialogBase::OnSetLabel(const kxf::String& label)
 	{
 		KxDualProgressDialog* dialog = GetDialog();
 		int width = GetDialog()->GetSize().GetWidth();

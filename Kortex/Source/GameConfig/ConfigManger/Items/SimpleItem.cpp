@@ -103,7 +103,7 @@ namespace Kortex::GameConfig
 						const ItemValue& value = sample.GetValue();
 						if (sample.HasLabel())
 						{
-							comboBox->AddItem(KxString::Format(wxS("%1 - %2"), value.Serialize(*this), sample.GetLabel()));
+							comboBox->AddItem(kxf::String::Format(wxS("%1 - %2"), value.Serialize(*this), sample.GetLabel()));
 						}
 						else
 						{
@@ -125,7 +125,7 @@ namespace Kortex::GameConfig
 		return nullptr;
 	}
 
-	SimpleItem::SimpleItem(ItemGroup& group, const KxXMLNode& itemNode)
+	SimpleItem::SimpleItem(ItemGroup& group, const kxf::XMLNode& itemNode)
 		:ExtendInterface(group, itemNode)
 	{
 	}
@@ -135,12 +135,12 @@ namespace Kortex::GameConfig
 		GetOptions().CopyIfNotSpecified(group.GetOptions(), GetDataType());
 	}
 
-	bool SimpleItem::Create(const KxXMLNode& itemNode)
+	bool SimpleItem::Create(const kxf::XMLNode& itemNode)
 	{
 		RegisterAsKnown();
 		return IsOK();
 	}
-	wxString SimpleItem::GetViewString(ColumnID id) const
+	kxf::String SimpleItem::GetViewString(ColumnID id) const
 	{
 		if (id == ColumnID::Value)
 		{
@@ -148,7 +148,7 @@ namespace Kortex::GameConfig
 			{
 				auto FormatValue = [this](const ItemValue& value)
 				{
-					wxString serializedValue = value.Serialize(*this, SerializeFor::Display);
+					kxf::String serializedValue = value.Serialize(*this, SerializeFor::Display);
 
 					if (serializedValue.IsEmpty())
 					{
@@ -167,7 +167,7 @@ namespace Kortex::GameConfig
 				const SampleValue* sampleValue = GetSamples().FindSampleByValue(m_Value);
 				if (sampleValue && sampleValue->HasLabel())
 				{
-					m_CachedViewData = KxString::Format(wxS("%1 - %2"), FormatValue(m_Value), sampleValue->GetLabel());
+					m_CachedViewData = kxf::String::Format(wxS("%1 - %2"), FormatValue(m_Value), sampleValue->GetLabel());
 				}
 				else
 				{
@@ -184,7 +184,7 @@ namespace Kortex::GameConfig
 		{
 			if (HasAction())
 			{
-				const wxString oldVaue = m_Value.Serialize(*this);
+				const kxf::String oldVaue = m_Value.Serialize(*this);
 
 				bool isInvoked = false;
 				if (auto action = GetManager().QueryAction(GetActionName()))
@@ -225,7 +225,7 @@ namespace Kortex::GameConfig
 	{
 		if (column.GetID<ColumnID>() == ColumnID::Value)
 		{
-			wxString value = GetViewString(ColumnID::Value);
+			kxf::String value = GetViewString(ColumnID::Value);
 			if (GetTypeID().IsBool())
 			{
 				using namespace KxDataView2;
@@ -273,7 +273,7 @@ namespace Kortex::GameConfig
 				const SampleValue* sampleValue = GetSamples().GetSampleByIndex(value.As<int>());
 				if (sampleValue)
 				{
-					wxString serialized = sampleValue->GetValue().Serialize(*this);
+					kxf::String serialized = sampleValue->GetValue().Serialize(*this);
 					if (serialized != m_Value.Serialize(*this))
 					{
 						m_Value.Deserialize(serialized, *this);
@@ -285,9 +285,9 @@ namespace Kortex::GameConfig
 			}
 
 			// Any other variant
-			const wxString oldData = m_Value.Serialize(*this);
+			const kxf::String oldData = m_Value.Serialize(*this);
 
-			wxString data;
+			kxf::String data;
 			value.GetAs(&data);
 			m_Value.Deserialize(data, *this);
 

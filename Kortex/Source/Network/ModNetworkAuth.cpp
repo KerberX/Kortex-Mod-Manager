@@ -43,7 +43,7 @@ namespace Kortex
 		INotificationCenter::Notify(app->GetName(), KTrf("NetworkManager.AuthReset", modNetwork.GetName()), KxICON_WARNING);
 	}
 
-	wxBitmap ModNetworkAuth::DownloadSmallBitmap(const wxString& address) const
+	wxBitmap ModNetworkAuth::DownloadSmallBitmap(const kxf::String& address) const
 	{
 		auto connection = INetworkManager::GetInstance()->NewCURLSession(address);
 		KxCURLBinaryReply reply = connection->Download();
@@ -58,7 +58,7 @@ namespace Kortex
 		KxCredentialsDialog dialog(parent, KxID_NONE, KTrf("NetworkManager.AuthCaption", GetContainer().GetName()), KTr("NetworkManager.AuthMessage"));
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			wxString userName = dialog.GetUserName();
+			kxf::String userName = dialog.GetUserName();
 			KxSecretValue password;
 			if (!userName.IsEmpty() && dialog.GetPassword(password))
 			{
@@ -69,7 +69,7 @@ namespace Kortex
 	}
 	auto ModNetworkAuth::LoadCredentials() const -> std::optional<Credentials>
 	{
-		wxString userName;
+		kxf::String userName;
 		KxSecretValue password;
 		if (GetCredentialsStore().Load(userName, password))
 		{
@@ -98,7 +98,7 @@ namespace Kortex
 	{
 		return m_UserPicture.LoadFile(GetUserPictureFile(), wxBITMAP_TYPE_ANY);
 	}
-	wxString ModNetworkAuth::GetUserPictureFile() const
+	kxf::String ModNetworkAuth::GetUserPictureFile() const
 	{
 		return GetContainer().GetLocationInCache(wxS("UserPicture.png"));
 	}

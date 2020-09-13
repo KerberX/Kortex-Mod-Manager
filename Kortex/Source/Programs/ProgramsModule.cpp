@@ -6,10 +6,10 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo ProgramModuleTypeInfo("Programs", "ProgramsModule.Name", "2.0", ImageResourceID::ApplicationRun);
+		const SimpleModuleInfo ProgramModuleTypeInfo("Programs", "ProgramsModule.Name", "2.0", Imagekxf::ResourceID::ApplicationRun);
 	}
 
-	void KProgramModule::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void KProgramModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		m_ProgramManager = std::make_unique<ProgramManager::DefaultProgramManager>();
 	}

@@ -75,9 +75,9 @@ namespace Kortex::ProfileEditor
 			{
 				case ColumnID::Name:
 				{
-					if (value.CheckType<wxString>())
+					if (value.CheckType<kxf::String>())
 					{
-						wxString name = value.As<wxString>();
+						kxf::String name = value.As<kxf::String>();
 						if (!name.IsEmpty() && name != profile->GetID())
 						{
 							if (IGameInstance::GetActive()->HasProfile(name))
@@ -229,7 +229,7 @@ namespace Kortex::ProfileEditor
 				KxTaskDialog dialog(GetView(), KxID_NONE, KTr(KxID_REMOVE), KTr("ModManager.Profile.RemoveDialog"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
 				if (dialog.ShowModal() == KxID_YES)
 				{
-					const wxString profileID = profile->GetID();
+					const kxf::String profileID = profile->GetID();
 					if (IGameInstance::GetActive()->RemoveProfile(*profile))
 					{
 						SetNewProfile(IGameInstance::GetActive()->GetActiveProfileID());

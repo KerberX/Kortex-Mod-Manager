@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IModImporter.h"
 #include <KxFramework/KxINI.h>
 
@@ -8,27 +8,27 @@ namespace Kortex::ModManager
 	class ModImporterMO: public IModImporter
 	{
 		private:
-			wxString m_InstanceDirectory;
-			wxString m_ModsDirectory;
-			wxString m_ProfilesDirectory;
-			wxString m_DownloadsDirectory;
+			kxf::String m_InstanceDirectory;
+			kxf::String m_ModsDirectory;
+			kxf::String m_ProfilesDirectory;
+			kxf::String m_DownloadsDirectory;
 			KxINI m_Options;
 
-			wxString m_CurrentProfile;
-			wxString m_ModManagerName;
+			kxf::String m_CurrentProfile;
+			kxf::String m_ModManagerName;
 			GameID m_TargetGameID;
 			const IGameInstance* m_TargetInstance = nullptr;
 			bool m_CanImport = false;
 
 		private:
-			wxString& DecodeUTF8(wxString& path) const;
-			wxString& ProcessFilePath(wxString& path) const;
-			wxString& ProcessDescription(wxString& path) const;
+			kxf::String& DecodeUTF8(kxf::String& path) const;
+			kxf::String& ProcessFilePath(kxf::String& path) const;
+			kxf::String& ProcessDescription(kxf::String& path) const;
 
-			GameID TranslateGameIDToNetwork(const wxString& name);
+			GameID TranslateGameIDToNetwork(const kxf::String& name);
 			void LoadOptions();
-			wxString GetDataFolderName() const;
-			wxString GetProfileDirectory() const;
+			kxf::String GetDataFolderName() const;
+			kxf::String GetProfileDirectory() const;
 
 			void ReadExecutables(Utility::OperationWithProgressDialogBase* context);
 			void CopySaves(Utility::OperationWithProgressDialogBase* context);
@@ -38,7 +38,7 @@ namespace Kortex::ModManager
 			void CopyDownloads(Utility::OperationWithProgressDialogBase* context);
 
 		public:
-			void SetDirectory(const wxString& path) override;
+			void SetDirectory(const kxf::String& path) override;
 			void Import(Utility::OperationWithProgressDialogBase* context) override;
 			
 			bool CanImport() const override;
@@ -46,12 +46,12 @@ namespace Kortex::ModManager
 			{
 				return m_TargetGameID;
 			}
-			wxString GetModManagerName() const override
+			kxf::String GetModManagerName() const override
 			{
 				return m_ModManagerName;
 			}
-			wxString GetAdditionalInfo() const override;
-			wxString GetCurrentProfile() const override
+			kxf::String GetAdditionalInfo() const override;
+			kxf::String GetCurrentProfile() const override
 			{
 				return m_CurrentProfile;
 			}

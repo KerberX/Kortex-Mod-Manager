@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "XMLRefSource.h"
 
 namespace Kortex::GameConfig
@@ -7,10 +7,10 @@ namespace Kortex::GameConfig
 	class XMLSource: public XMLRefSource
 	{
 		private:
-			KxXMLDocument m_XML;
+			kxf::XMLDocument m_XML;
 
 		public:
-			XMLSource(const wxString& xmlText = {})
+			XMLSource(const kxf::String& xmlText = {})
 				:XMLRefSource(m_XML), m_XML(xmlText)
 			{
 			}

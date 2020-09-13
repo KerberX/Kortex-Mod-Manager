@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxString.h>
 #include <KxFramework/KxFormat.h>
 #include <KxFramework/KxStringUtility.h>
@@ -22,10 +22,10 @@ namespace Kortex::Utility::String
 	using namespace KxUtility::String;
 
 	// Converts string to a bool value
-	std::optional<bool> ToBool(const wxString& value);
+	std::optional<bool> ToBool(const kxf::String& value);
 
 	// Return 's1' if it's not empty, otherwise return 's2'
-	inline wxString StrOr(const wxString& s1, const wxString& s2)
+	inline kxf::String StrOr(const kxf::String& s1, const kxf::String& s2)
 	{
 		if (!s1.IsEmpty())
 		{
@@ -35,7 +35,7 @@ namespace Kortex::Utility::String
 	}
 	
 	// Returns string architecture value: "x86", "x64".
-	inline wxString StrOr(const wxString& s1, const wxString& s2, const wxString& s3)
+	inline kxf::String StrOr(const kxf::String& s1, const kxf::String& s2, const kxf::String& s3)
 	{
 		return StrOr(s1, StrOr(s2, s3));
 	}

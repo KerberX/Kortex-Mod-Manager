@@ -11,9 +11,9 @@
 
 namespace Kortex::GameConfig
 {
-	void ItemGroup::LoadItems(const KxXMLNode& groupNode)
+	void ItemGroup::LoadItems(const kxf::XMLNode& groupNode)
 	{
-		for (KxXMLNode node = groupNode.GetFirstChildElement(wxS("Item")); node.IsOK(); node = node.GetNextSiblingElement(wxS("Item")))
+		for (kxf::XMLNode node = groupNode.GetFirstChildElement(wxS("Item")); node.IsOK(); node = node.GetNextSiblingElement(wxS("Item")))
 		{
 			std::unique_ptr<Item> item;
 
@@ -60,7 +60,7 @@ namespace Kortex::GameConfig
 		}
 	}
 
-	ItemGroup::ItemGroup(Definition& definition, const wxString& id, const KxXMLNode& groupNode, const ItemOptions& parentOptions)
+	ItemGroup::ItemGroup(Definition& definition, const kxf::String& id, const kxf::XMLNode& groupNode, const ItemOptions& parentOptions)
 		:m_Definition(definition), m_ID(id), m_Options(groupNode)
 	{
 		m_Options.CopyIfNotSpecified(parentOptions);
@@ -75,9 +75,9 @@ namespace Kortex::GameConfig
 	{
 		return m_Definition.GetManager();
 	}
-	void ItemGroup::OnLoadInstance(const KxXMLNode& groupNode)
+	void ItemGroup::OnLoadInstance(const kxf::XMLNode& groupNode)
 	{
-		const KxXMLNode sourceNode = groupNode.GetFirstChildElement(wxS("Source"));
+		const kxf::XMLNode sourceNode = groupNode.GetFirstChildElement(wxS("Source"));
 
 		// Only 'FSPath' source type is currently supported
 		m_SourceType = SourceTypeDef::FromString(sourceNode.GetAttribute(wxS("Type")), SourceType::None);

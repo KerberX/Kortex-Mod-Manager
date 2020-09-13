@@ -15,20 +15,20 @@ namespace Kortex::GameInstance
 	}
 	void DefaultGameProfile::SaveConfig()
 	{
-		KxXMLNode rootNode = m_Config.ConstructElement("Profile");
+		kxf::XMLNode rootNode = m_Config.ConstructElement("Profile");
 
-		KxXMLNode configNode = rootNode.ConstructElement("Config");
+		kxf::XMLNode configNode = rootNode.ConstructElement("Config");
 		configNode.ConstructElement("LocalSaves").SetAttribute("Enabled", m_LocalSavesEnabled);
 		configNode.ConstructElement("LocalConfig").SetAttribute("Enabled", m_LocalConfigEnabled);
 
 		if (IModManager::GetInstance())
 		{
-			KxXMLNode modsNode = rootNode.ConstructElement("Mods");
+			kxf::XMLNode modsNode = rootNode.ConstructElement("Mods");
 			modsNode.ClearChildren();
 
 			for (const ProfileMod& mod: m_Mods)
 			{
-				KxXMLNode node = modsNode.NewElement("Entry");
+				kxf::XMLNode node = modsNode.NewElement("Entry");
 				node.SetAttribute("Signature", mod.GetSignature());
 				node.SetAttribute("Active", mod.IsActive());
 			}
@@ -36,12 +36,12 @@ namespace Kortex::GameInstance
 
 		if (IPluginManager::GetInstance())
 		{
-			KxXMLNode pluginsNode = rootNode.ConstructElement("Plugins");
+			kxf::XMLNode pluginsNode = rootNode.ConstructElement("Plugins");
 			pluginsNode.ClearChildren();
 
 			for (const ProfilePlugin& plugin: m_Plugins)
 			{
-				KxXMLNode node = pluginsNode.NewElement("Entry");
+				kxf::XMLNode node = pluginsNode.NewElement("Entry");
 				node.SetAttribute("Name", plugin.GetName());
 				node.SetAttribute("Active", plugin.IsActive());
 			}
@@ -55,15 +55,15 @@ namespace Kortex::GameInstance
 		KxFileStream stream(GetConfigFile(), KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting, KxFileStream::Share::Read);
 		if (m_Config.Load(stream))
 		{
-			KxXMLNode rootNode = m_Config.GetFirstChildElement("Profile");
+			kxf::XMLNode rootNode = m_Config.GetFirstChildElement("Profile");
 
-			KxXMLNode configNode = rootNode.GetFirstChildElement("Config");
+			kxf::XMLNode configNode = rootNode.GetFirstChildElement("Config");
 			m_LocalSavesEnabled = configNode.GetFirstChildElement("LocalSaves").GetAttributeBool("Enabled");
 			m_LocalConfigEnabled = configNode.GetFirstChildElement("LocalConfig").GetAttributeBool("Enabled");
 
 			m_Mods.clear();
-			KxXMLNode modsNode = rootNode.GetFirstChildElement("Mods");
-			for (KxXMLNode node = modsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			kxf::XMLNode modsNode = rootNode.GetFirstChildElement("Mods");
+			for (kxf::XMLNode node = modsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				ProfileMod& mod = m_Mods.emplace_back(node.GetAttribute("Signature"), node.GetAttributeBool("Active"), m_Mods.size());
 				if (!mod.IsOK())
@@ -73,8 +73,8 @@ namespace Kortex::GameInstance
 			}
 
 			m_Plugins.clear();
-			KxXMLNode pluginsNode = rootNode.GetFirstChildElement("Plugins");
-			for (KxXMLNode node = pluginsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			kxf::XMLNode pluginsNode = rootNode.GetFirstChildElement("Plugins");
+			for (kxf::XMLNode node = pluginsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				ProfilePlugin& plugin = m_Plugins.emplace_back(node.GetAttribute("Name"), node.GetAttributeBool("Active"));
 				if (!plugin.IsOK())

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IGameProfile.h"
 #include <KxFramework/KxSingleton.h>
 #include <KxFramework/KxXML.h>
@@ -9,9 +9,9 @@ namespace Kortex::GameInstance
 	class DefaultGameProfile: public IGameProfile
 	{
 		private:
-			KxXMLDocument m_Config;
+			kxf::XMLDocument m_Config;
 
-			wxString m_ID;
+			kxf::String m_ID;
 			bool m_LocalSavesEnabled = false;
 			bool m_LocalConfigEnabled = false;
 
@@ -20,17 +20,17 @@ namespace Kortex::GameInstance
 
 		public:
 			DefaultGameProfile() = default;
-			DefaultGameProfile(const wxString& id)
+			DefaultGameProfile(const kxf::String& id)
 				:m_ID(ProcessID(id))
 			{
 			}
 
 		public:
-			const KxXMLDocument& GetConfig() const override
+			const kxf::XMLDocument& GetConfig() const override
 			{
 				return m_Config;
 			}
-			KxXMLDocument& GetConfig() override
+			kxf::XMLDocument& GetConfig() override
 			{
 				return m_Config;
 			}
@@ -41,11 +41,11 @@ namespace Kortex::GameInstance
 			std::unique_ptr<IGameProfile> Clone() const override;
 			void SyncWithCurrentState() override;
 
-			wxString GetID() const override
+			kxf::String GetID() const override
 			{
 				return m_ID;
 			}
-			void SetID(const wxString& id) override
+			void SetID(const kxf::String& id) override
 			{
 				m_ID = ProcessID(id);
 			}

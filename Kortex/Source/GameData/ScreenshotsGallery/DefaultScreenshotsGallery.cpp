@@ -12,7 +12,7 @@ namespace Kortex::ScreenshotsGallery
 		new Workspace();
 	}
 
-	void DefaultScreenshotsGallery::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultScreenshotsGallery::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		m_Config.OnLoadInstance(instance, managerNode);
 	}
@@ -31,9 +31,9 @@ namespace Kortex::ScreenshotsGallery
 
 namespace Kortex::ScreenshotsGallery
 {
-	void Config::OnLoadInstance(IGameInstance& profile, const KxXMLNode& node)
+	void Config::OnLoadInstance(IGameInstance& profile, const kxf::XMLNode& node)
 	{
-		for (KxXMLNode entryNode = node.GetFirstChildElement("Locations").GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+		for (kxf::XMLNode entryNode = node.GetFirstChildElement("Locations").GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 		{
 			m_Locations.emplace_back(entryNode.GetValue());
 		}

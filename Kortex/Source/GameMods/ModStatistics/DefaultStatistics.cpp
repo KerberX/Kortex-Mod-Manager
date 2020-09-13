@@ -166,7 +166,7 @@ namespace Kortex::ModStatistics
 		return stat.GetIndex() >= (size_t)StatIndex::MIN && stat.GetIndex() < (size_t)StatIndex::MAX;
 	}
 	
-	wxString DefaultStatistics::GetStatName(const StatInfo& stat) const
+	kxf::String DefaultStatistics::GetStatName(const StatInfo& stat) const
 	{
 		switch ((StatIndex)stat.GetIndex())
 		{
@@ -201,7 +201,7 @@ namespace Kortex::ModStatistics
 		};
 		return wxEmptyString;
 	}
-	wxString DefaultStatistics::GetStatValue(const StatInfo& stat) const
+	kxf::String DefaultStatistics::GetStatValue(const StatInfo& stat) const
 	{
 		switch ((StatIndex)stat.GetIndex())
 		{
@@ -211,7 +211,7 @@ namespace Kortex::ModStatistics
 			}
 			default:
 			{
-				return KxString::Format(wxS("%1"), GetStatValueInt(stat));
+				return kxf::String::Format(wxS("%1"), GetStatValueInt(stat));
 			}
 		};
 	}

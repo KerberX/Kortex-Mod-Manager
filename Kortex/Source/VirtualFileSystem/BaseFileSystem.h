@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "VirtualFileSystem/IVFSService.h"
 #include "VirtualFileSystem/IVirtualFileSystem.h"
 #include "IPC/FSController.h"
@@ -27,8 +27,8 @@ namespace Kortex::VirtualFileSystem
 			void Disable() override;
 
 		public:
-			wxString GetMountPoint() const;
-			void SetMountPoint(const wxString& path);
+			kxf::String GetMountPoint() const;
+			void SetMountPoint(const kxf::String& path);
 
 			bool EnableAsyncIO(bool value);
 			bool EnableExtendedSecurity(bool value);

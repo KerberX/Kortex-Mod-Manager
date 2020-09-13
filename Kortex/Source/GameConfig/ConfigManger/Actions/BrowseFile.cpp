@@ -10,10 +10,10 @@ namespace Kortex::GameConfig::Actions
 	{
 		KxFileBrowseDialog dialog(item.GetInvokingTopLevelWindow(), KxID_NONE, KxFBD_OPEN);
 
-		wxString folder = value.As<wxString>().BeforeLast(wxS('\\'));
+		kxf::String folder = value.As<kxf::String>().BeforeLast(wxS('\\'));
 		if (folder.IsEmpty())
 		{
-			folder = value.As<wxString>();
+			folder = value.As<kxf::String>();
 		}
 		dialog.SetFolder(folder);
 

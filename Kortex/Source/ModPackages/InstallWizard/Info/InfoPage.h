@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ModPackages/InstallWizard/WizardPage.h"
 #include "UI/WebView.h"
 #include <KxFramework/KxNotebook.h>
@@ -88,11 +88,11 @@ namespace Kortex::InstallWizard
 			{
 				return WizardPageID::Info;
 			}
-			wxString GetCaption() const override
+			kxf::String GetCaption() const override
 			{
 				return KTr("InstallWizard.Page.Info");
 			}
-			wxString GetOptionName() const override
+			kxf::String GetOptionName() const override
 			{
 				return wxS("Page/Information");
 			}

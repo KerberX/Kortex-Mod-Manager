@@ -1,29 +1,28 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ITranslator.h"
-class KxTranslation;
 
 namespace Kortex
 {
 	class RefTranslator: public ITranslator
 	{
 		private:
-			const KxTranslation& m_TranslationRef;
+			kxf::optional_ptr<kxf::ILocalizationPackage> m_TranslationRef;
 
 		protected:
-			OpString DoGetString(const wxString& id) const override;
-			OpString DoGetString(KxStandardID id) const override;
+			std::optional<kxf::String> DoGetString(const kxf::String& id) const override;
+			std::optional<kxf::String> DoGetString(kxf::StdID id) const override;
 			
 		public:
-			RefTranslator(const KxTranslation& translation)
+			RefTranslator(const kxf::ILocalizationPackage& translation)
 				:m_TranslationRef(translation)
 			{
 			}
 
 		public:
-			const KxTranslation& GetTranslation() const
+			const kxf::ILocalizationPackage& GetTranslation() const
 			{
-				return m_TranslationRef;
+				return *m_TranslationRef;
 			}
 	};
 }

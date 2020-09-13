@@ -36,7 +36,7 @@ namespace Kortex::PackageProject
 	{
 	}
 	
-	const KxVersion& RequirementItem::GetCurrentVersion() const
+	const kxf::Version& RequirementItem::GetCurrentVersion() const
 	{
 		if (!m_CurrentVersionChecked)
 		{
@@ -167,11 +167,11 @@ namespace Kortex::PackageProject
 
 namespace Kortex::PackageProject
 {
-	wxString RequirementGroup::GetFlagNamePrefix()
+	kxf::String RequirementGroup::GetFlagNamePrefix()
 	{
 		return "REQFLAG_";
 	}
-	wxString RequirementGroup::GetFlagName(const wxString& id)
+	kxf::String RequirementGroup::GetFlagName(const kxf::String& id)
 	{
 		return GetFlagNamePrefix() + id;
 	}
@@ -184,7 +184,7 @@ namespace Kortex::PackageProject
 	{
 	}
 	
-	RequirementItem* RequirementGroup::FindItem(const wxString& id) const
+	RequirementItem* RequirementGroup::FindItem(const kxf::String& id) const
 	{
 		auto it = std::find_if(m_Items.cbegin(), m_Items.cend(), [id](const RequirementItem::Vector::value_type& entry)
 		{
@@ -217,7 +217,7 @@ namespace Kortex::PackageProject
 
 namespace Kortex::PackageProject
 {
-	ObjectFunction RequirementsSection::StringToObjectFunction(const wxString& name)
+	ObjectFunction RequirementsSection::StringToObjectFunction(const kxf::String& name)
 	{
 		if (name == ObjFuncConst::NONE_STRING)
 		{
@@ -249,7 +249,7 @@ namespace Kortex::PackageProject
 		}
 		return ms_DefaultObjectFunction;
 	}
-	wxString RequirementsSection::ObjectFunctionToString(ObjectFunction state)
+	kxf::String RequirementsSection::ObjectFunctionToString(ObjectFunction state)
 	{
 		switch (state)
 		{
@@ -285,7 +285,7 @@ namespace Kortex::PackageProject
 		return wxEmptyString;
 	}
 	
-	ReqType RequirementsSection::StringToTypeDescriptor(const wxString& name)
+	ReqType RequirementsSection::StringToTypeDescriptor(const kxf::String& name)
 	{
 		if (name == TypeConst::USER_STRING)
 		{
@@ -301,7 +301,7 @@ namespace Kortex::PackageProject
 		}
 		return ms_DefaultTypeDescriptor;
 	}
-	wxString RequirementsSection::TypeDescriptorToString(ReqType type)
+	kxf::String RequirementsSection::TypeDescriptorToString(ReqType type)
 	{
 		switch (type)
 		{
@@ -321,7 +321,7 @@ namespace Kortex::PackageProject
 		return wxEmptyString;
 	}
 	
-	bool RequirementsSection::CompareVersions(Operator operatorType, const KxVersion& current, const KxVersion& required)
+	bool RequirementsSection::CompareVersions(Operator operatorType, const kxf::Version& current, const kxf::Version& required)
 	{
 		// Always return true when requested to compare against invalid (or unspecified) version.
 		// Or operator is unspecified, which should mean that caller is not interested in this check.
@@ -370,7 +370,7 @@ namespace Kortex::PackageProject
 	{
 	}
 	
-	RequirementGroup* RequirementsSection::FindGroupWithID(const wxString& id) const
+	RequirementGroup* RequirementsSection::FindGroupWithID(const kxf::String& id) const
 	{
 		auto it = std::find_if(m_Groups.cbegin(), m_Groups.cend(), [id](const auto& entry)
 		{
@@ -384,9 +384,9 @@ namespace Kortex::PackageProject
 		return nullptr;
 	}
 	
-	bool RequirementsSection::IsDefaultGroupContains(const wxString& groupID) const
+	bool RequirementsSection::IsDefaultGroupContains(const kxf::String& groupID) const
 	{
-		auto it = std::find_if(m_DefaultGroup.begin(), m_DefaultGroup.end(), [&groupID](const wxString& id)
+		auto it = std::find_if(m_DefaultGroup.begin(), m_DefaultGroup.end(), [&groupID](const kxf::String& id)
 		{
 			return id == groupID;
 		});
@@ -404,7 +404,7 @@ namespace Kortex::PackageProject
 	bool RequirementsSection::CalcOverallStatus(const KxStringVector& groups) const
 	{
 		ConditionChecker checker;
-		for (const wxString& id: groups)
+		for (const kxf::String& id: groups)
 		{
 			RequirementGroup* group = FindGroupWithID(id);
 			if (group)

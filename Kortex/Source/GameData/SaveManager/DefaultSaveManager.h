@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/ISaveManager.h"
 #include "Application/IWorkspace.h"
 #include "Utility/LabeledValue.h"
@@ -11,19 +11,19 @@ namespace Kortex::SaveManager
 	{
 		private:
 			Utility::LabeledValue::Vector m_FileFilters;
-			wxString m_SaveImplementation;
-			wxString m_Location;
+			kxf::String m_SaveImplementation;
+			kxf::String m_Location;
 			Utility::BitmapSize m_BitmapSize;
 
-			wxString m_PrimarySaveExt;
-			wxString m_SecondarySaveExt;
+			kxf::String m_PrimarySaveExt;
+			kxf::String m_SecondarySaveExt;
 
 		public:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node);
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node);
 
 		public:
-			wxString GetSaveImplementation() const;
-			wxString GetLocation() const;
+			kxf::String GetSaveImplementation() const;
+			kxf::String GetLocation() const;
 			Utility::BitmapSize GetBitmapSize() const
 			{
 				return m_BitmapSize;
@@ -42,11 +42,11 @@ namespace Kortex::SaveManager
 			{
 				return !m_SecondarySaveExt.IsEmpty();
 			}
-			const wxString& GetPrimarySaveExtension() const
+			const kxf::String& GetPrimarySaveExtension() const
 			{
 				return m_PrimarySaveExt;
 			}
-			const wxString& GetSecondarySaveExtension() const
+			const kxf::String& GetSecondarySaveExtension() const
 			{
 				return m_SecondarySaveExt;
 			}
@@ -72,7 +72,7 @@ namespace Kortex::SaveManager
 			void OnSavesLocationChanged(BroadcastEvent& event);
 
 		protected:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void OnInit() override;
 			void OnExit() override;
 

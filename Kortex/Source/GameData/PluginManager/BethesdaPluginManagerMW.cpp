@@ -18,7 +18,7 @@ namespace Kortex::PluginManager
 	{
 		BethesdaPluginManager::OnExit();
 	}
-	void BethesdaPluginManagerMW::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void BethesdaPluginManagerMW::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		BethesdaPluginManager::OnLoadInstance(instance, managerNode);
 	}
@@ -32,7 +32,7 @@ namespace Kortex::PluginManager
 
 		// Load all names from 'Game Files Order' section. Discard non-existing files.
 		KxStringVector loadOrder = ini.GetKeyNames("Game Files Order");
-		for (const wxString& name: loadOrder)
+		for (const kxf::String& name: loadOrder)
 		{
 			// Check whether plugin with this name exist
 			auto it = std::find_if(files.begin(), files.end(), [&name](const FileTreeNode* node)
@@ -61,9 +61,9 @@ namespace Kortex::PluginManager
 	void BethesdaPluginManagerMW::ReadActiveMW(const KxINI& ini)
 	{
 		KxStringVector activeOrder = ini.GetKeyNames("Game Files");
-		for (const wxString& nameID: activeOrder)
+		for (const kxf::String& nameID: activeOrder)
 		{
-			wxString name = ini.GetValue("Game Files", nameID);
+			kxf::String name = ini.GetValue("Game Files", nameID);
 			IGamePlugin* entry = FindPluginByName(name);
 			if (entry)
 			{
@@ -82,7 +82,7 @@ namespace Kortex::PluginManager
 		{
 			if (const IGamePlugin* plugin = listItem.GetPlugin())
 			{
-				ini.SetValue("Game Files Order", KxString::Format("GameFile%1", i), OnWriteToLoadOrder(*plugin));
+				ini.SetValue("Game Files Order", kxf::String::Format("GameFile%1", i), OnWriteToLoadOrder(*plugin));
 				i++;
 
 				if (ShouldChangeFileModificationDate())
@@ -101,12 +101,12 @@ namespace Kortex::PluginManager
 		{
 			if (entry->IsActive())
 			{
-				ini.SetValue("Game Files", KxString::Format("GameFile%1", i), OnWriteToActiveOrder(*entry));
+				ini.SetValue("Game Files", kxf::String::Format("GameFile%1", i), OnWriteToActiveOrder(*entry));
 				i++;
 			}
 		}
 	}
-	wxString BethesdaPluginManagerMW::GetMorrowindINI() const
+	kxf::String BethesdaPluginManagerMW::GetMorrowindINI() const
 	{
 		return IGameInstance::GetActiveProfile()->GetConfigDir() + wxS('\\') + m_PluginsListFile;
 	}

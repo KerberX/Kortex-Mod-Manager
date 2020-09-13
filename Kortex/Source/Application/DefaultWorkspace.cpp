@@ -68,13 +68,13 @@ namespace Kortex::Application
 
 				if (windowSizer)
 				{
-					workspaceSizer->Add(windowSizer, 1, wxEXPAND|wxALL, std::min(KLC_HORIZONTAL_SPACING, KLC_VERTICAL_SPACING));
+					workspaceSizer->Add(windowSizer, 1, wxEXPAND|wxALL, std::min(LayoutConstants::HorizontalSpacing, LayoutConstants::VerticalSpacing));
 				}
 				else
 				{
 					for (wxWindow* window: window.GetChildren())
 					{
-						workspaceSizer->Add(window, 1, wxEXPAND|wxALL, std::min(KLC_HORIZONTAL_SPACING, KLC_VERTICAL_SPACING));
+						workspaceSizer->Add(window, 1, wxEXPAND|wxALL, std::min(LayoutConstants::HorizontalSpacing, LayoutConstants::VerticalSpacing));
 					}
 				}
 				

@@ -61,7 +61,7 @@ namespace Kortex::Utility::Log
 	{
 		return wxLog::IsLevelEnabled(ToWxLogLevel(level), wxLOG_COMPONENT);
 	}
-	void LogString(Level level, const wxString& value)
+	void LogString(Level level, const kxf::String& value)
 	{
 		const wxLogLevel logWxLevel = ToWxLogLevel(level);
 		if (wxLog::IsLevelEnabled(logWxLevel, wxLOG_COMPONENT))

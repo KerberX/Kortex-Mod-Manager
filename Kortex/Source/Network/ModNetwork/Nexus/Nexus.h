@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include "NexusUpdateChecker.h"
@@ -19,7 +19,7 @@ namespace Kortex::NetworkManager
 		public KxRTTI::ExtendInterface<NexusModNetwork, IModNetwork>,
 		public KxSingletonPtr<NexusModNetwork>
 	{
-		KxDecalreIID(NexusModNetwork, {0x8da1cedb, 0x3c16, 0x4ca8, {0x8b, 0x4f, 0xf6, 0x4b, 0x19, 0xf, 0xcb, 0xe3}});
+		KxRTTI_DeclareIID(NexusModNetwork, {0x8da1cedb, 0x3c16, 0x4ca8, {0x8b, 0x4f, 0xf6, 0x4b, 0x19, 0xf, 0xcb, 0xe3}});
 
 		friend class NexusAuth;
 		friend class NexusRepository;
@@ -35,28 +35,28 @@ namespace Kortex::NetworkManager
 			void OnAuthenticated();
 
 		protected:
-			wxString GetAPIURL() const;
-			wxString GetAPIKey() const;
-			std::unique_ptr<KxCURLSession> NewCURLSession(const wxString& address, const wxString& apiKey = {}) const;
+			kxf::String GetAPIURL() const;
+			kxf::String GetAPIKey() const;
+			std::unique_ptr<KxCURLSession> NewCURLSession(const kxf::String& address, const kxf::String& apiKey = {}) const;
 
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode) override;
 
 		public:
 			NexusModNetwork();
 
 		public:
-			ResourceID GetIcon() const override;
-			wxString GetName() const override;
+			kxf::ResourceID GetIcon() const override;
+			kxf::String GetName() const override;
 
-			wxString TranslateGameIDToNetwork(const GameID& id = {}) const override;
-			wxString TranslateGameIDToNetwork(const ModRepositoryRequest& request) const
+			kxf::String TranslateGameIDToNetwork(const GameID& id = {}) const override;
+			kxf::String TranslateGameIDToNetwork(const ModRepositoryRequest& request) const
 			{
 				return TranslateGameIDToNetwork(request.GetGameID());
 			}
-			GameID TranslateGameIDFromNetwork(const wxString& id) const override;
-			void ConvertDescriptionText(wxString& description) const override;
+			GameID TranslateGameIDFromNetwork(const kxf::String& id) const override;
+			void ConvertDescriptionText(kxf::String& description) const override;
 
 			KxURI GetModPageBaseURI(const GameID& id = {}) const override;
 			KxURI GetModPageURI(const ModRepositoryRequest& request) const override;

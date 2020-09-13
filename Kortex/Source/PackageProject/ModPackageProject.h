@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ConfigSection.h"
 #include "InfoSection.h"
 #include "FileDataSection.h"
@@ -7,24 +7,24 @@
 #include "RequirementsSection.h"
 #include "ComponentsSection.h"
 #include "Common.h"
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 
 namespace Kortex
 {
 	class ModPackageProject
 	{
 		public:
-			static wxString OperatorToSymbolicName(PackageProject::Operator operatorType);
-			static wxString OperatorToString(PackageProject::Operator operatorType);
-			static PackageProject::Operator StringToOperator(const wxString& name, bool allowNone, PackageProject::Operator default);
+			static kxf::String OperatorToSymbolicName(PackageProject::Operator operatorType);
+			static kxf::String OperatorToString(PackageProject::Operator operatorType);
+			static PackageProject::Operator StringToOperator(const kxf::String& name, bool allowNone, PackageProject::Operator default);
 	
 			static KxStringVector CreateOperatorSymNamesList(const std::initializer_list<PackageProject::Operator>& operators);
 			static KxStringVector CreateOperatorNamesList(const std::initializer_list<PackageProject::Operator>& operators);
 	
 		private:
-			KxVersion m_FormatVersion;
-			wxString m_TargetProfileID;
-			wxString m_ModID;
+			kxf::Version m_FormatVersion;
+			kxf::String m_TargetProfileID;
+			kxf::String m_ModID;
 	
 			// Project parts
 			PackageProject::ConfigSection m_Config;
@@ -39,28 +39,28 @@ namespace Kortex
 			virtual ~ModPackageProject();
 	
 		public:
-			const KxVersion& GetFormatVersion() const
+			const kxf::Version& GetFormatVersion() const
 			{
 				return m_FormatVersion;
 			}
-			void SetFormatVersion(const KxVersion& id)
+			void SetFormatVersion(const kxf::Version& id)
 			{
 				m_FormatVersion = id;
 			}
 			
-			const wxString& GetTargetProfileID() const
+			const kxf::String& GetTargetProfileID() const
 			{
 				return m_TargetProfileID;
 			}
-			void SetTargetProfileID(const wxString& id)
+			void SetTargetProfileID(const kxf::String& id)
 			{
 				m_TargetProfileID = id;
 			}
 			
-			void SetModID(const wxString& id);
-			wxString GetModID() const;
-			wxString GetModName() const;
-			wxString GetSignature() const;
+			void SetModID(const kxf::String& id);
+			kxf::String GetModID() const;
+			kxf::String GetModName() const;
+			kxf::String GetSignature() const;
 	
 			PackageProject::ConfigSection& GetConfig()
 			{

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Item.h"
 #include "Items/CategoryItem.h"
 #include <KxFramework/DataView2/DataView2.h>
@@ -14,13 +14,13 @@ namespace Kortex::GameConfig
 {
 	class DisplayModel: public KxRTTI::ExtendInterface<DisplayModel, KxDataView2::Model>
 	{
-		KxDecalreIID(DisplayModel, {0x4e969610, 0x6494, 0x48c8, {0x96, 0xdb, 0x3a, 0x50, 0x37, 0xb9, 0xc8, 0x54}});
+		KxRTTI_DeclareIID(DisplayModel, {0x4e969610, 0x6494, 0x48c8, {0x96, 0xdb, 0x3a, 0x50, 0x37, 0xb9, 0xc8, 0x54}});
 
 		private:
 			IConfigManager& m_Manager;
 			const ITranslator& m_Translator;
 
-			std::unordered_map<wxString, CategoryItem> m_Categories;
+			std::unordered_map<kxf::String, CategoryItem> m_Categories;
 			bool m_ExpandBranches = false;
 			bool m_DisableColumnsMenu = false;
 

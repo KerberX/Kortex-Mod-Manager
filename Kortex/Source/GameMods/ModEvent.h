@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 
 namespace Kortex
@@ -45,7 +45,7 @@ namespace Kortex
 				:m_ModVector(mods)
 			{
 			}
-			ModEvent(const wxString& id)
+			ModEvent(const kxf::String& id)
 			{
 				wxNotifyEvent::SetString(id);
 			}
@@ -64,7 +64,7 @@ namespace Kortex
 			{
 				return m_Mod;
 			}
-			wxString GetModID() const;
+			kxf::String GetModID() const;
 
 			bool HasModArray() const
 			{

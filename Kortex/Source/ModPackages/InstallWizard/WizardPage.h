@@ -1,6 +1,6 @@
 #pragma once
-#include "stdafx.h"
-#include "Application/Resources/ImageResourceID.h"
+#include <Kortex/Kortex.hpp>
+#include "Application/Resources/Imagekxf::ResourceID.h"
 #include "PackageProject/ModPackageProject.h"
 
 namespace Kortex
@@ -30,12 +30,12 @@ namespace Kortex::InstallWizard
 	class WizardButton
 	{
 		private:
-			wxString m_Label;
+			kxf::String m_Label;
 			bool m_Enabled = true;
 
 		public:
 			WizardButton() = default;
-			WizardButton(const wxString& label, bool isEnabled)
+			WizardButton(const kxf::String& label, bool isEnabled)
 				:m_Label(label), m_Enabled(isEnabled)
 			{
 			}
@@ -45,7 +45,7 @@ namespace Kortex::InstallWizard
 			{
 				return !m_Label.IsEmpty();
 			}
-			const wxString& GetLabel() const
+			const kxf::String& GetLabel() const
 			{
 				return m_Label;
 			}
@@ -117,7 +117,7 @@ namespace Kortex::InstallWizard
 			virtual wxWindow* GetWindow() = 0;
 
 			virtual WizardPageID GetID() const = 0;
-			virtual wxString GetCaption() const = 0;
-			virtual wxString GetOptionName() const = 0;
+			virtual kxf::String GetCaption() const = 0;
+			virtual kxf::String GetOptionName() const = 0;
 	};
 }

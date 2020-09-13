@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "IModNetwork.h"
 #include "ModSourceStore.h"

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 
 namespace Kortex::PackageProject
@@ -7,7 +7,7 @@ namespace Kortex::PackageProject
 	class ConfigSection: public ProjectSection
 	{
 		public:
-			static bool IsCompressionMethodSupported(const wxString& value);
+			static bool IsCompressionMethodSupported(const kxf::String& value);
 	
 		public:
 			static const int ms_MinCompressionLevel = 0;
@@ -17,12 +17,12 @@ namespace Kortex::PackageProject
 			static const int ms_MinDictionarySize = 0;
 			static const int ms_MaxDictionarySize = 10;
 			static const int ms_DefaultDictionarySize = 5;
-			static const wxString ms_DefaultCompressionMethod;
+			static const kxf::String ms_DefaultCompressionMethod;
 	
 		private:
-			wxString m_InstallPackageFile;
+			kxf::String m_InstallPackageFile;
 	
-			wxString m_CompressionMethod = ms_DefaultCompressionMethod;
+			kxf::String m_CompressionMethod = ms_DefaultCompressionMethod;
 			int m_CompressionLevel = ms_DefaultCompressionLevel;
 			int m_CompressionDictionarySize = ms_DefaultDictionarySize;
 			bool m_CompressionUseMultithreading = false;
@@ -33,20 +33,20 @@ namespace Kortex::PackageProject
 			~ConfigSection();
 	
 		public:
-			const wxString& GetInstallPackageFile() const
+			const kxf::String& GetInstallPackageFile() const
 			{
 				return m_InstallPackageFile;
 			}
-			void SetInstallPackageFile(const wxString& value)
+			void SetInstallPackageFile(const kxf::String& value)
 			{
 				m_InstallPackageFile = value;
 			}
 	
-			const wxString& GetCompressionMethod() const
+			const kxf::String& GetCompressionMethod() const
 			{
 				return m_CompressionMethod;
 			}
-			void SetCompressionMethod(const wxString& value);
+			void SetCompressionMethod(const kxf::String& value);
 			
 			int GetCompressionLevel() const
 			{

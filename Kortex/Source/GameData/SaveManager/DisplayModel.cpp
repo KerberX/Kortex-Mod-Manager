@@ -18,7 +18,7 @@ namespace Kortex::SaveManager
 		{
 			case ColumnID::Name:
 			{
-				return KxString::Format(wxS("%1\r\n%2"), save.GetDisplayName(), save.GetFileItem().GetName());
+				return kxf::String::Format(wxS("%1\r\n%2"), save.GetDisplayName(), save.GetFileItem().GetName());
 			}
 		};
 		return VirtualListModel::GetToolTip(node, column);
@@ -31,7 +31,7 @@ namespace Kortex::SaveManager
 		{
 			case ColumnID::Name:
 			{
-				wxString name = save.GetFileItem().GetName().BeforeLast(wxS('.'));
+				kxf::String name = save.GetFileItem().GetName().BeforeLast(wxS('.'));
 				return !name.IsEmpty() ? name : save.GetFileItem().GetName();
 			}
 		};
@@ -45,11 +45,11 @@ namespace Kortex::SaveManager
 		{
 			case ColumnID::Bitmap:
 			{
-				return save.HasThumbBitmap() ? save.GetThumbBitmap() : ImageProvider::GetBitmap(ImageResourceID::CrossWhite);
+				return save.HasThumbBitmap() ? save.GetThumbBitmap() : ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossWhite);
 			}
 			case ColumnID::Name:
 			{
-				return KxString::Format(wxS("%1\r\n<i>%2</i>"), save.GetDisplayName(), save.GetFileItem().GetName());
+				return kxf::String::Format(wxS("%1\r\n<i>%2</i>"), save.GetDisplayName(), save.GetFileItem().GetName());
 			}
 			case ColumnID::ModificationDate:
 			{
@@ -81,8 +81,8 @@ namespace Kortex::SaveManager
 
 					// Set new name
 					infoSecondary.SetName(infoPrimary.GetName().BeforeLast('.') + '.' + savesConfig.GetSecondarySaveExtension());
-					newInfoPrimary.SetName(value.As<wxString>() + '.' + savesConfig.GetPrimarySaveExtension());
-					newInfoSecondary.SetName(value.As<wxString>() + '.' + savesConfig.GetSecondarySaveExtension());
+					newInfoPrimary.SetName(value.As<kxf::String>() + '.' + savesConfig.GetPrimarySaveExtension());
+					newInfoSecondary.SetName(value.As<kxf::String>() + '.' + savesConfig.GetSecondarySaveExtension());
 
 					newInfoPrimary.UpdateInfo();
 					newInfoSecondary.UpdateInfo();
@@ -105,14 +105,14 @@ namespace Kortex::SaveManager
 				{
 					KxFileItem newPrimaryInfo(infoPrimary);
 
-					wxString ext = infoPrimary.GetName().AfterLast(wxS('.'));
+					kxf::String ext = infoPrimary.GetName().AfterLast(wxS('.'));
 					if (ext != infoPrimary.GetName())
 					{
-						newPrimaryInfo.SetName(value.As<wxString>() + wxS('.') + ext);
+						newPrimaryInfo.SetName(value.As<kxf::String>() + wxS('.') + ext);
 					}
 					else
 					{
-						newPrimaryInfo.SetName(value.As<wxString>());
+						newPrimaryInfo.SetName(value.As<kxf::String>());
 					}
 
 					newPrimaryInfo.UpdateInfo();

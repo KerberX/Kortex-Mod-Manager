@@ -16,11 +16,11 @@ namespace
 	using namespace Kortex;
 	using namespace Kortex::IPC;
 
-	wxString GetLogPath()
+	kxf::String GetLogPath()
 	{
 		const auto app = FSController::Application::GetInstance();
 
-		wxString path = app->GetLogFolder() + wxS("\\FileSystemController");
+		kxf::String path = app->GetLogFolder() + wxS("\\FileSystemController");
 		if (KxSystem::Is64Bit())
 		{
 			path += wxS(" x64");
@@ -156,12 +156,12 @@ namespace Kortex::VirtualFileSystem
 				auto [handle] = message.DeserializePayload<IPC::FSHandle>();
 
 				KxVFS::IFileSystem& vfs = GetFileSystemByHandle(handle);
-				message.SerializePayload(ToWxString(vfs.GetMountPoint()));
+				message.SerializePayload(Tokxf::String(vfs.GetMountPoint()));
 				break;
 			}
 			case RequestID::FSSetMountPoint:
 			{
-				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, wxString>();
+				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, kxf::String>();
 
 				KxVFS::IFileSystem& vfs = GetFileSystemByHandle(handle);
 				vfs.SetMountPoint(ToKxDynamicStringRef(path));
@@ -170,7 +170,7 @@ namespace Kortex::VirtualFileSystem
 
 			case RequestID::FSSetWriteTarget:
 			{
-				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, wxString>();
+				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, kxf::String>();
 
 				auto& vfs = GetFileSystemByHandle<KxVFS::ConvergenceFS>(handle);
 				vfs.SetWriteTarget(ToKxDynamicStringRef(path));
@@ -178,7 +178,7 @@ namespace Kortex::VirtualFileSystem
 			}
 			case RequestID::FSSetSource:
 			{
-				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, wxString>();
+				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, kxf::String>();
 
 				auto& vfs = GetFileSystemByHandle<KxVFS::MirrorFS>(handle);
 				vfs.SetSource(ToKxDynamicStringRef(path));
@@ -194,7 +194,7 @@ namespace Kortex::VirtualFileSystem
 			}
 			case RequestID::FSAddVirtualFolder:
 			{
-				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, wxString>();
+				auto [handle, path] = message.DeserializePayload<IPC::FSHandle, kxf::String>();
 
 				auto& vfs = GetFileSystemByHandle<KxVFS::ConvergenceFS>(handle);
 				vfs.AddVirtualFolder(ToKxDynamicStringRef(path));

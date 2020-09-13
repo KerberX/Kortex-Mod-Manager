@@ -32,7 +32,7 @@ namespace Kortex::IPC
 		// Return to caller
 		return sharedBuffer;
 	}
-	KxSharedMemoryBuffer MessageExchanger::DoSendStringMessage(const Message& message, const wxString& value)
+	KxSharedMemoryBuffer MessageExchanger::DoSendStringMessage(const Message& message, const kxf::String& value)
 	{
 		return DoSendMessage(message, value.wc_str(), value.length() * sizeof(wxChar) + sizeof(wxChar));
 	}

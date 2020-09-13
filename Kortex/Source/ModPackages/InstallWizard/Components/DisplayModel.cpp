@@ -124,7 +124,7 @@ namespace Kortex::InstallWizard::ComponentsPageNS
 				{
 					case ColumnRef::Name:
 					{
-						data = wxString::Format("%s (%s)", group->GetName(), GetSelectionModeString(*group));
+						data = kxf::String::Format("%s (%s)", group->GetName(), GetSelectionModeString(*group));
 						break;
 					}
 				};
@@ -267,16 +267,16 @@ namespace Kortex::InstallWizard::ComponentsPageNS
 		{
 			case PackageProject::TypeDescriptor::NotUsable:
 			{
-				return ImageProvider::GetBitmap(ImageResourceID::CrossCircleFrame);
+				return ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossCircleFrame);
 			}
 			case PackageProject::TypeDescriptor::CouldBeUsable:
 			{
-				return ImageProvider::GetBitmap(ImageResourceID::Exclamation);
+				return ImageProvider::GetBitmap(Imagekxf::ResourceID::Exclamation);
 			}
 		};
 		return wxNullBitmap;
 	}
-	wxString DisplayModel::GetMessageTypeDescriptor(PackageProject::TypeDescriptor type) const
+	kxf::String DisplayModel::GetMessageTypeDescriptor(PackageProject::TypeDescriptor type) const
 	{
 		return KTr("PackageCreator.TypeDescriptor." + PackageProject::ComponentsSection::TypeDescriptorToString(type));
 	}
@@ -292,19 +292,19 @@ namespace Kortex::InstallWizard::ComponentsPageNS
 		};
 		return KxDataViewBitmapTextToggleValue::CheckBox;
 	}
-	const wxString& DisplayModel::GetSelectionModeString(const PackageProject::ComponentGroup& group) const
+	const kxf::String& DisplayModel::GetSelectionModeString(const PackageProject::ComponentGroup& group) const
 	{
-		static const wxString ms_Select = KTr("Generic.Select");
-		auto MakeString = [](PackageProject::SelectionMode mode) -> wxString
+		static const kxf::String ms_Select = KTr("Generic.Select");
+		auto MakeString = [](PackageProject::SelectionMode mode) -> kxf::String
 		{
 			return ms_Select + ' ' + KxString::MakeLower(PackageProject::ComponentsSection::SelectionModeToTranslation(mode));
 		};
 
-		static const wxString ms_Any = MakeString(PackageProject::SelectionMode::Any);
-		static const wxString ms_ExactlyOne = MakeString(PackageProject::SelectionMode::ExactlyOne);
-		static const wxString ms_AtLeastOne = MakeString(PackageProject::SelectionMode::AtLeastOne);
-		static const wxString ms_AtMostOne = MakeString(PackageProject::SelectionMode::AtMostOne);
-		static const wxString ms_All = MakeString(PackageProject::SelectionMode::All);
+		static const kxf::String ms_Any = MakeString(PackageProject::SelectionMode::Any);
+		static const kxf::String ms_ExactlyOne = MakeString(PackageProject::SelectionMode::ExactlyOne);
+		static const kxf::String ms_AtLeastOne = MakeString(PackageProject::SelectionMode::AtLeastOne);
+		static const kxf::String ms_AtMostOne = MakeString(PackageProject::SelectionMode::AtMostOne);
+		static const kxf::String ms_All = MakeString(PackageProject::SelectionMode::All);
 
 		switch (group.GetSelectionMode())
 		{

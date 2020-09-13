@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxIndexedEnum.h>
 
 namespace Kortex::GameConfig
@@ -25,7 +25,7 @@ namespace Kortex::GameConfig
 		String = 1 << 11,
 		Struct = 1 << 12,
 	};
-	struct DataTypeDef: public KxIndexedEnum::Definition<DataTypeDef, DataTypeID, wxString, false>
+	struct DataTypeDef: public KxIndexedEnum::Definition<DataTypeDef, DataTypeID, kxf::String, false>
 	{
 		// Serialization is done with lower-cased versions of these identifiers
 		inline static const TItem ms_Index[] =
@@ -67,7 +67,7 @@ namespace Kortex::GameConfig
 		HungarianNotation,
 		DataAnalysis
 	};
-	struct TypeDetectorDef: public KxIndexedEnum::Definition<TypeDetectorDef, TypeDetectorID, wxString, true>
+	struct TypeDetectorDef: public KxIndexedEnum::Definition<TypeDetectorDef, TypeDetectorID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -88,7 +88,7 @@ namespace Kortex::GameConfig
 		XML,
 		Registry,
 	};
-	struct SourceFormatDef: public KxIndexedEnum::Definition<SourceFormatDef, SourceFormat, wxString, true>
+	struct SourceFormatDef: public KxIndexedEnum::Definition<SourceFormatDef, SourceFormat, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -109,7 +109,7 @@ namespace Kortex::GameConfig
 		None,
 		FSPath,
 	};
-	struct SourceTypeDef: public KxIndexedEnum::Definition<SourceTypeDef, SourceType, wxString, true>
+	struct SourceTypeDef: public KxIndexedEnum::Definition<SourceTypeDef, SourceType, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -128,7 +128,7 @@ namespace Kortex::GameConfig
 		Ascending,
 		Descending
 	};
-	struct SortOrderDef: public KxIndexedEnum::Definition<SortOrderDef, SortOrderID, wxString, true>
+	struct SortOrderDef: public KxIndexedEnum::Definition<SortOrderDef, SortOrderID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -148,7 +148,7 @@ namespace Kortex::GameConfig
 		IgnoreCase = 1 << 0,
 		DigitsAsNumbers = 1 << 1,
 	};
-	struct SortOptionsDef: public KxIndexedEnum::Definition<SortOptionsDef, SortOptionsID, wxString, false>
+	struct SortOptionsDef: public KxIndexedEnum::Definition<SortOptionsDef, SortOptionsID, kxf::String, false>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -169,7 +169,7 @@ namespace Kortex::GameConfig
 		Function,
 		ImmediateItems,
 	};
-	struct SamplesSourceDef: public KxIndexedEnum::Definition<SamplesSourceDef, SamplesSourceID, wxString, true>
+	struct SamplesSourceDef: public KxIndexedEnum::Definition<SamplesSourceDef, SamplesSourceID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -192,7 +192,7 @@ namespace Kortex::GameConfig
 		Editable,
 		EditableIfNoSamples
 	};
-	struct EditableBehaviorDef: public KxIndexedEnum::Definition<EditableBehaviorDef, EditableBehaviorID, wxString, true>
+	struct EditableBehaviorDef: public KxIndexedEnum::Definition<EditableBehaviorDef, EditableBehaviorID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{

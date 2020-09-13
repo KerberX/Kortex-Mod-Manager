@@ -120,7 +120,7 @@ namespace Kortex::VirtualGameFolder
 						const IGameMod& currentNodeMod = currentNode.GetMod();
 						if (currentNodeMod.IsActive())
 						{
-							items.push_back(KxString::Format(wxS("%1. %2"), items.size(), currentNodeMod.GetName()));
+							items.push_back(kxf::String::Format(wxS("%1. %2"), items.size(), currentNodeMod.GetName()));
 						}
 					}
 					m_PartOfEditor->SetItems(items);
@@ -152,7 +152,7 @@ namespace Kortex::VirtualGameFolder
 						if (!bitmap.IsOk())
 						{
 							// Couldn't get bitmap from system, use our own
-							bitmap = ImageProvider::GetBitmap(node->IsDirectory() ? ImageResourceID::Folder : ImageResourceID::Document);
+							bitmap = ImageProvider::GetBitmap(node->IsDirectory() ? Imagekxf::ResourceID::Folder : Imagekxf::ResourceID::Document);
 						}
 						m_IconCache.insert_or_assign(node, bitmap);
 
@@ -165,7 +165,7 @@ namespace Kortex::VirtualGameFolder
 					KxDataViewBitmapTextValue data(mod.GetName());
 					if (node->HasAlternativesFromActiveMods())
 					{
-						data.SetBitmap(ImageProvider::GetBitmap(node->IsDirectory() ? ImageResourceID::ExclamationCircleFrameEmpty : ImageResourceID::Exclamation));
+						data.SetBitmap(ImageProvider::GetBitmap(node->IsDirectory() ? Imagekxf::ResourceID::ExclamationCircleFrameEmpty : Imagekxf::ResourceID::Exclamation));
 					}
 					value = data;
 					break;
@@ -336,7 +336,7 @@ namespace Kortex::VirtualGameFolder
 		ItemsCleared();
 	}
 
-	bool DisplayModel::SetSearchMask(const wxString& mask)
+	bool DisplayModel::SetSearchMask(const kxf::String& mask)
 	{
 		return Utility::UI::SetSearchMask(m_SearchMask, mask);
 	}

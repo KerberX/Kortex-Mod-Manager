@@ -6,12 +6,12 @@
 
 namespace Kortex
 {
-	wxString IWorkspaceDocument::GetSaveConfirmationCaption() const
+	kxf::String IWorkspaceDocument::GetSaveConfirmationCaption() const
 	{
 		const IWorkspace* workspace = QueryInterface<IWorkspace>();
-		return wxString::Format(wxS("%s - %s"), workspace->GetName(), KxString::ToLower(KTr("Controller.SaveChanges.Caption")));
+		return kxf::String::Format(wxS("%s - %s"), workspace->GetName(), KxString::ToLower(KTr("Controller.SaveChanges.Caption")));
 	}
-	wxString IWorkspaceDocument::GetSaveConfirmationMessage() const
+	kxf::String IWorkspaceDocument::GetSaveConfirmationMessage() const
 	{
 		return KTr("Controller.SaveChanges.Message");
 	}

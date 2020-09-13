@@ -7,7 +7,7 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo NetworkModuleTypeInfo("Network", "NetworkModule.Name", "1.0", ImageResourceID::ModNetwork_Unknown);
+		const SimpleModuleInfo NetworkModuleTypeInfo("Network", "NetworkModule.Name", "1.0", Imagekxf::ResourceID::ModNetwork_Unknown);
 	}
 
 	void NetworkModule::OnInit()
@@ -17,7 +17,7 @@ namespace Kortex
 	void NetworkModule::OnExit()
 	{
 	}
-	void NetworkModule::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void NetworkModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		m_NetworkManager = std::make_unique<NetworkManager::DefaultNetworkManager>();
 		m_DownloadManager = CreateManagerIfEnabled<DownloadManager::DefaultDownloadManager>(node);

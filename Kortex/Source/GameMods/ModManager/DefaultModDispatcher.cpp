@@ -22,19 +22,19 @@ namespace
 
 	struct FinderHashComparator
 	{
-		bool operator()(const wxString& lhs, const wxString& rhs) const
+		bool operator()(const kxf::String& lhs, const kxf::String& rhs) const
 		{
 			return KxComparator::IsEqual(lhs, rhs, true);
 		}
 	};
 	struct FinderHashHasher
 	{
-		size_t operator()(const wxString& value) const
+		size_t operator()(const kxf::String& value) const
 		{
 			return FileTreeNode::HashFileName(value);
 		}
 	};
-	using FinderHash = std::unordered_map<wxString, size_t, FinderHashHasher, FinderHashComparator>;
+	using FinderHash = std::unordered_map<kxf::String, size_t, FinderHashHasher, FinderHashComparator>;
 
 	void FindFilesInTree(FileTreeNode::CRefVector& nodes, const FileTreeNode& rootNode, const IModDispatcher::FilterFunctor& filter, bool recurse)
 	{
@@ -75,7 +75,7 @@ namespace
 	{
 		std::unordered_map<size_t, size_t> hash;
 		hash.reserve(mods.size());
-		const wxString rootPath = rootNode ? rootNode->GetRelativePath() : wxEmptyString;
+		const kxf::String rootPath = rootNode ? rootNode->GetRelativePath() : wxEmptyString;
 
 		// Iterate manually, without using 'IterateOverModsEx'
 		for (auto it = mods.rbegin(); it != mods.rend(); ++it)
@@ -135,7 +135,7 @@ namespace
 
 namespace Kortex::ModManager
 {
-	wxString KDispatcherCollision::GetLocalizedCollisionName(KMMDispatcherCollisionType type)
+	kxf::String KDispatcherCollision::GetLocalizedCollisionName(KMMDispatcherCollisionType type)
 	{
 		switch (type)
 		{
@@ -253,13 +253,13 @@ namespace Kortex::ModManager
 		return m_VirtualTree;
 	}
 
-	const FileTreeNode* DefaultModDispatcher::ResolveLocation(const wxString& relativePath) const
+	const FileTreeNode* DefaultModDispatcher::ResolveLocation(const kxf::String& relativePath) const
 	{
 		OnAccessVirtualTree();
 
 		return FileTreeNode::NavigateToAny(m_VirtualTree, relativePath);
 	}
-	wxString DefaultModDispatcher::ResolveLocationPath(const wxString& relativePath, const IGameMod** owningMod) const
+	kxf::String DefaultModDispatcher::ResolveLocationPath(const kxf::String& relativePath, const IGameMod** owningMod) const
 	{
 		// This is an absolute path, return it as is.
 		if (relativePath.Length() >= 2 && relativePath[1] == wxT(':'))
@@ -278,7 +278,7 @@ namespace Kortex::ModManager
 		KxUtility::SetIfNotNull(owningMod, nullptr);
 		return IModManager::GetInstance()->GetWriteTarget().GetModFilesDir() + wxS('\\') + relativePath;
 	}
-	const FileTreeNode* DefaultModDispatcher::BackTrackFullPath(const wxString& fullPath) const
+	const FileTreeNode* DefaultModDispatcher::BackTrackFullPath(const kxf::String& fullPath) const
 	{
 		OnAccessVirtualTree();
 
@@ -288,7 +288,7 @@ namespace Kortex::ModManager
 		});
 	}
 
-	FileTreeNode::CRefVector DefaultModDispatcher::Find(const wxString& relativePath, const FilterFunctor& filter, bool recurse) const
+	FileTreeNode::CRefVector DefaultModDispatcher::Find(const kxf::String& relativePath, const FilterFunctor& filter, bool recurse) const
 	{
 		OnAccessVirtualTree();
 
@@ -319,7 +319,7 @@ namespace Kortex::ModManager
 		return nodes;
 	}
 
-	KDispatcherCollision::Vector DefaultModDispatcher::FindCollisions(const IGameMod& scannedMod, const wxString& relativePath) const
+	KDispatcherCollision::Vector DefaultModDispatcher::FindCollisions(const IGameMod& scannedMod, const kxf::String& relativePath) const
 	{
 		OnAccessVirtualTree();
 

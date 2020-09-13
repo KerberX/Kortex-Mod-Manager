@@ -5,9 +5,9 @@
 
 namespace Kortex::PackageProject
 {
-	const wxString ConfigSection::ms_DefaultCompressionMethod = "LZMA2";
+	const kxf::String ConfigSection::ms_DefaultCompressionMethod = "LZMA2";
 	
-	bool ConfigSection::IsCompressionMethodSupported(const wxString& value)
+	bool ConfigSection::IsCompressionMethodSupported(const kxf::String& value)
 	{
 		return value == "LZMA" || value == "LZMA2" || value == "BZip2" || value == "PPMd";
 	}
@@ -20,7 +20,7 @@ namespace Kortex::PackageProject
 	{
 	}
 	
-	void ConfigSection::SetCompressionMethod(const wxString& value)
+	void ConfigSection::SetCompressionMethod(const kxf::String& value)
 	{
 		if (IsCompressionMethodSupported(value))
 		{

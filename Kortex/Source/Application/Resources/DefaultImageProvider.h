@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IImageProvider.h"
 #include "Application/IApplication.h"
 
@@ -17,8 +17,8 @@ namespace Kortex::Application
 			};
 
 		private:
-			KxImageList m_ImageList;
-			KxImageSet m_ImageSet;
+			kxf::ImageList m_ImageList;
+			kxf::ImageSet m_ImageSet;
 
 		protected:
 			template<class TImageID, class TImage>
@@ -31,7 +31,7 @@ namespace Kortex::Application
 			template<class TImageID>
 			void LoadItem(TImageID id, const wxChar* name, Type type = Type::Default)
 			{
-				wxBitmap img(KxString::Format(wxS("%1\\UI\\%2.%3"),
+				wxBitmap img(kxf::String::Format(wxS("%1\\UI\\%2.%3"),
 							 IApplication::GetInstance()->GetDataFolder(),
 							 name,
 							 type == Type::Default ? wxS("png") : wxS("ico")),
@@ -51,11 +51,11 @@ namespace Kortex::Application
 			DefaultImageProvider();
 
 		public:
-			const KxImageList& GetImageList() const override
+			const kxf::ImageList& GetImageList() const override
 			{
 				return m_ImageList;
 			}
-			const KxImageSet& GetImageSet() const override
+			const kxf::ImageSet& GetImageSet() const override
 			{
 				return m_ImageSet;
 			}

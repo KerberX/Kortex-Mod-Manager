@@ -8,8 +8,8 @@ namespace Kortex::GameConfig::SamplingFunction
 	{
 		for (const auto&[fullName, path]: IApplication::GetInstance()->GetAvailableTranslations())
 		{
-			wxString component;
-			wxString locale = fullName.BeforeFirst(wxS('.'), &component);
+			kxf::String component;
+			kxf::String locale = fullName.BeforeFirst(wxS('.'), &component);
 			if (component == wxS("Application"))
 			{
 				m_Values.emplace_back(locale).SetLabel(KxTranslation::GetLanguageFullName(locale));

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include "DisplayModel.h"
 #include <KxFramework/KxSingleton.h>
@@ -34,11 +34,11 @@ namespace Kortex::GameConfig
 			~Workspace();
 
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			ResourceID GetIcon() const override
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::GearPencil;
+				return Imagekxf::ResourceID::GearPencil;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

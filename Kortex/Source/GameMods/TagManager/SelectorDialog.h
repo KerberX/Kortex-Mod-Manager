@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "SelectorDisplayModel.h"
 #include <KxFramework/KxStdDialog.h>
 class KxButton;
@@ -26,7 +26,7 @@ namespace Kortex::ModTagManager
 			void OnLoadDefaultTags(wxCommandEvent& event);
 
 		public:
-			SelectorDialog(wxWindow* parent, const wxString& caption);
+			SelectorDialog(wxWindow* parent, const kxf::String& caption);
 			virtual ~SelectorDialog();
 	};
 }

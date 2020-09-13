@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IWorkspaceDocument.h"
 #include "PackageProject/ModPackageProject.h"
 
@@ -20,17 +20,17 @@ namespace Kortex::PackageDesigner
 	class WorkspaceDocument: public IWorkspaceDocument
 	{
 		public:
-			static wxString GetNewProjectName();
+			static kxf::String GetNewProjectName();
 
 		private:
 			Workspace& m_Workspace;
 			std::unique_ptr<ModPackageProject> m_Project = nullptr;
-			wxString m_ProjectFile;
+			kxf::String m_ProjectFile;
 			bool m_HasChanges = false;
 
 		protected:
-			wxString GetSaveConfirmationCaption() const override;
-			wxString GetSaveConfirmationMessage() const override;
+			kxf::String GetSaveConfirmationCaption() const override;
+			kxf::String GetSaveConfirmationMessage() const override;
 
 		public:
 			WorkspaceDocument(Workspace& workspace)
@@ -43,12 +43,12 @@ namespace Kortex::PackageDesigner
 			{
 				return m_Project.get();
 			}
-			const wxString& GetProjectFilePath() const
+			const kxf::String& GetProjectFilePath() const
 			{
 				return m_ProjectFile;
 			}
-			wxString GetProjectFileName() const;
-			wxString GetProjectName() const;
+			kxf::String GetProjectFileName() const;
+			kxf::String GetProjectName() const;
 			bool HasProjectFilePath() const
 			{
 				return !m_ProjectFile.IsEmpty();
@@ -63,10 +63,10 @@ namespace Kortex::PackageDesigner
 			void DiscardChanges() override;
 
 			void NewProject();
-			void OpenProject(const wxString& filePath);
+			void OpenProject(const kxf::String& filePath);
 			void SaveProject();
-			void SaveProject(const wxString& filePath);
-			void ImportProjectFromPackage(const wxString& packagePath);
+			void SaveProject(const kxf::String& filePath);
+			void ImportProjectFromPackage(const kxf::String& packagePath);
 			void CreateProjectFromModEntry(const IGameMod& modEntry);
 			void ImportProject(PackageProject::Serializer& serializer);
 			void ExportProject(PackageProject::Serializer& serializer);

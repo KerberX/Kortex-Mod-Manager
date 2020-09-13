@@ -19,7 +19,7 @@
 
 namespace Kortex::NetworkManager
 {
-	void NexusUpdateChecker::OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode)
+	void NexusUpdateChecker::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode)
 	{
 		// Default interval is 15 minutes, minimum is 5 minutes
 		constexpr int defaultInterval = 15;
@@ -60,7 +60,7 @@ namespace Kortex::NetworkManager
 		};
 
 		// Get updates for last day/week/month (only one, no check for updates for last three months are supported).
-		auto connection = m_Nexus.NewCURLSession(KxString::Format(wxS("%1/games/%2/mods/updated?period=1%3"),
+		auto connection = m_Nexus.NewCURLSession(kxf::String::Format(wxS("%1/games/%2/mods/updated?period=1%3"),
 												 m_Nexus.GetAPIURL(),
 												 m_Nexus.TranslateGameIDToNetwork(),
 												 ModActivityToString(interval))
@@ -121,24 +121,24 @@ namespace Kortex::NetworkManager
 		m_UpdateCheckInProgress = false;
 	}
 
-	wxString NexusUpdateChecker::GetUpdateInfoFile() const
+	kxf::String NexusUpdateChecker::GetUpdateInfoFile() const
 	{
-		return m_Nexus.GetLocationInCache(KxString::Format(wxS("UpdateInfo-%1.xml"), Utility::MakeSafeFileName(m_Nexus.TranslateGameIDToNetwork())));
+		return m_Nexus.GetLocationInCache(kxf::String::Format(wxS("UpdateInfo-%1.xml"), Utility::MakeSafeFileName(m_Nexus.TranslateGameIDToNetwork())));
 	}
 	bool NexusUpdateChecker::SaveUpdateInfo()
 	{
 		KxFileStream stream(GetUpdateInfoFile(), KxFileStream::Access::Write, KxFileStream::Disposition::CreateAlways);
 		if (stream.IsOk())
 		{
-			KxXMLDocument xml;
-			KxXMLNode rootNode = xml.NewElement(wxS("UpdateInfo"));
+			kxf::XMLDocument xml;
+			kxf::XMLNode rootNode = xml.NewElement(wxS("UpdateInfo"));
 
 			const IModManager* modManager = IModManager::GetInstance();
 			for (auto& [modInfo, updateInfo]: m_UpdateInfo)
 			{
 				if (modInfo.HasModID())
 				{
-					KxXMLNode node = rootNode.NewElement(wxS("Entry"));
+					kxf::XMLNode node = rootNode.NewElement(wxS("Entry"));
 
 					// Required mod info
 					node.SetAttribute(wxS("ModID"), modInfo.GetModID().GetValue());
@@ -164,13 +164,13 @@ namespace Kortex::NetworkManager
 	bool NexusUpdateChecker::LoadUpdateInfo()
 	{
 		KxFileStream stream(GetUpdateInfoFile(), KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting);
-		if (KxXMLDocument xml; stream.IsOk() && xml.Load(stream))
+		if (kxf::XMLDocument xml; stream.IsOk() && xml.Load(stream))
 		{
 			m_LastCheckDate = KxFile(stream.GetFileName()).GetFileTime(KxFILETIME_MODIFICATION);
 			m_UpdateInfo.clear();
 
-			KxXMLNode rootNode = xml.GetFirstChildElement(wxS("UpdateInfo"));
-			for (KxXMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			kxf::XMLNode rootNode = xml.GetFirstChildElement(wxS("UpdateInfo"));
+			for (kxf::XMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				ModID modID = node.GetAttributeInt(wxS("ModID"), ModID::GetInvalidValue());
 				ModFileID fileID = node.GetAttributeInt(wxS("FileID"), ModFileID::GetInvalidValue());

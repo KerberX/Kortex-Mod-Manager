@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Programs/IProgramItem.h"
 #include "Programs/IProgramManager.h"
 #include <KxFramework/KxStdDialog.h>
@@ -30,7 +30,7 @@ namespace Kortex::ProgramManager
 			
 			void CreateUI(wxWindow* parent);
 			void SetupValues();
-			wxString BrowseForLocation(const wxString& path, bool isDirectory);
+			kxf::String BrowseForLocation(const kxf::String& path, bool isDirectory);
 
 		public:
 			ProgramEditorDialog(wxWindow* parent)

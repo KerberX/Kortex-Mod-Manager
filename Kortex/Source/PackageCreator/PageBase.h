@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include "Workspace.h"
 #include "Utility/LabeledValue.h"
@@ -18,7 +18,7 @@ namespace Kortex::PackageDesigner
 	class PageBase: public Application::DefaultWindowWorkspace<KxPanel>
 	{
 		public:
-			static const int ms_LeftMargin = KLC_HORIZONTAL_SPACING * 4;
+			static const int ms_LeftMargin = LayoutConstants::HorizontalSpacing * 4;
 
 		protected:
 			Workspace* m_MainWorkspace = nullptr;
@@ -36,16 +36,16 @@ namespace Kortex::PackageDesigner
 			PageBase(Workspace& mainWorkspace, WorkspaceDocument& controller);
 
 		public:
-			ResourceID GetIcon() const override
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Box;
+				return Imagekxf::ResourceID::Box;
 			}
-			wxString GetName() const override;
+			kxf::String GetName() const override;
 			IWorkspaceContainer* GetPreferredContainer() const override
 			{
 				return m_MainWorkspace->QueryInterface<IWorkspaceContainer>();
 			}
-			virtual wxString GetPageName() const = 0;
+			virtual kxf::String GetPageName() const = 0;
 
 			Workspace* GetMainWorkspace() const
 			{
@@ -53,9 +53,9 @@ namespace Kortex::PackageDesigner
 			}
 			KxTextBox* CreateInputField(wxWindow* window);
 
-			static KxLabel* CreateCaptionLabel(wxWindow* window, const wxString& label);
-			static KxLabel* CreateNormalLabel(wxWindow* window, const wxString& label, bool addColon = true, bool addLine = false);
-			template<class T> static T* AddControlsRow(wxSizer* sizer, const wxString& labelText, T* control, int controlProportion = 1, KxLabel** labelOut = nullptr)
+			static KxLabel* CreateCaptionLabel(wxWindow* window, const kxf::String& label);
+			static KxLabel* CreateNormalLabel(wxWindow* window, const kxf::String& label, bool addColon = true, bool addLine = false);
+			template<class T> static T* AddControlsRow(wxSizer* sizer, const kxf::String& labelText, T* control, int controlProportion = 1, KxLabel** labelOut = nullptr)
 			{
 				KxLabel* label = CreateNormalLabel(control->GetParent(), labelText);
 				if (labelOut)
@@ -76,7 +76,7 @@ namespace Kortex::PackageDesigner
 				}
 				return control;
 			}
-			template<class T> static T* AddControlsRow2(wxWindow* window, wxSizer* sizer, const wxString& label, T* object, int objectProportion = 1, bool addSpacer = true)
+			template<class T> static T* AddControlsRow2(wxWindow* window, wxSizer* sizer, const kxf::String& label, T* object, int objectProportion = 1, bool addSpacer = true)
 			{
 				wxBoxSizer* labelSizer = new wxBoxSizer(wxVERTICAL);
 				labelSizer->Add(CreateNormalLabel(window, label), 0, wxEXPAND);
@@ -91,7 +91,7 @@ namespace Kortex::PackageDesigner
 			}
 			static KxAuiToolBar* CreateListToolBar(wxWindow* window, bool isVertical = false, bool showText = false);
 		
-			static void ShowTooltipWarning(wxWindow* window, const wxString& message, const wxRect& rect = KxNullWxRect);
+			static void ShowTooltipWarning(wxWindow* window, const kxf::String& message, const wxRect& rect = KxNullWxRect);
 			static void WarnIDCollision(wxWindow* window, const wxRect& rect = KxNullWxRect);
 	};
 }

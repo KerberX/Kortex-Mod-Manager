@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/Options/Macros.h"
 
 namespace Kortex::Application::OName

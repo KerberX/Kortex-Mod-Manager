@@ -21,12 +21,12 @@ namespace Kortex::PluginManager
 	{
 		BasePluginManager::OnExit();
 	}
-	void BethesdaPluginManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void BethesdaPluginManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		BasePluginManager::OnLoadInstance(instance, managerNode);
 
 		// Load LOOT API config
-		KxXMLNode lootAPINode = managerNode.GetFirstChildElement("LibLoot");
+		kxf::XMLNode lootAPINode = managerNode.GetFirstChildElement("LibLoot");
 		m_LibLootConfig.OnLoadInstance(instance, lootAPINode);
 		if (m_LibLootConfig.IsOK())
 		{
@@ -55,9 +55,9 @@ namespace Kortex::PluginManager
 			return file1.GetModificationTime() < file2.GetModificationTime();
 		});
 	}
-	bool BethesdaPluginManager::CheckExtension(const wxString& name) const
+	bool BethesdaPluginManager::CheckExtension(const kxf::String& name) const
 	{
-		const wxString ext = name.AfterLast(wxS('.'));
+		const kxf::String ext = name.AfterLast(wxS('.'));
 		return KxComparator::IsEqual(ext, wxS("esp")) || KxComparator::IsEqual(ext, wxS("esm"));
 	}
 
@@ -74,7 +74,7 @@ namespace Kortex::PluginManager
 				if (currentPlugin->QueryInterface(bethesdaPlugin))
 				{
 					KxStringVector dependenciesList = bethesdaPlugin->GetRequiredPlugins();
-					auto it = std::find_if(dependenciesList.begin(), dependenciesList.end(), [&plugin](const wxString& depName)
+					auto it = std::find_if(dependenciesList.begin(), dependenciesList.end(), [&plugin](const kxf::String& depName)
 					{
 						return KxComparator::IsEqual(plugin.GetName(), depName);
 					});
@@ -101,11 +101,11 @@ namespace Kortex::PluginManager
 		return CollectDependentPlugins(plugin, false);
 	}
 
-	wxString BethesdaPluginManager::OnWriteToLoadOrder(const IGamePlugin& plugin) const
+	kxf::String BethesdaPluginManager::OnWriteToLoadOrder(const IGamePlugin& plugin) const
 	{
 		return plugin.GetName();
 	}
-	wxString BethesdaPluginManager::OnWriteToActiveOrder(const IGamePlugin& plugin) const
+	kxf::String BethesdaPluginManager::OnWriteToActiveOrder(const IGamePlugin& plugin) const
 	{
 		return plugin.IsActive() ? plugin.GetName() : wxEmptyString;
 	}
@@ -123,7 +123,7 @@ namespace Kortex::PluginManager
 		}, false);
 
 		// Load from 'LoadOrder.txt'
-		for (const wxString& name: KxTextFile::ReadToArray(KVarExp(m_OrderListFile)))
+		for (const kxf::String& name: KxTextFile::ReadToArray(KVarExp(m_OrderListFile)))
 		{
 			// Find whether plugin with this name exist
 			auto it = std::find_if(files.begin(), files.end(), [&name](const FileTreeNode* node)
@@ -168,7 +168,7 @@ namespace Kortex::PluginManager
 	{
 		// Load names from 'Plugins.txt' it they are not already added.
 		// Activate all new added and existing items with same name.
-		for (const wxString& name: KxTextFile::ReadToArray(KVarExp(m_ActiveListFile)))
+		for (const kxf::String& name: KxTextFile::ReadToArray(KVarExp(m_ActiveListFile)))
 		{
 			if (IGamePlugin* plugin = FindPluginByName(name))
 			{
@@ -215,11 +215,11 @@ namespace Kortex::PluginManager
 		}
 
 		// Save files
-		const wxString orderListFile = KVarExp(m_OrderListFile);
+		const kxf::String orderListFile = KVarExp(m_OrderListFile);
 		KxFile(orderListFile.BeforeLast('\\')).CreateFolder();
 		KxTextFile::WriteToFile(orderListFile, loadOrder, wxTextFileType_Dos);
 
-		const wxString activeListFile = KVarExp(m_ActiveListFile);
+		const kxf::String activeListFile = KVarExp(m_ActiveListFile);
 		KxFile(activeListFile.BeforeLast('\\')).CreateFolder();
 		KxTextFile::WriteToFile(activeListFile, activeOrder, wxTextFileType_Dos);
 	}
@@ -232,7 +232,7 @@ namespace Kortex::PluginManager
 	{
 	}
 
-	std::unique_ptr<IGamePlugin> BethesdaPluginManager::CreatePlugin(const wxString& fullPath, bool isActive)
+	std::unique_ptr<IGamePlugin> BethesdaPluginManager::CreatePlugin(const kxf::String& fullPath, bool isActive)
 	{
 		auto plugin = std::make_unique<BethesdaPlugin>(fullPath);
 		plugin->SetActive(isActive);
@@ -243,7 +243,7 @@ namespace Kortex::PluginManager
 		using namespace PluginManager;
 		using namespace PluginManager::Internal;
 
-		const wxString& name = m_Config.GetPluginImplementation();
+		const kxf::String& name = m_Config.GetPluginImplementation();
 		if (name == PluginImplementation::BethesdaMorrowind)
 		{
 			return std::make_unique<PluginManager::BethesdaPluginReaderMorrowind>();
@@ -268,7 +268,7 @@ namespace Kortex::PluginManager
 		return std::make_unique<BethesdaDisplayModel>();
 	}
 
-	wxString BethesdaPluginManager::GetPluginTypeName(const IGamePlugin& plugin) const
+	kxf::String BethesdaPluginManager::GetPluginTypeName(const IGamePlugin& plugin) const
 	{
 		const IBethesdaGamePlugin* bethesdaPlugin = nullptr;
 		if (plugin.QueryInterface(bethesdaPlugin))
@@ -277,7 +277,7 @@ namespace Kortex::PluginManager
 		}
 		return GetPluginTypeName(false, false);
 	}
-	wxString BethesdaPluginManager::GetPluginTypeName(bool isMaster, bool isLight) const
+	kxf::String BethesdaPluginManager::GetPluginTypeName(bool isMaster, bool isLight) const
 	{
 		if (isMaster && isLight)
 		{
@@ -372,7 +372,7 @@ namespace Kortex::PluginManager
 
 namespace Kortex::PluginManager
 {
-	void LootAPIConfig::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void LootAPIConfig::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		#if _WIN64
 		m_Librray.Load(IApplication::GetInstance()->GetDataFolder() + "\\PluginManager\\LibLoot x64\\loot.dll");
@@ -391,19 +391,19 @@ namespace Kortex::PluginManager
 		return m_Librray.IsOK() && !m_Branch.IsEmpty() && !m_Repository.IsEmpty() && !m_FolderName.IsEmpty() && !m_LocalGamePath.IsEmpty();
 	}
 
-	wxString LootAPIConfig::GetBranch() const
+	kxf::String LootAPIConfig::GetBranch() const
 	{
 		return KVarExp(m_Branch);
 	}
-	wxString LootAPIConfig::GetRepository() const
+	kxf::String LootAPIConfig::GetRepository() const
 	{
 		return KVarExp(m_Repository);
 	}
-	wxString LootAPIConfig::GetFolderName() const
+	kxf::String LootAPIConfig::GetFolderName() const
 	{
 		return KVarExp(m_FolderName);
 	}
-	wxString LootAPIConfig::GetLocalGamePath() const
+	kxf::String LootAPIConfig::GetLocalGamePath() const
 	{
 		return KVarExp(m_LocalGamePath);
 	}

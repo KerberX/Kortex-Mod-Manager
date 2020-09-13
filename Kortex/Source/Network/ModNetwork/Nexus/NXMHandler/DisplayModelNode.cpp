@@ -36,7 +36,7 @@ namespace Kortex::NetworkManager::NXMHandler
 				{
 					if (!value->Arguments.IsEmpty())
 					{
-						return KxString::Format(wxS("\"%1\" %2"), value->Executable, value->Arguments);
+						return kxf::String::Format(wxS("\"%1\" %2"), value->Executable, value->Arguments);
 					}
 					return value->Executable;
 				}
@@ -106,7 +106,7 @@ namespace Kortex::NetworkManager::NXMHandler
 
 	bool DisplayModelNode::Compare(const KxDataView2::Node& other, const KxDataView2::Column& column) const
 	{
-		return KxComparator::IsLess(GetValue(column).As<wxString>(), other.GetValue(column).As<wxString>());
+		return KxComparator::IsLess(GetValue(column).As<kxf::String>(), other.GetValue(column).As<kxf::String>());
 	}
 	bool DisplayModelNode::IsEnabled(const KxDataView2::Column& column) const
 	{
@@ -154,7 +154,7 @@ namespace Kortex::NetworkManager::NXMHandler
 			if (event.GetId() == KxID_OK)
 			{
 				const IApplication* app = IApplication::GetInstance();
-				if (wxString path = dialog.GetValue1(); path != app->GetExecutablePath())
+				if (kxf::String path = dialog.GetValue1(); path != app->GetExecutablePath())
 				{
 					OptionStore::Command command;
 					command.Executable = path;

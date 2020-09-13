@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include "Network/NetworkModInfo.h"
@@ -14,7 +14,7 @@ namespace Kortex
 		friend class ModSourceStore;
 
 		private:
-			using TID = std::variant<wxString, IModNetwork*>;
+			using TID = std::variant<kxf::String, IModNetwork*>;
 			using TData = std::variant<KxURI, NetworkModInfo>;
 
 		private:
@@ -24,11 +24,11 @@ namespace Kortex
 		public:
 			ModSourceItem() = default;
 
-			ModSourceItem(const wxString& name, const KxURI& uri)
+			ModSourceItem(const kxf::String& name, const KxURI& uri)
 				:m_ID(name), m_Data(uri)
 			{
 			}
-			ModSourceItem(const wxString& name, NetworkModInfo id)
+			ModSourceItem(const kxf::String& name, NetworkModInfo id)
 				:m_ID(name), m_Data(id)
 			{
 			}
@@ -47,8 +47,8 @@ namespace Kortex
 			bool IsEmptyValue() const;
 			
 			// Serialization
-			void Load(const KxXMLNode& node);
-			void Save(KxXMLNode& node) const;
+			void Load(const kxf::XMLNode& node);
+			void Save(kxf::XMLNode& node) const;
 
 			// Mod network instance
 			IModNetwork* GetModNetwork() const;
@@ -71,9 +71,9 @@ namespace Kortex
 			}
 
 			// Name
-			wxString GetName() const;
-			void SetName(const wxString& name);
-			bool TryGetName(wxString& name) const
+			kxf::String GetName() const;
+			void SetName(const kxf::String& name);
+			bool TryGetName(kxf::String& name) const
 			{
 				name = GetName();
 				return !name.IsEmpty();

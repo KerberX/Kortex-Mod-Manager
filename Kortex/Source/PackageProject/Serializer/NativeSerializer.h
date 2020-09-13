@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageProject/Serializer.h"
 #include <KxFramework/KxXML.h>
 
@@ -16,8 +16,8 @@ namespace Kortex::PackageProject
 			const bool m_AsProject = false;
 			ModPackageProject* m_ProjectLoad = nullptr;
 			const ModPackageProject* m_ProjectSave = nullptr;
-			wxString m_Data;
-			KxXMLDocument m_XML;
+			kxf::String m_Data;
+			kxf::XMLDocument m_XML;
 			
 		private:
 			void ReadBase();
@@ -28,13 +28,13 @@ namespace Kortex::PackageProject
 			void ReadRequirements();
 			void ReadComponents();
 			
-			KxXMLNode WriteBase();
-			void WriteConfig(KxXMLNode& baseNode);
-			void WriteInfo(KxXMLNode& baseNode);
-			void WriteInterface(KxXMLNode& baseNode);
-			void WriteFiles(KxXMLNode& baseNode);
-			void WriteRequirements(KxXMLNode& baseNode);
-			void WriteComponents(KxXMLNode& baseNode);
+			kxf::XMLNode WriteBase();
+			void WriteConfig(kxf::XMLNode& baseNode);
+			void WriteInfo(kxf::XMLNode& baseNode);
+			void WriteInterface(kxf::XMLNode& baseNode);
+			void WriteFiles(kxf::XMLNode& baseNode);
+			void WriteRequirements(kxf::XMLNode& baseNode);
+			void WriteComponents(kxf::XMLNode& baseNode);
 	
 		public:
 			NativeSerializer(bool asProject = false)
@@ -47,11 +47,11 @@ namespace Kortex::PackageProject
 			void Serialize(const ModPackageProject& project) override;
 			void Structurize(ModPackageProject& project) override;
 			
-			const wxString& GetData() const
+			const kxf::String& GetData() const
 			{
 				return m_Data;
 			}
-			void SetData(const wxString& sData)
+			void SetData(const kxf::String& sData)
 			{
 				m_Data = sData;
 			}

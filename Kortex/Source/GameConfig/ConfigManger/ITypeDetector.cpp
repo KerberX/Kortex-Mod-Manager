@@ -3,9 +3,9 @@
 
 namespace Kortex::GameConfig
 {
-	HungarianNotationTypeDetector::HungarianNotationTypeDetector(const KxXMLNode& rootNode)
+	HungarianNotationTypeDetector::HungarianNotationTypeDetector(const kxf::XMLNode& rootNode)
 	{
-		for (KxXMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			auto[it, inserted] = m_TypeMap.insert_or_assign(node.GetAttribute(wxS("Prefix")), TypeID(node.GetAttribute(wxS("Type"))));
 			if (it->second.IsNone())
@@ -15,7 +15,7 @@ namespace Kortex::GameConfig
 		}
 	}
 
-	TypeID HungarianNotationTypeDetector::GetType(const wxString& valueName, const wxString& valueData) const
+	TypeID HungarianNotationTypeDetector::GetType(const kxf::String& valueName, const kxf::String& valueData) const
 	{
 		if (!valueName.IsEmpty())
 		{
@@ -33,7 +33,7 @@ namespace Kortex::GameConfig
 
 namespace Kortex::GameConfig
 {
-	TypeID DataAnalysisTypeDetector::GetType(const wxString& valueName, const wxString& valueData) const
+	TypeID DataAnalysisTypeDetector::GetType(const kxf::String& valueName, const kxf::String& valueData) const
 	{
 		if (!valueData.IsEmpty())
 		{
@@ -45,7 +45,7 @@ namespace Kortex::GameConfig
 
 			// Test for floats
 			double value = 0;
-			if (valueData.find(wxS('.')) != wxString::npos && valueData.ToCDouble(&value))
+			if (valueData.find(wxS('.')) != kxf::String::npos && valueData.ToCDouble(&value))
 			{
 				if (value >= (double)std::numeric_limits<float>::max() || value <= (double)std::numeric_limits<float>::lowest())
 				{

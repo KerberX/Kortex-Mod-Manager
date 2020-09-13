@@ -11,7 +11,7 @@ namespace Kortex::ModManager
 	{
 		if (event.GetId() == KxID_OK)
 		{
-			wxString name = GetValue();
+			kxf::String name = GetValue();
 			if (!name.IsEmpty())
 			{
 				const IGameMod* existingMod = IModManager::GetInstance()->FindModByID(name);
@@ -97,7 +97,7 @@ namespace Kortex::ModManager
 		UpdateLabelText();
 	}
 
-	wxString NewModFromFolderDialog::GetMethodString(bool bLink) const
+	kxf::String NewModFromFolderDialog::GetMethodString(bool bLink) const
 	{
 		if (bLink)
 		{
@@ -116,7 +116,7 @@ namespace Kortex::ModManager
 		}
 		else
 		{
-			SetLabel(wxString::Format("%s\r\n%s: %s", GetMethodString(), KTr("ModManager.NewMod.SelectedFolder"), m_FolderPath));
+			SetLabel(kxf::String::Format("%s\r\n%s: %s", GetMethodString(), KTr("ModManager.NewMod.SelectedFolder"), m_FolderPath));
 		}
 	}
 
@@ -129,7 +129,7 @@ namespace Kortex::ModManager
 
 		// Method checkbox
 		m_AsLinkedModCB = new wxCheckBox(GetContentWindow(), KxID_NONE, KTr("ModManager.NewMod.CreateAsLinkedMod"));
-		GetContentWindowSizer()->Add(m_AsLinkedModCB, 1, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+		GetContentWindowSizer()->Add(m_AsLinkedModCB, 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 
 		Bind(KxEVT_STDDIALOG_BUTTON, &NewModFromFolderDialog::OnSelectFolder, this);
 		m_AsLinkedModCB->Bind(wxEVT_CHECKBOX, &NewModFromFolderDialog::OnChangeMethod, this);

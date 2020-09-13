@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/Options/Macros.h"
 
 namespace Kortex::CmdLineName
@@ -13,13 +13,13 @@ namespace Kortex
 {
 	struct CmdLine
 	{
-		wxString Executable;
-		wxString Arguments;
+		kxf::String Executable;
+		kxf::String Arguments;
 	};
 	struct CmdLineParameters
 	{
-		wxString InstanceID;
-		wxString DownloadLink;
-		wxString GlobalConfigPath;
+		kxf::String InstanceID;
+		kxf::String DownloadLink;
+		kxf::String GlobalConfigPath;
 	};
 }

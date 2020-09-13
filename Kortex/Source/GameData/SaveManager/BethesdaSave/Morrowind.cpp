@@ -24,7 +24,7 @@ namespace Kortex::SaveManager::BethesdaSave
 				stream.Skip<uint32_t>();
 
 				// Read plugins list
-				wxString nextRecordName = stream.ReadStringASCII(4);
+				kxf::String nextRecordName = stream.ReadStringASCII(4);
 				while (nextRecordName == wxS("MAST"))
 				{
 					m_PluginsList.push_back(stream.ReadStringACP(stream.ReadObject<uint32_t>()));

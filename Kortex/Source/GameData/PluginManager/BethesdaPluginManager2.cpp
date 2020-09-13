@@ -15,14 +15,14 @@ namespace Kortex::PluginManager
 	{
 		BethesdaPluginManager::OnExit();
 	}
-	void BethesdaPluginManager2::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void BethesdaPluginManager2::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		BethesdaPluginManager::OnLoadInstance(instance, managerNode);
 	}
 
-	bool BethesdaPluginManager2::CheckExtension(const wxString& name) const
+	bool BethesdaPluginManager2::CheckExtension(const kxf::String& name) const
 	{
-		const wxString ext = name.AfterLast(wxS('.'));
+		const kxf::String ext = name.AfterLast(wxS('.'));
 		return KxComparator::IsEqual(ext, wxS("esp")) || KxComparator::IsEqual(ext, wxS("esm")) || KxComparator::IsEqual(ext, wxS("esl"));
 	}
 	
@@ -35,7 +35,7 @@ namespace Kortex::PluginManager
 		}, false);
 
 		// Load names from 'Plugins.txt'. Activate those with '*' in front fo the file name.
-		for (wxString& name: KxTextFile::ReadToArray(KVarExp(m_ActiveListFile)))
+		for (kxf::String& name: KxTextFile::ReadToArray(KVarExp(m_ActiveListFile)))
 		{
 			// Find whether plugin with this name exist
 			auto it = std::find_if(files.begin(), files.end(), [&name](const FileTreeNode* node)
@@ -70,11 +70,11 @@ namespace Kortex::PluginManager
 		BethesdaPluginManager::SaveNativeOrderBG();
 	}
 
-	wxString BethesdaPluginManager2::OnWriteToLoadOrder(const IGamePlugin& plugin) const
+	kxf::String BethesdaPluginManager2::OnWriteToLoadOrder(const IGamePlugin& plugin) const
 	{
 		return plugin.GetName();
 	}
-	wxString BethesdaPluginManager2::OnWriteToActiveOrder(const IGamePlugin& plugin) const
+	kxf::String BethesdaPluginManager2::OnWriteToActiveOrder(const IGamePlugin& plugin) const
 	{
 		return plugin.IsActive() ? wxS('*') + plugin.GetName() : plugin.GetName();
 	}
@@ -114,7 +114,7 @@ namespace Kortex::PluginManager
 	{
 	}
 
-	std::unique_ptr<IGamePlugin> BethesdaPluginManager2::CreatePlugin(const wxString& fullPath, bool isActive)
+	std::unique_ptr<IGamePlugin> BethesdaPluginManager2::CreatePlugin(const kxf::String& fullPath, bool isActive)
 	{
 		auto plugin = std::make_unique<BethesdaPlugin2>(fullPath);
 		plugin->SetActive(isActive);

@@ -4,7 +4,7 @@
 
 namespace Kortex
 {
-	wxString ModEvent::GetModID() const
+	kxf::String ModEvent::GetModID() const
 	{
 		return m_Mod ? m_Mod->GetID() : wxNotifyEvent::GetString();
 	}

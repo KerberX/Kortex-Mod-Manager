@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxStdDialog.h>
 class KxTextBox;
 
@@ -23,9 +23,9 @@ namespace Kortex::PackageDesigner
 			KxTextBox* m_ProjectFolderInput = nullptr;
 			bool m_IsExport = false;
 
-			wxString m_InfoFile;
-			wxString m_ModuleConfigFile;
-			wxString m_ProjectFolder;
+			kxf::String m_InfoFile;
+			kxf::String m_ModuleConfigFile;
+			kxf::String m_ProjectFolder;
 
 		private:
 			wxWindow* GetDialogMainCtrl() const override
@@ -41,15 +41,15 @@ namespace Kortex::PackageDesigner
 			~FOModImportExportDialog();
 
 		public:
-			const wxString& GetInfoFile() const
+			const kxf::String& GetInfoFile() const
 			{
 				return m_InfoFile;
 			}
-			const wxString& GetModuleConfigFile() const
+			const kxf::String& GetModuleConfigFile() const
 			{
 				return m_ModuleConfigFile;
 			}
-			const wxString& GetProjectFolder() const
+			const kxf::String& GetProjectFolder() const
 			{
 				return m_ProjectFolder;
 			}

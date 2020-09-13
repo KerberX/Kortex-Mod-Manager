@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxHTMLWindow.h>
 #include <KxFramework/KxCallAtScopeExit.h>
 #include "IWebView.h"
@@ -13,7 +13,7 @@ namespace Kortex::UI::WebViewBackend
 
 		private:
 			void OnLinkClicked(wxHtmlLinkEvent& event);
-			bool SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const wxString& url = {}, const wxString& target = {});
+			bool SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const kxf::String& url = {}, const kxf::String& target = {});
 
 		public:
 			Generic(wxWindow* parent, wxEvtHandler& evthandler, long style = 0);
@@ -47,8 +47,8 @@ namespace Kortex::UI::WebViewBackend
 			{
 				KxHTMLWindow::SetPage(wxEmptyString);
 			}
-			bool LoadText(const wxString& text) override;
-			bool LoadHTML(const wxString& html) override
+			bool LoadText(const kxf::String& text) override;
+			bool LoadHTML(const kxf::String& html) override
 			{
 				KxCallAtScopeExit atExit([this]()
 				{
@@ -56,7 +56,7 @@ namespace Kortex::UI::WebViewBackend
 				});
 				return KxHTMLWindow::SetPage(html);
 			}
-			bool LoadURL(const wxString& url) override
+			bool LoadURL(const kxf::String& url) override
 			{
 				KxCallAtScopeExit atExit([this, &url]()
 				{

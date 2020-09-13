@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IPluginManager.h"
 
 namespace Kortex::PluginManager
@@ -18,7 +18,7 @@ namespace Kortex::PluginManager
 
 			virtual void OnInit() override;
 			virtual void OnExit() override;
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 
 		public:
 			const PluginManager::Config& GetConfig() const override
@@ -39,7 +39,7 @@ namespace Kortex::PluginManager
 			bool MovePlugins(const IGamePlugin::RefVector& entriesToMove, const IGamePlugin& anchor, MoveMode moveMode = MoveMode::After) override;
 			void SyncWithPluginsList(const KxStringVector& pluginNamesList, SyncListMode mode = SyncListMode::ActivateAll) override;
 			KxStringVector GetPluginsList(bool activeOnly = false) const override;
-			IGamePlugin* FindPluginByName(const wxString& name) const override;
+			IGamePlugin* FindPluginByName(const kxf::String& name) const override;
 
 			bool CheckSortingTool(const PluginManager::SortingToolItem& toolItem) override;
 			void RunSortingTool(const PluginManager::SortingToolItem& toolItem) override;

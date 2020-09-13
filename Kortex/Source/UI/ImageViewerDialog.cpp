@@ -40,11 +40,11 @@ namespace Kortex::UI
 	{
 		return GetType() == FilePath;
 	}
-	wxString ImageViewerEvent::GetFilePath() const
+	kxf::String ImageViewerEvent::GetFilePath() const
 	{
-		return HasFilePath() ? std::get<FilePath>(m_Data) : KxNullWxString;
+		return HasFilePath() ? std::get<FilePath>(m_Data) : KxNullkxf::String;
 	}
-	void ImageViewerEvent::SetFilePath(const wxString& filePath)
+	void ImageViewerEvent::SetFilePath(const kxf::String& filePath)
 	{
 		m_Data = filePath;
 	}
@@ -82,7 +82,7 @@ namespace Kortex::UI
 		return KxStdDialog::OnDynamicBind(entry);
 	}
 
-	void ImageViewerDialog::OnLoadFromDisk(const wxString& filePath)
+	void ImageViewerDialog::OnLoadFromDisk(const kxf::String& filePath)
 	{
 		if (IScreenshotsGallery::IsAnimationFile(filePath))
 		{
@@ -115,13 +115,13 @@ namespace Kortex::UI
 			m_Backward->SetEnabled(event.HasPrev());
 			m_Forward->SetEnabled(event.HasNext());
 
-			wxString description = event.GetDescription();
+			kxf::String description = event.GetDescription();
 			if (!description.IsEmpty())
 			{
 				m_Splitter->Unsplit(m_ImageView);
 				m_Splitter->Unsplit(m_Description);
 
-				m_Description->SetValue(wxString::Format(wxS("<div align=\"center\">%s</div>"), description));
+				m_Description->SetValue(kxf::String::Format(wxS("<div align=\"center\">%s</div>"), description));
 				m_Description->Enable(true);
 
 				int nMinHeight = m_Splitter->GetMinimumPaneSize();
@@ -163,9 +163,9 @@ namespace Kortex::UI
 		KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
 		const KxStringVector& exts = Kortex::IScreenshotsGallery::GetSupportedExtensions();
 		const ScreenshotsGallery::SupportedTypesVector& formats = IScreenshotsGallery::GetSupportedFormats();
-		for (const wxString& ext: exts)
+		for (const kxf::String& ext: exts)
 		{
-			dialog.AddFilter(ext, wxString::Format("%s %s", KTr("FileFilter.Image"), ext.AfterFirst('.').MakeUpper()));
+			dialog.AddFilter(ext, kxf::String::Format("%s %s", KTr("FileFilter.Image"), ext.AfterFirst('.').MakeUpper()));
 		}
 		dialog.SetDefaultExtension(exts[0]);
 		dialog.SetFileName(m_FilePath.AfterLast('\\').BeforeLast('.'));
@@ -189,7 +189,7 @@ namespace Kortex::UI
 		m_ImageView->Refresh();
 	}
 
-	ImageViewerDialog::ImageViewerDialog(wxWindow* parent, const wxString& caption)
+	ImageViewerDialog::ImageViewerDialog(wxWindow* parent, const kxf::String& caption)
 	{
 		if (Create(parent, caption))
 		{
@@ -207,7 +207,7 @@ namespace Kortex::UI
 		options.SetAttribute(OName::ColorFG, (int64_t)m_ImageView->GetForegroundColour().GetPixel());
 	}
 
-	bool ImageViewerDialog::Create(wxWindow* parent, const wxString& caption)
+	bool ImageViewerDialog::Create(wxWindow* parent, const kxf::String& caption)
 	{
 		if (KxStdDialog::Create(parent, KxID_NONE, Utility::String::StrOr(caption, KTr("ImageViewer.Caption")), wxDefaultPosition, wxDefaultSize, KxBTN_CLOSE))
 		{
@@ -274,7 +274,7 @@ namespace Kortex::UI
 			m_ToolBar->AddControl(m_ColorBGCtrl);
 
 			// Backward
-			m_Backward = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_BACKWARD), ImageResourceID::ControlLeft);
+			m_Backward = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_BACKWARD), Imagekxf::ResourceID::ControlLeft);
 
 			// Scale
 			m_ScaleSlider = new KxSlider(m_ToolBar, KxID_NONE, 100, 10, 500);
@@ -282,7 +282,7 @@ namespace Kortex::UI
 			m_ToolBar->AddControl(m_ScaleSlider);
 
 			// Forward
-			m_Forward = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_FORWARD), ImageResourceID::ControlRight);
+			m_Forward = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_FORWARD), Imagekxf::ResourceID::ControlRight);
 
 			// FG color
 			m_ColorFGCtrl = new wxColourPickerCtrl(m_ToolBar, KxID_NONE, m_ImageView->GetForegroundColour());

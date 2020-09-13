@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISamplingFunction.h"
 
 namespace Kortex::GameConfig

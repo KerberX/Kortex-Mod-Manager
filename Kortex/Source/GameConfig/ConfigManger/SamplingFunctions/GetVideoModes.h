@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISamplingFunction.h"
 
 namespace Kortex
@@ -25,7 +25,7 @@ namespace Kortex::GameConfig::SamplingFunction
 			IConfigManager& m_Manager;
 
 		protected:
-			void DoCall(Component component, const wxString& format = {});
+			void DoCall(Component component, const kxf::String& format = {});
 			void OnCall(const ItemValue::Vector& arguments) override;
 			
 		public:

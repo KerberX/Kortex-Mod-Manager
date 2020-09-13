@@ -43,13 +43,13 @@ namespace Kortex::ModStatistics
 		return false;
 	}
 
-	wxString DisplayModel::GetStatName(size_t index) const
+	kxf::String DisplayModel::GetStatName(size_t index) const
 	{
 		return m_Stats->GetStatName(index);
 	}
-	const wxString& DisplayModel::GetStatValue(size_t index) const
+	const kxf::String& DisplayModel::GetStatValue(size_t index) const
 	{
-		return index < m_DataVector.size() ? m_DataVector[index] : KxNullWxString;
+		return index < m_DataVector.size() ? m_DataVector[index] : KxNullkxf::String;
 	}
 
 	DisplayModel::DisplayModel():m_Stats(IModStatistics::GetInstance())

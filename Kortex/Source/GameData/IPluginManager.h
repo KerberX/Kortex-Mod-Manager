@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PluginManager/Common.h"
 #include "IGamePlugin.h"
 #include "Application/IManager.h"
@@ -53,7 +53,7 @@ namespace Kortex
 		public KxRTTI::ExtendInterface<IPluginManager, ManagerWithTypeInfo<IManager, PluginManager::Internal::TypeInfo>>,
 		public KxSingletonPtr<IPluginManager>
 	{
-		KxDecalreIID(IPluginManager, {0x2afbf097, 0x2a6d, 0x42e0, {0x8e, 0xe7, 0x37, 0x39, 0x6, 0xf3, 0x28, 0x11}});
+		KxRTTI_DeclareIID(IPluginManager, {0x2afbf097, 0x2a6d, 0x42e0, {0x8e, 0xe7, 0x37, 0x39, 0x6, 0xf3, 0x28, 0x11}});
 
 		friend class IGamePlugin;
 
@@ -83,8 +83,8 @@ namespace Kortex
 
 			virtual std::unique_ptr<PluginManager::IPluginReader> CreatePluginReader() = 0;
 			virtual std::unique_ptr<PluginManager::IDisplayModel> CreateDisplayModel() = 0;
-			virtual wxString GetPluginsLocation() const = 0;
-			virtual wxString GetPluginTypeName(const IGamePlugin& plugin) const = 0;
+			virtual kxf::String GetPluginsLocation() const = 0;
+			virtual kxf::String GetPluginTypeName(const IGamePlugin& plugin) const = 0;
 			virtual const IGameMod* FindOwningMod(const IGamePlugin& pluginEntry) const = 0;
 
 			bool HasPlugins() const
@@ -106,8 +106,8 @@ namespace Kortex
 			virtual bool MovePlugins(const IGamePlugin::RefVector& entriesToMove, const IGamePlugin& anchor, MoveMode moveMode = MoveMode::After) = 0;
 			virtual void SyncWithPluginsList(const KxStringVector& pluginNamesList, SyncListMode mode = SyncListMode::ActivateAll) = 0;
 			virtual KxStringVector GetPluginsList(bool activeOnly = false) const = 0;
-			virtual IGamePlugin* FindPluginByName(const wxString& name) const = 0;
-			bool IsPluginActive(const wxString& pluginName) const;
+			virtual IGamePlugin* FindPluginByName(const kxf::String& name) const = 0;
+			bool IsPluginActive(const kxf::String& pluginName) const;
 			void SetAllPluginsActive(bool isActive);
 
 			virtual bool CheckSortingTool(const PluginManager::SortingToolItem& toolItem) = 0;

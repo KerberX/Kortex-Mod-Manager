@@ -8,11 +8,11 @@ namespace Kortex::NetworkManager
 	{
 	}
 
-	ResourceID TESALLModNetwork::GetIcon() const
+	kxf::ResourceID TESALLModNetwork::GetIcon() const
 	{
-		return ImageResourceID::ModNetwork_TESALL;
+		return Imagekxf::ResourceID::ModNetwork_TESALL;
 	}
-	wxString TESALLModNetwork::GetName() const
+	kxf::String TESALLModNetwork::GetName() const
 	{
 		return wxS("TESALL.RU");
 	}
@@ -23,6 +23,6 @@ namespace Kortex::NetworkManager
 	}
 	KxURI TESALLModNetwork::GetModPageURI(const ModRepositoryRequest& request) const
 	{
-		return GetIPBModPageURI(request.GetModID(), request.GetExtraInfo<wxString>());
+		return GetIPBModPageURI(request.GetModID(), request.GetExtraInfo<kxf::String>());
 	}
 }

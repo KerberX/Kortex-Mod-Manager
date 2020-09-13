@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/IDownloadManager.h"
 #include "DownloadItem.h"
 #include "DisplayModelNode.h"

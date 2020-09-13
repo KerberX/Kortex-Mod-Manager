@@ -4,7 +4,7 @@
 
 namespace Kortex
 {
-	wxString VariableValue::Expand() const
+	kxf::String VariableValue::Expand() const
 	{
 		return IApplication::GetInstance()->ExpandVariables(m_Value);
 	}

@@ -1,18 +1,17 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IMainWindow.h"
 #include "IWorkspace.h"
 #include "BookWorkspaceContainer.h"
 #include "Utility/LabeledValue.h"
-#include <KxFramework/KxFrame.h>
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxListView.h>
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxProgressBar.h>
-#include <KxFramework/KxStatusBarEx.h>
-#include <KxFramework/KxSimplebook.h>
-#include <KxFramework/KxColor.h>
+#include <kxf/UI/Windows/Frame.h>
+#include <kxf/UI/Windows/Panel.h>
+#include <kxf/UI/Windows/SplitterWindow.h>
+#include <kxf/UI/Controls/ImageView.h>
+#include <kxf/UI/Controls/ProgressBar.h>
+#include <kxf/UI/Controls/StatusBarEx.h>
+#include <kxf/UI/Controls/Simplebook.h>
+#include <kxf/UI/Menus/Menu.h>
 
 namespace Kortex
 {
@@ -29,7 +28,7 @@ namespace Kortex::Application
 
 		private:
 			MainWindow& m_MainWindow;
-			KxSimplebook* m_BookCtrl = nullptr;
+			kxf::UI::Simplebook* m_BookCtrl = nullptr;
 
 		private:
 			void Create();
@@ -54,7 +53,7 @@ namespace Kortex::Application
 
 namespace Kortex::Application
 {
-	class MainWindow: public KxFrame, public IMainWindow
+	class MainWindow: public kxf::UI::Frame, public IMainWindow
 	{
 		friend class MainWindowWorkspaceContainer;
 
@@ -65,7 +64,7 @@ namespace Kortex::Application
 			BroadcastReciever m_BroadcastReciever;
 			MainWindowWorkspaceContainer m_WorkspaceContainer;
 			Utility::LabeledValue::Vector m_Locations;
-			KxMenu m_WorkspacesMenu;
+			kxf::UI::Menu m_WorkspacesMenu;
 
 			wxBoxSizer* m_MainSizer = nullptr;
 			wxBoxSizer* m_ToolBarSizer = nullptr;
@@ -134,7 +133,7 @@ namespace Kortex::Application
 			}
 
 			void ClearStatus(int index = 0) override;
-			void SetStatus(const wxString& label, int index = 0, const ResourceID& image = {}) override;
+			void SetStatus(const kxf::String& label, int index = 0, const kxf::ResourceID& image = {}) override;
 			void SetStatusProgress(int current) override;
 			void SetStatusProgress(int64_t current, int64_t total) override;
 

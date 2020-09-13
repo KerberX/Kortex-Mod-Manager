@@ -48,27 +48,27 @@ namespace
 {
 	SevenZip::Library g_ArchiveLibrary;
 
-	SevenZip::TString ToTString(const wxString& value)
+	SevenZip::TString ToTString(const kxf::String& value)
 	{
 		return SevenZip::TString(value.wc_str(), value.length());
 	}
-	SevenZip::TStringView ToTStringView(const wxString& value)
+	SevenZip::TStringView ToTStringView(const kxf::String& value)
 	{
 		return SevenZip::TStringView(value.wc_str(), value.length());
 	}
 
-	wxString ToWxString(const SevenZip::TString& value)
+	kxf::String Tokxf::String(const SevenZip::TString& value)
 	{
-		return wxString(value.data(), value.length());
+		return kxf::String(value.data(), value.length());
 	}
-	wxString ToWxString(const SevenZip::TStringView& value)
+	kxf::String Tokxf::String(const SevenZip::TStringView& value)
 	{
-		return wxString(value.data(), value.length());
+		return kxf::String(value.data(), value.length());
 	}
 
 	SevenZip::TStringVector ToTStringVector(const KxStringVector& vector)
 	{
-		return KxUtility::ConvertVector<SevenZip::TString>(vector, [](const wxString& value)
+		return KxUtility::ConvertVector<SevenZip::TString>(vector, [](const kxf::String& value)
 		{
 			return ToTString(value);
 		});
@@ -107,7 +107,7 @@ namespace
 		KxFileItem item;
 		item.SetExtraData(fileIndex);
 
-		wxString fullPath = ToWxString(archiveItem.FileName);
+		kxf::String fullPath = Tokxf::String(archiveItem.FileName);
 		fullPath.Replace(wxS('/'), wxS('\\'), true);
 		item.SetFullPath(fullPath);
 
@@ -140,15 +140,15 @@ namespace
 	{
 		static constexpr size_t InvalidIndex = std::numeric_limits<size_t>::max();
 
-		wxString m_SearchQuery;
+		kxf::String m_SearchQuery;
 		size_t m_NextIndex = InvalidIndex;
 
-		SearchData(const wxString& filter, size_t index = InvalidIndex)
+		SearchData(const kxf::String& filter, size_t index = InvalidIndex)
 			:m_SearchQuery(filter), m_NextIndex(index)
 		{
 		}
 	};
-	bool SearchFiles(const SevenZip::Archive& archive, const wxString& filter, KxFileItem& item, size_t startAt, size_t& nextIndex)
+	bool SearchFiles(const SevenZip::Archive& archive, const kxf::String& filter, KxFileItem& item, size_t startAt, size_t& nextIndex)
 	{
 		const size_t itemCount = archive.GetItemCount();
 		for (size_t fileIndex = startAt; fileIndex < itemCount; fileIndex++)
@@ -338,7 +338,7 @@ namespace SevenZip
 		private:
 			wxEvtHandler& m_EvtHandler;
 
-			wxString m_CurrentStatus;
+			kxf::String m_CurrentStatus;
 			int64_t m_BytesTotal = 0;
 			int64_t m_BytesCompleted = 0;
 			bool m_ShouldCancel = false;
@@ -496,7 +496,7 @@ namespace SevenZip
 					{
 						if (KxFileItem fileItem = m_ArchiveItems.GetItem(index))
 						{
-							wxString path = fileItem.GetFullPath();
+							kxf::String path = fileItem.GetFullPath();
 							m_Notifier.OnStart(ToTStringView(path), fileItem.GetFileSize());
 						}
 						else
@@ -537,9 +537,9 @@ namespace SevenZip
 
 namespace Kortex
 {
-	wxString GenericArchive::GetLibraryPath()
+	kxf::String GenericArchive::GetLibraryPath()
 	{
-		wxString path = IApplication::GetInstance()->GetDataFolder();
+		kxf::String path = IApplication::GetInstance()->GetDataFolder();
 		#if defined _WIN64
 		path += wxS("\\7z x64.dll");
 		#else
@@ -547,7 +547,7 @@ namespace Kortex
 		#endif
 		return path;
 	}
-	wxString GenericArchive::GetLibraryVersion()
+	kxf::String GenericArchive::GetLibraryVersion()
 	{
 		return KxLibrary::GetVersionInfoFromFile(GetLibraryPath()).GetString("ProductVersion");
 	}
@@ -571,7 +571,7 @@ namespace Kortex
 		return false;
 	}
 
-	void GenericArchive::OpenArchive(const wxString& filePath)
+	void GenericArchive::OpenArchive(const kxf::String& filePath)
 	{
 		CloseArchive();
 
@@ -602,7 +602,7 @@ namespace Kortex
 	}
 
 	GenericArchive::GenericArchive() = default;
-	GenericArchive::GenericArchive(const wxString& filePath)
+	GenericArchive::GenericArchive(const kxf::String& filePath)
 	{
 		OpenArchive(filePath);
 	}
@@ -620,7 +620,7 @@ namespace Kortex
 	{
 		return m_Archive && m_Archive->IsLoaded();
 	}
-	bool GenericArchive::Open(const wxString& filePath)
+	bool GenericArchive::Open(const kxf::String& filePath)
 	{
 		OpenArchive(filePath);
 		return IsOK();
@@ -629,9 +629,9 @@ namespace Kortex
 	{
 		CloseArchive();
 	}
-	wxString GenericArchive::GetFilePath() const
+	kxf::String GenericArchive::GetFilePath() const
 	{
-		return ToWxString(m_Archive->GetProperty_FilePath());
+		return Tokxf::String(m_Archive->GetProperty_FilePath());
 	}
 
 	int64_t GenericArchive::GetOriginalSize() const
@@ -666,12 +666,12 @@ namespace Kortex
 	}
 
 	// IArchiveSearch
-	void* GenericArchive::FindFirstFile(const wxString& filter, KxFileItem& fileItem) const
+	void* GenericArchive::FindFirstFile(const kxf::String& filter, KxFileItem& fileItem) const
 	{
 		fileItem = {};
 		size_t nextIndex = SearchData::InvalidIndex;
 		
-		wxString filterCopy = filter;
+		kxf::String filterCopy = filter;
 		filterCopy.Replace(wxS('/'), wxS('\\'), true);
 		if (SearchFiles(*m_Archive, filterCopy, fileItem, 0, nextIndex))
 		{
@@ -713,12 +713,12 @@ namespace Kortex
 	}
 
 	// IArchiveCompression
-	bool GenericArchive::CompressDirectory(const wxString& directory, bool recursive)
+	bool GenericArchive::CompressDirectory(const kxf::String& directory, bool recursive)
 	{
 		return m_Archive->CompressDirectory(ToTString(directory), recursive);
 	}
 	
-	bool GenericArchive::CompressFiles(const wxString& directory, const wxString& searchFilter, bool recursive)
+	bool GenericArchive::CompressFiles(const kxf::String& directory, const kxf::String& searchFilter, bool recursive)
 	{
 		return m_Archive->CompressFiles(ToTString(directory), ToTString(searchFilter), recursive);
 	}
@@ -727,17 +727,17 @@ namespace Kortex
 		return m_Archive->CompressSpecifiedFiles(ToTStringVector(sourcePaths), ToTStringVector(archivePaths));
 	}
 	
-	bool GenericArchive::CompressFile(const wxString& sourcePath)
+	bool GenericArchive::CompressFile(const kxf::String& sourcePath)
 	{
 		return m_Archive->CompressFile(ToTString(sourcePath));
 	}
-	bool GenericArchive::CompressFile(const wxString& sourcePath, const wxString& archivePath)
+	bool GenericArchive::CompressFile(const kxf::String& sourcePath, const kxf::String& archivePath)
 	{
 		return m_Archive->CompressFile(ToTString(sourcePath), ToTString(archivePath));
 	}
 
 	// IArchiveProperties
-	std::optional<bool> GenericArchive::GetPropertyBool(wxStringView property) const
+	std::optional<bool> GenericArchive::GetPropertyBool(kxf::StringView property) const
 	{
 		using namespace KxArchive;
 
@@ -753,7 +753,7 @@ namespace Kortex
 
 		return std::nullopt;
 	}
-	bool GenericArchive::SetPropertyBool(wxStringView property, bool value)
+	bool GenericArchive::SetPropertyBool(kxf::StringView property, bool value)
 	{
 		using namespace KxArchive;
 
@@ -772,7 +772,7 @@ namespace Kortex
 		return false;
 	}
 
-	std::optional<int64_t> GenericArchive::GetPropertyInt(wxStringView property) const
+	std::optional<int64_t> GenericArchive::GetPropertyInt(kxf::StringView property) const
 	{
 		using namespace KxArchive;
 
@@ -818,7 +818,7 @@ namespace Kortex
 
 		return std::nullopt;
 	}
-	bool GenericArchive::SetPropertyInt(wxStringView property, int64_t value)
+	bool GenericArchive::SetPropertyInt(kxf::StringView property, int64_t value)
 	{
 		using namespace KxArchive;
 
@@ -847,20 +847,20 @@ namespace Kortex
 		return false;
 	}
 
-	std::optional<double> GenericArchive::GetPropertyFloat(wxStringView property) const
+	std::optional<double> GenericArchive::GetPropertyFloat(kxf::StringView property) const
 	{
 		return std::nullopt;
 	}
-	bool GenericArchive::SetPropertyFloat(wxStringView property, double value)
+	bool GenericArchive::SetPropertyFloat(kxf::StringView property, double value)
 	{
 		return false;
 	}
 
-	std::optional<wxString> GenericArchive::GetPropertyString(wxStringView property) const
+	std::optional<kxf::String> GenericArchive::GetPropertyString(kxf::StringView property) const
 	{
 		return std::nullopt;
 	}
-	bool GenericArchive::SetPropertyString(wxStringView property, wxStringView value)
+	bool GenericArchive::SetPropertyString(kxf::StringView property, kxf::StringView value)
 	{
 		return false;
 	}

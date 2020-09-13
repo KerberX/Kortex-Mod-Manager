@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "SelectorDisplayModel.h"
 class KxDataViewComboBox;
 
@@ -17,8 +17,8 @@ namespace Kortex::ModTagManager
 			virtual bool IsEditorEnabledByRow(size_t row, const KxDataViewColumn* column) const override;
 
 		private:
-			wxString DoGetStingValue() const;
-			void SetStringValue(const wxString& value);
+			kxf::String DoGetStingValue() const;
+			void SetStringValue(const kxf::String& value);
 			void OnGetStringValue(KxDataViewEvent& event);
 
 		public:

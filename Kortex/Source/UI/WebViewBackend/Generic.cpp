@@ -11,7 +11,7 @@ namespace Kortex::UI::WebViewBackend
 			LoadURL(linkInfo.GetHref());
 		}
 	}
-	bool Generic::SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const wxString& url, const wxString& target)
+	bool Generic::SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const kxf::String& url, const kxf::String& target)
 	{
 		wxWebViewEvent event(eventID, GetId(), url, target);
 		event.Veto();
@@ -29,7 +29,7 @@ namespace Kortex::UI::WebViewBackend
 		}
 	}
 
-	bool Generic::LoadText(const wxString& text)
+	bool Generic::LoadText(const kxf::String& text)
 	{
 		KxCallAtScopeExit atExit([this]()
 		{
@@ -39,13 +39,13 @@ namespace Kortex::UI::WebViewBackend
 		const KxColor fgColor = GetForegroundColour();
 		const KxColor bgColor = GetHTMLBackgroundColour();
 
-		auto FormatElement = [&](const wxString& html)
+		auto FormatElement = [&](const kxf::String& html)
 		{
-			const wxString css = KxString::Format(wxS("color: %1; background-color: %2;"),
+			const kxf::String css = kxf::String::Format(wxS("color: %1; background-color: %2;"),
 												  fgColor.ToString(KxColor::C2S::CSS, KxColor::C2SAlpha::Auto),
 												  bgColor.ToString(KxColor::C2S::CSS, KxColor::C2SAlpha::Auto)
 			);
-			return KxString::Format(wxS("<html><body><span style=\"%1\">%2</span></body></html>"), css, html);
+			return kxf::String::Format(wxS("<html><body><span style=\"%1\">%2</span></body></html>"), css, html);
 		};
 
 		return KxHTMLWindow::SetPage(FormatElement(KxHTMLWindow::ProcessPlainText(text)));

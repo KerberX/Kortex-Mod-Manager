@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 
 namespace Kortex
@@ -18,7 +18,7 @@ namespace Kortex
 
 		public:
 			LogEvent() = default;
-			LogEvent(const wxString& message, wxWindow* window = nullptr)
+			LogEvent(const kxf::String& message, wxWindow* window = nullptr)
 				:m_Window(window)
 			{
 				SetString(message);
@@ -30,7 +30,7 @@ namespace Kortex
 				return new LogEvent(*this);
 			}
 
-			KxEventTag<LogEvent> GetLevel() const
+			kxf::EventTag<LogEvent> GetLevel() const
 			{
 				return GetEventType();
 			}

@@ -5,7 +5,7 @@
 
 namespace
 {
-	bool IsRequestToRootNode(const wxString& relativePath)
+	bool IsRequestToRootNode(const kxf::String& relativePath)
 	{
 		return relativePath.IsEmpty() || relativePath == wxS('\\') || relativePath == wxS('/') || relativePath == wxS('.') || relativePath == wxS("..");
 	}
@@ -32,7 +32,7 @@ namespace
 
 namespace Kortex
 {
-	const FileTreeNode* FileTreeNode::NavigateToElement(const FileTreeNode& rootNode, const wxString& relativePath, NavigateTo type)
+	const FileTreeNode* FileTreeNode::NavigateToElement(const FileTreeNode& rootNode, const kxf::String& relativePath, NavigateTo type)
 	{
 		if (type == NavigateTo::Folder && IsRequestToRootNode(relativePath))
 		{
@@ -138,11 +138,11 @@ namespace Kortex
 		}
 		return false;
 	}
-	wxString FileTreeNode::GetRelativePath() const
+	kxf::String FileTreeNode::GetRelativePath() const
 	{
 		if (m_Mod)
 		{
-			wxString path = m_Item.GetFullPath();
+			kxf::String path = m_Item.GetFullPath();
 			if (path.Replace(m_Mod->GetModFilesDir(), wxEmptyString, false) == 1 && !path.IsEmpty() && path[0] == wxS('\\'))
 			{
 				// Remove leading slash

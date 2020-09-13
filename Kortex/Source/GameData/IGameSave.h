@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "SaveManager/SaveInfoPair.h"
 #include <KxFramework/KxFileItem.h>
 
@@ -12,7 +12,7 @@ namespace Kortex
 
 	class IGameSave: public KxRTTI::Interface<IGameSave>
 	{
-		KxDecalreIID(IGameSave, {0xe59b723b, 0x1e64, 0x4f45, {0xad, 0x8b, 0x7b, 0x35, 0x6e, 0x81, 0x95, 0x7a}});
+		KxRTTI_DeclareIID(IGameSave, {0xe59b723b, 0x1e64, 0x4f45, {0xad, 0x8b, 0x7b, 0x35, 0x6e, 0x81, 0x95, 0x7a}});
 
 		friend class SaveManager::DisplayModel;
 
@@ -40,7 +40,7 @@ namespace Kortex
 
 		public:
 			virtual bool IsOK() const = 0;
-			virtual bool Create(const wxString& filePath) = 0;
+			virtual bool Create(const kxf::String& filePath) = 0;
 			virtual bool ReadFile() = 0;
 
 			virtual const KxFileItem& GetFileItem() const = 0;
@@ -49,7 +49,7 @@ namespace Kortex
 			virtual wxBitmap GetBitmap() const = 0;
 			virtual const InfoPairVector& GetBasicInfo() const = 0;
 
-			virtual wxString GetDisplayName() const = 0;
+			virtual kxf::String GetDisplayName() const = 0;
 			virtual wxBitmap GetThumbBitmap() const = 0;
 			virtual bool HasThumbBitmap() const = 0;
 			virtual void SetThumbBitmap(const wxBitmap& bitmap) = 0;

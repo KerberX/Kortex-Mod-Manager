@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 // TODO: I'm not sure that thing even works. Check and fix or remove.
 namespace Kortex::Utility

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "XMLSource.h"
 #include "GameConfig/ConfigManger/IFileSource.h"
 
@@ -8,28 +8,28 @@ namespace Kortex::GameConfig
 	class XMLFileSource: public KxRTTI::ImplementInterface<XMLFileSource, XMLSource, IFileSource>
 	{
 		private:
-			wxString m_FilePath;
-			wxString m_FileName;
+			kxf::String m_FilePath;
+			kxf::String m_FileName;
 
 		public:
-			XMLFileSource(const wxString& filePath)
+			XMLFileSource(const kxf::String& filePath)
 				:m_FilePath(filePath), m_FileName(filePath.AfterLast(wxS('\\')))
 			{
 			}
 
 		public:
 			// IFileSource
-			wxString GetFileName() const override
+			kxf::String GetFileName() const override
 			{
 				return m_FileName;
 			}
-			wxString GetFilePath() const override
+			kxf::String GetFilePath() const override
 			{
 				return m_FilePath;
 			}
 
 			// ISource
-			wxString GetPathDescription() const override
+			kxf::String GetPathDescription() const override
 			{
 				return m_FileName;
 			}

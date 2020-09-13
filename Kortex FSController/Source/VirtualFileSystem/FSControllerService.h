@@ -51,9 +51,9 @@ namespace Kortex::VirtualFileSystem
 				return static_cast<KxVFS::FileSystemService*>(this);
 			}
 
-			wxString GetServiceName() const override
+			kxf::String GetServiceName() const override
 			{
-				return ToWxString(KxVFS::FileSystemService::GetServiceName());
+				return Tokxf::String(KxVFS::FileSystemService::GetServiceName());
 			}
 			bool IsInstalled() const override
 			{
@@ -97,34 +97,34 @@ namespace Kortex::VirtualFileSystem
 			}
 
 		public:
-			wxString GetLibraryName() const override
+			kxf::String GetLibraryName() const override
 			{
 				return wxS("KxVirtualFileSystem");
 			}
-			wxString GetLibraryURL() const override
+			kxf::String GetLibraryURL() const override
 			{
 				return wxS("https://github.com/KerberX/KxVirtualFileSystem");
 			}
-			KxVersion GetLibraryVersion() const override
+			kxf::Version GetLibraryVersion() const override
 			{
-				return ToWxString(KxVFS::FileSystemService::GetLibraryVersion());
+				return Tokxf::String(KxVFS::FileSystemService::GetLibraryVersion());
 			}
 
 			bool HasNativeLibrary() const override
 			{
 				return true;
 			}
-			wxString GetNativeLibraryName() const override
+			kxf::String GetNativeLibraryName() const override
 			{
 				return wxS("Dokany");
 			}
-			wxString GetNativeLibraryURL() const override
+			kxf::String GetNativeLibraryURL() const override
 			{
 				return wxS("https://github.com/dokan-dev/dokany");
 			}
-			KxVersion GetNativeLibraryVersion() const override
+			kxf::Version GetNativeLibraryVersion() const override
 			{
-				return ToWxString(KxVFS::FileSystemService::GetDokanyVersion());
+				return Tokxf::String(KxVFS::FileSystemService::GetDokanyVersion());
 			}
 			
 		public:

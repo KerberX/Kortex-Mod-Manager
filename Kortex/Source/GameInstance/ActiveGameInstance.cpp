@@ -10,11 +10,11 @@
 
 namespace Kortex::GameInstance
 {
-	void InstanceModuleLoader::LoadGlobalModule(IModule& module, const KxXMLDocument& instanceConfig)
+	void InstanceModuleLoader::LoadGlobalModule(IModule& module, const kxf::XMLDocument& instanceConfig)
 	{
 		LoadModule(module, instanceConfig.GetFirstChildElement("Definition").GetFirstChildElement(module.GetModuleInfo().GetID()));
 	}
-	void InstanceModuleLoader::LoadModule(IModule& module, const KxXMLNode& instanceNode)
+	void InstanceModuleLoader::LoadModule(IModule& module, const kxf::XMLNode& instanceNode)
 	{
 		module.OnLoadInstance(*m_Instance, instanceNode);
 		IModule::ForEachManager(&module, [this, &instanceNode](IManager& manager)
@@ -26,7 +26,7 @@ namespace Kortex::GameInstance
 
 namespace Kortex::GameInstance
 {
-	void ActiveGameInstance::InitModulesConfig(const KxXMLDocument& instanceConfig)
+	void ActiveGameInstance::InitModulesConfig(const kxf::XMLDocument& instanceConfig)
 	{
 		// Load global modules
 		IModule::ForEachModule([this, &instanceConfig](IModule& module)
@@ -53,7 +53,7 @@ namespace Kortex::GameInstance
 		variables.SetVariable(Variables::KVAR_PROFILE_DIR, profile.GetProfileDir());
 	}
 
-	bool ActiveGameInstance::OnLoadInstance(const KxXMLDocument& instanceConfig)
+	bool ActiveGameInstance::OnLoadInstance(const kxf::XMLDocument& instanceConfig)
 	{
 		// Lock instance folder
 		m_DirectoryLock.Open(GetInstanceDir(), KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting, KxFileStream::Share::Read|KxFileStream::Share::Write, KxFileStream::Flags::BackupSemantics);
@@ -71,16 +71,16 @@ namespace Kortex::GameInstance
 		return true;
 	}
 
-	ActiveGameInstance::ActiveGameInstance(const IGameInstance& instanceTemplate, const wxString& instanceID)
+	ActiveGameInstance::ActiveGameInstance(const IGameInstance& instanceTemplate, const kxf::String& instanceID)
 		:InstanceModuleLoader(this), ConfigurableGameInstance(instanceTemplate, instanceID)
 	{
 	}
 
-	const wxString& ActiveGameInstance::GetActiveProfileID() const
+	const kxf::String& ActiveGameInstance::GetActiveProfileID() const
 	{
 		return m_CurrentProfileID;
 	}
-	void ActiveGameInstance::SetCurrentProfileID(const wxString& id)
+	void ActiveGameInstance::SetCurrentProfileID(const kxf::String& id)
 	{
 		using namespace Application;
 

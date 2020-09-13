@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "DataType.h"
 
@@ -15,7 +15,7 @@ namespace Kortex::GameConfig
 {
 	class ISource: public KxRTTI::Interface<ISource>
 	{
-		KxDecalreIID(ISource, {0x838e049b, 0xb217, 0x4a11, {0xa9, 0x94, 0x4e, 0x14, 0xf1, 0x48, 0xcf, 0xe5}});
+		KxRTTI_DeclareIID(ISource, {0x838e049b, 0xb217, 0x4a11, {0xa9, 0x94, 0x4e, 0x14, 0xf1, 0x48, 0xcf, 0xe5}});
 
 		protected:
 			template<class TFunctor> TypeID InvokeTypeDetectors(const ItemGroup& group, TFunctor&& func)
@@ -37,7 +37,7 @@ namespace Kortex::GameConfig
 
 		public:
 			virtual SourceFormatValue GetFormat() const = 0;
-			virtual wxString GetPathDescription() const = 0;
+			virtual kxf::String GetPathDescription() const = 0;
 
 			virtual bool IsOpened() const = 0;
 			virtual bool Open() = 0;

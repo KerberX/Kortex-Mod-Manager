@@ -16,11 +16,11 @@ namespace Kortex::PackageProject
 	{
 		if (m_ID.IsEmpty())
 		{
-			m_ID = KxString::Format("0x%1", this);
+			m_ID = kxf::String::Format("0x%1", this);
 		}
 		else
 		{
-			m_ID = KxString::Format("%s!0x%1", this);
+			m_ID = kxf::String::Format("%s!0x%1", this);
 		}
 	}
 	
@@ -48,11 +48,11 @@ namespace Kortex::PackageProject
 	{
 		return std::clamp(value, ms_MinUserPriority, ms_MaxUserPriority);
 	}
-	bool FileDataSection::IsFileIDValid(const wxString& id)
+	bool FileDataSection::IsFileIDValid(const kxf::String& id)
 	{
 		if (!id.IsEmpty() && !Utility::HasForbiddenFileNameChars(id))
 		{
-			wxString idLower = KxString::ToLower(id);
+			kxf::String idLower = KxString::ToLower(id);
 			return idLower != wxS("fomod");
 		}
 		return false;
@@ -63,9 +63,9 @@ namespace Kortex::PackageProject
 	{
 	}
 	
-	FileItem* FileDataSection::FindItemWithID(const wxString& id, size_t* index) const
+	FileItem* FileDataSection::FindItemWithID(const kxf::String& id, size_t* index) const
 	{
-		const wxString idLower = KxString::ToLower(id);
+		const kxf::String idLower = KxString::ToLower(id);
 		auto it = std::find_if(m_Items.begin(), m_Items.end(), [&idLower](const auto& entry)
 		{
 			return KxString::ToLower(entry->GetID()) == idLower;

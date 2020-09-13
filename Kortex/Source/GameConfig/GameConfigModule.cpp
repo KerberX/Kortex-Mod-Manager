@@ -6,7 +6,7 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo GameConfigModuleTypeInfo("GameConfigModule", "GameConfigModule.Name", "2.0", ImageResourceID::GearPencil);
+		const SimpleModuleInfo GameConfigModuleTypeInfo("GameConfigModule", "GameConfigModule.Name", "2.0", Imagekxf::ResourceID::GearPencil);
 	}
 
 	void GameConfigModule::OnInit()
@@ -15,12 +15,12 @@ namespace Kortex
 	void GameConfigModule::OnExit()
 	{
 	}
-	void GameConfigModule::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void GameConfigModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		m_GameConfigManager = CreateGameConfigManager(GetManagerNode<IGameConfigManager>(node));
 	}
 
-	std::unique_ptr<IGameConfigManager> GameConfigModule::CreateGameConfigManager(const KxXMLNode& node) const
+	std::unique_ptr<IGameConfigManager> GameConfigModule::CreateGameConfigManager(const kxf::XMLNode& node) const
 	{
 		if (IsEnabledInTemplate(node))
 		{

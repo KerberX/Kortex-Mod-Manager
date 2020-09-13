@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex
 {
@@ -9,8 +9,8 @@ namespace Kortex
 			virtual ~IManagerInfo() = default;
 
 		public:
-			virtual wxString GetID() const = 0;
-			virtual wxString GetName() const = 0;
+			virtual kxf::String GetID() const = 0;
+			virtual kxf::String GetName() const = 0;
 	};
 }
 
@@ -19,20 +19,20 @@ namespace Kortex
 	class SimpleManagerInfo: public IManagerInfo
 	{
 		private:
-			wxString m_ID;
-			wxString m_Name;
+			kxf::String m_ID;
+			kxf::String m_Name;
 
 		public:
-			SimpleManagerInfo(const wxString& id, const wxString& name)
+			SimpleManagerInfo(const kxf::String& id, const kxf::String& name)
 				:m_ID(id), m_Name(name)
 			{
 			}
 
 		public:
-			virtual wxString GetID() const override
+			kxf::String GetID() const override
 			{
 				return m_ID;
 			}
-			virtual wxString GetName() const override;
+			kxf::String GetName() const override;
 	};
 }

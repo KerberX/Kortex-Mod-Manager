@@ -59,13 +59,13 @@ namespace Kortex::PackageDesigner::PageInfoNS
 			{
 				case ColumnID::Name:
 				{
-					entry->SetLabel(value.As<wxString>());
+					entry->SetLabel(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
 				case ColumnID::Value:
 				{
-					entry->SetValue(value.As<wxString>());
+					entry->SetValue(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
@@ -119,7 +119,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddEntry, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
 		}
 		menu.AddSeparator();
 		{
@@ -183,7 +183,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 
 namespace Kortex::PackageDesigner::PageInfoNS
 {
-	AdditionalInfoDialog::AdditionalInfoDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, bool bUseInlineEditor)
+	AdditionalInfoDialog::AdditionalInfoDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, bool bUseInlineEditor)
 		//:m_WindowOptions("KPCInfoAdditionalInfoModelDialog", "Window"), m_ViewOptions("KPCInfoAdditionalInfoModelDialog", "View")
 	{
 		UseInlineEditor(bUseInlineEditor);

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/SaveManager/IBethesdaGameSave.h"
 
 namespace Kortex::SaveManager::BethesdaSave
@@ -46,6 +46,6 @@ namespace Kortex::SaveManager::BethesdaSave
 			{
 				return m_SaveVersion;
 			}
-			wxString GetDisplayName() const override;
+			kxf::String GetDisplayName() const override;
 	};
 }

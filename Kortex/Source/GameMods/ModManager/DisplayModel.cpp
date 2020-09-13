@@ -17,7 +17,7 @@
 
 namespace Kortex::ModManager
 {
-	wxString DisplayModel::FormatTagList(const IGameMod& entry)
+	kxf::String DisplayModel::FormatTagList(const IGameMod& entry)
 	{
 		return KxString::Join(entry.GetTagStore().GetNames(), wxS("; "));
 	}
@@ -579,7 +579,7 @@ namespace Kortex::ModManager
 			KxDataView2::Column* column = GetView()->GetColumnByID(id);
 			if (column)
 			{
-				wxString title = column->GetTitle();
+				kxf::String title = column->GetTitle();
 				if (title.IsEmpty())
 				{
 					title << '<' << (column->GetDisplayIndex() + 1) << '>';
@@ -607,7 +607,7 @@ namespace Kortex::ModManager
 		AddItem(ColumnID::PackagePath);
 		AddItem(ColumnID::Signature);
 	}
-	bool DisplayModel::SetSearchMask(const wxString& mask)
+	bool DisplayModel::SetSearchMask(const kxf::String& mask)
 	{
 		return Utility::UI::SetSearchMask(m_SearchMask, mask);
 	}

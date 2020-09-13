@@ -14,7 +14,7 @@ namespace
 {
 	using namespace Kortex::IPC;
 
-	wxString GetFSControllerPath()
+	kxf::String GetFSControllerPath()
 	{
 		using namespace Kortex;
 
@@ -64,7 +64,7 @@ namespace Kortex::VirtualFileSystem
 			}
 			case RequestID::UnhandledException:
 			{
-				auto [exceptionMessage] = message.DeserializePayload<wxString>();
+				auto [exceptionMessage] = message.DeserializePayload<kxf::String>();
 
 				KxTaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), KxID_NONE, KTr("VFS.Service.UnhandledException"), exceptionMessage, KxBTN_OK, KxICON_ERROR);
 				dialog.ShowModal();
@@ -191,33 +191,33 @@ namespace Kortex::VirtualFileSystem
 		m_Controller.Send(RequestID::EnableLog, value);
 	}
 
-	wxString DefaultVFSService::GetLibraryName() const
+	kxf::String DefaultVFSService::GetLibraryName() const
 	{
-		return m_Controller.Send(RequestID::GetLibraryName).GetAs<wxString>();
+		return m_Controller.Send(RequestID::GetLibraryName).GetAs<kxf::String>();
 	}
-	wxString DefaultVFSService::GetLibraryURL() const
+	kxf::String DefaultVFSService::GetLibraryURL() const
 	{
-		return m_Controller.Send(RequestID::GetLibraryURL).GetAs<wxString>();
+		return m_Controller.Send(RequestID::GetLibraryURL).GetAs<kxf::String>();
 	}
-	KxVersion DefaultVFSService::GetLibraryVersion() const
+	kxf::Version DefaultVFSService::GetLibraryVersion() const
 	{
-		return m_Controller.Send(RequestID::GetLibraryVersion).GetAs<wxString>();
+		return m_Controller.Send(RequestID::GetLibraryVersion).GetAs<kxf::String>();
 	}
 
 	bool DefaultVFSService::HasNativeLibrary() const
 	{
 		return m_Controller.Send(RequestID::HasNativeLibrary).GetAs<bool>();
 	}
-	wxString DefaultVFSService::GetNativeLibraryName() const
+	kxf::String DefaultVFSService::GetNativeLibraryName() const
 	{
-		return m_Controller.Send(RequestID::GetNativeLibraryName).GetAs<wxString>();
+		return m_Controller.Send(RequestID::GetNativeLibraryName).GetAs<kxf::String>();
 	}
-	wxString DefaultVFSService::GetNativeLibraryURL() const
+	kxf::String DefaultVFSService::GetNativeLibraryURL() const
 	{
-		return m_Controller.Send(RequestID::GetNativeLibraryURL).GetAs<wxString>();
+		return m_Controller.Send(RequestID::GetNativeLibraryURL).GetAs<kxf::String>();
 	}
-	KxVersion DefaultVFSService::GetNativeLibraryVersion() const
+	kxf::Version DefaultVFSService::GetNativeLibraryVersion() const
 	{
-		return m_Controller.Send(RequestID::GetNativeLibraryVersion).GetAs<wxString>();
+		return m_Controller.Send(RequestID::GetNativeLibraryVersion).GetAs<kxf::String>();
 	}
 }

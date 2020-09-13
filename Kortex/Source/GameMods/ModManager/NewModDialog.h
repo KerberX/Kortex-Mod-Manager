@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxTextBoxDialog.h>
 
 namespace Kortex::ModManager
@@ -7,7 +7,7 @@ namespace Kortex::ModManager
 	class NewModDialog: public KxTextBoxDialog
 	{
 		private:
-			wxString m_Name;
+			kxf::String m_Name;
 
 		private:
 			void OnOK(wxNotifyEvent& event);
@@ -17,7 +17,7 @@ namespace Kortex::ModManager
 			virtual ~NewModDialog();
 
 		public:
-			wxString GetFolderName() const
+			kxf::String GetFolderName() const
 			{
 				return m_Name;
 			}
@@ -32,14 +32,14 @@ namespace Kortex::ModManager
 			wxCheckBox* m_AsLinkedModCB = nullptr;
 
 			bool m_IsLinkedMod = false;
-			wxString m_FolderPath;
+			kxf::String m_FolderPath;
 
 		private:
 			void OnSelectFolder(wxNotifyEvent& event);
 			void OnChangeMethod(wxCommandEvent& event);
 
-			wxString GetMethodString(bool bLink) const;
-			wxString GetMethodString() const
+			kxf::String GetMethodString(bool bLink) const;
+			kxf::String GetMethodString() const
 			{
 				return GetMethodString(m_AsLinkedModCB->GetValue());
 			}
@@ -50,7 +50,7 @@ namespace Kortex::ModManager
 			virtual ~NewModFromFolderDialog();
 
 		public:
-			wxString GetFolderPath() const
+			kxf::String GetFolderPath() const
 			{
 				return m_FolderPath;
 			}

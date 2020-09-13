@@ -1,5 +1,5 @@
 #pragma once;
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxPanel.h>
 #include <KxFramework/KxAuiToolBar.h>
 #include <KxFramework/KxStdDialog.h>
@@ -27,13 +27,13 @@ namespace Kortex::UI
 			KxEVENT_MEMBER(ImageViewerEvent, Previous);
 
 		private:
-			std::variant<wxString, wxBitmap, wxInputStream*> m_Data;
+			std::variant<kxf::String, wxBitmap, wxInputStream*> m_Data;
 			bool m_HasPrev = false;
 			bool m_HasNext = false;
 			
 		private:
-			wxString GetString() const = delete;
-			void SetString(const wxString& s) = delete;
+			kxf::String GetString() const = delete;
+			void SetString(const kxf::String& s) = delete;
 			
 		public:
 			ImageViewerEvent() = default;
@@ -42,7 +42,7 @@ namespace Kortex::UI
 			{
 				SetBitmap(bitmap);
 			}
-			ImageViewerEvent(wxEventType type, const wxString& filePath)
+			ImageViewerEvent(wxEventType type, const kxf::String& filePath)
 				:wxNotifyEvent(type)
 			{
 				SetFilePath(filePath);
@@ -77,11 +77,11 @@ namespace Kortex::UI
 				m_HasNext = bNext;
 			}
 			
-			wxString GetDescription() const
+			kxf::String GetDescription() const
 			{
 				return wxNotifyEvent::GetString();
 			}
-			void SetDescription(const wxString& s)
+			void SetDescription(const kxf::String& s)
 			{
 				wxNotifyEvent::SetString(s);
 			}
@@ -92,8 +92,8 @@ namespace Kortex::UI
 	
 			bool IsAnimationFile() const;
 			bool HasFilePath() const;
-			wxString GetFilePath() const;
-			void SetFilePath(const wxString& filePath);
+			kxf::String GetFilePath() const;
+			void SetFilePath(const kxf::String& filePath);
 			
 			bool IsInputStream() const;
 			wxInputStream* GetInputSteram();
@@ -113,7 +113,7 @@ namespace Kortex::UI
 			KxAuiToolBarItem* m_Backward = nullptr;
 			KxAuiToolBarItem* m_Forward = nullptr;
 			KxSlider* m_ScaleSlider = nullptr;
-			wxString m_FilePath;
+			kxf::String m_FilePath;
 	
 			wxColourPickerCtrl* m_ColorBGCtrl = nullptr;
 			wxColourPickerCtrl* m_ColorFGCtrl = nullptr;
@@ -145,7 +145,7 @@ namespace Kortex::UI
 			}
 			bool OnDynamicBind(wxDynamicEventTableEntry& entry) override;
 	
-			void OnLoadFromDisk(const wxString& filePath);
+			void OnLoadFromDisk(const kxf::String& filePath);
 			void OnNavigation(wxAuiToolBarEvent& event);
 			void OnAcceptNavigation(ImageViewerEvent& event);
 			void OnScaleChanged(wxCommandEvent& event);
@@ -153,11 +153,11 @@ namespace Kortex::UI
 			void OnChangeColor(wxColourPickerEvent& event);
 	
 		public:
-			ImageViewerDialog(wxWindow* parent, const wxString& caption = wxEmptyString);
+			ImageViewerDialog(wxWindow* parent, const kxf::String& caption = wxEmptyString);
 			~ImageViewerDialog();
 	
 		public:
-			bool Create(wxWindow* parent, const wxString& caption = wxEmptyString);
+			bool Create(wxWindow* parent, const kxf::String& caption = wxEmptyString);
 			void Navigate(ImageViewerEvent& event)
 			{
 				OnAcceptNavigation(event);

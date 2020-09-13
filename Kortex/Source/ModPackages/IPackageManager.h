@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 #include "PackageProject/Common.h"
 #include "PackageProject/RequirementsSection.h"
@@ -28,30 +28,30 @@ namespace Kortex
 
 		public:
 			static KxStringVector GetSuppoptedExtensions();
-			static wxString GetSuppoptedExtensionsFilter();
-			static void ExtractAcrhiveWithProgress(wxWindow* window, const wxString& filePath, const wxString& outPath);
+			static kxf::String GetSuppoptedExtensionsFilter();
+			static void ExtractAcrhiveWithProgress(wxWindow* window, const kxf::String& filePath, const kxf::String& outPath);
 
 		public:
-			static bool IsPathAbsolute(const wxString& path);
-			static wxString GetRequirementFilePath(const PackageProject::RequirementItem* entry);
+			static bool IsPathAbsolute(const kxf::String& path);
+			static kxf::String GetRequirementFilePath(const PackageProject::RequirementItem* entry);
 			static PackageProject::ReqState CheckRequirementState(const PackageProject::RequirementItem* entry);
-			static KxVersion GetRequirementVersionFromBinaryFile(const PackageProject::RequirementItem* entry);
-			static KxVersion GetRequirementVersionFromModManager(const PackageProject::RequirementItem* entry);
-			static KxVersion GetRequirementVersion(const PackageProject::RequirementItem* entry);
+			static kxf::Version GetRequirementVersionFromBinaryFile(const PackageProject::RequirementItem* entry);
+			static kxf::Version GetRequirementVersionFromModManager(const PackageProject::RequirementItem* entry);
+			static kxf::Version GetRequirementVersion(const PackageProject::RequirementItem* entry);
 
 		protected:
-			void LoadRequirementsGroup(PackageProject::RequirementGroup& group, const KxXMLNode& rootNode);
+			void LoadRequirementsGroup(PackageProject::RequirementGroup& group, const kxf::XMLNode& rootNode);
 
 		public:
 			IPackageManager();
 
 		public:
-			wxString GetPackagesFolder() const;
-			void SetPackagesFolder(const wxString& path) const;
+			kxf::String GetPackagesFolder() const;
+			void SetPackagesFolder(const kxf::String& path) const;
 
 		public:
 			virtual const PackageProject::RequirementItem::Vector& GetStdRequirements() const = 0;
-			virtual const PackageProject::RequirementItem* FindStdReqirement(const wxString& id) const = 0;
+			virtual const PackageProject::RequirementItem* FindStdReqirement(const kxf::String& id) const = 0;
 
 			virtual void OnModListMenu(KxMenu& menu, const std::vector<IGameMod*>& selectedMods, IGameMod* focusedMod) = 0;
 	};

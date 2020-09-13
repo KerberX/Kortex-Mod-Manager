@@ -7,7 +7,7 @@ namespace Kortex::SaveManager
 	{
 		return m_IsOK;
 	}
-	bool BaseGameSave::Create(const wxString& filePath)
+	bool BaseGameSave::Create(const kxf::String& filePath)
 	{
 		m_Item = KxFileItem(filePath);
 		m_Item.UpdateInfo();

@@ -26,7 +26,7 @@ namespace Kortex::Utility::DateTime
 		return IsEarlierThanBy(Now(), date, span);
 	}
 
-	wxString FormatDate(const wxDateTime& dateTime, FormatFlags formatFlags)
+	kxf::String FormatDate(const wxDateTime& dateTime, FormatFlags formatFlags)
 	{
 		if (dateTime.IsValid())
 		{
@@ -42,7 +42,7 @@ namespace Kortex::Utility::DateTime
 		}
 		return wxEmptyString;
 	}
-	wxString FormatTime(const wxDateTime& dateTime, FormatFlags formatFlags)
+	kxf::String FormatTime(const wxDateTime& dateTime, FormatFlags formatFlags)
 	{
 		if (dateTime.IsValid())
 		{
@@ -71,7 +71,7 @@ namespace Kortex::Utility::DateTime
 		}
 		return wxEmptyString;
 	}
-	wxString FormatDateTime(const wxDateTime& dateTime, FormatFlags formatFlags, const wxString& sep)
+	kxf::String FormatDateTime(const wxDateTime& dateTime, FormatFlags formatFlags, const kxf::String& sep)
 	{
 		if (dateTime.IsValid())
 		{
@@ -79,7 +79,7 @@ namespace Kortex::Utility::DateTime
 		}
 		return wxEmptyString;
 	}
-	wxString FormatDateTimeFS(const wxDateTime& dateTime)
+	kxf::String FormatDateTimeFS(const wxDateTime& dateTime)
 	{
 		if (dateTime.IsValid())
 		{

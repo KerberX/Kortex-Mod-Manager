@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IPC/ProcessingWindow.h"
 #include <KxFramework/KxSingleton.h>
 

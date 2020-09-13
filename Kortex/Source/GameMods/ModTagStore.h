@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex
 {
@@ -8,24 +8,24 @@ namespace Kortex
 	class ModTagStore
 	{
 		private:
-			std::unordered_set<wxString> m_TagIDs;
-			wxString m_PrimaryTag;
+			std::unordered_set<kxf::String> m_TagIDs;
+			kxf::String m_PrimaryTag;
 
 		public:
 			using Visitor = std::function<bool(IModTag&)>;
 			using CVisitor = std::function<bool(const IModTag&)>;
 
 		public:
-			bool HasTag(const wxString& tagID) const;
+			bool HasTag(const kxf::String& tagID) const;
 			bool HasTag(const IModTag& tag) const;
 
-			void AddTag(const wxString& tagID);
+			void AddTag(const kxf::String& tagID);
 			void AddTag(const IModTag& tag);
 
-			void RemoveTag(const wxString& tagID);
+			void RemoveTag(const kxf::String& tagID);
 			void RemoveTag(const IModTag& tag);
 
-			void ToggleTag(const wxString& tagID, bool addTag);
+			void ToggleTag(const kxf::String& tagID, bool addTag);
 			void ToggleTag(const IModTag& tagID, bool addTag);
 			
 			size_t GetSize() const
@@ -42,9 +42,9 @@ namespace Kortex
 			void Visit(const CVisitor& visitor) const;
 
 			IModTag* GetPrimaryTag() const;
-			wxString GetPrimaryTagID() const;
+			kxf::String GetPrimaryTagID() const;
 			bool SetPrimaryTag(const IModTag& tag);
-			bool SetPrimaryTag(const wxString& tagID);
+			bool SetPrimaryTag(const kxf::String& tagID);
 			bool ClearPrimaryTag();
 
 			KxStringVector GetIDs() const;

@@ -71,24 +71,24 @@ namespace Kortex::GameConfig
 		KxMenu menu;
 		{
 			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_EDIT, m_Translator.GetString("ConfigManager.Menu.EditValue")));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PencilSmall));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PencilSmall));
 			menuItem->SetDefault();
 			menuItem->Enable(item);
 		}
 		{
 			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_UNDO, m_Translator.GetString("ConfigManager.Menu.DiscardChange")));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::CrossWhite));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossWhite));
 			menuItem->Enable(item && item->HasChanges());
 		}
 		{
 			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_REFRESH, m_Translator.GetString(KxID_REFRESH)));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ArrowCircleDouble));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ArrowCircleDouble));
 		}
 
 		menu.AddSeparator();
 		{
 			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_DELETE, m_Translator.GetString("ConfigManager.Menu.RemoveValue")));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::MinusSmall));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::MinusSmall));
 			menuItem->Enable(item);
 		}
 
@@ -190,7 +190,7 @@ namespace Kortex::GameConfig
 			else
 			{
 				// Build category tree for this item
-				wxString categoryPath;
+				kxf::String categoryPath;
 				Utility::String::SplitBySeparator(item.GetCategory(), wxS('/'), [this, &parent, &categoryPath](const auto& category)
 				{
 					// Add next part

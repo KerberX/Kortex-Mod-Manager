@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DefaultNotificationCenter.h"
 #include "DisplayModel.h"
-#include "Application/Resources/ImageResourceID.h"
+#include "Application/Resources/Imagekxf::ResourceID.h"
 #include "Utility/Log.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/Notification.hpp>
@@ -18,7 +18,7 @@ namespace Kortex::Notifications
 		}
 		else
 		{
-			m_PpoupToolbar_Label->SetLabel(KxString::Format(wxS("%1 (%2)"), KTr("NotificationCenter.NameShort"), m_Notifications.size()));
+			m_PpoupToolbar_Label->SetLabel(kxf::String::Format(wxS("%1 (%2)"), KTr("NotificationCenter.NameShort"), m_Notifications.size()));
 		}
 		m_PpoupToolbar->UpdateUI();
 	}
@@ -50,12 +50,12 @@ namespace Kortex::Notifications
 
 		// Toolbar
 		m_PpoupToolbar = new KxAuiToolBar(m_PopupWindow, KxID_NONE);
-		m_PpoupToolbar->SetMargins(m_PopupWindow->FromDIP(KLC_HORIZONTAL_SPACING), m_PopupWindow->FromDIP(KLC_VERTICAL_SPACING));
+		m_PpoupToolbar->SetMargins(m_PopupWindow->FromDIP(LayoutConstants::HorizontalSpacing), m_PopupWindow->FromDIP(LayoutConstants::VerticalSpacing));
 		m_PpoupToolbar_Label = m_PpoupToolbar->AddLabel(wxEmptyString);
 		m_PpoupToolbar->AddStretchSpacer();
 		
 		{
-			m_PpoupToolbar_ClearNotifications = m_PpoupToolbar->AddTool(wxEmptyString, ImageProvider::GetBitmap(ImageResourceID::Broom));
+			m_PpoupToolbar_ClearNotifications = m_PpoupToolbar->AddTool(wxEmptyString, ImageProvider::GetBitmap(Imagekxf::ResourceID::Broom));
 			m_PpoupToolbar_ClearNotifications->SetEnabled(false);
 			m_PpoupToolbar_ClearNotifications->SetShortHelp(KTr("NotificationCenter.ClearNotifications"));
 			m_PpoupToolbar_ClearNotifications->Bind(KxEVT_AUI_TOOLBAR_CLICK, &DefaultNotificationCenter::OnClearNotifications, this);
@@ -68,7 +68,7 @@ namespace Kortex::Notifications
 		// Notifications list
 		m_PopupDisplayModel = new DisplayModel();
 		m_PopupDisplayModel->CreateView(m_PopupWindow);
-		sizer->Add(m_PopupDisplayModel->GetView(), 1, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING_SMALL);
+		sizer->Add(m_PopupDisplayModel->GetView(), 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
 	}
 	void DefaultNotificationCenter::OnToolbarButton(KxAuiToolBarEvent& event)
 	{
@@ -89,11 +89,11 @@ namespace Kortex::Notifications
 		{
 			if (!isEmpty)
 			{
-				m_Button->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BellRedCircle));
+				m_Button->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BellRedCircle));
 			}
 			else
 			{
-				m_Button->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Bell));
+				m_Button->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Bell));
 			}
 		}
 		if (m_PpoupToolbar_ClearNotifications)

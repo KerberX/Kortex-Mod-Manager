@@ -27,7 +27,7 @@ namespace Kortex
 		const SimpleManagerInfo TypeInfo("NetworkManager", "NetworkManager.Name");
 	}
 
-	wxString INetworkManager::GetUserAgentString(NetworkSoftware networkSoftware) const
+	kxf::String INetworkManager::GetUserAgentString(NetworkSoftware networkSoftware) const
 	{
 		const IApplication* application = IApplication::GetInstance();
 		KxFormat formatter(wxS("%1/%2 (Windows_NT %3; %4) %5/%6"));
@@ -38,7 +38,7 @@ namespace Kortex
 
 		// Windows version
 		auto versionInfo = KxSystem::GetKernelVersion();
-		formatter(KxString::Format(wxS("%1.%2.%3"), versionInfo.Major, versionInfo.Minor, versionInfo.Build));
+		formatter(kxf::String::Format(wxS("%1.%2.%3"), versionInfo.Major, versionInfo.Minor, versionInfo.Build));
 
 		// System architecture (x86/x64)
 		formatter(KVarExp(wxS("$(SystemArchitectureName)")));
@@ -82,11 +82,11 @@ namespace Kortex
 			modNetwork->DoOnExit();
 		}
 	}
-	void INetworkManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void INetworkManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		std::unordered_set<IModNetwork*> initialized;
 
-		for (KxXMLNode node = managerNode.GetFirstChildElement(wxS("ModNetwork")); node.IsOK(); node = node.GetNextSiblingElement(wxS("ModNetwork")))
+		for (kxf::XMLNode node = managerNode.GetFirstChildElement(wxS("ModNetwork")); node.IsOK(); node = node.GetNextSiblingElement(wxS("ModNetwork")))
 		{
 			IModNetwork* modNetwork = GetModNetworkByName(node.GetAttribute(wxS("Name")));
 

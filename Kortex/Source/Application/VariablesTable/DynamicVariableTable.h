@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IVariableTable.h"
 #include "StaticVariableTable.h"
 
@@ -14,10 +14,10 @@ namespace Kortex
 			using VariableFunctor = std::function<VariableValue(void)>;
 
 		private:
-			std::unordered_map<wxString, VariableFunctor> m_DynamicVariables;
+			std::unordered_map<kxf::String, VariableFunctor> m_DynamicVariables;
 
 		protected:
-			template<class T> void DoSetDynamicVariable(const wxString& id, T&& functor)
+			template<class T> void DoSetDynamicVariable(const kxf::String& id, T&& functor)
 			{
 				// Add new dynamic variable only if this is not one of static variables
 				if (m_StaticVariables.count(id) == 0)
@@ -33,15 +33,15 @@ namespace Kortex
 		public:
 			bool IsEmpty() const override;
 
-			bool HasVariable(const wxString& id) const override;
-			VariableValue GetVariable(const wxString& id) const override;
-			void SetVariable(const wxString& id, const VariableValue& value) override;
+			bool HasVariable(const kxf::String& id) const override;
+			VariableValue GetVariable(const kxf::String& id) const override;
+			void SetVariable(const kxf::String& id, const VariableValue& value) override;
 
-			void SetDynamicVariable(const wxString& id, const VariableFunctor& functor)
+			void SetDynamicVariable(const kxf::String& id, const VariableFunctor& functor)
 			{
 				DoSetDynamicVariable(id, functor);
 			}
-			void SetDynamicVariable(const wxString& id, VariableFunctor&& functor)
+			void SetDynamicVariable(const kxf::String& id, VariableFunctor&& functor)
 			{
 				DoSetDynamicVariable(id, std::move(functor));
 			}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 // TODO: These classes aren't really needed. Replace them with something better or remove them.
 namespace Kortex::Utility
@@ -7,10 +7,10 @@ namespace Kortex::Utility
 	class WithID
 	{
 		private:
-			wxString m_ID;
+			kxf::String m_ID;
 
 		public:
-			WithID(const wxString& id = wxEmptyString)
+			WithID(const kxf::String& id = wxEmptyString)
 				:m_ID(id)
 			{
 			}
@@ -21,16 +21,16 @@ namespace Kortex::Utility
 			{
 				return m_ID.IsEmpty();
 			}
-			const wxString& RawGetID() const
+			const kxf::String& RawGetID() const
 			{
 				return m_ID;
 			}
 			
-			virtual const wxString& GetID() const
+			virtual const kxf::String& GetID() const
 			{
 				return m_ID;
 			}
-			void SetID(const wxString& id)
+			void SetID(const kxf::String& id)
 			{
 				m_ID = id;
 			}
@@ -39,10 +39,10 @@ namespace Kortex::Utility
 	class WithName
 	{
 		private:
-			wxString m_Name;
+			kxf::String m_Name;
 
 		public:
-			WithName(const wxString& name = wxEmptyString)
+			WithName(const kxf::String& name = wxEmptyString)
 				:m_Name(name)
 			{
 			}
@@ -53,16 +53,16 @@ namespace Kortex::Utility
 			{
 				return m_Name.IsEmpty();
 			}
-			const wxString& RawGetName() const
+			const kxf::String& RawGetName() const
 			{
 				return m_Name;
 			}
 			
-			virtual const wxString& GetName() const
+			virtual const kxf::String& GetName() const
 			{
 				return m_Name;
 			}
-			void SetName(const wxString& value)
+			void SetName(const kxf::String& value)
 			{
 				m_Name = value;
 			}
@@ -75,17 +75,17 @@ namespace Kortex::Utility
 	class WithNameAndID: public WithID, public WithName
 	{
 		public:
-			WithNameAndID(const wxString& id = wxEmptyString, const wxString& name = wxEmptyString)
+			WithNameAndID(const kxf::String& id = wxEmptyString, const kxf::String& name = wxEmptyString)
 				:WithID(id), WithName(name)
 			{
 			}
 
 		public:
-			virtual const wxString& GetID() const override
+			virtual const kxf::String& GetID() const override
 			{
 				return IsEmptyID() ? RawGetName() : RawGetID();
 			}
-			virtual const wxString& GetName() const override
+			virtual const kxf::String& GetName() const override
 			{
 				return IsEmptyName() ? RawGetID() : RawGetName();
 			}

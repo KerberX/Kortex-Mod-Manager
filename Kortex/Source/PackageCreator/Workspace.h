@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include "Application/BookWorkspaceContainer.h"
 #include "WorkspaceDocument.h"
@@ -123,11 +123,11 @@ namespace Kortex::PackageDesigner
 			~Workspace();
 
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			ResourceID GetIcon() const override
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Box;
+				return Imagekxf::ResourceID::Box;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 
@@ -136,7 +136,7 @@ namespace Kortex::PackageDesigner
 				// TODO: update window title
 			}
 			PageBase* GetCurrentPage() const;
-			ModPackageProject& ImportProjectFromPackage(const wxString& path);
+			ModPackageProject& ImportProjectFromPackage(const kxf::String& path);
 			ModPackageProject& CreateProjectFromModEntry(const IGameMod& modEntry);
 	};
 }

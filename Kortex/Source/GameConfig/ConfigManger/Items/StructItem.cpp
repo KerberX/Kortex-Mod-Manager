@@ -31,7 +31,7 @@ namespace Kortex::GameConfig
 				item.SetTypeID(DataTypeID::String);
 				item.Read(source);
 				
-				ParseFromString(item.GetValue().As<wxString>());
+				ParseFromString(item.GetValue().As<kxf::String>());
 				break;
 			}
 		};
@@ -68,9 +68,9 @@ namespace Kortex::GameConfig
 		Item::ChangeNotify();
 	}
 
-	void StructItem::ParseFromString(const wxString& sourceString)
+	void StructItem::ParseFromString(const kxf::String& sourceString)
 	{
-		wxString format = GetOptions().GetInputFormat();
+		kxf::String format = GetOptions().GetInputFormat();
 		format.Replace(wxS("(%)"), wxS("(.+)"));
 
 		wxRegEx regEx(format, wxRE_ADVANCED|wxRE_ICASE);
@@ -83,7 +83,7 @@ namespace Kortex::GameConfig
 			}
 		}
 	}
-	wxString StructItem::FormatToOutput(SerializeFor mode) const
+	kxf::String StructItem::FormatToOutput(SerializeFor mode) const
 	{
 		KxFormat formatter(GetOptions().GetOutputFormat());
 		for (const StructSubItem& subItem: m_SubItems)
@@ -115,11 +115,11 @@ namespace Kortex::GameConfig
 			editor->AutoPopup(!isEditable);
 
 			// Add samples
-			auto AddSample = [&editor](const SampleValue& sample, const wxString& value)
+			auto AddSample = [&editor](const SampleValue& sample, const kxf::String& value)
 			{
 				if (sample.HasLabel())
 				{
-					editor->AddItem(KxString::Format(wxS("%1 - %2"), value, sample.GetLabel()));
+					editor->AddItem(kxf::String::Format(wxS("%1 - %2"), value, sample.GetLabel()));
 				}
 				else
 				{
@@ -135,7 +135,7 @@ namespace Kortex::GameConfig
 					GetSamples().ForEachSample([this, &AddSample](const SampleValue& sample)
 					{
 						const ItemValue& sampleValue = sample.GetValue();
-						AddSample(sample, sampleValue.As<wxString>());
+						AddSample(sample, sampleValue.As<kxf::String>());
 					});
 					break;
 				}
@@ -161,7 +161,7 @@ namespace Kortex::GameConfig
 		return nullptr;
 	}
 
-	StructItem::StructItem(ItemGroup& group, const KxXMLNode& itemNode)
+	StructItem::StructItem(ItemGroup& group, const kxf::XMLNode& itemNode)
 		:ExtendInterface(group, itemNode)
 	{
 	}
@@ -170,20 +170,20 @@ namespace Kortex::GameConfig
 	{
 	}
 
-	bool StructItem::Create(const KxXMLNode& itemNode)
+	bool StructItem::Create(const kxf::XMLNode& itemNode)
 	{
 		if (itemNode.IsOK())
 		{
 			// Load struct options
-			const KxXMLNode structOptions = itemNode.GetFirstChildElement(wxS("Options"));
+			const kxf::XMLNode structOptions = itemNode.GetFirstChildElement(wxS("Options"));
 			m_SerializationMode.FromString(structOptions.GetFirstChildElement(wxS("SerializationMode")).GetAttribute(wxS("Value")));
 			m_StructKindValue.FromString(structOptions.GetFirstChildElement(wxS("StructKind")).GetAttribute(wxS("Value")));
 
-			const KxXMLNode subItemsNode = itemNode.GetFirstChildElement(wxS("SubItems"));
+			const kxf::XMLNode subItemsNode = itemNode.GetFirstChildElement(wxS("SubItems"));
 			m_SubItems.reserve(subItemsNode.GetChildrenCount());
 
 			// Load sub-items
-			for (KxXMLNode node = subItemsNode.GetFirstChildElement(wxS("Item")); node.IsOK(); node = node.GetNextSiblingElement(wxS("Item")))
+			for (kxf::XMLNode node = subItemsNode.GetFirstChildElement(wxS("Item")); node.IsOK(); node = node.GetNextSiblingElement(wxS("Item")))
 			{
 				TypeID type;
 				if (type.FromString(node.GetAttribute(wxS("Type"))) && type.IsScalarType())
@@ -198,16 +198,16 @@ namespace Kortex::GameConfig
 		}
 		return IsOK();
 	}
-	wxString StructItem::GetViewString(ColumnID id) const
+	kxf::String StructItem::GetViewString(ColumnID id) const
 	{
 		if (id == ColumnID::Type)
 		{
 			if (!m_CachedViewType)
 			{
-				wxString value;
+				kxf::String value;
 				for (const StructSubItem& subItem: m_SubItems)
 				{
-					wxString type = subItem.GetTypeID().ToString();
+					kxf::String type = subItem.GetTypeID().ToString();
 					if (value.IsEmpty())
 					{
 						value = type;
@@ -217,7 +217,7 @@ namespace Kortex::GameConfig
 						value = KxUtility::String::ConcatWithSeparator(wxS(", "), value, type);
 					}
 				}
-				m_CachedViewType = KxString::Format(wxS("struct<%1>"), value, 1, 4);
+				m_CachedViewType = kxf::String::Format(wxS("struct<%1>"), value, 1, 4);
 			}
 			return *m_CachedViewType;
 		}
@@ -225,7 +225,7 @@ namespace Kortex::GameConfig
 		{
 			if (!m_CachedViewValue)
 			{
-				wxString finalValue;
+				kxf::String finalValue;
 				if (GetOptions().HasOutputFormat())
 				{
 					finalValue = FormatToOutput(SerializeFor::Display);
@@ -234,7 +234,7 @@ namespace Kortex::GameConfig
 				{
 					for (const StructSubItem& subItem: m_SubItems)
 					{
-						wxString value = subItem.GetValue().Serialize(subItem);
+						kxf::String value = subItem.GetValue().Serialize(subItem);
 						if (finalValue.IsEmpty())
 						{
 							finalValue = value;
@@ -244,13 +244,13 @@ namespace Kortex::GameConfig
 							finalValue = KxUtility::String::ConcatWithSeparator(wxS(", "), finalValue, value);
 						}
 					}
-					finalValue = KxString::Format(wxS("{%1}"), finalValue);
+					finalValue = kxf::String::Format(wxS("{%1}"), finalValue);
 				}
 
 				const SampleValue* sample = GetSamples().FindSampleByValue(ItemValue(finalValue));
 				if (sample && sample->HasLabel())
 				{
-					m_CachedViewValue = KxString::Format(wxS("%1 - %2"), finalValue, sample->GetLabel());
+					m_CachedViewValue = kxf::String::Format(wxS("%1 - %2"), finalValue, sample->GetLabel());
 				}
 				else
 				{
@@ -291,11 +291,11 @@ namespace Kortex::GameConfig
 				{
 					size_t index = std::numeric_limits<size_t>::max();
 					size_t counter = 0;
-					const wxString currentValue = FormatToOutput(SerializeFor::Storage);
+					const kxf::String currentValue = FormatToOutput(SerializeFor::Storage);
 
 					GetSamples().ForEachSample([this, &index, &counter, &currentValue](const SampleValue& sample)
 					{
-						if (sample.GetValue().As<wxString>() == currentValue && index != 0)
+						if (sample.GetValue().As<kxf::String>() == currentValue && index != 0)
 						{
 							index = counter;
 						}
@@ -307,7 +307,7 @@ namespace Kortex::GameConfig
 				{
 					if (const size_t min = GetMinOfAllSamples(); min != 0)
 					{
-						const wxString currentValue = FormatToOutput(SerializeFor::Storage);
+						const kxf::String currentValue = FormatToOutput(SerializeFor::Storage);
 						for (size_t i = 0; i < min; ++i)
 						{
 							KxFormat formatter(GetOptions().GetOutputFormat());
@@ -340,8 +340,8 @@ namespace Kortex::GameConfig
 					const SampleValue* sampleValue = GetSamples().GetSampleByIndex(selectedIndex);
 					if (sampleValue)
 					{
-						const wxString oldValue = FormatToOutput(SerializeFor::Storage);
-						ParseFromString(sampleValue->GetValue().As<wxString>());
+						const kxf::String oldValue = FormatToOutput(SerializeFor::Storage);
+						ParseFromString(sampleValue->GetValue().As<kxf::String>());
 						if (oldValue != FormatToOutput(SerializeFor::Storage))
 						{
 							ChangeNotify();
@@ -352,7 +352,7 @@ namespace Kortex::GameConfig
 				}
 				case StructKindID::SideBySide:
 				{
-					const wxString oldValue = FormatToOutput(SerializeFor::Storage);
+					const kxf::String oldValue = FormatToOutput(SerializeFor::Storage);
 					for (StructSubItem& subItem: m_SubItems)
 					{
 						const SampleValue* sampleValue = subItem.GetSamples().GetSampleByIndex(selectedIndex);

@@ -4,7 +4,7 @@
 
 namespace Kortex::GameConfig
 {
-	StructSubItem::StructSubItem(StructItem& structItem, const KxXMLNode& itemNode)
+	StructSubItem::StructSubItem(StructItem& structItem, const kxf::XMLNode& itemNode)
 		:ExtendInterface(structItem.GetGroup(), itemNode), m_Struct(structItem)
 	{
 		GetOptions().Load(itemNode.GetFirstChildElement(wxS("Options")), GetDataType());
@@ -17,7 +17,7 @@ namespace Kortex::GameConfig
 	{
 		return GetTypeID().IsDefinitiveType() && !GetName().IsEmpty();
 	}
-	wxString StructSubItem::GetViewString(ColumnID id) const
+	kxf::String StructSubItem::GetViewString(ColumnID id) const
 	{
 		if (id == ColumnID::Path)
 		{
@@ -25,7 +25,7 @@ namespace Kortex::GameConfig
 		}
 		return SimpleItem::GetViewString(id);
 	}
-	wxString StructSubItem::GetPath() const
+	kxf::String StructSubItem::GetPath() const
 	{
 		return m_Struct.GetPath();
 	}

@@ -6,11 +6,11 @@
 
 namespace
 {
-	wxString DoMakeBracketedLabelFromString(const wxString& text, const wxUniChar& cLeft, const wxUniChar& cRight)
+	kxf::String DoMakeBracketedLabelFromString(const kxf::String& text, const wxUniChar& cLeft, const wxUniChar& cRight)
 	{
-		return KxString::Format(wxS("%1%2%3"), cLeft, text, cRight);
+		return kxf::String::Format(wxS("%1%2%3"), cLeft, text, cRight);
 	}
-	wxString DoMakeBracketedLabelFromInt(int id, const wxUniChar& cLeft, const wxUniChar& cRight)
+	kxf::String DoMakeBracketedLabelFromInt(int id, const wxUniChar& cLeft, const wxUniChar& cRight)
 	{
 		return DoMakeBracketedLabelFromString(Kortex::Translate(static_cast<KxStandardID>(id)), cLeft, cRight);
 	}
@@ -18,7 +18,7 @@ namespace
 
 namespace Kortex::Utility
 {
-	bool CopyTextToClipboard(const wxString& text)
+	bool CopyTextToClipboard(const kxf::String& text)
 	{
 		if (wxTheClipboard->Open())
 		{
@@ -31,7 +31,7 @@ namespace Kortex::Utility
 		return false;
 	}
 
-	wxString GetResolutionRatio(const wxSize& resolution)
+	kxf::String GetResolutionRatio(const wxSize& resolution)
 	{
 		auto MakeRatio = [](double x, double y) constexpr -> int
 		{
@@ -100,10 +100,10 @@ namespace Kortex::Utility
 		return {};
 	}
 
-	bool FileExtensionMatches(const wxString& filePath, const KxStringVector& extensions)
+	bool FileExtensionMatches(const kxf::String& filePath, const KxStringVector& extensions)
 	{
-		wxString ext = KxString::ToLower(filePath.AfterLast('.'));
-		for (const wxString& mask: extensions)
+		kxf::String ext = KxString::ToLower(filePath.AfterLast('.'));
+		for (const kxf::String& mask: extensions)
 		{
 			if (ext.Matches(mask))
 			{
@@ -112,16 +112,16 @@ namespace Kortex::Utility
 		}
 		return false;
 	}
-	bool SingleFileExtensionMatches(const wxString& filePath, const wxString& ext)
+	bool SingleFileExtensionMatches(const kxf::String& filePath, const kxf::String& ext)
 	{
-		wxString fileExt = KxString::ToLower(filePath.AfterLast('.'));
+		kxf::String fileExt = KxString::ToLower(filePath.AfterLast('.'));
 		return fileExt.Matches(ext);
 	}
-	wxString MakeExtensionsFilter(const KxStringVector& extensions)
+	kxf::String MakeExtensionsFilter(const KxStringVector& extensions)
 	{
 		return wxS("*.") + KxString::Join(extensions, wxS(";*."));
 	}
-	bool HasForbiddenFileNameChars(const wxString& string)
+	bool HasForbiddenFileNameChars(const kxf::String& string)
 	{
 		for (wxChar c: wxFileName::GetForbiddenChars())
 		{
@@ -132,9 +132,9 @@ namespace Kortex::Utility
 		}
 		return false;
 	}
-	wxString MakeSafeFileName(const wxString& string)
+	kxf::String MakeSafeFileName(const kxf::String& string)
 	{
-		wxString out = string;
+		kxf::String out = string;
 		for (wxChar c: wxFileName::GetForbiddenChars())
 		{
 			out.Replace(c, wxS("_"), true);
@@ -142,15 +142,15 @@ namespace Kortex::Utility
 		return out;
 	}
 
-	wxString MakeBracketedLabel(KxStandardID id, const wxUniChar& cLeft, const wxUniChar& cRight)
+	kxf::String MakeBracketedLabel(KxStandardID id, const wxUniChar& cLeft, const wxUniChar& cRight)
 	{
 		return DoMakeBracketedLabelFromInt(id, cLeft, cRight);
 	}
-	wxString MakeBracketedLabel(wxStandardID id, const wxUniChar& cLeft, const wxUniChar& cRight)
+	kxf::String MakeBracketedLabel(wxStandardID id, const wxUniChar& cLeft, const wxUniChar& cRight)
 	{
 		return DoMakeBracketedLabelFromInt(id, cLeft, cRight);
 	}
-	wxString MakeBracketedLabel(const wxString& text, const wxUniChar& cLeft, const wxUniChar& cRight)
+	kxf::String MakeBracketedLabel(const kxf::String& text, const wxUniChar& cLeft, const wxUniChar& cRight)
 	{
 		return DoMakeBracketedLabelFromString(text, cLeft, cRight);
 	}

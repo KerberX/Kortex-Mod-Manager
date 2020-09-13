@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 #include <KxFramework/KxSingleton.h>
 
@@ -22,7 +22,7 @@ namespace Kortex
 		public:
 			static const KxStringVector& GetSupportedExtensions();
 			static const ScreenshotsGallery::SupportedTypesVector& GetSupportedFormats();
-			static bool IsAnimationFile(const wxString& filePath);
+			static bool IsAnimationFile(const kxf::String& filePath);
 
 		public:
 			IScreenshotsGallery();

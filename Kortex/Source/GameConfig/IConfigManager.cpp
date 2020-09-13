@@ -13,7 +13,7 @@ namespace Kortex
 		const SimpleManagerInfo TypeInfo("ConfigManager", "ConfigManager.Name");
 	}
 
-	wxString IConfigManager::GetDefinitionFileByID(const wxString& id)
+	kxf::String IConfigManager::GetDefinitionFileByID(const kxf::String& id)
 	{
 		return IApplication::GetInstance()->GetDataFolder() + wxS("\\ConfigDefinitions\\") + id + wxS(".xml");
 	}
@@ -24,16 +24,16 @@ namespace Kortex
 	void IConfigManager::OnExit()
 	{
 	}
-	void IConfigManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void IConfigManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		LoadDefaultTranslation();
 	}
 
-	bool IConfigManager::LoadTranslation(KxTranslation& translation, const wxString& component)
+	bool IConfigManager::LoadTranslation(KxTranslation& translation, const kxf::String& component)
 	{
 		const IApplication* app = IApplication::GetInstance();
 		const KxTranslation& appTranslation = app->GetTranslation();
-		const wxString locale = appTranslation.GetLocale();
+		const kxf::String locale = appTranslation.GetLocale();
 
 		LoadTranslationStatus status = app->TryLoadTranslation(translation, app->GetAvailableTranslations(), component, locale);
 		return status == LoadTranslationStatus::Success;
@@ -56,7 +56,7 @@ namespace Kortex
 		AssignModule(*GameConfigModule::GetInstance());
 	}
 
-	wxString IConfigManager::TranslateItemLabel(const wxString& name, const wxString& perfix) const
+	kxf::String IConfigManager::TranslateItemLabel(const kxf::String& name, const kxf::String& perfix) const
 	{
 		if (!name.IsEmpty())
 		{
@@ -69,7 +69,7 @@ namespace Kortex
 		}
 		return {};
 	}
-	wxString IConfigManager::TranslateItemLabel(const KxXMLNode& itemNode, const wxString& name, const wxString& perfix, bool isAttribute) const
+	kxf::String IConfigManager::TranslateItemLabel(const kxf::XMLNode& itemNode, const kxf::String& name, const kxf::String& perfix, bool isAttribute) const
 	{
 		auto [text, isTranslated] = TranslateItemElement(itemNode, isAttribute, wxS("Label"));
 		if (!isTranslated)
@@ -83,9 +83,9 @@ namespace Kortex
 		}
 		return text;
 	}
-	std::pair<wxString, bool> IConfigManager::TranslateItemElement(const KxXMLNode& itemNode, bool isAttribute, const wxString& attributeName) const
+	std::pair<kxf::String, bool> IConfigManager::TranslateItemElement(const kxf::XMLNode& itemNode, bool isAttribute, const kxf::String& attributeName) const
 	{
-		wxString text = isAttribute ? itemNode.GetAttribute(attributeName) : itemNode.GetValue();
+		kxf::String text = isAttribute ? itemNode.GetAttribute(attributeName) : itemNode.GetValue();
 		if (!text.IsEmpty())
 		{
 			// Strip translation variable

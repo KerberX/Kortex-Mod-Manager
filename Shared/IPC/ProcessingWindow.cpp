@@ -4,7 +4,7 @@
 
 namespace Kortex::IPC
 {
-	wxString ProcessingWindow::GetWindowName()
+	kxf::String ProcessingWindow::GetWindowName()
 	{
 		return wxS("Kortex::IPC::ProcessingWindow");
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISource.h"
 
 namespace Kortex::GameConfig
@@ -17,7 +17,7 @@ namespace Kortex::GameConfig
 			{
 				return SourceFormat::None;
 			}
-			wxString GetPathDescription() const override
+			kxf::String GetPathDescription() const override
 			{
 				return wxEmptyString;
 			}

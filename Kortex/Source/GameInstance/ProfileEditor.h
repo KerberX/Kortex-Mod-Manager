@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IGameProfile.h"
 #include "KxFramework/KxDataViewListModelEx.h"
 #include <KxFramework/KxStdDialog.h>
@@ -12,7 +12,7 @@ namespace Kortex::ProfileEditor
 	{
 		private:
 			bool m_IsModified = false;
-			wxString m_NewCurrentProfile;
+			kxf::String m_NewCurrentProfile;
 
 		protected:
 			void OnInitControl() override;
@@ -27,7 +27,7 @@ namespace Kortex::ProfileEditor
 			{
 				m_IsModified = true;
 			}
-			void SetNewProfile(const wxString& id)
+			void SetNewProfile(const kxf::String& id)
 			{
 				m_NewCurrentProfile = id;
 			}
@@ -40,7 +40,7 @@ namespace Kortex::ProfileEditor
 			{
 				return m_IsModified;
 			}
-			const wxString& GetNewProfile() const
+			const kxf::String& GetNewProfile() const
 			{
 				return m_NewCurrentProfile;
 			}

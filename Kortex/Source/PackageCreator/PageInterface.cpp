@@ -25,7 +25,7 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(this, KTr("PackageCreator.PageInterface.ImageList"));
-		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Sizer
 		wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
@@ -69,11 +69,11 @@ namespace Kortex::PackageDesigner
 		}
 	}
 
-	wxString PageInterface::GetID() const
+	kxf::String PageInterface::GetID() const
 	{
 		return "KPackageCreator.PageInterface";
 	}
-	wxString PageInterface::GetPageName() const
+	kxf::String PageInterface::GetPageName() const
 	{
 		return KTr("PackageCreator.PageInterface.Name");
 	}

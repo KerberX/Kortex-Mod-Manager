@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "../WizardPage.h"
 #include "Utility/OperationWithProgress.h"
 #include <KxFramework/KxPanel.h>
@@ -50,11 +50,11 @@ namespace Kortex::InstallWizard
 			{
 				return WizardPageID::Completed;
 			}
-			wxString GetCaption() const override
+			kxf::String GetCaption() const override
 			{
 				return KTr("InstallWizard.Page.Done");
 			}
-			wxString GetOptionName() const override
+			kxf::String GetOptionName() const override
 			{
 				return wxS("Page/Completed");
 			}

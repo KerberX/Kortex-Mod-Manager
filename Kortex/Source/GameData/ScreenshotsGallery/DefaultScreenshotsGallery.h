@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IScreenshotsGallery.h"
 #include "Application/IWorkspace.h"
 
@@ -11,7 +11,7 @@ namespace Kortex::ScreenshotsGallery
 			KxStringVector m_Locations;
 
 		public:
-			void OnLoadInstance(IGameInstance& profile, const KxXMLNode& node);
+			void OnLoadInstance(IGameInstance& profile, const kxf::XMLNode& node);
 
 		public:
 			KxStringVector GetLocations() const;
@@ -29,7 +29,7 @@ namespace Kortex::ScreenshotsGallery
 			void CreateWorkspaces() override;
 
 		protected:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void OnInit() override;
 			void OnExit() override;
 

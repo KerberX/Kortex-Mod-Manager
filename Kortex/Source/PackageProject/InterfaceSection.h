@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 #include "Utility/LabeledValue.h"
 #include "Utility/WithBitmap.h"
@@ -13,14 +13,14 @@ namespace Kortex::PackageProject
 			using Vector = std::vector<ImageItem>;
 
 		private:
-			wxString m_Path;
-			wxString m_Description;
+			kxf::String m_Path;
+			kxf::String m_Description;
 			bool m_IsVisiable = true;
 			bool m_FadeEnabled = false;
 			wxSize m_Size = wxDefaultSize;
 	
 		public:
-			ImageItem(const wxString& path = wxEmptyString, const wxString& description = wxEmptyString, bool isVisible = true);
+			ImageItem(const kxf::String& path = wxEmptyString, const kxf::String& description = wxEmptyString, bool isVisible = true);
 			~ImageItem();
 	
 		public:
@@ -28,11 +28,11 @@ namespace Kortex::PackageProject
 			{
 				return !m_Path.IsEmpty();
 			}
-			const wxString& GetPath() const
+			const kxf::String& GetPath() const
 			{
 				return m_Path;
 			}
-			void SetPath(const wxString& value)
+			void SetPath(const kxf::String& value)
 			{
 				m_Path = value;
 			}
@@ -41,15 +41,15 @@ namespace Kortex::PackageProject
 			{
 				return !m_Description.IsEmpty();
 			}
-			const wxString& GetDescriptionRaw() const
+			const kxf::String& GetDescriptionRaw() const
 			{
 				return m_Description;
 			}
-			wxString GetDescription() const
+			kxf::String GetDescription() const
 			{
 				return HasDescription() ? GetDescriptionRaw() : GetPath().AfterLast('\\');
 			}
-			void SetDescription(const wxString& label)
+			void SetDescription(const kxf::String& label)
 			{
 				m_Description = label;
 			}
@@ -139,8 +139,8 @@ namespace Kortex::PackageProject
 	class InterfaceSection: public ProjectSection
 	{
 		private:
-			wxString m_MainImage;
-			wxString m_HeaderImage;
+			kxf::String m_MainImage;
+			kxf::String m_HeaderImage;
 			ImageItem::Vector m_Images;
 			TitleConfig m_TitleConfig;
 			
@@ -158,26 +158,26 @@ namespace Kortex::PackageProject
 				return m_Images;
 			}
 			
-			const wxString& GetMainImage() const
+			const kxf::String& GetMainImage() const
 			{
 				return m_MainImage;
 			}
-			void SetMainImage(const wxString& path)
+			void SetMainImage(const kxf::String& path)
 			{
 				m_MainImage = path;
 			}
 	
-			const wxString& GetHeaderImage() const
+			const kxf::String& GetHeaderImage() const
 			{
 				return m_HeaderImage;
 			}
-			void SetHeaderImage(const wxString& path)
+			void SetHeaderImage(const kxf::String& path)
 			{
 				m_HeaderImage = path;
 			}
 	
-			const ImageItem* FindImageByPath(const wxString& path) const;
-			ImageItem* FindImageByPath(const wxString& path);
+			const ImageItem* FindImageByPath(const kxf::String& path) const;
+			ImageItem* FindImageByPath(const kxf::String& path);
 			
 			const ImageItem* GetMainItem() const
 			{

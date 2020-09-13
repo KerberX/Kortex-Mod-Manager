@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 #include "GameMods/IModTagManager.h"
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex
 {
@@ -24,15 +24,15 @@ namespace Kortex::ModTagManager
 			void OnProfileSelected(ProfileEvent& event);
 
 		protected:
-			void LoadTagsFrom(IModTag::Vector& items, const KxXMLNode& tagsNode);
-			void SaveTagsTo(const IModTag::Vector& items, KxXMLNode& tagsNode) const;
+			void LoadTagsFrom(IModTag::Vector& items, const kxf::XMLNode& tagsNode);
+			void SaveTagsTo(const IModTag::Vector& items, kxf::XMLNode& tagsNode) const;
 
 			void LoadUserTags(const IGameProfile& profile);
 			void SaveUserTags(IGameProfile& profile) const;
 			void ClearUserTags();
 
 		protected:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void OnInit() override;
 			void OnExit() override;
 

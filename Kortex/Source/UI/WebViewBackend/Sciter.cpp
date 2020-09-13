@@ -26,14 +26,14 @@ namespace Kortex::UI::WebViewBackend
 		{
 			// Get YouTube container
 			Element iframe = node.GetFirstChild();
-			wxString url = iframe.GetAttribute("src");
+			kxf::String url = iframe.GetAttribute("src");
 			iframe.Remove();
 
 			// Convert links from embedded form to normal form
 			wxRegEx regEx(wxS("https:\\/\\/www.youtube.com\\/(.+)\\/(.+)"));
 			if (regEx.Matches(url) && regEx.GetMatch(url, 1) == wxS("embed"))
 			{
-				url = KxString::Format("https://www.youtube.com/watch?v=%1", regEx.GetMatch(url, 2));
+				url = kxf::String::Format("https://www.youtube.com/watch?v=%1", regEx.GetMatch(url, 2));
 			}
 
 			// Create clickable link and attach it to the DOM
@@ -71,8 +71,8 @@ namespace Kortex::UI::WebViewBackend
 			content.SetStyleAttribute("display", "none");
 			content.SetStyleAttribute("border", "2dip dashed");
 			content.SetStyleAttribute("border-color", GetForegroundColor().MakeDisabled());
-			content.SetStyleAttribute("padding", KLC_HORIZONTAL_SPACING, SizeUnit::dip);
-			content.SetStyleAttribute("margin", KLC_HORIZONTAL_SPACING, SizeUnit::dip);
+			content.SetStyleAttribute("padding", LayoutConstants::HorizontalSpacing, SizeUnit::dip);
+			content.SetStyleAttribute("margin", LayoutConstants::HorizontalSpacing, SizeUnit::dip);
 
 			return true;
 		});
@@ -111,7 +111,7 @@ namespace Kortex::UI::WebViewBackend
 		}
 	}
 
-	bool Sciter::SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const wxString& url, const wxString& target)
+	bool Sciter::SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const kxf::String& url, const kxf::String& target)
 	{
 		wxWebViewEvent event(eventID, GetId(), url, target);
 		event.Veto();
@@ -132,15 +132,15 @@ namespace Kortex::UI::WebViewBackend
 		}
 	}
 
-	bool Sciter::LoadText(const wxString& text)
+	bool Sciter::LoadText(const kxf::String& text)
 	{
-		return WindowWrapper::LoadHTML(KxString::Format(wxS("<html><body><p>%1</p></body></html>"), KxHTMLWindow::ProcessPlainText(text)));
+		return WindowWrapper::LoadHTML(kxf::String::Format(wxS("<html><body><p>%1</p></body></html>"), KxHTMLWindow::ProcessPlainText(text)));
 	}
-	bool Sciter::LoadHTML(const wxString& html)
+	bool Sciter::LoadHTML(const kxf::String& html)
 	{
 		return WindowWrapper::LoadHTML(html);
 	}
-	bool Sciter::LoadURL(const wxString& url)
+	bool Sciter::LoadURL(const kxf::String& url)
 	{
 		KxCallAtScopeExit atExit([this, &url]()
 		{

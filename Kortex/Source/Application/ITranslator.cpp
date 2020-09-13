@@ -10,19 +10,19 @@ namespace Kortex
 		return IApplication::GetInstance()->GetTranslator();
 	}
 
-	wxString ITranslator::GetVariable(const wxString& variable, const wxString& variableNamespace)
+	kxf::String ITranslator::GetVariable(const kxf::String& variable, const kxf::String& variableNamespace)
 	{
 		return IApplication::GetInstance()->ExpandVariables(Variables::WrapAsInline(variable, variableNamespace));
 	}
-	wxString ITranslator::GetVariable(const IGameInstance& instance, const wxString& variable, const wxString& variableNamespace)
+	kxf::String ITranslator::GetVariable(const IGameInstance& instance, const kxf::String& variable, const kxf::String& variableNamespace)
 	{
 		return instance.ExpandVariables(Variables::WrapAsInline(variable, variableNamespace));
 	}
-	wxString ITranslator::ExpandVariables(const wxString& variables)
+	kxf::String ITranslator::ExpandVariables(const kxf::String& variables)
 	{
 		return IApplication::GetInstance()->ExpandVariables(variables);
 	}
-	wxString ITranslator::ExpandVariables(const IGameInstance& instance, const wxString& source)
+	kxf::String ITranslator::ExpandVariables(const IGameInstance& instance, const kxf::String& source)
 	{
 		return instance.ExpandVariables(source);
 	}

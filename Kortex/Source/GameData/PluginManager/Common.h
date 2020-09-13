@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 
 namespace Kortex::PluginManager
@@ -10,18 +10,18 @@ namespace Kortex::PluginManager
 			using Vector = std::vector<StdContentItem>;
 
 		private:
-			wxString m_ID;
-			wxString m_Name;
-			wxString m_Logo;
+			kxf::String m_ID;
+			kxf::String m_Name;
+			kxf::String m_Logo;
 
 		public:
-			StdContentItem(const KxXMLNode& node);
+			StdContentItem(const kxf::XMLNode& node);
 
 		public:
-			wxString GetID() const;
-			wxString GetName() const;
-			wxString GetLogo() const;
-			wxString GetLogoFullPath() const;
+			kxf::String GetID() const;
+			kxf::String GetName() const;
+			kxf::String GetLogo() const;
+			kxf::String GetLogoFullPath() const;
 	};
 	class SortingToolItem final
 	{
@@ -29,43 +29,43 @@ namespace Kortex::PluginManager
 			using Vector = std::vector<SortingToolItem>;
 
 		private:
-			wxString m_ID;
-			wxString m_Name;
-			wxString m_Command;
-			mutable wxString m_Executable;
+			kxf::String m_ID;
+			kxf::String m_Name;
+			kxf::String m_Command;
+			mutable kxf::String m_Executable;
 
 		public:
-			SortingToolItem(const KxXMLNode& node);
+			SortingToolItem(const kxf::XMLNode& node);
 
 		public:
-			wxString GetID() const;
-			wxString GetName() const;
+			kxf::String GetID() const;
+			kxf::String GetName() const;
 			
-			wxString GetExecutable() const;
-			void SetExecutable(const wxString& path) const;
+			kxf::String GetExecutable() const;
+			void SetExecutable(const kxf::String& path) const;
 			
-			wxString GetArguments() const;
+			kxf::String GetArguments() const;
 	};
 	class Config final
 	{
 		private:
-			wxString m_Implementation;
-			wxString m_PluginImplementation;
+			kxf::String m_Implementation;
+			kxf::String m_PluginImplementation;
 
 			int m_PluginLimit = -1;
-			wxString m_StdandardContent_MainID;
+			kxf::String m_StdandardContent_MainID;
 			StdContentItem::Vector m_StandardContent;
 			SortingToolItem::Vector m_SortingTools;
 
 		public:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node);
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node);
 
 		public:
-			const wxString& GetManagerImplementation() const
+			const kxf::String& GetManagerImplementation() const
 			{
 				return m_Implementation;
 			}
-			const wxString& GetPluginImplementation() const
+			const kxf::String& GetPluginImplementation() const
 			{
 				return m_PluginImplementation;
 			}
@@ -80,10 +80,10 @@ namespace Kortex::PluginManager
 			}
 
 			bool HasMainStdContentID() const;
-			wxString GetMainStdContentID() const;
+			kxf::String GetMainStdContentID() const;
 
-			const StdContentItem* GetStandardContent(const wxString& id) const;
-			bool IsStandardContent(const wxString& id) const
+			const StdContentItem* GetStandardContent(const kxf::String& id) const;
+			bool IsStandardContent(const kxf::String& id) const
 			{
 				return GetStandardContent(id) != nullptr;
 			}

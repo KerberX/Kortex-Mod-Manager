@@ -22,10 +22,10 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 		{
 			case ColumnRef::Name:
 			{
-				wxString label;
+				kxf::String label;
 				if (item.GetName() != item.GetID() && item.GetID() != IGameInstance::GetActive()->GetGameID())
 				{
-					label = KxString::Format("%1 (%2)", item.GetName(), item.GetID());
+					label = kxf::String::Format("%1 (%2)", item.GetName(), item.GetID());
 				}
 				else
 				{
@@ -45,15 +45,15 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 				}
 				else
 				{
-					wxString cv = item.GetCurrentVersion().ToString();
-					wxString rv = item.GetRequiredVersion().ToString();
-					wxString operatorSymbol = ModPackageProject::OperatorToSymbolicName(item.GetRequiredVersionOperator());
-					return KxDataView2::BitmapTextValue(KxString::Format("%1 %2 %3", cv, operatorSymbol, rv), icon);
+					kxf::String cv = item.GetCurrentVersion().ToString();
+					kxf::String rv = item.GetRequiredVersion().ToString();
+					kxf::String operatorSymbol = ModPackageProject::OperatorToSymbolicName(item.GetRequiredVersionOperator());
+					return KxDataView2::BitmapTextValue(kxf::String::Format("%1 %2 %3", cv, operatorSymbol, rv), icon);
 				}
 			}
 			case ColumnRef::ObjectState:
 			{
-				const wxString& object = item.GetObject();
+				const kxf::String& object = item.GetObject();
 				PackageProject::ObjectFunction objectFunc = item.GetObjectFunction();
 				wxBitmap icon = GetIconByState(item.GetObjectFunctionResult());
 				const bool objFunction = objectFunc == PackageProject::ObjectFunction::FileExist || objectFunc == PackageProject::ObjectFunction::FileNotExist;
@@ -65,10 +65,10 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 				}
 				else
 				{
-					wxString label = KTr("PackageCreator.PageRequirements.RequiredState." + PackageProject::RequirementsSection::ObjectFunctionToString(objectFunc));
+					kxf::String label = KTr("PackageCreator.PageRequirements.RequiredState." + PackageProject::RequirementsSection::ObjectFunctionToString(objectFunc));
 					if (!object.IsEmpty())
 					{
-						return KxDataView2::BitmapTextValue(KxString::Format("%1: \"%2\"", label, object), icon);
+						return KxDataView2::BitmapTextValue(kxf::String::Format("%1: \"%2\"", label, object), icon);
 					}
 					else
 					{
@@ -82,7 +82,7 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 	auto DisplayModel::GetToolTip(const Node& node, const Column& column) const -> ToolTip
 	{
 		const PackageProject::RequirementItem& item = GetItem(node);
-		if (const wxString& text = item.GetDescription(); !text.IsEmpty())
+		if (const kxf::String& text = item.GetDescription(); !text.IsEmpty())
 		{
 			return ToolTip(GetValue(node, column).As<KxDataView2::BitmapTextValue>().GetText(), text);
 		}
@@ -99,14 +99,14 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 		{
 			case PackageProject::ReqState::False:
 			{
-				return ImageProvider::GetBitmap(ImageResourceID::CrossCircleFrame);
+				return ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossCircleFrame);
 			}
 			case PackageProject::ReqState::Unknown:
 			{
-				return ImageProvider::GetBitmap(ImageResourceID::Exclamation);
+				return ImageProvider::GetBitmap(Imagekxf::ResourceID::Exclamation);
 			}
 		};
-		return ImageProvider::GetBitmap(ImageResourceID::TickCircleFrame);
+		return ImageProvider::GetBitmap(Imagekxf::ResourceID::TickCircleFrame);
 	}
 
 	void DisplayModel::CreateView(wxWindow* parent, bool noBorder)
@@ -124,7 +124,7 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 
 		view->AppendColumn<BitmapTextRenderer>(KTr("Generic.Name"), ColumnRef::Name);
 		{
-			wxString title = KxString::Format("%1/%2", KTr("PackageCreator.PageRequirements.CurrentVersion"), KTr("PackageCreator.PageRequirements.RequiredVersion"));
+			kxf::String title = kxf::String::Format("%1/%2", KTr("PackageCreator.PageRequirements.CurrentVersion"), KTr("PackageCreator.PageRequirements.RequiredVersion"));
 			view->AppendColumn<BitmapTextRenderer>(title, ColumnRef::Version);
 		}
 		view->AppendColumn<BitmapTextRenderer>(KTr("PackageCreator.PageRequirements.RequiredState"), ColumnRef::ObjectState);
@@ -133,7 +133,7 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 	void DisplayModel::ShowGroups(const KxStringVector& groupIDs)
 	{
 		m_Items.clear();
-		for (const wxString& id: groupIDs)
+		for (const kxf::String& id: groupIDs)
 		{
 			PackageProject::RequirementGroup* group = m_Page.GetPackageConfig().GetRequirements().FindGroupWithID(id);
 			if (group)

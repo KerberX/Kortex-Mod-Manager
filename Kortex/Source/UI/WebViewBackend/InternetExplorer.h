@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IWebView.h"
 #include <wx/webview.h>
 #include <KxFramework/KxCOM.h>
@@ -16,8 +16,8 @@ namespace Kortex::UI::WebViewBackend
 			bool m_IsEmpty = true;
 
 		private:
-			void DoLoadPage(const wxString& html);
-			void DoLoadURL(const wxString& url);
+			void DoLoadPage(const kxf::String& html);
+			void DoLoadURL(const kxf::String& url);
 
 			void OnNavigating(wxWebViewEvent& event);
 			void OnNavigated(wxWebViewEvent& event);
@@ -26,7 +26,7 @@ namespace Kortex::UI::WebViewBackend
 
 			IWebBrowser2& GetWebBrowser() const;
 			KxCOMPtr<IHTMLDocument2> GetDocument2() const;
-			bool ExecCommand(const wxString& command, const wxAny& arg = {});
+			bool ExecCommand(const kxf::String& command, const wxAny& arg = {});
 
 		public:
 			InternetExplorer(wxWindow* parent, wxEvtHandler& evthandler, long style = 0);
@@ -60,13 +60,13 @@ namespace Kortex::UI::WebViewBackend
 			{
 				m_WebView->LoadURL(wxWebViewDefaultURLStr);
 			}
-			bool LoadText(const wxString& text) override;
-			bool LoadHTML(const wxString& html) override
+			bool LoadText(const kxf::String& text) override;
+			bool LoadHTML(const kxf::String& html) override
 			{
 				DoLoadPage(html);
 				return true;
 			}
-			bool LoadURL(const wxString& url) override
+			bool LoadURL(const kxf::String& url) override
 			{
 				DoLoadURL(url);
 				return true;

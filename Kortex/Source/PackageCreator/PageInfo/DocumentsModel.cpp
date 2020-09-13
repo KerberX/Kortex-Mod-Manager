@@ -58,13 +58,13 @@ namespace Kortex::PackageDesigner::PageInfoNS
 			{
 				case ColumnID::Name:
 				{
-					entry->SetLabel(value.As<wxString>());
+					entry->SetLabel(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
 				case ColumnID::Value:
 				{
-					entry->SetValue(value.As<wxString>());
+					entry->SetValue(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
@@ -110,7 +110,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddEntry, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
 		}
 		menu.AddSeparator();
 		{
@@ -147,7 +147,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 		KxDataViewItem item;
 		KxStringVector files = OpenFileDialog();
 	
-		for (const wxString& value: files)
+		for (const kxf::String& value: files)
 		{
 			if (!value.IsEmpty())
 			{
@@ -196,7 +196,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 
 namespace Kortex::PackageDesigner::PageInfoNS
 {
-	DocumentsDialog::DocumentsDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller)
+	DocumentsDialog::DocumentsDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 		//:m_WindowOptions("DocumentsDialog", "Window"), m_ViewOptions("DocumentsDialog", "View")
 	{
 		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 
 namespace Kortex
@@ -33,7 +33,7 @@ namespace Kortex
 				:m_Profile(&profile), m_PreviousProfile(previousProfile)
 			{
 			}
-			ProfileEvent(const wxString& id)
+			ProfileEvent(const kxf::String& id)
 			{
 				wxNotifyEvent::SetString(id);
 			}
@@ -52,7 +52,7 @@ namespace Kortex
 			{
 				return m_Profile;
 			}
-			wxString GetProfileID() const;
+			kxf::String GetProfileID() const;
 
 			IGameProfile* GetPreviousProfile() const
 			{

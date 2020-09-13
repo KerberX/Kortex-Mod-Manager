@@ -12,10 +12,10 @@ namespace Kortex::ProgramManager
 {
 	void ProgramEditorDialog::CreateUI(wxWindow* parent)
 	{
-		wxString caption = m_Program ? KTr("ProgramManager.Menu.EditProgram") : KTr("ProgramManager.Menu.AddProgram");
+		kxf::String caption = m_Program ? KTr("ProgramManager.Menu.EditProgram") : KTr("ProgramManager.Menu.AddProgram");
 		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, FromDIP(wxSize(640, wxDefaultCoord)), KxBTN_OK|KxBTN_CANCEL))
 		{
-			wxFlexGridSizer* mainSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, KLC_HORIZONTAL_SPACING);
+			wxFlexGridSizer* mainSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing);
 			mainSizer->AddGrowableCol(1, 1);
 
 			m_ContentPanel = new KxPanel(GetContentWindow(), KxID_NONE);
@@ -39,7 +39,7 @@ namespace Kortex::ProgramManager
 				KxButton* button = new KxButton(m_ContentPanel, KxID_NONE, KTr("Generic.BrowseFile"));
 				button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 				{
-					if (wxString path = BrowseForLocation(m_ExecutableInput->GetValue(), false); !path.IsEmpty())
+					if (kxf::String path = BrowseForLocation(m_ExecutableInput->GetValue(), false); !path.IsEmpty())
 					{
 						m_ExecutableInput->SetValue(path);
 						if (m_NameInput->IsEmpty())
@@ -53,7 +53,7 @@ namespace Kortex::ProgramManager
 
 				wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 				sizer->Add(m_ExecutableInput, 1, wxEXPAND);
-				sizer->Add(button, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+				sizer->Add(button, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 				mainSizer->Add(sizer, 1, wxEXPAND);
 			}
 
@@ -65,7 +65,7 @@ namespace Kortex::ProgramManager
 				KxButton* button = new KxButton(m_ContentPanel, KxID_NONE, KTr("Generic.BrowseFolder"));
 				button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 				{
-					if (wxString path = BrowseForLocation(m_WorkingFolderInput->GetValue(), true); !path.IsEmpty())
+					if (kxf::String path = BrowseForLocation(m_WorkingFolderInput->GetValue(), true); !path.IsEmpty())
 					{
 						m_WorkingFolderInput->SetValue(path);
 					}
@@ -75,7 +75,7 @@ namespace Kortex::ProgramManager
 
 				wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 				sizer->Add(m_WorkingFolderInput, 1, wxEXPAND);
-				sizer->Add(button, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+				sizer->Add(button, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 				mainSizer->Add(sizer, 1, wxEXPAND);
 			}
 
@@ -110,7 +110,7 @@ namespace Kortex::ProgramManager
 			m_ArgumentsInput->SetValue(m_Program->RawGetArguments());
 		}
 	}
-	wxString ProgramEditorDialog::BrowseForLocation(const wxString& path, bool isDirectory)
+	kxf::String ProgramEditorDialog::BrowseForLocation(const kxf::String& path, bool isDirectory)
 	{
 		KxFileBrowseDialog dialog(this, KxID_NONE, isDirectory ? KxFBD_OPEN_FOLDER : KxFBD_OPEN);
 		if (isDirectory)

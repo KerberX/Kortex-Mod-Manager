@@ -4,7 +4,7 @@
 
 namespace Kortex
 {
-	wxBitmap IImageProvider::GetBitmap(const ResourceID& resID) const
+	wxBitmap IImageProvider::GetBitmap(const kxf::ResourceID& resID) const
 	{
 		if (resID.IsOK())
 		{
@@ -19,7 +19,7 @@ namespace Kortex
 		}
 		return {};
 	}
-	wxImage IImageProvider::GetImage(const ResourceID& resID) const
+	wxImage IImageProvider::GetImage(const kxf::ResourceID& resID) const
 	{
 		if (resID.IsOK())
 		{
@@ -34,7 +34,7 @@ namespace Kortex
 		}
 		return {};
 	}
-	wxIcon IImageProvider::GetIcon(const ResourceID& resID) const
+	wxIcon IImageProvider::GetIcon(const kxf::ResourceID& resID) const
 	{
 		if (resID.IsOK())
 		{
@@ -53,24 +53,24 @@ namespace Kortex
 
 namespace Kortex::ImageProvider
 {
-	const KxImageList& GetImageList()
+	const kxf::ImageList& GetImageList()
 	{
 		return IApplication::GetInstance()->GetImageProvider().GetImageList();
 	}
-	const KxImageSet& GetImageSet()
+	const kxf::ImageSet& GetImageSet()
 	{
 		return IApplication::GetInstance()->GetImageProvider().GetImageSet();
 	}
 
-	wxBitmap GetBitmap(const ResourceID& resID)
+	wxBitmap GetBitmap(const kxf::ResourceID& resID)
 	{
 		return IApplication::GetInstance()->GetImageProvider().GetBitmap(resID);
 	}
-	wxImage GetImage(const ResourceID& resID)
+	wxImage GetImage(const kxf::ResourceID& resID)
 	{
 		return IApplication::GetInstance()->GetImageProvider().GetImage(resID);
 	}
-	wxIcon GetIcon(const ResourceID& resID)
+	wxIcon GetIcon(const kxf::ResourceID& resID)
 	{
 		return IApplication::GetInstance()->GetImageProvider().GetIcon(resID);
 	}

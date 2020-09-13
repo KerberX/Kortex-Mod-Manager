@@ -16,7 +16,7 @@
 
 namespace
 {
-	template<class T> bool TryCreateSaveObject(std::unique_ptr<Kortex::IGameSave>& ptr, const wxString& requestedImpl, const wxChar* thisImpl)
+	template<class T> bool TryCreateSaveObject(std::unique_ptr<Kortex::IGameSave>& ptr, const kxf::String& requestedImpl, const wxChar* thisImpl)
 	{
 		if (requestedImpl == thisImpl)
 		{
@@ -38,7 +38,7 @@ namespace Kortex::SaveManager
 		ScheduleWorkspacesReload();
 	}
 
-	void DefaultSaveManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultSaveManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		m_Config.OnLoadInstance(instance, managerNode);
 	}
@@ -57,7 +57,7 @@ namespace Kortex::SaveManager
 	}
 	std::unique_ptr<IGameSave> DefaultSaveManager::NewSave() const
 	{
-		const wxString requestedImplementation = m_Config.GetSaveImplementation();
+		const kxf::String requestedImplementation = m_Config.GetSaveImplementation();
 		std::unique_ptr<IGameSave> object;
 
 		TryCreateSaveObject<BethesdaSave::Morrowind>(object, requestedImplementation, wxS("BethesdaMorrowind")) ||
@@ -78,7 +78,7 @@ namespace Kortex::SaveManager
 		m_ActiveFilters = filters;
 		ClearSaves();
 
-		for (const wxString& filter: m_ActiveFilters)
+		for (const kxf::String& filter: m_ActiveFilters)
 		{
 			KxFileFinder finder(m_Config.GetLocation(), filter);
 			for (KxFileItem item = finder.FindNext(); item.IsOK(); item = finder.FindNext())
@@ -97,13 +97,13 @@ namespace Kortex::SaveManager
 
 namespace Kortex::SaveManager
 {
-	void Config::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void Config::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		m_SaveImplementation = node.GetAttribute("SaveImplementation");
 		m_Location = node.GetFirstChildElement("Location").GetValue();
 
 		// Load file filters
-		for (KxXMLNode entryNode = node.GetFirstChildElement("FileFilters").GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+		for (kxf::XMLNode entryNode = node.GetFirstChildElement("FileFilters").GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 		{
 			m_FileFilters.emplace_back(entryNode.GetValue(), KVarExp(entryNode.GetAttribute("Label")));
 		}
@@ -114,7 +114,7 @@ namespace Kortex::SaveManager
 
 		// Bitmap size
 		constexpr int defaultScreenshotHeight = 96;
-		if (KxXMLNode sizeNode = node.GetFirstChildElement("ScreenshotSize"); sizeNode.IsOK())
+		if (kxf::XMLNode sizeNode = node.GetFirstChildElement("ScreenshotSize"); sizeNode.IsOK())
 		{
 			if (double ratio = sizeNode.GetAttributeFloat("Ratio"); ratio > 0)
 			{
@@ -143,11 +143,11 @@ namespace Kortex::SaveManager
 		}
 	}
 
-	wxString Config::GetSaveImplementation() const
+	kxf::String Config::GetSaveImplementation() const
 	{
 		return KVarExp(m_SaveImplementation);
 	}
-	wxString Config::GetLocation() const
+	kxf::String Config::GetLocation() const
 	{
 		return KVarExp(m_Location);
 	}

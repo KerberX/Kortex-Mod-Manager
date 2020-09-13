@@ -16,14 +16,14 @@ namespace
 {
 	KxEVENT_DEFINE_LOCAL(KxFileOperationEvent, LibLoot);
 
-	std::string ToLootString(const wxString& value)
+	std::string ToLootString(const kxf::String& value)
 	{
 		auto utf8 = value.ToUTF8();
 		return std::string(utf8.data(), utf8.length());
 	}
-	wxString FromLootString(const std::string& value)
+	kxf::String FromLootString(const std::string& value)
 	{
-		return wxString::FromUTF8(value.data(), value.length());
+		return kxf::String::FromUTF8(value.data(), value.length());
 	}
 
 	std::optional<loot::GameType> GetLootGameType(const Kortex::GameID& gameID)
@@ -122,7 +122,7 @@ namespace
 			}
 		};
 	}
-	void ThrowError(const wxString& message)
+	void ThrowError(const kxf::String& message)
 	{
 		throw std::runtime_error(ToLootString(message));
 	};
@@ -130,16 +130,16 @@ namespace
 
 namespace Kortex::PluginManager
 {
-	wxString LibLoot::GetLibraryName()
+	kxf::String LibLoot::GetLibraryName()
 	{
 		return wxS("LibLoot");
 	}
-	KxVersion LibLoot::GetLibraryVersion()
+	kxf::Version LibLoot::GetLibraryVersion()
 	{
 		return FromLootString(loot::LootVersion().GetVersionString());
 	}
 
-	wxString LibLoot::GetDataPath() const
+	kxf::String LibLoot::GetDataPath() const
 	{
 		BethesdaPluginManager* pluginManager = nullptr;
 		if (IPluginManager::GetInstance()->QueryInterface(pluginManager))
@@ -150,11 +150,11 @@ namespace Kortex::PluginManager
 		}
 		return wxEmptyString;
 	}
-	wxString LibLoot::GetMasterListPath() const
+	kxf::String LibLoot::GetMasterListPath() const
 	{
 		return GetDataPath() + wxS("\\masterlist.yaml");
 	}
-	wxString LibLoot::GetUserListPath() const
+	kxf::String LibLoot::GetUserListPath() const
 	{
 		return GetDataPath() + wxS("\\userlist.yaml");
 	}

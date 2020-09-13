@@ -35,7 +35,7 @@ namespace Kortex::NetworkManager::NXMHandler
 			sizer->Add(m_DisplayModel->GetView(), 1, wxEXPAND);
 
 			m_RegisteredToLabel = new KxLabel(m_Panel, KxID_NONE, wxEmptyString);
-			sizer->Add(m_RegisteredToLabel, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING_SMALL);
+			sizer->Add(m_RegisteredToLabel, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
 
 			PostCreate(wxDefaultPosition);
 			return true;
@@ -57,7 +57,7 @@ namespace Kortex::NetworkManager::NXMHandler
 			m_RegisterButton->Enable(!isAssociated);
 			m_UnregisterButton->Enable(isAssociated);
 
-			if (wxString path = m_NXMFileType.GetOpenExecutable(); !path.IsEmpty())
+			if (kxf::String path = m_NXMFileType.GetOpenExecutable(); !path.IsEmpty())
 			{
 				m_RegisteredToLabel->SetLabel(KTrf("NetworkManager.NXMHandler.RegisteredToLabel", path));
 			}
@@ -104,7 +104,7 @@ namespace Kortex::NetworkManager::NXMHandler
 		info.SetDescription("URL:NXM Protocol");
 		info.SetShortDescription("nxm");
 		info.AddExtension("nxm", true);
-		info.SetOpenCommand(KxString::Format("\"%1\" -%2", app->GetExecutablePath(), CmdLineName::DownloadLink));
+		info.SetOpenCommand(kxf::String::Format("\"%1\" -%2", app->GetExecutablePath(), CmdLineName::DownloadLink));
 
 		m_NXMFileType = m_FileTypeManager.Associate(info);
 		return (bool)m_NXMFileType;

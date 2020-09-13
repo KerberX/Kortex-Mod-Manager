@@ -11,14 +11,14 @@
 
 namespace Kortex::GameConfig
 {
-	size_t HashStore::Get(const Item& item, const wxString& value) const
+	size_t HashStore::Get(const Item& item, const kxf::String& value) const
 	{
 		if (!m_Hash)
 		{
-			wxString hashData = item.GetPath();
+			kxf::String hashData = item.GetPath();
 
 			// Add name
-			wxString name = item.GetName();
+			kxf::String name = item.GetName();
 			if (!name.IsEmpty())
 			{
 				hashData += wxS('/');
@@ -31,7 +31,7 @@ namespace Kortex::GameConfig
 				hashData += value;
 			}
 
-			size_t hashValue = std::hash<wxString>()(hashData);
+			size_t hashValue = std::hash<kxf::String>()(hashData);
 			if (hashValue != 0)
 			{
 				m_Hash = hashValue;
@@ -63,7 +63,7 @@ namespace Kortex::GameConfig
 		}
 	}
 
-	Item::Item(ItemGroup& group, const KxXMLNode& itemNode)
+	Item::Item(ItemGroup& group, const kxf::XMLNode& itemNode)
 		:m_Group(group), m_Samples(*this)
 	{
 		if (itemNode.IsOK())
@@ -103,10 +103,10 @@ namespace Kortex::GameConfig
 	{
 		return !m_Category.IsEmpty() && !m_Path.IsEmpty() && m_TypeID.IsDefinitiveType();
 	}
-	wxString Item::GetFullPath() const
+	kxf::String Item::GetFullPath() const
 	{
-		wxString fullPath;
-		auto AddPart = [&fullPath](const wxString& part)
+		kxf::String fullPath;
+		auto AddPart = [&fullPath](const kxf::String& part)
 		{
 			if (!fullPath.IsEmpty() && !part.IsEmpty())
 			{
@@ -124,7 +124,7 @@ namespace Kortex::GameConfig
 
 		return fullPath;
 	}
-	wxString Item::GetViewString(ColumnID id) const
+	kxf::String Item::GetViewString(ColumnID id) const
 	{
 		switch (id)
 		{
@@ -239,7 +239,7 @@ namespace Kortex::GameConfig
 		{
 			if (m_HasChanges)
 			{
-				return KxDataView2::BitmapTextValue(GetViewString(id), ImageProvider::GetBitmap(ImageResourceID::PencilSmall));
+				return KxDataView2::BitmapTextValue(GetViewString(id), ImageProvider::GetBitmap(Imagekxf::ResourceID::PencilSmall));
 			}
 			else
 			{

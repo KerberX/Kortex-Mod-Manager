@@ -107,7 +107,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 			{
 				case ColumnID::Name:
 				{
-					wxString newID = value.As<wxString>();
+					kxf::String newID = value.As<kxf::String>();
 					if (newID != group->GetID())
 					{
 						if (newID.IsEmpty() || !m_Requirements->HasSetWithID(newID))
@@ -169,7 +169,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddGroup, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
 		}
 		menu.AddSeparator();
 		{
@@ -206,10 +206,10 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		event.SetString(group ? group->GetID() : Utility::MakeNoneLabel());
 	}
 	
-	bool GroupsModel::DoTrackID(const wxString& trackedID, const wxString& newID, bool remove) const
+	bool GroupsModel::DoTrackID(const kxf::String& trackedID, const kxf::String& newID, bool remove) const
 	{
-		const wxString trackedFlagName = PackageProject::RequirementGroup::GetFlagName(trackedID);
-		const wxString newFlagName = PackageProject::RequirementGroup::GetFlagName(newID);
+		const kxf::String trackedFlagName = PackageProject::RequirementGroup::GetFlagName(trackedID);
+		const kxf::String newFlagName = PackageProject::RequirementGroup::GetFlagName(newID);
 	
 		// Default groups
 		TrackID_ReplaceOrRemove(trackedID, newID, GetProject().GetRequirements().GetDefaultGroup(), remove);
@@ -252,7 +252,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 	
 	void GroupsModel::OnAddGroup(bool useDialog)
 	{
-		wxString name;
+		kxf::String name;
 		if (useDialog)
 		{
 			KxTextBoxDialog dialog(GetView(), KxID_NONE, KTr("PackageCreator.NewGroupDialog"));
@@ -323,7 +323,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		{
 			OnAddGroup(true);
 		});
-		sizer->Add(m_AddButton, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+		sizer->Add(m_AddButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 	
 		// Remove button
 		m_RemoveButton = new KxButton(window, KxID_NONE, KTr(KxID_REMOVE));
@@ -332,7 +332,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		{
 			OnRemoveGroup(GetView()->GetSelection());
 		});
-		sizer->Add(m_RemoveButton, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+		sizer->Add(m_RemoveButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 	}
 	void GroupsModel::ChangeNotify()
 	{

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ModPackages/IPackageManager.h"
 #include "PackageProject/KPackageProject.h"
 #include "Archive/KArchive.h"

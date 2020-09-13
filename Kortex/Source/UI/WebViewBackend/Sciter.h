@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxCallAtScopeExit.h>
 #include <Kx/Sciter.hpp>
 #include "IWebView.h"
@@ -18,7 +18,7 @@ namespace Kortex::UI::WebViewBackend
 			void OnHyperlink(KxSciter::BehaviorEvent& event);
 			void OnSpoilerButton(KxSciter::BehaviorEvent& event);
 
-			bool SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const wxString& url = {}, const wxString& target = {});
+			bool SendEvent(wxEventTypeTag<wxWebViewEvent> eventID, const kxf::String& url = {}, const kxf::String& target = {});
 
 		public:
 			Sciter(wxWindow* parent, wxEvtHandler& evthandler, long style = 0);
@@ -52,8 +52,8 @@ namespace Kortex::UI::WebViewBackend
 			{
 				WindowWrapper::ClearDocument();
 			}
-			bool LoadText(const wxString& text) override;
-			bool LoadHTML(const wxString& html) override;
-			bool LoadURL(const wxString& url) override;
+			bool LoadText(const kxf::String& text) override;
+			bool LoadHTML(const kxf::String& html) override;
+			bool LoadURL(const kxf::String& url) override;
 	};
 }

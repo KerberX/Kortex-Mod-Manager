@@ -39,7 +39,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				case ColumnID::ID:
 				{
-					value = KxDataViewBitmapTextValue(entry->first->GetID(), ImageProvider::GetBitmap(entry->first->QueryInterface<PackageProject::FolderItem>() ? ImageResourceID::Folder : ImageResourceID::Document));
+					value = KxDataViewBitmapTextValue(entry->first->GetID(), ImageProvider::GetBitmap(entry->first->QueryInterface<PackageProject::FolderItem>() ? Imagekxf::ResourceID::Folder : Imagekxf::ResourceID::Document));
 					break;
 				}
 				case ColumnID::Source:
@@ -76,7 +76,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		if (fileData)
 		{
 			// Add selected first
-			for (const wxString& id: data)
+			for (const kxf::String& id: data)
 			{
 				if (PackageProject::FileItem* entry = m_FileData->FindItemWithID(id))
 				{
@@ -162,7 +162,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 
 namespace Kortex::PackageDesigner::PageComponentsNS
 {
-	FileDataSelectorDialog::FileDataSelectorDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller)
+	FileDataSelectorDialog::FileDataSelectorDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 		//:m_WindowOptions("FileDataSelectorDialog", "Window"), m_ViewOptions("FileDataSelectorDialog", "View")
 	{
 		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))

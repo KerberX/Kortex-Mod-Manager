@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Utility/EnumClassOperations.h"
 
 namespace Kortex::PackageProject

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/NetworkModInfo.h"
 #include "Network/NetworkModUpdateInfo.h"
@@ -42,7 +42,7 @@ namespace Kortex::NetworkManager
 		private:
 			const ModInfoReply* GetOrQueryModInfo(ModID id);;
 			const NexusRepository::GetModFiles2Result* GetOrQueryModFiles(ModID id);
-			void OnUpdateChecked(NetworkModUpdateInfo& updateInfo, ModUpdateState state, std::optional<KxVersion> version = {});;
+			void OnUpdateChecked(NetworkModUpdateInfo& updateInfo, ModUpdateState state, std::optional<kxf::Version> version = {});;
 			void CheckForSingleUpdate(NetworkModUpdateInfo& updateInfo, IGameMod& gameMod, const NetworkModInfo& modInfo);
 
 			void OnExecute(KxThreadEvent& event);

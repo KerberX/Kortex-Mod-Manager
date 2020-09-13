@@ -61,11 +61,11 @@ namespace Kortex::ProgramManager
 		}
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "KProgramManagerWorkspace";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("ProgramManager.NameShort");
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IPluginReader.h"
 
 namespace Kortex::PluginManager
@@ -16,15 +16,15 @@ namespace Kortex::PluginManager
 		};
 
 		KxStringVector m_RequiredPlugins;
-		wxString m_Author;
-		wxString m_Description;
+		kxf::String m_Author;
+		kxf::String m_Description;
 		HeaderFlags m_HeaderFlags = HeaderFlags::None;
 		uint32_t m_FormVersion = 0;
 	};
 
 	class IBethesdaPluginReader: public KxRTTI::ExtendInterface<IBethesdaPluginReader, IPluginReader>
 	{
-		KxDecalreIID(IBethesdaPluginReader, {0x91a369c6, 0x9fc4, 0x499b, {0x86, 0xb3, 0xa4, 0xd, 0x31, 0x1d, 0x50, 0xb1}});
+		KxRTTI_DeclareIID(IBethesdaPluginReader, {0x91a369c6, 0x9fc4, 0x499b, {0x86, 0xb3, 0xa4, 0xd, 0x31, 0x1d, 0x50, 0xb1}});
 
 		public:
 			using HeaderFlags = BethesdaPluginData::HeaderFlags;

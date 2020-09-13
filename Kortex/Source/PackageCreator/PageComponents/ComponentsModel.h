@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageCreator/PageComponents/ComponentsModelNode.h"
 #include "PackageProject/ModPackageProject.h"
@@ -25,7 +25,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		public:
 			using EntryID = ComponentsModelNode::EntryID;
-			using AllItemsFunc = void(ComponentsModel::*)(ComponentsModelNode*, const wxString&);
+			using AllItemsFunc = void(ComponentsModel::*)(ComponentsModelNode*, const kxf::String&);
 	
 		private:
 			ComponentsModelNode::Vector m_Steps;
@@ -88,22 +88,22 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			void RemoveEntry(ComponentsModelNode* node, const PackageProject::ComponentItem* entry);
 	
 			KxMenu* CreateAllItemsMenu();
-			void CreateAllItemsMenuEntry(KxMenu* menu, ComponentsModelNode* node, const wxString& name, AllItemsFunc func);
+			void CreateAllItemsMenuEntry(KxMenu* menu, ComponentsModelNode* node, const kxf::String& name, AllItemsFunc func);
 	
-			void AllSteps_Name(ComponentsModelNode* node, const wxString& name);
-			void AllSteps_Conditions(ComponentsModelNode* node, const wxString& name);
+			void AllSteps_Name(ComponentsModelNode* node, const kxf::String& name);
+			void AllSteps_Conditions(ComponentsModelNode* node, const kxf::String& name);
 	
-			void AllGroups_Name(ComponentsModelNode* node, const wxString& name);
-			void AllGroups_SelectionMode(ComponentsModelNode* node, const wxString& name);
+			void AllGroups_Name(ComponentsModelNode* node, const kxf::String& name);
+			void AllGroups_SelectionMode(ComponentsModelNode* node, const kxf::String& name);
 	
-			void AllEntries_Name(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_DefaultTypeDescriptor(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_FileData(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_Requirements(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_Image(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_Conditions(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_AssignedFlags(ComponentsModelNode* node, const wxString& name);
-			void AllEntries_Description(ComponentsModelNode* node, const wxString& name);
+			void AllEntries_Name(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_DefaultTypeDescriptor(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_FileData(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_Requirements(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_Image(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_Conditions(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_AssignedFlags(ComponentsModelNode* node, const kxf::String& name);
+			void AllEntries_Description(ComponentsModelNode* node, const kxf::String& name);
 	
 			PackageProject::InterfaceSection& GetInterface() const;
 			PackageProject::ComponentsSection& GetComponents() const;

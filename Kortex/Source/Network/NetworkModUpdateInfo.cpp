@@ -4,7 +4,7 @@
 
 namespace Kortex
 {
-	void NetworkModUpdateInfo::Save(KxXMLNode& node) const
+	void NetworkModUpdateInfo::Save(kxf::XMLNode& node) const
 	{
 		if (m_UpdateCheckDate.IsValid())
 		{
@@ -20,7 +20,7 @@ namespace Kortex
 		}
 
 		// State
-		KxXMLNode stateNode = node.NewElement(wxS("State"));
+		kxf::XMLNode stateNode = node.NewElement(wxS("State"));
 		stateNode.SetValue(UpdateStateDef::ToString(m_State));
 
 		if (m_Details != UpdateDetails::None)
@@ -28,14 +28,14 @@ namespace Kortex
 			stateNode.SetAttribute(wxS("Details"), UpdateDetailsDef::ToOrExpression(m_Details));
 		}
 	}
-	void NetworkModUpdateInfo::Load(const KxXMLNode& node)
+	void NetworkModUpdateInfo::Load(const kxf::XMLNode& node)
 	{
 		m_UpdateCheckDate.ParseISOCombined(node.GetFirstChildElement(wxS("UpdateCheckDate")).GetValue());
 		m_ActivityHash = static_cast<size_t>(node.GetFirstChildElement(wxS("ActivityHash")).GetValueInt());
 		m_Version = node.GetFirstChildElement(wxS("Version")).GetValue();
 
 		// State
-		const KxXMLNode detailsNode = node.GetFirstChildElement(wxS("State"));
+		const kxf::XMLNode detailsNode = node.GetFirstChildElement(wxS("State"));
 		m_State = UpdateStateDef::FromString(detailsNode.GetValue(), UpdateState::Unknown);
 		m_Details = UpdateDetailsDef::FromOrExpression(detailsNode.GetAttribute(wxS("Details")), UpdateDetails::None);
 	}

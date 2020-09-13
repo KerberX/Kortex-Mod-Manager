@@ -1,23 +1,23 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IModTag.h"
 
 namespace Kortex::ModTagManager
 {
 	class DefaultTag: public KxRTTI::ExtendInterface<DefaultTag, IModTag, INexusModTag>
 	{
-		KxDecalreIID(DefaultTag, {0x4903903, 0x7cb8, 0x423a, {0x9b, 0x6d, 0x92, 0x5, 0xb6, 0x99, 0xe7, 0x9e}});
+		KxRTTI_DeclareIID(DefaultTag, {0x4903903, 0x7cb8, 0x423a, {0x9b, 0x6d, 0x92, 0x5, 0xb6, 0x99, 0xe7, 0x9e}});
 
 		private:
-			wxString m_ID;
-			wxString m_Name;
+			kxf::String m_ID;
+			kxf::String m_Name;
 			KxColor m_Color;
 			int m_NexusID = -1;
 			bool m_IsExpanded = false;
 
 		public:
 			DefaultTag() = default;
-			DefaultTag(const wxString& id, const wxString& name = wxEmptyString)
+			DefaultTag(const kxf::String& id, const kxf::String& name = wxEmptyString)
 				:m_ID(id), m_Name(name)
 			{
 			}
@@ -41,17 +41,17 @@ namespace Kortex::ModTagManager
 				m_IsExpanded = isExpanded;
 			}
 
-			wxString GetID() const override
+			kxf::String GetID() const override
 			{
 				return m_ID;
 			}
-			void SetID(const wxString& id) override
+			void SetID(const kxf::String& id) override
 			{
 				m_ID = id;
 			}
 
-			wxString GetName() const override;
-			void SetName(const wxString& name) override;
+			kxf::String GetName() const override;
+			void SetName(const kxf::String& name) override;
 
 			KxColor GetColor() const override
 			{

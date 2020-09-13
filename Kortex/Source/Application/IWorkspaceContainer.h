@@ -1,13 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IWorkspace.h"
-#include <Kx/RTTI.hpp>
 
 namespace Kortex
 {
-	class IWorkspaceContainer: public KxRTTI::Interface<IWorkspaceContainer>
+	class IWorkspaceContainer: public kxf::RTTI::Interface<IWorkspaceContainer>
 	{
-		KxDecalreIID(IWorkspaceContainer, {0xef898b45, 0x2a8a, 0x4290, {0xb3, 0x7b, 0xc5, 0xfb, 0xff, 0x34, 0x28, 0xb6}});
+		KxRTTI_DeclareIID(IWorkspaceContainer, {0xef898b45, 0x2a8a, 0x4290, {0xb3, 0x7b, 0xc5, 0xfb, 0xff, 0x34, 0x28, 0xb6}});
 
 		friend class IWorkspace;
 
@@ -51,8 +50,8 @@ namespace Kortex
 				return GetParentContainer() != nullptr;
 			}
 
-			virtual IWorkspace::RefVector EnumWorkspaces() const = 0;
-			virtual IWorkspace* GetWorkspaceByID(const wxString& id) const = 0;
+			virtual size_t EnumWorkspaces(std::function<bool(IWorkspace&)> func) const = 0;
+			virtual IWorkspace* GetWorkspaceByID(const kxf::String& id) const = 0;
 			virtual IWorkspace* GetWorkspaceByIndex(size_t index) const = 0;
 			virtual IWorkspace* GetCurrentWorkspace() const = 0;
 			virtual size_t GetWorkspaceCount() const = 0;
@@ -62,7 +61,7 @@ namespace Kortex
 			virtual bool AddWorkspace(IWorkspace& workspace) = 0;
 			virtual bool RemoveWorkspace(IWorkspace& workspace) = 0;
 			virtual bool SwitchWorkspace(IWorkspace& nextWorkspace) = 0;
-			bool SwitchWorkspaceByID(const wxString& id);
+			bool SwitchWorkspaceByID(const kxf::String& id);
 			
 			template<class TWorkspace, class... Args>
 			TWorkspace& MakeWorkspace(Args&&... arg)

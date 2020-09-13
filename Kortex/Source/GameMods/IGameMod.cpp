@@ -8,7 +8,7 @@
 
 namespace
 {
-	wxString GetRootPath(const wxString& signature)
+	kxf::String GetRootPath(const kxf::String& signature)
 	{
 		using namespace Kortex;
 
@@ -18,11 +18,11 @@ namespace
 		}
 		return wxEmptyString;
 	}
-	wxString GetRootRelativePath(const wxString& signature, const wxString& name)
+	kxf::String GetRootRelativePath(const kxf::String& signature, const kxf::String& name)
 	{
 		return GetRootPath(signature) + wxS('\\') + name;
 	}
-	wxString GetRootRelativePath(const wxString& signature, const wxChar* name)
+	kxf::String GetRootRelativePath(const kxf::String& signature, const wxChar* name)
 	{
 		return GetRootPath(signature) + wxS('\\') + name;
 	}
@@ -30,14 +30,14 @@ namespace
 
 namespace Kortex
 {
-	wxString IGameMod::GetSignatureFromID(const wxString& id)
+	kxf::String IGameMod::GetSignatureFromID(const kxf::String& id)
 	{
 		auto utf8 = id.ToUTF8();
 		wxMemoryInputStream stream(utf8.data(), utf8.length());
 		return KxCrypto::MD5(stream);
 	}
 	
-	bool IGameMod::LoadUsingID(const wxString& id)
+	bool IGameMod::LoadUsingID(const kxf::String& id)
 	{
 		SetID(id);
 		return LoadUsingSignature(GetSignature());
@@ -47,7 +47,7 @@ namespace Kortex
 		return false;
 	}
 	
-	wxString IGameMod::GetSafeName() const
+	kxf::String IGameMod::GetSafeName() const
 	{
 		return Utility::MakeSafeFileName(GetName());
 	}
@@ -56,27 +56,27 @@ namespace Kortex
 		return KxFile(GetPackageFile()).IsFileExist();
 	}
 
-	wxString IGameMod::GetRootDir() const
+	kxf::String IGameMod::GetRootDir() const
 	{
 		return GetRootPath(GetSignature());
 	}
-	wxString IGameMod::GetDescriptionFile() const
+	kxf::String IGameMod::GetDescriptionFile() const
 	{
 		return GetRootRelativePath(GetSignature(), wxS("Description.txt"));
 	}
-	wxString IGameMod::GetInfoFile() const
+	kxf::String IGameMod::GetInfoFile() const
 	{
 		return GetRootRelativePath(GetSignature(), wxS("Info.xml"));
 	}
-	wxString IGameMod::GetImageFile() const
+	kxf::String IGameMod::GetImageFile() const
 	{
 		return GetRootRelativePath(GetSignature(), wxS("Image.img"));
 	}
-	wxString IGameMod::GetDefaultModFilesDir() const
+	kxf::String IGameMod::GetDefaultModFilesDir() const
 	{
 		return GetRootRelativePath(GetSignature(), wxS("ModFiles"));
 	}
-	wxString IGameMod::GetModFilesDir() const
+	kxf::String IGameMod::GetModFilesDir() const
 	{
 		return GetDefaultModFilesDir();
 	}

@@ -1,12 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IApplication.h"
 #include "RefTranslator.h"
 #include "Resources/DefaultImageProvider.h"
 #include "VariablesTable/DynamicVariableTable.h"
 #include <KxFramework/KxApp.h>
-#include <KxFramework/KxImageList.h>
-#include <KxFramework/KxImageSet.h>
+#include <KxFramework/kxf::ImageList.h>
+#include <KxFramework/kxf::ImageSet.h>
 #include <KxFramework/KxDPIAwareness.h>
 
 namespace Kortex
@@ -31,19 +31,19 @@ namespace Kortex::Application
 			KxStringToStringUMap m_AvailableTranslations;
 			DynamicVariableTable m_Variables;
 
-			wxString m_DataFolder;
-			wxString m_LogsFolder;
-			wxString m_UserSettingsFolder;
-			wxString m_UserSettingsFile;
-			wxString m_InstancesFolder;
-			wxString m_DefaultInstancesFolder;
+			kxf::String m_DataFolder;
+			kxf::String m_LogsFolder;
+			kxf::String m_UserSettingsFolder;
+			kxf::String m_UserSettingsFile;
+			kxf::String m_InstancesFolder;
+			kxf::String m_DefaultInstancesFolder;
 
 			wxWindow* m_InitProgressDialog = nullptr;
 			MainWindow* m_MainWindow = nullptr;
 			DefaultImageProvider m_ImageProvider;
 			BroadcastReciever m_BroadcastReciever;
 
-			wxString m_StartupInstanceID;
+			kxf::String m_StartupInstanceID;
 			bool m_IsCmdStartupInstanceID = false;
 
 			std::unique_ptr<GameModsModule> m_GameModsModule;
@@ -71,27 +71,27 @@ namespace Kortex::Application
 			void OnProfileConfigChanged(AppOption& option, IGameProfile& profile) override;
 
 		public:
-			wxString GetDataFolder() const override
+			kxf::String GetDataFolder() const override
 			{
 				return m_DataFolder;
 			}
-			wxString GetLogsFolder() const override
+			kxf::String GetLogsFolder() const override
 			{
 				return m_LogsFolder;
 			}
-			wxString GetUserSettingsFolder() const override
+			kxf::String GetUserSettingsFolder() const override
 			{
 				return m_UserSettingsFolder;
 			}
-			wxString GetUserSettingsFile() const override
+			kxf::String GetUserSettingsFile() const override
 			{
 				return m_UserSettingsFile;
 			}
-			wxString GetInstancesFolder() const override
+			kxf::String GetInstancesFolder() const override
 			{
 				return m_InstancesFolder;
 			}
-			wxString GetStartupInstanceID() const override
+			kxf::String GetStartupInstanceID() const override
 			{
 				return m_StartupInstanceID;
 			}
@@ -105,8 +105,8 @@ namespace Kortex::Application
 			{
 				return m_Variables;
 			}
-			wxString ExpandVariablesLocally(const wxString& variables) const override;
-			wxString ExpandVariables(const wxString& variables) const override;
+			kxf::String ExpandVariablesLocally(const kxf::String& variables) const override;
+			kxf::String ExpandVariables(const kxf::String& variables) const override;
 		
 			bool IsTranslationLoaded() const override
 			{
@@ -139,7 +139,7 @@ namespace Kortex::Application
 			void LoadStartupInstanceID();
 			bool BeginLoadCurrentInstance(wxWindow* parent = nullptr, bool downloadLinkPresent = false);
 			bool LoadInstance();
-			bool DispatchDownloadLink(const wxString& link, bool* canContinue = nullptr);
+			bool DispatchDownloadLink(const kxf::String& link, bool* canContinue = nullptr);
 			bool FinalizeInitialization();
 
 			void InitVFS();

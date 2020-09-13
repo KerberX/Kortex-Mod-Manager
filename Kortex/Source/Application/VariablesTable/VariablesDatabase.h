@@ -1,9 +1,9 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex::Variables
 {
-	template<class T> wxString WrapAsInline(T&& variable, const wxString& variableNamespace = wxEmptyString)
+	template<class T> kxf::String WrapAsInline(T&& variable, const kxf::String& variableNamespace = wxEmptyString)
 	{
 		return wxS('$') + variableNamespace + wxS('(') + variable + wxS(')');
 	}

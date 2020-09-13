@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex
 {
@@ -32,8 +32,8 @@ namespace Kortex
 			virtual bool HasPopup() const = 0;
 			virtual void DestroyPopup() = 0;
 
-			virtual wxString GetCaption() const = 0;
-			virtual wxString GetMessage() const = 0;
+			virtual kxf::String GetCaption() const = 0;
+			virtual kxf::String GetMessage() const = 0;
 			virtual wxBitmap GetBitmap() const = 0;
 	};
 }

@@ -46,7 +46,7 @@ namespace Kortex
 		return false;
 	}
 
-	bool IWorkspaceContainer::SwitchWorkspaceByID(const wxString& id)
+	bool IWorkspaceContainer::SwitchWorkspaceByID(const kxf::String& id)
 	{
 		if (IWorkspace* workspace = GetWorkspaceByID(id))
 		{

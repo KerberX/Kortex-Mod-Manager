@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/InfoSection.h"
 #include <KxFramework/KxStdDialog.h>
@@ -69,7 +69,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 			}
 	
 		public:
-			DocumentsDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller);
+			DocumentsDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller);
 			virtual ~DocumentsDialog();
 	};
 }

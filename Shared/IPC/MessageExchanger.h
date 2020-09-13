@@ -12,12 +12,12 @@ namespace Kortex::IPC
 
 		protected:
 			KxSharedMemoryBuffer DoSendMessage(const Message& message, const void* userData = nullptr, size_t dataSize = 0);
-			KxSharedMemoryBuffer DoSendStringMessage(const Message& message, const wxString& value);
+			KxSharedMemoryBuffer DoSendStringMessage(const Message& message, const kxf::String& value);
 			
 			template<class T>
 			KxSharedMemoryBuffer DoSendValueMessage(const Message& message, const T& value)
 			{
-				if constexpr(std::is_same_v<T, wxString>)
+				if constexpr(std::is_same_v<T, kxf::String>)
 				{
 					return DoSendStringMessage(message, value);
 				}

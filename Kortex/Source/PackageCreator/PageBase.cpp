@@ -38,7 +38,7 @@ namespace Kortex::PackageDesigner
 	{
 		return m_Controller->GetProject();
 	}
-	wxString PageBase::GetName() const
+	kxf::String PageBase::GetName() const
 	{
 		return GetPageName();
 	}
@@ -54,11 +54,11 @@ namespace Kortex::PackageDesigner
 		return textBox;
 	}
 
-	KxLabel* PageBase::CreateCaptionLabel(wxWindow* window, const wxString& label)
+	KxLabel* PageBase::CreateCaptionLabel(wxWindow* window, const kxf::String& label)
 	{
 		return new KxLabel(window, KxID_NONE, label, KxLabel::DefaultStyle|KxLABEL_CAPTION|KxLABEL_LINE|KxLABEL_COLORED);
 	}
-	KxLabel* PageBase::CreateNormalLabel(wxWindow* window, const wxString& label, bool addColon, bool addLine)
+	KxLabel* PageBase::CreateNormalLabel(wxWindow* window, const kxf::String& label, bool addColon, bool addLine)
 	{
 		int style = (addLine ? KxLABEL_LINE : 0);
 		return new KxLabel(window, KxID_NONE, !addColon || label.IsEmpty() ? label : label + ':', style);
@@ -76,7 +76,7 @@ namespace Kortex::PackageDesigner
 		IThemeManager::GetActive().Apply(static_cast<wxWindow*>(toolBar));
 		return toolBar;
 	}
-	void PageBase::ShowTooltipWarning(wxWindow* window, const wxString& message, const wxRect& rect)
+	void PageBase::ShowTooltipWarning(wxWindow* window, const kxf::String& message, const wxRect& rect)
 	{
 		KxRichToolTip tooltip(KTr(KxID_ERROR), message);
 		tooltip.SetIcon(KxICON_WARNING);

@@ -15,52 +15,52 @@
 
 namespace Kortex::PackageDesigner
 {
-	wxString WorkspaceDocument::GetNewProjectName()
+	kxf::String WorkspaceDocument::GetNewProjectName()
 	{
 		return KTr("PackageCreator.NewProjectName");
 	}
 
-	wxString WorkspaceDocument::GetSaveConfirmationCaption() const
+	kxf::String WorkspaceDocument::GetSaveConfirmationCaption() const
 	{
 		return KTr("PackageCreator.SaveChanges.Caption");
 	}
-	wxString WorkspaceDocument::GetSaveConfirmationMessage() const
+	kxf::String WorkspaceDocument::GetSaveConfirmationMessage() const
 	{
 		return KTr("PackageCreator.SaveChanges.Message");
 	}
 
-	wxString WorkspaceDocument::GetProjectFileName() const
+	kxf::String WorkspaceDocument::GetProjectFileName() const
 	{
-		wxString name = m_ProjectFile.AfterLast('\\');
+		kxf::String name = m_ProjectFile.AfterLast('\\');
 		return name.IsEmpty() ? GetNewProjectName() : name;
 	}
-	wxString WorkspaceDocument::GetProjectName() const
+	kxf::String WorkspaceDocument::GetProjectName() const
 	{
 		// Name -> ID -> translated name -> project file name
 		if (m_Project)
 		{
-			const wxString& name = m_Project->GetInfo().GetName();
+			const kxf::String& name = m_Project->GetInfo().GetName();
 			if (!name.IsEmpty())
 			{
 				return name;
 			}
 			else
 			{
-				const wxString& id = m_Project->GetModID();
+				const kxf::String& id = m_Project->GetModID();
 				if (!id.IsEmpty())
 				{
 					return id;
 				}
 				else
 				{
-					const wxString& translatedName = m_Project->GetInfo().GetTranslatedName();
+					const kxf::String& translatedName = m_Project->GetInfo().GetTranslatedName();
 					if (!translatedName.IsEmpty())
 					{
 						return translatedName;
 					}
 					else
 					{
-						wxString fileName = m_ProjectFile.AfterLast('\\').BeforeFirst('.');
+						kxf::String fileName = m_ProjectFile.AfterLast('\\').BeforeFirst('.');
 						if (!fileName.IsEmpty())
 						{
 							return fileName;
@@ -104,7 +104,7 @@ namespace Kortex::PackageDesigner
 		m_Project = std::make_unique<ModPackageProject>();
 		Reload();
 	}
-	void WorkspaceDocument::OpenProject(const wxString& filePath)
+	void WorkspaceDocument::OpenProject(const kxf::String& filePath)
 	{
 		m_ProjectFile = filePath;
 		m_Project = std::make_unique<ModPackageProject>();
@@ -119,12 +119,12 @@ namespace Kortex::PackageDesigner
 	{
 		SaveChanges();
 	}
-	void WorkspaceDocument::SaveProject(const wxString& filePath)
+	void WorkspaceDocument::SaveProject(const kxf::String& filePath)
 	{
 		m_ProjectFile = filePath;
 		SaveChanges();
 	}
-	void WorkspaceDocument::ImportProjectFromPackage(const wxString& packagePath)
+	void WorkspaceDocument::ImportProjectFromPackage(const kxf::String& packagePath)
 	{
 		m_ProjectFile.Clear();
 		m_Project = std::make_unique<ModPackageProject>();

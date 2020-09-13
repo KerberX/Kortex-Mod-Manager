@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameInstance/GameID.h"
 #include "DownloadManager/DownloadItem.h"
 #include "DownloadManager/DownloadEvent.h"
@@ -36,10 +36,10 @@ namespace Kortex
 			};
 
 		public:
-			static wxString RenameIncrement(const wxString& name);
+			static kxf::String RenameIncrement(const kxf::String& name);
 
-			static bool IsAssociatedWithLink(const wxString& type);
-			static void AssociateWithLink(const wxString& type);
+			static bool IsAssociatedWithLink(const kxf::String& type);
+			static void AssociateWithLink(const kxf::String& type);
 
 		protected:
 			DownloadItem::Vector m_Downloads;
@@ -52,10 +52,10 @@ namespace Kortex
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			
 		protected:
-			LocationStatus CheckDownloadLocation(const wxString& directoryPath, int64_t fileSize = -1) const;
+			LocationStatus CheckDownloadLocation(const kxf::String& directoryPath, int64_t fileSize = -1) const;
 			LocationStatus OnAccessDownloadLocation(int64_t fileSize = -1) const;
 
 		public:
@@ -86,8 +86,8 @@ namespace Kortex
 			}
 			void SetShowArchivesOnly(bool show = true);
 
-			wxString GetDownloadsLocation() const;
-			void SetDownloadsLocation(const wxString& location);
+			kxf::String GetDownloadsLocation() const;
+			void SetDownloadsLocation(const kxf::String& location);
 			
 			bool HasConcurrentDownloadsLimit() const
 			{
@@ -99,20 +99,20 @@ namespace Kortex
 			}
 			void SetMaxConcurrentDownloads(int count);
 
-			DownloadItem* FindDownloadByFileName(const wxString& name, const DownloadItem* except = nullptr) const;
+			DownloadItem* FindDownloadByFileName(const kxf::String& name, const DownloadItem* except = nullptr) const;
 			bool AutoRenameIncrement(DownloadItem& item) const;
 
 		public:
 			virtual std::unique_ptr<IDownloadExecutor> NewDownloadExecutor(DownloadItem& item,
 																		   const KxURI& uri,
-																		   const wxString& localPath
+																		   const kxf::String& localPath
 			) = 0;
 			virtual bool QueueDownload(ModNetworkRepository& modRepository,
 									   const ModDownloadReply& downloadInfo,
 									   const ModFileReply& fileInfo,
 									   const GameID& id = {}
 			) = 0;
-			virtual bool QueueSimpleDownload(const KxURI& uri, const wxString& localPath = {}) = 0;
-			virtual bool QueueUnknownDownload(const wxString& link);
+			virtual bool QueueSimpleDownload(const KxURI& uri, const kxf::String& localPath = {}) = 0;
+			virtual bool QueueUnknownDownload(const kxf::String& link);
 	};
 }

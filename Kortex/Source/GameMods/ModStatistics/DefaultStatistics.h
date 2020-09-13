@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IModStatistics.h"
 
 namespace Kortex::ModStatistics
@@ -13,7 +13,7 @@ namespace Kortex::ModStatistics
 			size_t GetStatCount() const override;
 			bool HasStat(const StatInfo& stat) const override;
 
-			wxString GetStatName(const StatInfo& stat) const override;
-			wxString GetStatValue(const StatInfo& stat) const override;
+			kxf::String GetStatName(const StatInfo& stat) const override;
+			kxf::String GetStatValue(const StatInfo& stat) const override;
 	};
 }

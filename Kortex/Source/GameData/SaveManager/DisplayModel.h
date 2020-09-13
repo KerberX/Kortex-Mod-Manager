@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IGameSave.h"
 #include <DataView2/DataView2.h>
 

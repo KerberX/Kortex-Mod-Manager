@@ -89,7 +89,6 @@
     <ClCompile Include="Source\Application\Resources\IImageProvider.cpp" />
     <ClCompile Include="Source\Application\Settings\ConfigManager.cpp" />
     <ClCompile Include="Source\Application\Settings\Window.cpp" />
-    <ClCompile Include="Source\Application\Translation.cpp" />
     <ClCompile Include="Source\Application\SystemApplication.cpp" />
     <ClCompile Include="Source\Application\Theme\Default.cpp" />
     <ClCompile Include="Source\Application\Theme\VisualStudio.cpp" />
@@ -369,12 +368,14 @@
     <ClInclude Include="Include\Kortex\Common\Network.hpp" />
     <ClInclude Include="Include\Kortex\Common\Packages.hpp" />
     <ClInclude Include="Include\Kortex\Common\Programs.hpp" />
-    <ClInclude Include="Include\Kortex\Core.hpp" />
+    <ClInclude Include="Include\Kortex\Framework.hpp" />
     <ClInclude Include="Include\Kortex\DownloadManager.hpp" />
+    <ClInclude Include="Include\Kortex\Core.hpp" />
     <ClInclude Include="Include\Kortex\GameConfig.hpp" />
     <ClInclude Include="Include\Kortex\GameInstance.hpp" />
     <ClInclude Include="Include\Kortex\Git\Constants.h" />
     <ClInclude Include="Include\Kortex\InstallWizard.hpp" />
+    <ClInclude Include="Include\Kortex\Kortex.hpp" />
     <ClInclude Include="Include\Kortex\ModImporter.hpp" />
     <ClInclude Include="Include\Kortex\ModManager.hpp" />
     <ClInclude Include="Include\Kortex\ModStatistics.hpp" />
@@ -428,7 +429,6 @@
     <ClInclude Include="Source\Application\Resources\DefaultImageProvider.h" />
     <ClInclude Include="Source\Application\Resources\IImageProvider.h" />
     <ClInclude Include="Source\Application\Resources\ImageResourceID.h" />
-    <ClInclude Include="Source\Application\Resources\ResourceID.h" />
     <ClInclude Include="Source\Application\Settings\ConfigManager.h" />
     <ClInclude Include="Source\Application\Settings\Window.h" />
     <ClInclude Include="Source\Application\Translation.h" />
@@ -654,6 +654,7 @@
     <ClInclude Include="Source\PackageProject\Serializer\FOModSerializer.h" />
     <ClInclude Include="Source\PackageProject\Serializer\LegacySerializer.h" />
     <ClInclude Include="Source\PackageProject\Serializer\NativeSerializer.h" />
+    <ClInclude Include="Source\pch.hpp" />
     <ClInclude Include="Source\Programs\IProgramItem.h" />
     <ClInclude Include="Source\Programs\IProgramManager.h" />
     <ClInclude Include="Source\Programs\ProgramEvent.h" />
@@ -886,6 +887,7 @@
       <AdditionalDependencies>delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACUIAccess>false</UACUIAccess>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(TargetPath)" "$(SolutionDir)Bin\$(TargetName) $(PlatformShortName)$(TargetExt)"
@@ -930,6 +932,7 @@ echo )==^" &gt;&gt; "$(ProjectDir)Include\Kortex\Git\LatestCommit.txt"</Command>
       <AdditionalDependencies>delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACUIAccess>false</UACUIAccess>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(TargetPath)" "$(SolutionDir)Bin\$(TargetName) $(PlatformShortName)$(TargetExt)"
@@ -981,6 +984,7 @@ echo )==^" &gt;&gt; "$(ProjectDir)Include\Kortex\Git\LatestCommit.txt"</Command>
       <ShowProgress>NotSet</ShowProgress>
       <Profile>true</Profile>
       <UACUIAccess>false</UACUIAccess>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -1036,6 +1040,7 @@ echo )==^" &gt;&gt; "$(ProjectDir)Include\Kortex\Git\LatestCommit.txt"</Command>
       <ShowProgress>NotSet</ShowProgress>
       <Profile>true</Profile>
       <UACUIAccess>false</UACUIAccess>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(TargetPath)" "$(SolutionDir)Bin\$(TargetName) $(PlatformShortName)$(TargetExt)"

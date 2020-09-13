@@ -67,7 +67,7 @@ namespace Kortex::InstallWizard
 		{
 			if (const PackageProject::ComponentItem* entry = node->GetEntry())
 			{
-				const wxString& description = entry->GetDescription();
+				const kxf::String& description = entry->GetDescription();
 				const bool isDescriptionEmpty = description.IsEmpty();
 				if (!isDescriptionEmpty)
 				{
@@ -78,19 +78,19 @@ namespace Kortex::InstallWizard
 				{
 					m_Description->SetValue(Utility::UI::MakeHTMLWindowPlaceholder(KTr("InstallWizard.NoDescriptionHint"), m_Description));
 				}
-				m_TabView->SetPageImage((size_t)TabIndex::Description, (int)(!isDescriptionEmpty ? ImageResourceID::InformationFrame : ImageResourceID::InformationFrameEmpty));
+				m_TabView->SetPageImage((size_t)TabIndex::Description, (int)(!isDescriptionEmpty ? Imagekxf::ResourceID::InformationFrame : Imagekxf::ResourceID::InformationFrameEmpty));
 
 				bool bRequirementsEmpty = entry->GetRequirements().empty();
 				if (!bRequirementsEmpty)
 				{
 					const bool isOK = GetPackageConfig().GetRequirements().CalcOverallStatus(entry->GetRequirements());
 
-					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)(isOK ? ImageResourceID::TickCircleFrame : ImageResourceID::CrossCircleFrame));
+					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)(isOK ? Imagekxf::ResourceID::TickCircleFrame : Imagekxf::ResourceID::CrossCircleFrame));
 					//m_Components_Requirements->SetDataVector(&GetConfig().GetRequirements(), entry->GetRequirements());
 				}
 				else
 				{
-					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)ImageResourceID::InformationFrameEmpty);
+					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)Imagekxf::ResourceID::InformationFrameEmpty);
 				}
 
 				const PackageProject::ImageItem* imageEntry = GetPackageConfig().GetInterface().FindImageByPath(entry->GetImage());
@@ -116,8 +116,8 @@ namespace Kortex::InstallWizard
 	}
 	void ComponentsPage::ClearComponentsViewInfo()
 	{
-		m_TabView->SetPageImage((size_t)TabIndex::Description, (int)ImageResourceID::InformationFrameEmpty);
-		m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)ImageResourceID::InformationFrameEmpty);
+		m_TabView->SetPageImage((size_t)TabIndex::Description, (int)Imagekxf::ResourceID::InformationFrameEmpty);
+		m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)Imagekxf::ResourceID::InformationFrameEmpty);
 
 		m_Description->SetValue(Utility::UI::MakeHTMLWindowPlaceholder(KTr("InstallWizard.SelectComponentHint"), m_Description));
 		m_Description->Disable();

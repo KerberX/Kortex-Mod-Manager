@@ -20,12 +20,12 @@ namespace
 
 namespace Kortex::PackageProject
 {
-	wxString FlagItem::GetDeletedFlagPrefix()
+	kxf::String FlagItem::GetDeletedFlagPrefix()
 	{
 		return wxS("DELETED_");
 	}
 	
-	FlagItem::FlagItem(const wxString& value, const wxString& name)
+	FlagItem::FlagItem(const kxf::String& value, const kxf::String& name)
 		:LabeledValue(value, name)
 	{
 	}
@@ -75,7 +75,7 @@ namespace Kortex::PackageProject
 
 namespace Kortex::PackageProject
 {
-	TypeDescriptor ComponentsSection::StringToTypeDescriptor(const wxString& name, TypeDescriptor default)
+	TypeDescriptor ComponentsSection::StringToTypeDescriptor(const kxf::String& name, TypeDescriptor default)
 	{
 		if (name == KPPC_DESCRIPTOR_OPTIONAL_STRING)
 		{
@@ -99,7 +99,7 @@ namespace Kortex::PackageProject
 		}
 		return default;
 	}
-	wxString ComponentsSection::TypeDescriptorToString(TypeDescriptor type)
+	kxf::String ComponentsSection::TypeDescriptorToString(TypeDescriptor type)
 	{
 		switch (type)
 		{
@@ -126,12 +126,12 @@ namespace Kortex::PackageProject
 		};
 		return wxEmptyString;
 	}
-	wxString ComponentsSection::TypeDescriptorToTranslation(TypeDescriptor type)
+	kxf::String ComponentsSection::TypeDescriptorToTranslation(TypeDescriptor type)
 	{
-		return KTr(KxString::Format("PackageCreator.PageComponents.TypeDescriptor.%1", ComponentsSection::TypeDescriptorToString(type)));
+		return KTr(kxf::String::Format("PackageCreator.PageComponents.TypeDescriptor.%1", ComponentsSection::TypeDescriptorToString(type)));
 	}
 	
-	SelectionMode ComponentsSection::StringToSelectionMode(const wxString& name)
+	SelectionMode ComponentsSection::StringToSelectionMode(const kxf::String& name)
 	{
 		if (name == KPPC_SELECT_ANY_STRING)
 		{
@@ -155,7 +155,7 @@ namespace Kortex::PackageProject
 		}
 		return ms_DefaultSelectionMode;
 	}
-	wxString ComponentsSection::SelectionModeToString(SelectionMode type)
+	kxf::String ComponentsSection::SelectionModeToString(SelectionMode type)
 	{
 		switch (type)
 		{
@@ -182,9 +182,9 @@ namespace Kortex::PackageProject
 		};
 		return wxEmptyString;
 	}
-	wxString ComponentsSection::SelectionModeToTranslation(SelectionMode type)
+	kxf::String ComponentsSection::SelectionModeToTranslation(SelectionMode type)
 	{
-		return KTr(KxString::Format("PackageCreator.PageComponents.SelectionMode.%1", SelectionModeToString(type)));
+		return KTr(kxf::String::Format("PackageCreator.PageComponents.SelectionMode.%1", SelectionModeToString(type)));
 	}
 	
 	KxStringVector ComponentsSection::GetFlagsAttributes(FlagAttribute index) const

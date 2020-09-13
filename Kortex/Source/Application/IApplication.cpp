@@ -30,20 +30,20 @@ namespace Kortex
 		cmdLineParser.AddOption(CmdLineName::DownloadLink, wxEmptyString, "Download link");
 	}
 
-	wxString IApplication::RethrowCatchAndGetExceptionInfo() const
+	kxf::String IApplication::RethrowCatchAndGetExceptionInfo() const
 	{
 		return GetSystemApp()->RethrowCatchAndGetExceptionInfo();
 	}
 
-	wxString IApplication::GetRootFolder() const
+	kxf::String IApplication::GetRootFolder() const
 	{
 		return GetSystemApp()->GetRootFolder();
 	}
-	wxString IApplication::GetExecutablePath() const
+	kxf::String IApplication::GetExecutablePath() const
 	{
 		return GetSystemApp()->GetExecutablePath();
 	}
-	wxString IApplication::GetExecutableName() const
+	kxf::String IApplication::GetExecutableName() const
 	{
 		return GetSystemApp()->GetExecutableName();
 	}
@@ -65,15 +65,15 @@ namespace Kortex
 		return GetSystemApp()->IsAnotherRunning();
 	}
 
-	bool IApplication::QueueDownloadToMainProcess(const wxString& link)
+	bool IApplication::QueueDownloadToMainProcess(const kxf::String& link)
 	{
 		return GetSystemApp()->QueueDownloadToMainProcess(link);
 	}
-	std::optional<wxString> IApplication::GetLinkFromCommandLine() const
+	std::optional<kxf::String> IApplication::GetLinkFromCommandLine() const
 	{
 		using namespace Application;
 
-		wxString link;
+		kxf::String link;
 		if (GetCmdLineParser().Found(CmdLineName::DownloadLink, &link) && !link.IsEmpty())
 		{
 			return link;
@@ -85,10 +85,10 @@ namespace Kortex
 	{
 		return GetSystemApp()->GetCmdLineParser();
 	}
-	wxString IApplication::FormatCommandLine(const CmdLineParameters& parameters)
+	kxf::String IApplication::FormatCommandLine(const CmdLineParameters& parameters)
 	{
-		wxString commandLine;
-		auto AddCommand = [&commandLine](const wxString& command)
+		kxf::String commandLine;
+		auto AddCommand = [&commandLine](const kxf::String& command)
 		{
 			if (!command.IsEmpty())
 			{
@@ -102,19 +102,19 @@ namespace Kortex
 
 		if (!parameters.InstanceID.IsEmpty())
 		{
-			AddCommand(KxString::Format(wxS("-%1 \"%2\""), CmdLineName::InstanceID, parameters.InstanceID));
+			AddCommand(kxf::String::Format(wxS("-%1 \"%2\""), CmdLineName::InstanceID, parameters.InstanceID));
 		}
 		if (!parameters.DownloadLink.IsEmpty())
 		{
-			AddCommand(KxString::Format(wxS("-%1 \"%2\""), CmdLineName::DownloadLink, parameters.DownloadLink));
+			AddCommand(kxf::String::Format(wxS("-%1 \"%2\""), CmdLineName::DownloadLink, parameters.DownloadLink));
 		}
 		if (!parameters.GlobalConfigPath.IsEmpty())
 		{
-			AddCommand(KxString::Format(wxS("-%1 \"%2\""), CmdLineName::GlobalConfigPath, parameters.GlobalConfigPath));
+			AddCommand(kxf::String::Format(wxS("-%1 \"%2\""), CmdLineName::GlobalConfigPath, parameters.GlobalConfigPath));
 		}
 		return commandLine;
 	}
-	bool IApplication::ScheduleRestart(const wxString& commandLine, std::optional<wxTimeSpan> timeout)
+	bool IApplication::ScheduleRestart(const kxf::String& commandLine, std::optional<wxTimeSpan> timeout)
 	{
 		if (KxTaskScheduler taskSheduler; taskSheduler.IsOK())
 		{
@@ -133,7 +133,7 @@ namespace Kortex
 			task.SetRegistrationTrigger("Restart", delay, wxDateTime::Now() + delay * 2);
 			task.DeleteExpiredTaskAfter(delay);
 
-			const wxString taskName = wxS("Kortex.ScheduleRestart");
+			const kxf::String taskName = wxS("Kortex.ScheduleRestart");
 			taskSheduler.DeleteTask(taskName);
 			return taskSheduler.SaveTask(task, taskName);
 		}
@@ -149,31 +149,31 @@ namespace Kortex
 		GetSystemApp()->ConfigureForInternetExplorer10(false);
 	}
 
-	wxString IApplication::GetID() const
+	kxf::String IApplication::GetID() const
 	{
 		return GetSystemApp()->GetAppName();
 	}
-	wxString IApplication::GetName() const
+	kxf::String IApplication::GetName() const
 	{
 		return GetSystemApp()->GetAppDisplayName();
 	}
-	wxString IApplication::GetShortName() const
+	kxf::String IApplication::GetShortName() const
 	{
 		return GetSystemApp()->GetShortName();
 	}
-	wxString IApplication::GetDeveloper() const
+	kxf::String IApplication::GetDeveloper() const
 	{
 		return GetSystemApp()->GetVendorName();
 	}
-	KxVersion IApplication::GetVersion() const
+	kxf::Version IApplication::GetVersion() const
 	{
 		return GetSystemApp()->GetAppVersion();
 	}
-	KxVersion IApplication::GetWxWidgetsVersion() const
+	kxf::Version IApplication::GetWxWidgetsVersion() const
 	{
 		return wxGetLibraryVersionInfo();
 	}
-	KxXMLDocument& IApplication::GetGlobalConfig() const
+	kxf::XMLDocument& IApplication::GetGlobalConfig() const
 	{
 		return GetSystemApp()->GetGlobalConfig();
 	}
@@ -226,11 +226,11 @@ namespace Kortex
 
 	LoadTranslationStatus IApplication::TryLoadTranslation(KxTranslation& translation,
 														   const KxTranslation::AvailableMap& availableTranslations,
-														   const wxString& component,
-														   const wxString& desiredLocale
+														   const kxf::String& component,
+														   const kxf::String& desiredLocale
 	) const
 	{
-		auto LoadLang = [&translation, &component, &availableTranslations](const wxString& name, bool isFullName = false) -> bool
+		auto LoadLang = [&translation, &component, &availableTranslations](const kxf::String& name, bool isFullName = false) -> bool
 		{
 			auto it = availableTranslations.find(isFullName ? name : name + '.' + component);
 			if (it != availableTranslations.end())

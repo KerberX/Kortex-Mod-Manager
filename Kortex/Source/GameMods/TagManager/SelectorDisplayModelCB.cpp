@@ -21,7 +21,7 @@ namespace Kortex::ModTagManager
 		return m_ComboView->GetComboControl();
 	}
 
-	wxString SelectorDisplayModelCB::DoGetStingValue() const
+	kxf::String SelectorDisplayModelCB::DoGetStingValue() const
 	{
 		if (!m_TagStore->IsEmpty())
 		{
@@ -32,7 +32,7 @@ namespace Kortex::ModTagManager
 			return KVarExp(wxS("<$T(ID_NONE)>"));
 		}
 	}
-	void SelectorDisplayModelCB::SetStringValue(const wxString& value)
+	void SelectorDisplayModelCB::SetStringValue(const kxf::String& value)
 	{
 		m_ComboView->GetComboControl()->SetText(value);
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/IConfigManager.h"
 #include "GameConfig/ConfigManger/Definition.h"
 #include "GameConfig/ConfigManger/ItemGroup.h"
@@ -26,7 +26,7 @@ namespace Kortex::Application::Settings
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 
 			void OnCreateDisplayModel(GameConfig::DisplayModel& displayModel) override
 			{
@@ -73,6 +73,6 @@ namespace Kortex::Application::Settings
 			void DiscardChanges() override;
 			bool HasUnsavedChanges() const override;
 
-			std::unique_ptr<GameConfig::ISamplingFunction> QuerySamplingFunction(const wxString& name, GameConfig::SampleValue::Vector& samples) override;
+			std::unique_ptr<GameConfig::ISamplingFunction> QuerySamplingFunction(const kxf::String& name, GameConfig::SampleValue::Vector& samples) override;
 	};
 }

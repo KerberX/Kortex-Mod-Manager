@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxSingleton.h>
 
 namespace Kortex
@@ -23,12 +23,12 @@ namespace Kortex
 			std::unique_ptr<IScreenshotsGallery> m_ScreenshotsGallery;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 			virtual void OnInit() override;
 			virtual void OnExit() override;
 
 		private:
-			std::unique_ptr<IPluginManager> CreatePluginManager(const KxXMLNode& node) const;
+			std::unique_ptr<IPluginManager> CreatePluginManager(const kxf::XMLNode& node) const;
 
 		public:
 			GameDataModule();

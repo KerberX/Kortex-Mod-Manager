@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BaseFileSystem.h"
 
 namespace Kortex::VirtualFileSystem
@@ -7,12 +7,12 @@ namespace Kortex::VirtualFileSystem
 	class Mirror: public BaseFileSystem
 	{
 		protected:
-			Mirror(IPC::FileSystemID id, const wxString& mountPoint, const wxString& source);
+			Mirror(IPC::FileSystemID id, const kxf::String& mountPoint, const kxf::String& source);
 
 		public:
-			Mirror(const wxString& mountPoint, const wxString& source);
+			Mirror(const kxf::String& mountPoint, const kxf::String& source);
 
 		public:
-			void SetSource(const wxString& path);
+			void SetSource(const kxf::String& path);
 	};
 }

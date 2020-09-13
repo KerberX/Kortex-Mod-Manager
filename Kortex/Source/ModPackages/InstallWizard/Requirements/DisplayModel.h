@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "RequirementsPage.h"
 #include <KxFramework/DataView2/DataView2.h>
 

@@ -1,8 +1,8 @@
 #pragma once
 #include "Common.h"
 #include <KxFramework/KxIndexedEnum.h>
-#include <KxFramework/KxVersion.h>
-class KxXMLNode;
+#include <KxFramework/kxf::Version.h>
+class kxf::XMLNode;
 
 namespace Kortex::NetworkManager
 {
@@ -17,7 +17,7 @@ namespace Kortex::NetworkManager
 		ModFileUpdated,
 		ModFileDeleted
 	};
-	struct ModUpdateStateDef: KxIndexedEnum::Definition<ModUpdateStateDef, ModUpdateState, wxString, true>
+	struct ModUpdateStateDef: KxIndexedEnum::Definition<ModUpdateStateDef, ModUpdateState, kxf::String, true>
 	{
 		using UpdateState = ModUpdateState;
 
@@ -53,7 +53,7 @@ namespace Kortex::NetworkManager
 		return (static_cast<T>(left) & static_cast<T>(right)) != 0;
 	}
 
-	struct ModUpdateDetailsDef: KxIndexedEnum::Definition<ModUpdateDetailsDef, ModUpdateDetails, wxString, true>
+	struct ModUpdateDetailsDef: KxIndexedEnum::Definition<ModUpdateDetailsDef, ModUpdateDetails, kxf::String, true>
 	{
 		using UpdateDetails = ModUpdateDetails;
 
@@ -77,7 +77,7 @@ namespace Kortex
 			using UpdateDetailsDef = NetworkManager::ModUpdateDetailsDef;
 			
 		private:
-			KxVersion m_Version;
+			kxf::Version m_Version;
 			wxDateTime m_UpdateCheckDate;
 			UpdateState m_State = UpdateState::Unknown;
 			UpdateDetails m_Details = UpdateDetails::None;
@@ -135,11 +135,11 @@ namespace Kortex
 				m_Details = m_Details|details;
 			}
 
-			KxVersion GetVersion() const
+			kxf::Version GetVersion() const
 			{
 				return m_Version;
 			}
-			void SetVersion(const KxVersion& version)
+			void SetVersion(const kxf::Version& version)
 			{
 				m_Version = version;
 			}
@@ -154,7 +154,7 @@ namespace Kortex
 			}
 
 		public:
-			void Save(KxXMLNode& node) const;
-			void Load(const KxXMLNode& node);
+			void Save(kxf::XMLNode& node) const;
+			void Load(const kxf::XMLNode& node);
 	};
 }

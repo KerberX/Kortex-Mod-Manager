@@ -112,14 +112,14 @@ namespace Kortex::DownloadManager
 		});
 	}
 
-	void DownloadExecutor::QueueNotifyEvent(KxEventTag<DownloadEvent> eventID)
+	void DownloadExecutor::QueueNotifyEvent(kxf::EventTag<DownloadEvent> eventID)
 	{
 		m_EvtHandler.CallAfter([this, eventID]()
 		{
 			NotifyEvent(eventID);
 		});
 	}
-	void DownloadExecutor::NotifyEvent(KxEventTag<DownloadEvent> eventID)
+	void DownloadExecutor::NotifyEvent(kxf::EventTag<DownloadEvent> eventID)
 	{
 		BroadcastProcessor::Get().ProcessEvent(eventID, m_Item);
 	}
@@ -141,7 +141,7 @@ namespace Kortex::DownloadManager
 		return KxFile(GetLocalTempPath()).RemoveFile();
 	}
 
-	DownloadExecutor::DownloadExecutor(DownloadItem& item, const KxURI& uri, const wxString& localPath)
+	DownloadExecutor::DownloadExecutor(DownloadItem& item, const KxURI& uri, const kxf::String& localPath)
 		:m_Item(item), m_DownloadManager(*IDownloadManager::GetInstance()), m_URI(uri), m_LocalPath(localPath)
 	{
 	}
@@ -224,11 +224,11 @@ namespace Kortex::DownloadManager
 		}
 		return std::nullopt;
 	}
-	wxString DownloadExecutor::GetLocalPath() const
+	kxf::String DownloadExecutor::GetLocalPath() const
 	{
 		return m_LocalPath;
 	}
-	wxString DownloadExecutor::GetLocalTempPath() const
+	kxf::String DownloadExecutor::GetLocalTempPath() const
 	{
 		// In most cases this path would be 'm_Item.GetLocalTempPath()' but executor could be given different local path than its item
 		return m_LocalPath + m_Item.GetTempPathSuffix();

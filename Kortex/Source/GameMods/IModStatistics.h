@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxSingleton.h>
 
 namespace Kortex::ModStatistics
@@ -45,7 +45,7 @@ namespace Kortex
 			virtual size_t GetStatCount() const = 0;
 			virtual bool HasStat(const ModStatistics::StatInfo& stat) const = 0;
 
-			virtual wxString GetStatName(const ModStatistics::StatInfo& stat) const = 0;
-			virtual wxString GetStatValue(const ModStatistics::StatInfo& stat) const = 0;
+			virtual kxf::String GetStatName(const ModStatistics::StatInfo& stat) const = 0;
+			virtual kxf::String GetStatValue(const ModStatistics::StatInfo& stat) const = 0;
 	};
 }

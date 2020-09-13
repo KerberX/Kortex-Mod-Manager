@@ -13,20 +13,20 @@ namespace
 	{
 		using namespace Kortex;
 
-		wxString GetGlobalRelativePath(const wxString& folderName)
+		kxf::String GetGlobalRelativePath(const kxf::String& folderName)
 		{
 			return IGameInstance::GetActive()->GetInstanceRelativePath(wxS("GlobalProfile")) + wxS('\\') + folderName;
 		}
-		wxString GetLocalPath(const wxString& id)
+		kxf::String GetLocalPath(const kxf::String& id)
 		{
 			return IGameInstance::GetActive()->GetProfilesDir() + wxS('\\') + id;
 		}
-		wxString GetLocalRelativePath(const wxString& id, const wxString& name)
+		kxf::String GetLocalRelativePath(const kxf::String& id, const kxf::String& name)
 		{
 			return GetLocalPath(id) + wxS('\\') + name;
 		}
 
-		bool CreateLocalFolder(const wxString& id, const wxString& name)
+		bool CreateLocalFolder(const kxf::String& id, const kxf::String& name)
 		{
 			return KxFile(GetLocalRelativePath(id, name)).CreateFolder();
 		}
@@ -49,28 +49,28 @@ namespace Kortex
 		variables.SetVariable(Variables::KVAR_GLOBAL_SAVES_DIR, Util::GetGlobalRelativePath(GameInstance::FolderName::Saves));
 		variables.SetVariable(Variables::KVAR_GLOBAL_CONFIG_DIR, Util::GetGlobalRelativePath(GameInstance::FolderName::Config));
 	}
-	wxString IGameProfile::ProcessID(const wxString& id)
+	kxf::String IGameProfile::ProcessID(const kxf::String& id)
 	{
 		return Utility::MakeSafeFileName(id);
 	}
-	bool IGameProfile::CreateLocalFolder(const wxString& id, const wxString& name)
+	bool IGameProfile::CreateLocalFolder(const kxf::String& id, const kxf::String& name)
 	{
 		return Util::CreateLocalFolder(id, name);
 	}
 
-	wxString IGameProfile::GetConfigFile() const
+	kxf::String IGameProfile::GetConfigFile() const
 	{
 		return Util::GetLocalRelativePath(GetID(), wxS("Profile.xml"));
 	}
-	wxString IGameProfile::GetProfileDir() const
+	kxf::String IGameProfile::GetProfileDir() const
 	{
 		return Util::GetLocalPath(GetID());
 	}
-	wxString IGameProfile::GetProfileRelativePath(const wxString& name) const
+	kxf::String IGameProfile::GetProfileRelativePath(const kxf::String& name) const
 	{
 		return Util::GetLocalRelativePath(GetID(), name);
 	}
-	wxString IGameProfile::GetSavesDir() const
+	kxf::String IGameProfile::GetSavesDir() const
 	{
 		if (IsLocalSavesEnabled())
 		{
@@ -81,7 +81,7 @@ namespace Kortex
 			return Util::GetGlobalRelativePath(GameInstance::FolderName::Saves);
 		}
 	}
-	wxString IGameProfile::GetConfigDir() const
+	kxf::String IGameProfile::GetConfigDir() const
 	{
 		if (IsLocalSavesEnabled())
 		{
@@ -92,7 +92,7 @@ namespace Kortex
 			return Util::GetGlobalRelativePath(GameInstance::FolderName::Config);
 		}
 	}
-	wxString IGameProfile::GetOverwritesDir() const
+	kxf::String IGameProfile::GetOverwritesDir() const
 	{
 		return GetProfileRelativePath(GameInstance::FolderName::Overwrites);
 	}
@@ -100,7 +100,7 @@ namespace Kortex
 
 namespace Kortex::GameInstance
 {
-	ProfileMod::ProfileMod(const wxString& signature, bool active, intptr_t priority)
+	ProfileMod::ProfileMod(const kxf::String& signature, bool active, intptr_t priority)
 		:m_Signature(signature), m_Priority(priority >= 0 ? priority : std::numeric_limits<intptr_t>::max()), m_IsActive(active)
 	{
 	}
@@ -125,7 +125,7 @@ namespace Kortex::GameInstance
 		:m_Name(plugin.GetName()), m_Priority(plugin.GetPriority()), m_IsActive(active)
 	{
 	}
-	ProfilePlugin::ProfilePlugin(const wxString& name, bool enabled, intptr_t priority)
+	ProfilePlugin::ProfilePlugin(const kxf::String& name, bool enabled, intptr_t priority)
 		: m_Name(name), m_Priority(priority >= 0 ? priority : std::numeric_limits<intptr_t>::max()), m_IsActive(enabled)
 	{
 	}

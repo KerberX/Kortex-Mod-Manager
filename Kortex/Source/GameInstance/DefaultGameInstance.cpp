@@ -25,7 +25,7 @@
 
 namespace
 {
-	struct NameToRegKeyDef: public KxIndexedEnum::Definition<NameToRegKeyDef, KxRegistryHKey, wxString>
+	struct NameToRegKeyDef: public KxIndexedEnum::Definition<NameToRegKeyDef, KxRegistryHKey, kxf::String>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -36,7 +36,7 @@ namespace
 			{KxREG_HKEY_CURRENT_CONFIG, wxS("HKEY_CURRENT_CONFIG")},
 		};
 	};
-	struct NameToRegTypeDef: public KxIndexedEnum::Definition<NameToRegTypeDef, KxRegistryValueType, wxString>
+	struct NameToRegTypeDef: public KxIndexedEnum::Definition<NameToRegTypeDef, KxRegistryValueType, kxf::String>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -62,10 +62,10 @@ namespace Kortex::GameInstance
 
 		// Load template XML
 		KxFileStream templateConfigStream(m_DefinitionFile);
-		KxXMLDocument templateConfig(templateConfigStream);
+		kxf::XMLDocument templateConfig(templateConfigStream);
 
 		// Load ID and SortOrder
-		KxXMLNode node = templateConfig.QueryElement("Definition");
+		kxf::XMLNode node = templateConfig.QueryElement("Definition");
 		m_GameID = node.GetAttribute("GameID");
 		if (m_GameID.IsOK())
 		{
@@ -80,7 +80,7 @@ namespace Kortex::GameInstance
 			m_Variables.SetVariable(wxS("GameID"), VariableValue(m_GameID));
 			m_Variables.SetVariable(wxS("GameName"), Utility::String::StrOr(m_GameName, m_GameShortName, m_GameID));
 			m_Variables.SetVariable(wxS("GameShortName"), Utility::String::StrOr(m_GameShortName, m_GameName, m_GameID));
-			m_Variables.SetVariable(wxS("GameSortOrder"), VariableValue(KxString::Format(wxS("%1"), m_SortOrder)));
+			m_Variables.SetVariable(wxS("GameSortOrder"), VariableValue(kxf::String::Format(wxS("%1"), m_SortOrder)));
 
 			if (IsTemplate())
 			{
@@ -98,20 +98,20 @@ namespace Kortex::GameInstance
 		}
 		return IsOK();
 	}
-	wxString DefaultGameInstance::CreateProfileID(const wxString& id) const
+	kxf::String DefaultGameInstance::CreateProfileID(const kxf::String& id) const
 	{
 		if (id.IsEmpty() || HasProfile(id))
 		{
-			return KxString::Format(wxS("%1 (%2)"), id.IsEmpty() ? wxS("Profile") : id, GetProfilesCount() + 1);
+			return kxf::String::Format(wxS("%1 (%2)"), id.IsEmpty() ? wxS("Profile") : id, GetProfilesCount() + 1);
 		}
 		return id;
 	}
-	wxString DefaultGameInstance::CreateDefaultProfileID() const
+	kxf::String DefaultGameInstance::CreateDefaultProfileID() const
 	{
 		return wxS("Default");
 	}
 
-	void DefaultGameInstance::LoadVariables(const KxXMLDocument& instanceConfig, const KxXMLDocument* userConfig)
+	void DefaultGameInstance::LoadVariables(const kxf::XMLDocument& instanceConfig, const kxf::XMLDocument* userConfig)
 	{
 		IVariableTable& variables = GetVariables();
 
@@ -121,16 +121,16 @@ namespace Kortex::GameInstance
 		variables.SetVariable(Variables::KVAR_MODS_DIR, GetModsDir());
 		variables.SetVariable(Variables::KVAR_PROFILES_DIR, GetProfilesDir());
 
-		auto LoadVariablesFrom = [this, &variables](const KxXMLNode& arrayNode, bool noEmptyValues)
+		auto LoadVariablesFrom = [this, &variables](const kxf::XMLNode& arrayNode, bool noEmptyValues)
 		{
-			for (KxXMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
-				const wxString id = node.GetAttribute("ID");
-				const wxString typeString = node.GetAttribute("Type");
-				const wxString source = node.GetAttribute("Source");
+				const kxf::String id = node.GetAttribute("ID");
+				const kxf::String typeString = node.GetAttribute("Type");
+				const kxf::String source = node.GetAttribute("Source");
 				const bool saveAsOverride = node.GetAttributeBool("SaveAsOverride");
 
-				wxString value;
+				kxf::String value;
 				if (source == wxS("Registry"))
 				{
 					value = LoadRegistryVariable(node);
@@ -180,7 +180,7 @@ namespace Kortex::GameInstance
 			LoadVariablesFrom(userConfig->QueryElement("Instance/Variables"), true);
 		}
 	}
-	wxString DefaultGameInstance::LoadRegistryVariable(const KxXMLNode& node) const
+	kxf::String DefaultGameInstance::LoadRegistryVariable(const kxf::XMLNode& node) const
 	{
 		// 32 or 64 bit registry branch
 		KxRegistryNode regBranch = KxREG_NODE_SYS;
@@ -202,15 +202,15 @@ namespace Kortex::GameInstance
 		auto mainKey = NameToRegKeyDef::TryFromString(node.GetFirstChildElement("Root").GetValue());
 		if (mainKey)
 		{
-			wxString path = ExpandVariables(node.GetFirstChildElement("Path").GetValue());
-			wxString name = ExpandVariables(node.GetFirstChildElement("Name").GetValue());
+			kxf::String path = ExpandVariables(node.GetFirstChildElement("Path").GetValue());
+			kxf::String name = ExpandVariables(node.GetFirstChildElement("Name").GetValue());
 			auto type = NameToRegTypeDef::TryFromString(node.GetFirstChildElement("Type").GetValue());
 
-			return KxRegistry::GetValue(*mainKey, path, name, type ? *type : KxREG_VALUE_ANY, regBranch, true).As<wxString>();
+			return KxRegistry::GetValue(*mainKey, path, name, type ? *type : KxREG_VALUE_ANY, regBranch, true).As<kxf::String>();
 		}
 		return wxEmptyString;
 	}
-	void DefaultGameInstance::DetectGameArchitecture(const KxXMLDocument& instanceConfig)
+	void DefaultGameInstance::DetectGameArchitecture(const kxf::XMLDocument& instanceConfig)
 	{
 		IVariableTable& variables = GetVariables();
 		bool is64Bit = KxFile(variables.GetVariable("GameExecutable").AsString()).GetBinaryType() == KxFBF_WIN64;
@@ -220,17 +220,17 @@ namespace Kortex::GameInstance
 	}
 
 	// Variables
-	wxString DefaultGameInstance::ExpandVariablesLocally(const wxString& variables) const
+	kxf::String DefaultGameInstance::ExpandVariablesLocally(const kxf::String& variables) const
 	{
 		return m_Variables.Expand(variables);
 	}
-	wxString DefaultGameInstance::ExpandVariables(const wxString& variables) const
+	kxf::String DefaultGameInstance::ExpandVariables(const kxf::String& variables) const
 	{
 		return IApplication::GetInstance()->ExpandVariablesLocally(ExpandVariablesLocally(variables));
 	}
 
 	// Properties
-	wxString DefaultGameInstance::GetIconLocation() const
+	kxf::String DefaultGameInstance::GetIconLocation() const
 	{
 		return GetDefaultIconLocation();
 	}
@@ -250,46 +250,46 @@ namespace Kortex::GameInstance
 		}(bitmap.IsOk() ? bitmap : GetGenericIcon());
 	}
 
-	wxString DefaultGameInstance::GetInstanceTemplateDir() const
+	kxf::String DefaultGameInstance::GetInstanceTemplateDir() const
 	{
 		return IApplication::GetInstance()->GetInstancesFolder();
 	}
-	wxString DefaultGameInstance::GetInstanceDir() const
+	kxf::String DefaultGameInstance::GetInstanceDir() const
 	{
 		return GetInstanceTemplateDir() + wxS('\\') + GetInstanceID();
 	}
-	wxString DefaultGameInstance::GetInstanceRelativePath(const wxString& name) const
+	kxf::String DefaultGameInstance::GetInstanceRelativePath(const kxf::String& name) const
 	{
 		return GetInstanceDir() + wxS('\\') + name;
 	}
 
-	wxString DefaultGameInstance::GetConfigFile() const
+	kxf::String DefaultGameInstance::GetConfigFile() const
 	{
 		return GetInstanceRelativePath(wxS("Instance.xml"));
 	}
-	wxString DefaultGameInstance::GetModsDir() const
+	kxf::String DefaultGameInstance::GetModsDir() const
 	{
 		return GetInstanceRelativePath(wxS("Mods"));
 	}
-	wxString DefaultGameInstance::GetProfilesDir() const
+	kxf::String DefaultGameInstance::GetProfilesDir() const
 	{
 		return GetInstanceRelativePath(wxS("Profiles"));
 	}
-	wxString DefaultGameInstance::GetGameDir() const
+	kxf::String DefaultGameInstance::GetGameDir() const
 	{
 		return GetVariables().GetVariable(Variables::KVAR_ACTUAL_GAME_DIR).AsString();
 	}
-	wxString DefaultGameInstance::GetVirtualGameDir() const
+	kxf::String DefaultGameInstance::GetVirtualGameDir() const
 	{
 		return GetInstanceRelativePath(wxS("VirtualGameDir"));
 	}
 
 	// Profiles
-	const IGameProfile* DefaultGameInstance::GetProfile(const wxString& profileID) const
+	const IGameProfile* DefaultGameInstance::GetProfile(const kxf::String& profileID) const
 	{
 		return Util::FindObjectInVector<const IGameProfile, Util::FindBy::ProfileID>(m_Profiles, IGameProfile::ProcessID(profileID));
 	}
-	IGameProfile* DefaultGameInstance::GetProfile(const wxString& profileID)
+	IGameProfile* DefaultGameInstance::GetProfile(const kxf::String& profileID)
 	{
 		return Util::FindObjectInVector<IGameProfile, Util::FindBy::ProfileID>(m_Profiles, IGameProfile::ProcessID(profileID));
 	}
@@ -298,9 +298,9 @@ namespace Kortex::GameInstance
 	{
 		return std::make_unique<DefaultGameProfile>();
 	}
-	IGameProfile* DefaultGameInstance::CreateProfile(const wxString& profileID, const IGameProfile* baseProfile, uint32_t copyOptions)
+	IGameProfile* DefaultGameInstance::CreateProfile(const kxf::String& profileID, const IGameProfile* baseProfile, uint32_t copyOptions)
 	{
-		wxString id = profileID;
+		kxf::String id = profileID;
 		if (id.IsEmpty())
 		{
 			id = CreateProfileID(id);
@@ -350,9 +350,9 @@ namespace Kortex::GameInstance
 		}
 		return nullptr;
 	}
-	IGameProfile* DefaultGameInstance::ShallowCopyProfile(const IGameProfile& profile, const wxString& nameSuggets)
+	IGameProfile* DefaultGameInstance::ShallowCopyProfile(const IGameProfile& profile, const kxf::String& nameSuggets)
 	{
-		wxString newName = CreateProfileID(nameSuggets.IsEmpty() ? profile.GetID() : nameSuggets);
+		kxf::String newName = CreateProfileID(nameSuggets.IsEmpty() ? profile.GetID() : nameSuggets);
 
 		bool isAllowed = BroadcastProcessor::Get().ProcessEventEx(ProfileEvent::EvtAdding).Do().IsAllowed();
 		if (isAllowed && !HasProfile(newName))
@@ -383,7 +383,7 @@ namespace Kortex::GameInstance
 			ProfilesVector::const_iterator it;
 			if (Util::FindObjectInVector<const IGameProfile, Util::FindBy::ProfileID>(m_Profiles, profile.GetID(), &it))
 			{
-				wxString id = profile.GetID();
+				kxf::String id = profile.GetID();
 				m_Profiles.erase(it);
 
 				BroadcastProcessor::Get().ProcessEvent(ProfileEvent::EvtRemoved, id);
@@ -392,10 +392,10 @@ namespace Kortex::GameInstance
 		}
 		return false;
 	}
-	bool DefaultGameInstance::RenameProfile(IGameProfile& profile, const wxString& newID)
+	bool DefaultGameInstance::RenameProfile(IGameProfile& profile, const kxf::String& newID)
 	{
-		const wxString oldPath = profile.GetProfileDir();
-		const wxString oldID = profile.GetID();
+		const kxf::String oldPath = profile.GetProfileDir();
+		const kxf::String oldID = profile.GetID();
 		const bool isCurrent = profile.IsActive();
 
 		profile.SetID(newID);
@@ -436,7 +436,7 @@ namespace Kortex::GameInstance
 
 namespace Kortex::GameInstance
 {
-	void ConfigurableGameInstance::LoadProfiles(const KxXMLDocument& instanceConfig)
+	void ConfigurableGameInstance::LoadProfiles(const kxf::XMLDocument& instanceConfig)
 	{
 		GetProfiles().clear();
 
@@ -487,7 +487,7 @@ namespace Kortex::GameInstance
 		}
 		return DefaultGameInstance::InitInstance();
 	}
-	bool ConfigurableGameInstance::OnLoadInstance(const KxXMLDocument& templateConfig)
+	bool ConfigurableGameInstance::OnLoadInstance(const kxf::XMLDocument& templateConfig)
 	{
 		// Load config file if not loaded already
 		if (!m_Config.IsOK())
@@ -503,12 +503,12 @@ namespace Kortex::GameInstance
 		return true;
 	}
 
-	ConfigurableGameInstance::ConfigurableGameInstance(const wxString& instanceID)
+	ConfigurableGameInstance::ConfigurableGameInstance(const kxf::String& instanceID)
 		:m_WasCreatedUsingOnlyInstanceID(true)
 	{
-		Create(wxString(), instanceID, false);
+		Create(kxf::String(), instanceID, false);
 	}
-	ConfigurableGameInstance::ConfigurableGameInstance(const IGameInstance& instanceTemplate, const wxString& instanceID)
+	ConfigurableGameInstance::ConfigurableGameInstance(const IGameInstance& instanceTemplate, const kxf::String& instanceID)
 	{
 		Create(instanceTemplate.GetDefinitionFile(), instanceID, instanceTemplate.IsSystemTemplate());
 		m_GameID = instanceTemplate.GetGameID();
@@ -525,14 +525,14 @@ namespace Kortex::GameInstance
 		// Save game ID
 		GetInstanceOption().SetAttribute(OName::GameID, GetGameID());
 
-		KxXMLNode variablesNode = GetInstanceOption(OName::Variables).GetNode();
+		kxf::XMLNode variablesNode = GetInstanceOption(OName::Variables).GetNode();
 		variablesNode.ClearChildren();
 
-		GetVariables().Accept([this, &variablesNode](const wxString& name, const VariableValue& value)
+		GetVariables().Accept([this, &variablesNode](const kxf::String& name, const VariableValue& value)
 		{
 			if (value.IsOverride())
 			{
-				KxXMLNode node = variablesNode.NewElement("Entry");
+				kxf::XMLNode node = variablesNode.NewElement("Entry");
 				
 				node.SetAttribute("ID", name);
 				switch (value.GetType())

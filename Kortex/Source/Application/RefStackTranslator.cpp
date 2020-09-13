@@ -8,7 +8,7 @@ namespace
 
 	template<class T> ITranslator::OpString GetTranslationFor(const RefStackTranslator& translator, const T& id)
 	{
-		wxString value;
+		kxf::String value;
 		bool isSuccess = false;
 		translator.ForEachTranslation([&id, &value, &isSuccess](const KxTranslation& translation)
 		{
@@ -29,7 +29,7 @@ namespace
 
 namespace Kortex
 {
-	ITranslator::OpString RefStackTranslator::DoGetString(const wxString& id) const
+	ITranslator::OpString RefStackTranslator::DoGetString(const kxf::String& id) const
 	{
 		return GetTranslationFor(*this, id);
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/IGameConfigManager.h"
 #include "Definition.h"
 #include "Application/IWorkspace.h"
@@ -18,7 +18,7 @@ namespace Kortex::GameConfig
 	{
 		private:
 			BroadcastReciever m_BroadcastReciever;
-			std::unordered_map<wxString, std::unique_ptr<Definition>> m_Definitions;
+			std::unordered_map<kxf::String, std::unique_ptr<Definition>> m_Definitions;
 
 			KxTranslation m_Translation;
 			RefStackTranslator m_Translator;
@@ -26,13 +26,13 @@ namespace Kortex::GameConfig
 			DisplayModel* m_DisplayModel = nullptr;
 
 		private:
-			void LoadGroup(const KxXMLNode& definitionNode, ItemGroup& group);
+			void LoadGroup(const kxf::XMLNode& definitionNode, ItemGroup& group);
 			void OnChangeProfile(ProfileEvent& event);
 
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void CreateWorkspaces() override;
 
 			void OnCreateDisplayModel(DisplayModel& displayModel) override

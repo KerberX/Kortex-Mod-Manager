@@ -28,7 +28,7 @@
 
 namespace Kortex::ModManager
 {
-	IGameMod* DefaultModManager::DoCreateMod(const wxString& signature)
+	IGameMod* DefaultModManager::DoCreateMod(const kxf::String& signature)
 	{
 		if (!signature.IsEmpty())
 		{
@@ -76,7 +76,7 @@ namespace Kortex::ModManager
 				mod.SetUninstallTime(wxDateTime::Now());
 				mod.Save();
 			}
-			const wxString path = erase ? mod.GetRootDir() : mod.GetModFilesDir();
+			const kxf::String path = erase ? mod.GetRootDir() : mod.GetModFilesDir();
 
 			auto operation = new Utility::OperationWithProgressDialogBase(true, Workspace::GetInstance());
 			operation->OnRun([operation, path = path.Clone()]()
@@ -116,7 +116,7 @@ namespace Kortex::ModManager
 		});
 		if (it != m_Mods.end())
 		{
-			const wxString modID = mod.GetID();
+			const kxf::String modID = mod.GetID();
 			const size_t index = std::distance(m_Mods.begin(), it);
 			m_Mods.erase(it);
 			RecalculatePriority(index);
@@ -161,7 +161,7 @@ namespace Kortex::ModManager
 		}
 	}
 
-	void DefaultModManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultModManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		m_Config.OnLoadInstance(instance, managerNode);
 	}
@@ -373,7 +373,7 @@ namespace Kortex::ModManager
 		return count;
 	}
 
-	IGameMod* DefaultModManager::FindModByID(const wxString& modID) const
+	IGameMod* DefaultModManager::FindModByID(const kxf::String& modID) const
 	{
 		for (auto& entry: m_Mods)
 		{
@@ -384,7 +384,7 @@ namespace Kortex::ModManager
 		}
 		return nullptr;
 	}
-	IGameMod* DefaultModManager::FindModByName(const wxString& modName) const
+	IGameMod* DefaultModManager::FindModByName(const kxf::String& modName) const
 	{
 		for (auto& entry: m_Mods)
 		{
@@ -395,7 +395,7 @@ namespace Kortex::ModManager
 		}
 		return nullptr;
 	}
-	IGameMod* DefaultModManager::FindModBySignature(const wxString& signature) const
+	IGameMod* DefaultModManager::FindModBySignature(const kxf::String& signature) const
 	{
 		for (auto& entry: m_Mods)
 		{
@@ -406,7 +406,7 @@ namespace Kortex::ModManager
 		}
 		return nullptr;
 	}
-	IGameMod* DefaultModManager::FindModByModNetwork(const wxString& modNetworkName, NetworkModInfo modInfo) const
+	IGameMod* DefaultModManager::FindModByModNetwork(const kxf::String& modNetworkName, NetworkModInfo modInfo) const
 	{
 		for (auto& entry: m_Mods)
 		{
@@ -423,7 +423,7 @@ namespace Kortex::ModManager
 		return FindModByModNetwork(modNetwork.GetName(), modInfo);
 	}
 
-	bool DefaultModManager::IsModActive(const wxString& modID) const
+	bool DefaultModManager::IsModActive(const kxf::String& modID) const
 	{
 		const IGameMod* mod = FindModByID(modID);
 		if (mod)
@@ -432,11 +432,11 @@ namespace Kortex::ModManager
 		}
 		return false;
 	}
-	bool DefaultModManager::ChangeModID(IGameMod& mod, const wxString& newID)
+	bool DefaultModManager::ChangeModID(IGameMod& mod, const kxf::String& newID)
 	{
 		if (FindModByID(newID) == nullptr)
 		{
-			wxString oldPath = mod.GetRootDir();
+			kxf::String oldPath = mod.GetRootDir();
 			BasicGameMod tempEntry;
 			tempEntry.SetID(newID);
 
@@ -456,30 +456,30 @@ namespace Kortex::ModManager
 		}
 		return false;
 	}
-	void DefaultModManager::ExportModList(const wxString& outputFilePath) const
+	void DefaultModManager::ExportModList(const kxf::String& outputFilePath) const
 	{
-		KxXMLDocument xml;
-		KxXMLNode bodyNode = xml.NewElement("html").NewElement("body");
-		KxXMLNode tableNode = bodyNode.NewElement("table");
+		kxf::XMLDocument xml;
+		kxf::XMLNode bodyNode = xml.NewElement("html").NewElement("body");
+		kxf::XMLNode tableNode = bodyNode.NewElement("table");
 		tableNode.SetAttribute("frame", "border");
 		tableNode.SetAttribute("rules", "all");
 
-		auto AddRow = [&tableNode](const std::initializer_list<wxString>& list, bool isHeader = false)
+		auto AddRow = [&tableNode](const std::initializer_list<kxf::String>& list, bool isHeader = false)
 		{
-			KxXMLNode rowNode = tableNode.NewElement("tr");
+			kxf::XMLNode rowNode = tableNode.NewElement("tr");
 			rowNode.SetAttribute("align", "left");
 
-			for (const wxString& s: list)
+			for (const kxf::String& s: list)
 			{
 				rowNode.NewElement(isHeader ? "th" : "td").SetValue(s);
 			}
 			return rowNode;
 		};
-		auto AddCheckBox = [](KxXMLNode& node, bool value, const wxString& altText = wxEmptyString)
+		auto AddCheckBox = [](kxf::XMLNode& node, bool value, const kxf::String& altText = wxEmptyString)
 		{
 			node.SetAttribute("align", "center");
 
-			KxXMLNode checkBoxNode = node.NewElement("input", KxXMLInsertNode::AsFirstChild);
+			kxf::XMLNode checkBoxNode = node.NewElement("input", KxXMLInsertNode::AsFirstChild);
 			checkBoxNode.SetAttribute("type", "checkbox");
 			checkBoxNode.SetAttribute("readonly", "true");
 			checkBoxNode.SetAttribute("disabled", "true");
@@ -500,30 +500,30 @@ namespace Kortex::ModManager
 		AddRow({"Installed", "Active", "Name (ID)", "Version", "Author", "Sites", "Description"}, true);
 		for (const auto& modEntry: m_Mods)
 		{
-			wxString name;
+			kxf::String name;
 			if (modEntry->GetName() != modEntry->GetID())
 			{
-				name = wxString::Format("%s (%s)", modEntry->GetName(), modEntry->GetID());
+				name = kxf::String::Format("%s (%s)", modEntry->GetName(), modEntry->GetID());
 			}
 			else
 			{
 				name = modEntry->GetName();
 			}
 
-			wxString version = modEntry->GetVersion().IsOK() ? modEntry->GetVersion().ToString() : wxEmptyString;
-			wxString author = !modEntry->GetAuthor().IsEmpty() ? modEntry->GetAuthor() : wxEmptyString;
+			kxf::String version = modEntry->GetVersion().IsOK() ? modEntry->GetVersion().ToString() : wxEmptyString;
+			kxf::String author = !modEntry->GetAuthor().IsEmpty() ? modEntry->GetAuthor() : wxEmptyString;
 
-			KxXMLNode rowNode = AddRow({wxEmptyString, wxEmptyString, name, version, author});
+			kxf::XMLNode rowNode = AddRow({wxEmptyString, wxEmptyString, name, version, author});
 
 			// Prepend state
 			AddCheckBox(rowNode.GetFirstChildElement(), modEntry->IsInstalled(), "Is installed");
 			AddCheckBox(rowNode.GetFirstChildElement().GetNextSiblingElement(), modEntry->IsActive(), "Is active");
 
 			// Add sites
-			KxXMLNode sitesNode = rowNode.NewElement("td");
+			kxf::XMLNode sitesNode = rowNode.NewElement("td");
 			modEntry->GetModSourceStore().Visit([&sitesNode](const ModSourceItem& item)
 			{
-				KxXMLNode linkNode = sitesNode.NewElement("a");
+				kxf::XMLNode linkNode = sitesNode.NewElement("a");
 				linkNode.SetValue(item.GetName());
 				linkNode.SetAttribute("href", item.GetURI().BuildUnescapedURI());
 
@@ -532,8 +532,8 @@ namespace Kortex::ModManager
 			});
 
 			// Description
-			KxXMLNode descriptionNode = rowNode.NewElement("td");
-			wxString description = modEntry->GetDescription();
+			kxf::XMLNode descriptionNode = rowNode.NewElement("td");
+			kxf::String description = modEntry->GetDescription();
 			if (!description.IsEmpty())
 			{
 				description.Replace("\r\n", "<br/>", true);
@@ -548,7 +548,7 @@ namespace Kortex::ModManager
 		stream.WriteStringUTF8(xml.GetXML(KxXMLPrintMode::HTML5));
 	}
 
-	void DefaultModManager::InstallEmptyMod(const wxString& name)
+	void DefaultModManager::InstallEmptyMod(const kxf::String& name)
 	{
 		if (!FindModByID(name))
 		{
@@ -560,7 +560,7 @@ namespace Kortex::ModManager
 			BroadcastProcessor::Get().QueueEvent(ModEvent::EvtInstalled, mod);
 		}
 	}
-	void DefaultModManager::InstallModFromFolder(const wxString& sourcePath, const wxString& name, bool linkLocation)
+	void DefaultModManager::InstallModFromFolder(const kxf::String& sourcePath, const kxf::String& name, bool linkLocation)
 	{
 		if (!FindModByID(name))
 		{
@@ -576,7 +576,7 @@ namespace Kortex::ModManager
 			if (!linkLocation)
 			{
 				// Copy files
-				wxString destinationPath = mod.GetModFilesDir();
+				kxf::String destinationPath = mod.GetModFilesDir();
 				auto operation = new Utility::OperationWithProgressDialog<KxFileOperationEvent>(true, Workspace::GetInstance());
 				operation->OnRun([operation, sourcePath, destinationPath]()
 				{
@@ -611,7 +611,7 @@ namespace Kortex::ModManager
 			}
 		}
 	}
-	void DefaultModManager::InstallModFromPackage(const wxString& packagePath)
+	void DefaultModManager::InstallModFromPackage(const kxf::String& packagePath)
 	{
 		// Install Wizard's dialog is auto-managed class, it will delete itself when needed
 		new InstallWizard::WizardDialog(Workspace::GetInstance(), packagePath);
@@ -620,9 +620,9 @@ namespace Kortex::ModManager
 
 namespace Kortex::ModManager
 {
-	MirroredLocation::MirroredLocation(const KxXMLNode& parentNode)
+	MirroredLocation::MirroredLocation(const kxf::XMLNode& parentNode)
 	{
-		for (KxXMLNode node = parentNode.GetFirstChildElement("Sources").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = parentNode.GetFirstChildElement("Sources").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			m_Sources.emplace_back(node.GetValue());
 		}
@@ -633,16 +633,16 @@ namespace Kortex::ModManager
 	{
 		return Utility::ExpandVariablesInVector(m_Sources);
 	}
-	wxString MirroredLocation::GetSource() const
+	kxf::String MirroredLocation::GetSource() const
 	{
-		return !m_Sources.empty() ? KVarExp(m_Sources.front()) : KxNullWxString;
+		return !m_Sources.empty() ? KVarExp(m_Sources.front()) : KxNullkxf::String;
 	}
-	wxString MirroredLocation::GetTarget() const
+	kxf::String MirroredLocation::GetTarget() const
 	{
 		return KVarExp(m_Target);
 	}
 
-	MandatoryLocation::MandatoryLocation(const KxXMLNode& parentNode)
+	MandatoryLocation::MandatoryLocation(const kxf::XMLNode& parentNode)
 	{
 		// Folder path will not be expanded here
 		m_Source = parentNode.GetValue();
@@ -652,11 +652,11 @@ namespace Kortex::ModManager
 
 namespace Kortex::ModManager
 {
-	wxString MandatoryLocation::GetSource() const
+	kxf::String MandatoryLocation::GetSource() const
 	{
 		return KVarExp(m_Source);
 	}
-	wxString MandatoryLocation::GetName() const
+	kxf::String MandatoryLocation::GetName() const
 	{
 		return KVarExp(m_Name);
 	}
@@ -664,11 +664,11 @@ namespace Kortex::ModManager
 
 namespace Kortex::ModManager
 {
-	 void Config::OnLoadInstance(IGameInstance& profile, const KxXMLNode& node)
+	 void Config::OnLoadInstance(IGameInstance& profile, const kxf::XMLNode& node)
 	{
-		auto ReadEntries = [](auto& items, const KxXMLNode& rootNode, const wxString& name)
+		auto ReadEntries = [](auto& items, const kxf::XMLNode& rootNode, const kxf::String& name)
 		{
-			for (KxXMLNode node = rootNode.GetFirstChildElement(name).GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = rootNode.GetFirstChildElement(name).GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				if (!items.emplace_back(node).IsOK())
 				{

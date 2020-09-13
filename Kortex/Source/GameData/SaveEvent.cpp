@@ -4,7 +4,7 @@
 
 namespace Kortex
 {
-	wxString SaveEvent::GetSaveName() const
+	kxf::String SaveEvent::GetSaveName() const
 	{
 		return m_Save ? m_Save->GetFileItem().GetName() : GetString();
 	}

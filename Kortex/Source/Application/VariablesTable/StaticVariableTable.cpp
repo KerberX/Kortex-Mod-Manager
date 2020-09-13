@@ -20,11 +20,11 @@ namespace Kortex
 		return m_StaticVariables.empty();
 	}
 
-	bool StaticVariableTable::HasVariable(const wxString& id) const
+	bool StaticVariableTable::HasVariable(const kxf::String& id) const
 	{
 		return m_StaticVariables.find(id) != m_StaticVariables.end();
 	}
-	VariableValue StaticVariableTable::GetVariable(const wxString& id) const
+	VariableValue StaticVariableTable::GetVariable(const kxf::String& id) const
 	{
 		auto it = m_StaticVariables.find(id);
 		if (it != m_StaticVariables.end())
@@ -33,7 +33,7 @@ namespace Kortex
 		}
 		return {};
 	}
-	void StaticVariableTable::SetVariable(const wxString& id, const VariableValue& value)
+	void StaticVariableTable::SetVariable(const kxf::String& id, const VariableValue& value)
 	{
 		auto it = m_StaticVariables.find(id);
 		if (it != m_StaticVariables.end())

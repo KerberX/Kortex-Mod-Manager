@@ -1,9 +1,7 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/Module/ModuleInfo.h"
 #include "Application/Options/Option.h"
-#include <KxFramework/KxFunctional.h>
-class KxXMLNode;
 
 namespace Kortex
 {
@@ -60,40 +58,48 @@ namespace Kortex
 			static void InitModulesWithDisposition(Disposition disposition);
 			static void UninitModulesWithDisposition(Disposition disposition);
 		
-			template<class Functor> static void ForEachModule(Functor&& functor)
+			template<class TFunc>
+			static void ForEachModule(TFunc&& func)
 			{
 				for (IModule* module: IModule::GetInstances())
 				{
-					functor(*module);
+					func(*module);
 				}
 			}
-			template<class Functor> static void ForEachManager(IModule* module, Functor&& functor)
+			
+			template<class TFunc>
+			static void ForEachManager(IModule* module, TFunc&& func)
 			{
 				for (IManager* manager: module->GetManagers())
 				{
-					functor(*manager);
+					func(*manager);
 				}
 			}
-			template<class Functor> static void ForEachManager(Functor&& functor)
+			
+			template<class TFunc>
+			static void ForEachManager(TFunc&& func)
 			{
 				for (IModule* module: IModule::GetInstances())
 				{
-					ForEachManager(module, functor);
+					ForEachManager(module, func);
 				}
 			}
-			template<class Functor>	static void ForEachModuleAndManager(Functor&& functor)
+			
+			template<class TFunc>
+			static void ForEachModuleAndManager(TFunc&& func)
 			{
 				for (IModule* module: IModule::GetInstances())
 				{
-					functor(*module, nullptr);
+					func(*module, nullptr);
 					for (IManager* manager: module->GetManagers())
 					{
-						functor(*module, manager);
+						func(*module, manager);
 					}
 				}
 			}
 
-			template<class... Args> static ManagerRefVector ToManagersList(Args&&... arg)
+			template<class... Args>
+			static ManagerRefVector ToManagersList(Args&&... arg)
 			{
 				ManagerRefVector refList;
 				refList.reserve(sizeof...(Args));
@@ -112,23 +118,29 @@ namespace Kortex
 			const Disposition m_Disposition;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) = 0;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) = 0;
 			virtual void OnInit() = 0;
 			virtual void OnExit() = 0;
 
-			bool IsEnabledInTemplate(const KxXMLNode& node) const
+			bool IsEnabledInTemplate(const kxf::XMLNode& node) const
 			{
 				return node.GetAttributeBool("Enabled", true);
 			}
-			template<class T> KxXMLNode GetManagerNode(const KxXMLNode& rootNode) const
+			
+			template<class T>
+			kxf::XMLNode GetManagerNode(const kxf::XMLNode& rootNode) const
 			{
 				return rootNode.GetFirstChildElement(T::GetManagerTypeInfo().GetID());
 			}
-			template<class T> bool IsManagerEnabled(const KxXMLNode& rootNode) const
+			
+			template<class T>
+			bool IsManagerEnabled(const kxf::XMLNode& rootNode) const
 			{
 				return IsEnabledInTemplate(GetManagerNode<T>(rootNode));
 			}
-			template<class T, class... Args> std::unique_ptr<T> CreateManagerIfEnabled(const KxXMLNode& rootNode, Args&&... arg) const
+			
+			template<class T, class... Args>
+			std::unique_ptr<T> CreateManagerIfEnabled(const kxf::XMLNode& rootNode, Args&&... arg) const
 			{
 				if (IsManagerEnabled<T>(rootNode))
 				{

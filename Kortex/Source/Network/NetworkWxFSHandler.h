@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxFile.h>
 
 namespace Kortex
@@ -15,12 +15,12 @@ namespace Kortex::NetworkManager
 			INetworkManager& m_NetworkManager;
 
 		private:
-			wxString GetCacheDirectory() const;
-			wxString ExtractFileName(const wxString& location) const;
-			wxString ConstructFullPath(const wxString& location) const;
-			wxFSFile* DoOpenFile(const wxString& location) const;
+			kxf::String GetCacheDirectory() const;
+			kxf::String ExtractFileName(const kxf::String& location) const;
+			kxf::String ConstructFullPath(const kxf::String& location) const;
+			wxFSFile* DoOpenFile(const kxf::String& location) const;
 
-			KxFile GetCachedCopyFile(const wxString& location) const;
+			KxFile GetCachedCopyFile(const kxf::String& location) const;
 			bool IsNewerThan(const wxDateTime& fileDate, const wxTimeSpan& span) const;
 
 		public:
@@ -28,9 +28,9 @@ namespace Kortex::NetworkManager
 			virtual ~NetworkWxFSHandler();
 
 		public:
-			bool CanOpen(const wxString& location) override;
-			wxString FindFirst(const wxString& wildcard, int flags) override;
-			wxString FindNext() override;
-			wxFSFile* OpenFile(wxFileSystem& fs, const wxString& location) override;
+			bool CanOpen(const kxf::String& location) override;
+			kxf::String FindFirst(const kxf::String& wildcard, int flags) override;
+			kxf::String FindNext() override;
+			wxFSFile* OpenFile(wxFileSystem& fs, const kxf::String& location) override;
 	};
 }

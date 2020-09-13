@@ -4,11 +4,11 @@
 
 namespace Kortex::ModManager
 {
-	wxString PriorityGroup::GetName() const
+	kxf::String PriorityGroup::GetName() const
 	{
 		return m_Tag ? m_Tag->GetName() : wxEmptyString;
 	}
-	wxString PriorityGroup::GetID() const
+	kxf::String PriorityGroup::GetID() const
 	{
 		return m_Tag ? m_Tag->GetID() : wxEmptyString;
 	}

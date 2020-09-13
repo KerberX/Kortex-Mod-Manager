@@ -24,7 +24,7 @@ namespace
 		LicenseNotice
 	};
 
-	wxString CreateInfoText(const About::INode& info, InfoText infoVariant, int yearBegin = -1, int yearEnd = -1)
+	kxf::String CreateInfoText(const About::INode& info, InfoText infoVariant, int yearBegin = -1, int yearEnd = -1)
 	{
 		switch (infoVariant)
 		{
@@ -45,7 +45,7 @@ namespace
 
 												 "$T(About.SourceCodeLocation) <a href=\"%3\">GitHub</a>"
 				);
-				return KxString::Format(KVarExp(formatString), yearBegin, yearEnd, info.GetURI().BuildUnescapedURI());
+				return kxf::String::Format(KVarExp(formatString), yearBegin, yearEnd, info.GetURI().BuildUnescapedURI());
 			}
 		};
 		return {};
@@ -58,9 +58,9 @@ namespace Kortex::Application
 	{
 		return FromDIP(Utility::BitmapSize().FromSystemIcon().GetSize() * 4);
 	}
-	wxString AboutDialog::GetCaption() const
+	kxf::String AboutDialog::GetCaption() const
 	{
-		return KxString::Format("%1 %2 %3", KTr("MainMenu.About"), m_AppInfo->GetName(), m_AppInfo->GetVersion());
+		return kxf::String::Format("%1 %2 %3", KTr("MainMenu.About"), m_AppInfo->GetName(), m_AppInfo->GetVersion());
 	}
 
 	wxWindow* AboutDialog::CreateTab_Info()
@@ -101,7 +101,7 @@ namespace Kortex::Application
 		window->Bind(wxEVT_HTML_LINK_CLICKED, &AboutDialog::OnLinkClicked, this);
 		return window;
 	}
-	void AboutDialog::CreateTemporaryTab(wxWindow* window, const wxString& label, const wxBitmap& bitmap)
+	void AboutDialog::CreateTemporaryTab(wxWindow* window, const kxf::String& label, const wxBitmap& bitmap)
 	{
 		m_TabView->InsertPage((int)TabID::License, window, label, true, bitmap);
 		m_TemporaryTab = window;

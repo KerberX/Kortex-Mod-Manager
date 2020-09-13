@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <sstream>
 
 namespace Kortex::Utility::UniqueID
@@ -50,7 +50,7 @@ namespace Kortex::Utility::UniqueID
 				
 				CheckAndAssign(value);
 			}
-			IntegerID(const wxString& value) noexcept
+			IntegerID(const kxf::String& value) noexcept
 			{
 				FromString(value);
 			}
@@ -68,7 +68,7 @@ namespace Kortex::Utility::UniqueID
 				CheckAndAssign(value);
 				return *this;
 			}
-			IntegerID& operator=(const wxString& value) noexcept
+			IntegerID& operator=(const kxf::String& value) noexcept
 			{
 				FromString(value);
 				return *this;
@@ -98,11 +98,11 @@ namespace Kortex::Utility::UniqueID
 				CheckAndAssign(value);
 			}
 
-			wxString ToString() const
+			kxf::String ToString() const
 			{
-				return m_Value ? KxString::Format(wxS("%1"), *m_Value) : wxString();
+				return m_Value ? kxf::String::Format(wxS("%1"), *m_Value) : kxf::String();
 			}
-			bool FromString(const wxString& stringValue) noexcept
+			bool FromString(const kxf::String& stringValue) noexcept
 			{
 				m_Value.reset();
 

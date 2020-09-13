@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include <KxFramework/KxSplitterWindow.h>
 #include <KxFramework/KxAuiToolBar.h>
@@ -24,7 +24,7 @@ namespace Kortex::SaveManager
 	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
 	{
 		private:
-			std::unordered_set<wxString> m_ActiveFilters;
+			std::unordered_set<kxf::String> m_ActiveFilters;
 
 			wxBoxSizer* m_MainSizer = nullptr;
 			wxBoxSizer* m_ViewSizer = nullptr;
@@ -45,7 +45,7 @@ namespace Kortex::SaveManager
 			void UpdateFilters();
 
 			bool FiltersMenu_IsAllFiltersActive() const;
-			bool FiltersMenu_IsFilterActive(const wxString& filter) const
+			bool FiltersMenu_IsFilterActive(const kxf::String& filter) const
 			{
 				return m_ActiveFilters.count(filter);
 			}
@@ -57,11 +57,11 @@ namespace Kortex::SaveManager
 			bool OnRemoveSave(IGameSave& save);
 
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			ResourceID GetIcon() const override
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Jar;
+				return Imagekxf::ResourceID::Jar;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

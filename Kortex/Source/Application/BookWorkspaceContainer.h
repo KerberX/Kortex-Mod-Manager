@@ -1,12 +1,13 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IWorkspaceContainer.h"
 
 namespace Kortex::Application
 {
-	class BookWorkspaceContainer: public KxRTTI::ExtendInterface<BookWorkspaceContainer, IWorkspaceContainer>
+	class BookWorkspaceContainer: public IWorkspaceContainer
 	{
-		KxDecalreIID(BookWorkspaceContainer, {0x1b6cdd23, 0xff47, 0x4cf9, {0x87, 0x5a, 0x21, 0x15, 0xde, 0x1, 0x2b, 0x5b}});
+		KxRTTI_DeclareIID(BookWorkspaceContainer, {0x1b6cdd23, 0xff47, 0x4cf9, {0x87, 0x5a, 0x21, 0x15, 0xde, 0x1, 0x2b, 0x5b}});
+		KxRTTI_QueryInterface_Extend(BookWorkspaceContainer, IWorkspaceContainer);
 
 		private:
 			bool m_HasCurrentWorkspace = false;
@@ -29,8 +30,8 @@ namespace Kortex::Application
 				return static_cast<const wxBookCtrlBase&>(GetWindow());
 			}
 
-			IWorkspace::RefVector EnumWorkspaces() const override;
-			IWorkspace* GetWorkspaceByID(const wxString& id) const override;
+			size_t EnumWorkspaces(std::function<bool(IWorkspace&)> func) const override;
+			IWorkspace* GetWorkspaceByID(const kxf::String& id) const override;
 			IWorkspace* GetWorkspaceByIndex(size_t index) const override;
 			IWorkspace* GetCurrentWorkspace() const override;
 			size_t GetWorkspaceCount() const override;
@@ -40,6 +41,5 @@ namespace Kortex::Application
 			bool AddWorkspace(IWorkspace& workspace) override;
 			bool RemoveWorkspace(IWorkspace& workspace) override;
 			bool SwitchWorkspace(IWorkspace& nextWorkspace) override;
-
 	};
 }

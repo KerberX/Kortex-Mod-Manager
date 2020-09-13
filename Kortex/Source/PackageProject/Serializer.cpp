@@ -10,7 +10,7 @@
 
 namespace Kortex::PackageProject
 {
-	ModSourceItem Serializer::TryParseWebSite(const wxString& url, wxString* domainNameOut)
+	ModSourceItem Serializer::TryParseWebSite(const kxf::String& url, kxf::String* domainNameOut)
 	{
 		using namespace NetworkManager;
 	
@@ -18,12 +18,12 @@ namespace Kortex::PackageProject
 		IModNetwork* modNetwork = nullptr;
 	
 		// https://regex101.com
-		wxString regEx = wxString::FromUTF8Unchecked(u8R"((?:http:\/\/)?(?:https:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)(?:.*\/)(?:[^\d]+)(\d+))");
+		kxf::String regEx = kxf::String::FromUTF8Unchecked(u8R"((?:http:\/\/)?(?:https:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)(?:.*\/)(?:[^\d]+)(\d+))");
 		wxRegEx reURL(regEx, wxRE_DEFAULT|wxRE_ADVANCED|wxRE_ICASE|wxRE_NEWLINE);
 		if (reURL.Matches(url))
 		{
 			// Site name
-			wxString siteName = KxURI(url).GetServer();
+			kxf::String siteName = KxURI(url).GetServer();
 			if (siteName == "tesall.ru")
 			{
 				modNetwork = TESALLModNetwork::GetInstance();
@@ -48,24 +48,24 @@ namespace Kortex::PackageProject
 		}
 		return {};
 	}
-	wxString Serializer::ConvertBBCode(const wxString& bbSource)
+	kxf::String Serializer::ConvertBBCode(const kxf::String& bbSource)
 	{
-		wxString copy = bbSource;
+		kxf::String copy = bbSource;
 		NetworkManager::NexusModNetwork::GetInstance()->ConvertDescriptionText(copy);
 		return copy;
 	}
-	wxString Serializer::PathNameToPackage(const wxString& pathName, ContentType type) const
+	kxf::String Serializer::PathNameToPackage(const kxf::String& pathName, ContentType type) const
 	{
 		switch (type)
 		{
 			case ContentType::Images:
 			{
-				wxString name = pathName.AfterLast('\\');
+				kxf::String name = pathName.AfterLast('\\');
 				return m_PackageDataRoot + "\\Images\\" + name;
 			}
 			case ContentType::Documents:
 			{
-				wxString name = pathName.AfterLast('\\');
+				kxf::String name = pathName.AfterLast('\\');
 				return m_PackageDataRoot + "\\Documents\\" + name;
 			}
 			case ContentType::FileData:
@@ -75,7 +75,7 @@ namespace Kortex::PackageProject
 		};
 		return wxEmptyString;
 	}
-	bool Serializer::CheckTag(const wxString& tagName) const
+	bool Serializer::CheckTag(const kxf::String& tagName) const
 	{
 		return IModTagManager::GetInstance()->FindTagByName(tagName) != nullptr;
 	}

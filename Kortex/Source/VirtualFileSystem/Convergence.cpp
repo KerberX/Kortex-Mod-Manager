@@ -6,16 +6,16 @@ using namespace Kortex::IPC;
 
 namespace Kortex::VirtualFileSystem
 {
-	Convergence::Convergence(FileSystemID id, const wxString& mountPoint, const wxString& writeTarget)
+	Convergence::Convergence(FileSystemID id, const kxf::String& mountPoint, const kxf::String& writeTarget)
 		:Mirror(id, mountPoint, writeTarget)
 	{
 	}
-	Convergence::Convergence(const wxString& mountPoint, const wxString& writeTarget)
+	Convergence::Convergence(const kxf::String& mountPoint, const kxf::String& writeTarget)
 		:Convergence(FileSystemID::Convergence, mountPoint, writeTarget)
 	{
 	}
 
-	void Convergence::AddVirtualFolder(const wxString& path)
+	void Convergence::AddVirtualFolder(const kxf::String& path)
 	{
 		m_Controller.Send(RequestID::FSAddVirtualFolder, m_Handle, path);
 	}

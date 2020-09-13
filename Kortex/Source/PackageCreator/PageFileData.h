@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PageBase.h"
 
 namespace Kortex
@@ -53,12 +53,12 @@ namespace Kortex::PackageDesigner
 			~PageFileData();
 
 		public:
-			ResourceID GetIcon() const override
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Folder;
+				return Imagekxf::ResourceID::Folder;
 			}
-			wxString GetID() const override;
-			wxString GetPageName() const override;
+			kxf::String GetID() const override;
+			kxf::String GetPageName() const override;
 
 			PageFileDataNS::MainListModel* GetMainListModel() const
 			{

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BaseNotification.h"
 
 namespace Kortex
@@ -7,20 +7,20 @@ namespace Kortex
 	class SimpleNotification: public Notifications::BaseNotification
 	{
 		private:
-			wxString m_Caption;
-			wxString m_Message;
+			kxf::String m_Caption;
+			kxf::String m_Message;
 			wxBitmap m_Bitmap;
 
 		public:
-			SimpleNotification(const wxString& caption, const wxString& message, KxIconType iconID = KxICON_INFORMATION);
-			SimpleNotification(const wxString& caption, const wxString& message, const wxBitmap& bitmap = wxNullBitmap);
+			SimpleNotification(const kxf::String& caption, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			SimpleNotification(const kxf::String& caption, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
 		public:
-			wxString GetCaption() const override
+			kxf::String GetCaption() const override
 			{
 				return m_Caption;
 			}
-			wxString GetMessage() const override
+			kxf::String GetMessage() const override
 			{
 				return m_Message;
 			}

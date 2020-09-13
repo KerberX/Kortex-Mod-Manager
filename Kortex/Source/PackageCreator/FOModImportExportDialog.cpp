@@ -21,7 +21,7 @@ namespace Kortex::PackageDesigner
 		KxFileBrowseDialog dialog(this, KxID_NONE, mode);
 		if ((Type)event.GetId() != Type::ProjectFolder)
 		{
-			wxStringClientData* data = static_cast<wxStringClientData*>(static_cast<wxEvtHandler*>(event.GetEventObject())->GetClientObject());
+			kxf::StringClientData* data = static_cast<kxf::StringClientData*>(static_cast<wxEvtHandler*>(event.GetEventObject())->GetClientObject());
 			if (m_IsExport && data)
 			{
 				dialog.SetFileName(data->GetData());
@@ -76,7 +76,7 @@ namespace Kortex::PackageDesigner
 			SetMainIcon(KxICON_NONE);
 			SetWindowResizeSide(wxHORIZONTAL);
 
-			wxFlexGridSizer* mainSizer = new wxFlexGridSizer(3, KLC_VERTICAL_SPACING, KLC_HORIZONTAL_SPACING);
+			wxFlexGridSizer* mainSizer = new wxFlexGridSizer(3, LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing);
 			mainSizer->AddGrowableCol(1, 1);
 			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
 			m_ViewPane->SetSizer(mainSizer);
@@ -88,7 +88,7 @@ namespace Kortex::PackageDesigner
 
 			KxButton* infoButton = new KxButton(m_ViewPane, (wxWindowID)Type::InfoXML, KTr(KxID_SELECT_FILE));
 			infoButton->Bind(wxEVT_BUTTON, &FOModImportExportDialog::OnBrowseFile, this);
-			infoButton->SetClientObject(new wxStringClientData("Info"));
+			infoButton->SetClientObject(new kxf::StringClientData("Info"));
 			mainSizer->Add(infoButton, 0, wxEXPAND);
 
 			// ModuleConfig.xml
@@ -97,7 +97,7 @@ namespace Kortex::PackageDesigner
 
 			KxButton* moduleConfigButton = new KxButton(m_ViewPane, (wxWindowID)Type::ModuleConfigXML, KTr(KxID_SELECT_FILE));
 			moduleConfigButton->Bind(wxEVT_BUTTON, &FOModImportExportDialog::OnBrowseFile, this);
-			moduleConfigButton->SetClientObject(new wxStringClientData("ModuleConfig"));
+			moduleConfigButton->SetClientObject(new kxf::StringClientData("ModuleConfig"));
 			mainSizer->Add(moduleConfigButton, 0, wxEXPAND);
 
 			// Project folder path

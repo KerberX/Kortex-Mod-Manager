@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "EnumClassOperations.h"
 
 namespace Kortex::Utility::DateTime
@@ -24,16 +24,16 @@ namespace Kortex::Utility::DateTime
 	bool IsNowEarlierThanBy(const wxDateTime& date, const wxTimeSpan& span);
 
 	// Format date in Russian format (DD.MM.YYYY). Returns empty string if 'dateTime' is invalid.
-	wxString FormatDate(const wxDateTime& dateTime, FormatFlags formatFlags = FormatFlags::None);
+	kxf::String FormatDate(const wxDateTime& dateTime, FormatFlags formatFlags = FormatFlags::None);
 
 	// Format time in military format (HH:MM:SS). Returns empty string if 'dateTime' is invalid.
-	wxString FormatTime(const wxDateTime& dateTime, FormatFlags formatFlags = FormatFlags::None);
+	kxf::String FormatTime(const wxDateTime& dateTime, FormatFlags formatFlags = FormatFlags::None);
 
 	// Combined version of 'FormatDate' and 'FormatTime' with a separator (space by default). Returns empty string if 'dateTime' is invalid.
-	wxString FormatDateTime(const wxDateTime& dateTime, FormatFlags formatFlags = FormatFlags::None, const wxString& sep = wxS(' '));
+	kxf::String FormatDateTime(const wxDateTime& dateTime, FormatFlags formatFlags = FormatFlags::None, const kxf::String& sep = wxS(' '));
 
 	// Formats date and time as 'YYYY-MM-DD HH-MM-SS'. Term 'FS' stands for 'File System' or 'File Safe'. Returns empty string if 'dateTime' is invalid.
-	wxString FormatDateTimeFS(const wxDateTime& dateTime);
+	kxf::String FormatDateTimeFS(const wxDateTime& dateTime);
 }
 
 namespace KxEnumClassOperations

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "DataType.h"
 
@@ -18,19 +18,19 @@ namespace Kortex::GameConfig
 			TypeID m_Type;
 
 		private:
-			void DoDeserialize(const wxString& stringValue, const Item& item);
-			void DeserializeAsBool(TypeID inputType, const wxString& stringValue);
-			void DeserializeAsSignedInteger(TypeID inputType, const wxString& stringValue);
-			void DeserializeAsUnsignedInteger(TypeID inputType, const wxString& stringValue);
-			void DeserializeAsFloat(TypeID inputType, const wxString& stringValue);
-			void DeserializeAsString(TypeID inputType, const wxString& stringValue);
+			void DoDeserialize(const kxf::String& stringValue, const Item& item);
+			void DeserializeAsBool(TypeID inputType, const kxf::String& stringValue);
+			void DeserializeAsSignedInteger(TypeID inputType, const kxf::String& stringValue);
+			void DeserializeAsUnsignedInteger(TypeID inputType, const kxf::String& stringValue);
+			void DeserializeAsFloat(TypeID inputType, const kxf::String& stringValue);
+			void DeserializeAsString(TypeID inputType, const kxf::String& stringValue);
 
-			wxString DoSerialize(const Item& item, SerializeFor mode) const;
-			wxString SerializeFromBool(TypeID outputType, const Item& item, SerializeFor mode) const;
-			wxString SerializeFromSignedInteger(TypeID outputType, const Item& item) const;
-			wxString SerializeFromUnsignedInteger(TypeID outputType, const Item& item) const;
-			wxString SerializeFromFloat(TypeID outputType, const Item& item) const;
-			wxString SerializeFromString(TypeID outputType, const Item& item) const;
+			kxf::String DoSerialize(const Item& item, SerializeFor mode) const;
+			kxf::String SerializeFromBool(TypeID outputType, const Item& item, SerializeFor mode) const;
+			kxf::String SerializeFromSignedInteger(TypeID outputType, const Item& item) const;
+			kxf::String SerializeFromUnsignedInteger(TypeID outputType, const Item& item) const;
+			kxf::String SerializeFromFloat(TypeID outputType, const Item& item) const;
+			kxf::String SerializeFromString(TypeID outputType, const Item& item) const;
 
 		public:
 			ItemValue(TypeID type = {})
@@ -70,8 +70,8 @@ namespace Kortex::GameConfig
 				m_Type = type;
 			}
 
-			wxString Serialize(const Item& item, SerializeFor mode = SerializeFor::Storage) const;
-			bool Deserialize(const wxString& value, const Item& item);
+			kxf::String Serialize(const Item& item, SerializeFor mode = SerializeFor::Storage) const;
+			bool Deserialize(const kxf::String& value, const Item& item);
 
 			bool IsNull() const
 			{

@@ -44,7 +44,7 @@ namespace Kortex
 		const SimpleManagerInfo TypeInfo("DownloadManager", "DownloadManager.Name");
 	}
 
-	wxString IDownloadManager::RenameIncrement(const wxString& name)
+	kxf::String IDownloadManager::RenameIncrement(const kxf::String& name)
 	{
 		wxRegEx regEx(u8R"((.*)\((\d+)\)\.(.*))", wxRE_ADVANCED|wxRE_ICASE);
 		if (regEx.Matches(name))
@@ -54,39 +54,39 @@ namespace Kortex
 			{
 				value++;
 
-				wxString newName = name;
-				regEx.Replace(&newName, KxString::Format("\\1(%1).\\3", value));
+				kxf::String newName = name;
+				regEx.Replace(&newName, kxf::String::Format("\\1(%1).\\3", value));
 				return newName;
 			}
 		}
-		return KxString::Format("%1 (1).%2", name.BeforeLast('.'), name.AfterLast('.'));
+		return kxf::String::Format("%1 (1).%2", name.BeforeLast('.'), name.AfterLast('.'));
 	}
 
-	bool IDownloadManager::IsAssociatedWithLink(const wxString& type)
+	bool IDownloadManager::IsAssociatedWithLink(const kxf::String& type)
 	{
 		wxAny path = KxRegistry::GetValue(KxREG_HKEY_CLASSES_ROOT, wxS("NXM\\shell\\open\\command"), "", KxREG_VALUE_SZ, KxREG_NODE_SYS, true);
-		return IApplication::GetInstance()->GetExecutablePath() == path.As<wxString>().AfterFirst('"').BeforeFirst('"');
+		return IApplication::GetInstance()->GetExecutablePath() == path.As<kxf::String>().AfterFirst('"').BeforeFirst('"');
 	}
-	void IDownloadManager::AssociateWithLink(const wxString& type)
+	void IDownloadManager::AssociateWithLink(const kxf::String& type)
 	{
-		wxString appPath = IApplication::GetInstance()->GetExecutablePath();
+		kxf::String appPath = IApplication::GetInstance()->GetExecutablePath();
 		
-		wxString linkType = type.Upper();
+		kxf::String linkType = type.Upper();
 		linkType.StartsWith(wxS("."), &linkType);
 
-		auto SetValue = [&appPath, &linkType](const wxString& subKey, bool protocol = false)
+		auto SetValue = [&appPath, &linkType](const kxf::String& subKey, bool protocol = false)
 		{
 			if (protocol)
 			{
-				KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey, "", KxString::Format("URL:%1 Protocol", linkType), KxREG_VALUE_SZ);
-				KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey, "URL Protocol", KxString::Format("URL:%1 Protocol", linkType), KxREG_VALUE_SZ);
+				KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey, "", kxf::String::Format("URL:%1 Protocol", linkType), KxREG_VALUE_SZ);
+				KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey, "URL Protocol", kxf::String::Format("URL:%1 Protocol", linkType), KxREG_VALUE_SZ);
 			}
 			else
 			{
 				KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey, "", IApplication::GetInstance()->GetShortName() + " Download Link", KxREG_VALUE_SZ);
 			}
 			KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey + "\\DefaultIcon", "", appPath, KxREG_VALUE_SZ);
-			KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey + "\\shell\\open\\command", "", KxString::Format("\"%1\" -DownloadLink \"%2\"", appPath, "%1"), KxREG_VALUE_SZ);
+			KxRegistry::SetValue(KxREG_HKEY_CLASSES_ROOT, subKey + "\\shell\\open\\command", "", kxf::String::Format("\"%1\" -DownloadLink \"%2\"", appPath, "%1"), KxREG_VALUE_SZ);
 		};
 
 		SetValue(linkType, true);
@@ -112,11 +112,11 @@ namespace Kortex
 		PauseAllActive();
 		SaveDownloads();
 	}
-	void IDownloadManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void IDownloadManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 	}
 
-	auto IDownloadManager::CheckDownloadLocation(const wxString& directoryPath, int64_t fileSize) const -> LocationStatus
+	auto IDownloadManager::CheckDownloadLocation(const kxf::String& directoryPath, int64_t fileSize) const -> LocationStatus
 	{
 		// Check path and folder existence
 		if (directoryPath.IsEmpty())
@@ -260,7 +260,7 @@ namespace Kortex
 		PauseAllActive();
 		m_Downloads.clear();
 
-		const wxString tempExt = wxS("tmp");
+		const kxf::String tempExt = wxS("tmp");
 		KxFileFinder finder(GetDownloadsLocation(), wxS("*"));
 		for (KxFileItem fileItem = finder.FindNext(); fileItem.IsOK(); fileItem = finder.FindNext())
 		{
@@ -318,12 +318,12 @@ namespace Kortex
 		m_ShowArchivesOnly = show;
 	}
 
-	wxString IDownloadManager::GetDownloadsLocation() const
+	kxf::String IDownloadManager::GetDownloadsLocation() const
 	{
 		using namespace Application;
 		return GetAInstanceOption(OName::Downloads).GetAttribute(OName::Location);
 	}
-	void IDownloadManager::SetDownloadsLocation(const wxString& location)
+	void IDownloadManager::SetDownloadsLocation(const kxf::String& location)
 	{
 		using namespace Application;
 		GetAInstanceOption(OName::Downloads).SetAttribute(OName::Location, location);
@@ -336,7 +336,7 @@ namespace Kortex
 		m_MaxConcurrentDownloads = count;
 	}
 
-	DownloadItem* IDownloadManager::FindDownloadByFileName(const wxString& name, const DownloadItem* except) const
+	DownloadItem* IDownloadManager::FindDownloadByFileName(const kxf::String& name, const DownloadItem* except) const
 	{
 		for (const auto& item: m_Downloads)
 		{
@@ -361,7 +361,7 @@ namespace Kortex
 		return count != 0;
 	}
 
-	bool IDownloadManager::QueueUnknownDownload(const wxString& link)
+	bool IDownloadManager::QueueUnknownDownload(const kxf::String& link)
 	{
 		for (ModNetworkRepository* repository: INetworkManager::GetInstance()->GetModRepositories())
 		{

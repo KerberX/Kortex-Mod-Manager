@@ -58,7 +58,7 @@ namespace Kortex::DownloadManager
 			comboBox->AddItem(KTr("DownloadManager.ConcurrentDownloads.Unlimited"));
 			for (int i = 1; i <= 10; i++)
 			{
-				comboBox->AddItem(KxString::Format(wxS("%1"), i));
+				comboBox->AddItem(kxf::String::Format(wxS("%1"), i));
 			}
 
 			comboBox->SetSelection(0);
@@ -71,7 +71,7 @@ namespace Kortex::DownloadManager
 
 		m_ToolBar->UpdateUI();
 		m_ToolBar->SetMargins(0, 0, 0, 0);
-		m_MainSizer->Add(m_ToolBar, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(m_ToolBar, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 
 		return true;
 	}
@@ -96,11 +96,11 @@ namespace Kortex::DownloadManager
 		}
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "DownloadManager::Workspace";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("DownloadManager.NameShort");
 	}

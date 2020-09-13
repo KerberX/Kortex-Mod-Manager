@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include "NexusNetworkReply.h"
@@ -20,7 +20,7 @@ namespace Kortex::NetworkManager
 			NexusModNetwork& m_Nexus;
 
 		private:
-			KxHTTPStatusValue DoTestRequestError(const KxCURLReplyBase& reply, const wxString& message, bool noErrorReport) const;
+			KxHTTPStatusValue DoTestRequestError(const KxCURLReplyBase& reply, const kxf::String& message, bool noErrorReport) const;
 
 		public:
 			NexusUtility(NexusModNetwork& nexus)
@@ -29,17 +29,17 @@ namespace Kortex::NetworkManager
 			}
 
 		public:
-			void ConvertChangeLog(wxString& changeLog) const;
-			void ConvertDisplayName(wxString& name) const;
-			void ConvertUnicodeEscapes(wxString& source) const;
+			void ConvertChangeLog(kxf::String& changeLog) const;
+			void ConvertDisplayName(kxf::String& name) const;
+			void ConvertUnicodeEscapes(kxf::String& source) const;
 
 			wxDateTime ReadDateTime(const TJsonValue& json) const;
 			void ReadFileInfo(const TJsonValue& json, ModFileReply& info) const;
 			void ReadGameInfo(const TJsonValue& json, NexusGameReply& info) const;
 
-			void ReportRequestError(const wxString& message) const;
+			void ReportRequestError(const kxf::String& message) const;
 			void ReportRequestQuoteReached() const;
-			KxHTTPStatusValue TestRequestError(const KxCURLReplyBase& reply, const wxString& message = {}) const;
+			KxHTTPStatusValue TestRequestError(const KxCURLReplyBase& reply, const kxf::String& message = {}) const;
 			KxHTTPStatusValue TestRequestErrorSilent(const KxCURLReplyBase& reply) const;
 	};
 }

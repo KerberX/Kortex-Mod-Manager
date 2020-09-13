@@ -42,7 +42,7 @@ namespace Kortex
 		m_BroadcastReciever.Bind(ModEvent::EvtVirtualTreeInvalidated, &IPluginManager::OnVirtualTreeInvalidated, this);
 	}
 
-	bool IPluginManager::IsPluginActive(const wxString& pluginName) const
+	bool IPluginManager::IsPluginActive(const kxf::String& pluginName) const
 	{
 		const IGamePlugin* entry = FindPluginByName(pluginName);
 		return entry && entry->IsActive();

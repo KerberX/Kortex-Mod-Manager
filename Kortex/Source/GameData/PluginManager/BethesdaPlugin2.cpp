@@ -8,7 +8,7 @@ namespace Kortex::PluginManager
 	{
 		BethesdaPlugin::OnRead(reader);
 
-		const wxString ext = GetName().AfterLast(wxS('.'));
+		const kxf::String ext = GetName().AfterLast(wxS('.'));
 		if (KxComparator::IsEqual(ext, wxS("esm")))
 		{
 			SetMaster(true);

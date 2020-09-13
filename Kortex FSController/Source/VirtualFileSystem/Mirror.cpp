@@ -5,7 +5,7 @@
 
 namespace Kortex::VirtualFileSystem
 {
-	Mirror::Mirror(const wxString& mountPoint, const wxString& source)
+	Mirror::Mirror(const kxf::String& mountPoint, const kxf::String& source)
 		:KxVFSWrapper(ToKxDynamicStringRef(mountPoint), ToKxDynamicStringRef(source))
 	{
 	}

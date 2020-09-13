@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "SimpleItem.h"
 
 namespace Kortex::GameConfig
@@ -8,7 +8,7 @@ namespace Kortex::GameConfig
 
 	class StructSubItem: public KxRTTI::ExtendInterface<StructSubItem, SimpleItem>
 	{
-		KxDecalreIID(StructSubItem, {0xc1a2e07e, 0x1463, 0x4ec4, {0x94, 0x87, 0x99, 0xe4, 0x32, 0x5d, 0xca, 0x3b}});
+		KxRTTI_DeclareIID(StructSubItem, {0xc1a2e07e, 0x1463, 0x4ec4, {0x94, 0x87, 0x99, 0xe4, 0x32, 0x5d, 0xca, 0x3b}});
 
 		friend class StructItem;
 
@@ -16,12 +16,12 @@ namespace Kortex::GameConfig
 			StructItem& m_Struct;
 
 		public:
-			StructSubItem(StructItem& structItem, const KxXMLNode& itemNode = {});
+			StructSubItem(StructItem& structItem, const kxf::XMLNode& itemNode = {});
 
 		public:
 			bool IsOK() const override;
-			wxString GetViewString(ColumnID id) const override;
-			wxString GetPath() const override;
+			kxf::String GetViewString(ColumnID id) const override;
+			kxf::String GetPath() const override;
 
 			const StructItem& GetStruct() const
 			{

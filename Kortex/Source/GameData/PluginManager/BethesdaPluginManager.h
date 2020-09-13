@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IPluginManager.h"
 #include "BasePluginManager.h"
 #include "BethesdaPlugin.h"
@@ -12,21 +12,21 @@ namespace Kortex::PluginManager
 	{
 		private:
 			KxLibrary m_Librray;
-			wxString m_Branch;
-			wxString m_Repository;
-			wxString m_FolderName;
-			wxString m_LocalGamePath;
+			kxf::String m_Branch;
+			kxf::String m_Repository;
+			kxf::String m_FolderName;
+			kxf::String m_LocalGamePath;
 
 		public:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node);
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node);
 
 		public:
 			bool IsOK() const;
 
-			wxString GetBranch() const;
-			wxString GetRepository() const;
-			wxString GetFolderName() const;
-			wxString GetLocalGamePath() const;
+			kxf::String GetBranch() const;
+			kxf::String GetRepository() const;
+			kxf::String GetFolderName() const;
+			kxf::String GetLocalGamePath() const;
 	};
 }
 
@@ -37,17 +37,17 @@ namespace Kortex::PluginManager
 
 	class BethesdaPluginManager: public KxRTTI::ExtendInterface<BethesdaPluginManager, BasePluginManager>
 	{
-		KxDecalreIID(BethesdaPluginManager, {0xa3eb91ce, 0x513d, 0x4da8, {0xa4, 0x42, 0xf5, 0xb7, 0x10, 0xd4, 0x98, 0x78}});
+		KxRTTI_DeclareIID(BethesdaPluginManager, {0xa3eb91ce, 0x513d, 0x4da8, {0xa4, 0x42, 0xf5, 0xb7, 0x10, 0xd4, 0x98, 0x78}});
 
 		protected:
 			LootAPIConfig m_LibLootConfig;
 			std::unique_ptr<LibLoot> m_LootAPI;
 
-			wxString m_PluginsLocation;
-			wxString m_ActiveListFile;
-			wxString m_OrderListFile;
-			wxString m_ActiveFileHeader;
-			wxString m_OrderFileHeader;
+			kxf::String m_PluginsLocation;
+			kxf::String m_ActiveListFile;
+			kxf::String m_OrderListFile;
+			kxf::String m_ActiveFileHeader;
+			kxf::String m_OrderFileHeader;
 
 			bool m_ShouldChangeFileModificationDate = false;
 			bool m_ShouldSortByFileModificationDate = false;
@@ -55,10 +55,10 @@ namespace Kortex::PluginManager
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 
 			void SortByDate();
-			virtual bool CheckExtension(const wxString& name) const;
+			virtual bool CheckExtension(const kxf::String& name) const;
 
 			IGamePlugin::RefVector CollectDependentPlugins(const IGamePlugin& plugin, bool firstOnly) const;
 			bool HasDependentPlugins(const IGamePlugin& plugin) const override;
@@ -69,8 +69,8 @@ namespace Kortex::PluginManager
 			virtual void LoadNativeActiveBG();
 			virtual void SaveNativeOrderBG() const;
 
-			virtual wxString OnWriteToLoadOrder(const IGamePlugin& plugin) const;
-			virtual wxString OnWriteToActiveOrder(const IGamePlugin& plugin) const;
+			virtual kxf::String OnWriteToLoadOrder(const IGamePlugin& plugin) const;
+			virtual kxf::String OnWriteToActiveOrder(const IGamePlugin& plugin) const;
 			void CreateWorkspaces() override;
 
 		public:
@@ -86,15 +86,15 @@ namespace Kortex::PluginManager
 
 			std::unique_ptr<PluginManager::IDisplayModel> CreateDisplayModel() override;
 			std::unique_ptr<IPluginReader> CreatePluginReader() override;
-			virtual std::unique_ptr<IGamePlugin> CreatePlugin(const wxString& fullPath, bool isActive);
+			virtual std::unique_ptr<IGamePlugin> CreatePlugin(const kxf::String& fullPath, bool isActive);
 
-			wxString GetPluginsLocation() const override
+			kxf::String GetPluginsLocation() const override
 			{
 				return m_PluginsLocation;
 			}
-			wxString GetPluginTypeName(const IGamePlugin& plugin) const override;
-			wxString GetPluginTypeName(bool isMaster, bool isLight) const;
-			virtual wxString GetPluginRootRelativePath(const wxString& fileName) const
+			kxf::String GetPluginTypeName(const IGamePlugin& plugin) const override;
+			kxf::String GetPluginTypeName(bool isMaster, bool isLight) const;
+			virtual kxf::String GetPluginRootRelativePath(const kxf::String& fileName) const
 			{
 				return m_PluginsLocation + wxS('\\') + fileName;
 			}

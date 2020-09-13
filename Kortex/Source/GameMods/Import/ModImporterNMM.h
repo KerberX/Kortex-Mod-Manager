@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IModImporter.h"
 #include <KxFramework/KxXML.h>
 
@@ -8,21 +8,21 @@ namespace Kortex::ModManager
 	class ModImporterNMM: public IModImporter
 	{
 		private:
-			wxString m_InstanceDirectory;
-			KxXMLDocument m_ProfileManagerXML;
+			kxf::String m_InstanceDirectory;
+			kxf::XMLDocument m_ProfileManagerXML;
 
-			std::vector<std::pair<wxString, wxString>> m_ProfilesList;
+			std::vector<std::pair<kxf::String, kxf::String>> m_ProfilesList;
 			GameID m_TargetGameID;
 			const IGameInstance* m_TargetGame = nullptr;
 			bool m_CanImport = false;
 
 		private:
-			wxString ProcessDescription(const wxString& path) const;
+			kxf::String ProcessDescription(const kxf::String& path) const;
 
-			GameID GetGameID(const wxString& name);
+			GameID GetGameID(const kxf::String& name);
 			void LoadOptions();
-			wxString GetDataFolderName() const;
-			wxString GetProfileDirectory() const;
+			kxf::String GetDataFolderName() const;
+			kxf::String GetProfileDirectory() const;
 
 			void CopySavesAndConfig(Utility::OperationWithProgressDialogBase* context);
 			void CopyMods(Utility::OperationWithProgressDialogBase* context);
@@ -30,7 +30,7 @@ namespace Kortex::ModManager
 			void CopyDownloads(Utility::OperationWithProgressDialogBase* context);
 
 		public:
-			void SetDirectory(const wxString& path) override;
+			void SetDirectory(const kxf::String& path) override;
 			void Import(Utility::OperationWithProgressDialogBase* context) override;
 			
 			bool CanImport() const override;
@@ -38,12 +38,12 @@ namespace Kortex::ModManager
 			{
 				return m_TargetGameID;
 			}
-			wxString GetModManagerName() const override
+			kxf::String GetModManagerName() const override
 			{
 				return "Nexus Mod Manager";
 			}
-			wxString GetAdditionalInfo() const override;
-			wxString GetCurrentProfile() const override
+			kxf::String GetAdditionalInfo() const override;
+			kxf::String GetCurrentProfile() const override
 			{
 				return wxEmptyString;
 			}

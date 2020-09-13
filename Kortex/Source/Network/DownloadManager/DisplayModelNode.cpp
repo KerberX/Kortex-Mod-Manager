@@ -17,8 +17,8 @@ namespace Kortex::DownloadManager
 		{
 			case ColumnID::Name:
 			{
-				wxString name = m_Item.GetName();
-				wxString displayName = m_Item.GetDisplayName();
+				kxf::String name = m_Item.GetName();
+				kxf::String displayName = m_Item.GetDisplayName();
 
 				if (name == displayName)
 				{
@@ -30,7 +30,7 @@ namespace Kortex::DownloadManager
 				}
 				else
 				{
-					return BitmapTextValue(KxString::Format(wxS("%1 (%2)"), name, displayName), GetStateBitmap());
+					return BitmapTextValue(kxf::String::Format(wxS("%1 (%2)"), name, displayName), GetStateBitmap());
 				}
 			}
 			case ColumnID::Version:
@@ -52,22 +52,22 @@ namespace Kortex::DownloadManager
 			}
 			case ColumnID::Source:
 			{
-				wxString label;
+				kxf::String label;
 				if (IModNetwork* modNetwork = m_Item.GetModNetwork())
 				{
 					label = modNetwork->GetName();
 				}
-				if (wxString server = m_Item.GetServerName(); !server.IsEmpty())
+				if (kxf::String server = m_Item.GetServerName(); !server.IsEmpty())
 				{
 					if (!label.IsEmpty())
 					{
 						if (server.Contains(wxS("(")) || server.Contains(wxS(")")))
 						{
-							label += KxString::Format(wxS(" [%1]"), server);
+							label += kxf::String::Format(wxS(" [%1]"), server);
 						}
 						else
 						{
-							label += KxString::Format(wxS(" (%1)"), server);
+							label += kxf::String::Format(wxS(" (%1)"), server);
 						}
 					}
 					else
@@ -104,11 +104,11 @@ namespace Kortex::DownloadManager
 				}
 
 				// Label
-				wxString label = KxString::Format(wxS("%1%"), percent);
+				kxf::String label = kxf::String::Format(wxS("%1%"), percent);
 				if (m_Item.IsRunning())
 				{
 					// Add speed per sec
-					label += KxString::Format(wxS(", %1/%2"), KxFile::FormatFileSize(m_Item.GetDownloadSpeed(), 2), KTr(wxS("Generic.Sec")));
+					label += kxf::String::Format(wxS(", %1/%2"), KxFile::FormatFileSize(m_Item.GetDownloadSpeed(), 2), KTr(wxS("Generic.Sec")));
 				}
 
 				bool addedDownloaded = false;
@@ -187,20 +187,20 @@ namespace Kortex::DownloadManager
 	{
 		if (!m_Item.IsOK())
 		{
-			return ImageProvider::GetBitmap(ImageResourceID::ExclamationCircleFrame);
+			return ImageProvider::GetBitmap(Imagekxf::ResourceID::ExclamationCircleFrame);
 		}
 		if (m_Item.IsCompleted())
 		{
-			return ImageProvider::GetBitmap(ImageResourceID::TickCircleFrame);
+			return ImageProvider::GetBitmap(Imagekxf::ResourceID::TickCircleFrame);
 		}
 		if (m_Item.IsFailed())
 		{
-			return ImageProvider::GetBitmap(ImageResourceID::CrossCircleFrame);
+			return ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossCircleFrame);
 		}
 		if (m_Item.IsPaused() || m_Item.IsWaiting())
 		{
-			return ImageProvider::GetBitmap(ImageResourceID::ExclamationCircleFrameEmpty);
+			return ImageProvider::GetBitmap(Imagekxf::ResourceID::ExclamationCircleFrameEmpty);
 		}
-		return ImageProvider::GetBitmap(ImageResourceID::TickCircleFrameEmpty);
+		return ImageProvider::GetBitmap(Imagekxf::ResourceID::TickCircleFrameEmpty);
 	}
 }

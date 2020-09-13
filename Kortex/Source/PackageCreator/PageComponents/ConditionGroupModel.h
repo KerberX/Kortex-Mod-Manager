@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/ComponentsSection.h"
 #include "PackageProject/RequirementsSection.h"
@@ -46,7 +46,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			void OnRemoveAllConditions();
 			
 			int AskRemoveOption() const;
-			bool DoTrackID(wxString trackedID, const wxString& newID, bool remove) const;
+			bool DoTrackID(kxf::String trackedID, const kxf::String& newID, bool remove) const;
 			void DoRemoveFlag(PackageProject::Condition& condition, PackageProject::FlagItem& flag);
 			void DoRemoveCondition(PackageProject::Condition& condition);
 	
@@ -55,11 +55,11 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			{
 				return this;
 			}
-			bool TrackChangeID(const wxString& trackedID, const wxString& newID) override
+			bool TrackChangeID(const kxf::String& trackedID, const kxf::String& newID) override
 			{
 				return DoTrackID(trackedID, newID, false);
 			}
-			bool TrackRemoveID(const wxString& trackedID) override
+			bool TrackRemoveID(const kxf::String& trackedID) override
 			{
 				return DoTrackID(trackedID, wxEmptyString, true);
 			}
@@ -109,7 +109,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			void LoadWindowSizes();
 	
 		public:
-			ConditionGroupDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup);
+			ConditionGroupDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup);
 			virtual ~ConditionGroupDialog();
 	
 		public:
@@ -133,7 +133,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			void OnSelectNewTypeDescriptor(wxCommandEvent& event);
 	
 		public:
-			ConditionGroupDialogWithTypeDescriptor(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup, PackageProject::ComponentItem& entry);
+			ConditionGroupDialogWithTypeDescriptor(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup, PackageProject::ComponentItem& entry);
 			virtual ~ConditionGroupDialogWithTypeDescriptor();
 	};
 }

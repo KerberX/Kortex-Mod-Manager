@@ -1,5 +1,5 @@
 #pragma once 
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxIArchive.h>
 #include <KxFramework/KxArchiveEvent.h>
 #include <KxFramework/KxFileStream.h>
@@ -155,7 +155,7 @@ namespace Kortex::BethesdaArchiveNS
 	struct NamedRecord
 	{
 		TRecord Record;
-		wxString Name;
+		kxf::String Name;
 
 		NamedRecord(TRecord&& record)
 			:Record(std::forward<TRecord>(record))
@@ -168,7 +168,7 @@ namespace Kortex::BethesdaArchiveNS
 	{
 		TRecord Record;
 		TData Data;
-		wxString Name;
+		kxf::String Name;
 
 		NamedRecordWithData(TRecord&& record)
 			:Record(std::forward<TRecord>(record))
@@ -205,7 +205,7 @@ namespace Kortex
 			using FileItem = BethesdaArchiveNS::NamedRecordWithData<FileRecord, FileData>;
 
 		public:
-			static uint64_t HashFilePath(const wxString& sourcePath, bool isFolderPath, wxString* correctedPath = nullptr);
+			static uint64_t HashFilePath(const kxf::String& sourcePath, bool isFolderPath, kxf::String* correctedPath = nullptr);
 
 		private:
 			KxFileStream m_Stream;
@@ -244,12 +244,12 @@ namespace Kortex
 				return nullptr;
 			}
 
-			bool OpenArchive(const wxString& filePath);
+			bool OpenArchive(const kxf::String& filePath);
 			void CloseArchive();
 
 		public:
 			BethesdaArchive();
-			BethesdaArchive(const wxString& filePath);
+			BethesdaArchive(const kxf::String& filePath);
 			virtual ~BethesdaArchive();
 
 		public:
@@ -296,9 +296,9 @@ namespace Kortex
 
 			// KxIArchive
 			bool IsOK() const override;
-			bool Open(const wxString& filePath) override;
+			bool Open(const kxf::String& filePath) override;
 			void Close() override;
-			wxString GetFilePath() const override;
+			kxf::String GetFilePath() const override;
 
 			int64_t GetOriginalSize() const override;
 			int64_t GetCompressedSize() const override;
@@ -310,7 +310,7 @@ namespace Kortex
 
 		public:
 			// KxIArchiveSearch
-			void* FindFirstFile(const wxString& filter, KxFileItem& fileItem) const override;
+			void* FindFirstFile(const kxf::String& filter, KxFileItem& fileItem) const override;
 			bool FindNextFile(void* handle, KxFileItem& item) const override;
 			void FindClose(void* handle) const override;
 	};

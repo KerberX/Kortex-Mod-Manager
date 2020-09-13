@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISamplingFunction.h"
 
 namespace Kortex::GameConfig::SamplingFunction
@@ -10,7 +10,7 @@ namespace Kortex::GameConfig::SamplingFunction
 			SampleValue::Vector& m_Values;
 
 		protected:
-			void DoCall(const wxString& sourcePath) const;
+			void DoCall(const kxf::String& sourcePath) const;
 			void OnCall(const ItemValue::Vector& arguments) override;
 			
 		public:

@@ -9,9 +9,9 @@
 
 namespace Kortex
 {
-	ResourceID IModNetwork::GetGenericIcon()
+	kxf::ResourceID IModNetwork::GetGenericIcon()
 	{
-		return ImageResourceID::ModNetwork_Unknown;
+		return Imagekxf::ResourceID::ModNetwork_Unknown;
 	}
 
 	void IModNetwork::DoOnInit()
@@ -25,20 +25,20 @@ namespace Kortex
 		RemoveAllComponents();
 	}
 
-	KxURI IModNetwork::GetIPBModPageURI(ModID modID, const wxString& modSignature) const
+	KxURI IModNetwork::GetIPBModPageURI(ModID modID, const kxf::String& modSignature) const
 	{
-		return KxString::Format(wxS("%1/%2-%3"), GetModPageBaseURI().BuildUnescapedURI(), modID.GetValue(), modSignature.IsEmpty() ? wxS("x") : modSignature);
+		return kxf::String::Format(wxS("%1/%2-%3"), GetModPageBaseURI().BuildUnescapedURI(), modID.GetValue(), modSignature.IsEmpty() ? wxS("x") : modSignature);
 	}
 
 	bool IModNetwork::IsDefault() const
 	{
 		return this == INetworkManager::GetInstance()->GetDefaultModNetwork();
 	}
-	wxString IModNetwork::GetCacheDirectory() const
+	kxf::String IModNetwork::GetCacheDirectory() const
 	{
 		return INetworkManager::GetInstance()->GetCacheDirectory() + wxS('\\') + Utility::MakeSafeFileName(GetName());
 	}
-	wxString IModNetwork::GetLocationInCache(const wxString& relativePath) const
+	kxf::String IModNetwork::GetLocationInCache(const kxf::String& relativePath) const
 	{
 		return GetCacheDirectory() + wxS('\\') + relativePath;
 	}

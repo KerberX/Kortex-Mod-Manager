@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "DataType.h"
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex::GameConfig
 {
@@ -13,7 +13,7 @@ namespace Kortex::GameConfig
 
 		public:
 			virtual bool RequiresValueData() const = 0;
-			virtual TypeID GetType(const wxString& valueName, const wxString& valueData) const = 0;
+			virtual TypeID GetType(const kxf::String& valueName, const kxf::String& valueData) const = 0;
 	};
 }
 
@@ -22,17 +22,17 @@ namespace Kortex::GameConfig
 	class HungarianNotationTypeDetector: public ITypeDetector
 	{
 		private:
-			std::unordered_map<wxString, TypeID> m_TypeMap;
+			std::unordered_map<kxf::String, TypeID> m_TypeMap;
 
 		public:
-			HungarianNotationTypeDetector(const KxXMLNode& rootNode);
+			HungarianNotationTypeDetector(const kxf::XMLNode& rootNode);
 
 		public:
 			bool RequiresValueData() const override
 			{
 				return false;
 			}
-			TypeID GetType(const wxString& valueName, const wxString& valueData) const override;
+			TypeID GetType(const kxf::String& valueName, const kxf::String& valueData) const override;
 	};
 }
 
@@ -45,6 +45,6 @@ namespace Kortex::GameConfig
 			{
 				return true;
 			}
-			TypeID GetType(const wxString& valueName, const wxString& valueData) const override;
+			TypeID GetType(const kxf::String& valueName, const kxf::String& valueData) const override;
 	};
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <Kx/EventSystem/Event.h>
 #include <Kx/RTTI.hpp>
 
@@ -7,7 +7,7 @@ namespace Kortex
 {
 	class IWorkspaceDocument: public KxRTTI::Interface<IWorkspaceDocument>
 	{
-		KxDecalreIID(IWorkspaceDocument, {0xc775ca40, 0xfcd2, 0x4fdf, {0xb0, 0x15, 0xc9, 0x5b, 0x3d, 0x13, 0x54, 0x2e}});
+		KxRTTI_DeclareIID(IWorkspaceDocument, {0xc775ca40, 0xfcd2, 0x4fdf, {0xb0, 0x15, 0xc9, 0x5b, 0x3d, 0x13, 0x54, 0x2e}});
 
 		public:
 			KxEVENT_MEMBER(wxNotifyEvent, Changed);
@@ -15,8 +15,8 @@ namespace Kortex
 			KxEVENT_MEMBER(wxNotifyEvent, Discarded);
 
 		protected:
-			virtual wxString GetSaveConfirmationCaption() const;
-			virtual wxString GetSaveConfirmationMessage() const;
+			virtual kxf::String GetSaveConfirmationCaption() const;
+			virtual kxf::String GetSaveConfirmationMessage() const;
 
 		public:
 			virtual ~IWorkspaceDocument() = default;

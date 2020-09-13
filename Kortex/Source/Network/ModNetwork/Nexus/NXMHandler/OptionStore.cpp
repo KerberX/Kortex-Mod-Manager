@@ -5,12 +5,12 @@ namespace Kortex::NetworkManager::NXMHandler
 {
 	void OptionStore::Save(AppOption& option) const
 	{
-		KxXMLNode rootNode = option.GetNode();
+		kxf::XMLNode rootNode = option.GetNode();
 		rootNode.ClearChildren();
 
 		for (auto& [nexusID, anyValue]: m_Options)
 		{
-			KxXMLNode itemNode = rootNode.NewElement("Item");
+			kxf::XMLNode itemNode = rootNode.NewElement("Item");
 			itemNode.SetAttribute("NexusID", nexusID);
 
 			if (const Instance* value = std::get_if<Instance>(&anyValue))
@@ -19,7 +19,7 @@ namespace Kortex::NetworkManager::NXMHandler
 			}
 			else if (const Command* value = std::get_if<Command>(&anyValue))
 			{
-				KxXMLNode node = itemNode.NewElement("Command");
+				kxf::XMLNode node = itemNode.NewElement("Command");
 				node.NewElement("Executable").SetValue(value->Executable);
 				node.NewElement("Arguments").SetValue(value->Arguments);
 			}
@@ -27,14 +27,14 @@ namespace Kortex::NetworkManager::NXMHandler
 	}
 	void OptionStore::Load(const AppOption& option)
 	{
-		KxXMLNode rootNode = option.GetNode();
-		for (KxXMLNode itemNode = rootNode.GetFirstChildElement(); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement())
+		kxf::XMLNode rootNode = option.GetNode();
+		for (kxf::XMLNode itemNode = rootNode.GetFirstChildElement(); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement())
 		{
-			wxString nexusID = itemNode.GetAttribute("NexusID");
+			kxf::String nexusID = itemNode.GetAttribute("NexusID");
 			if (!nexusID.IsEmpty())
 			{
 				KxString::MakeLower(nexusID);
-				if (KxXMLNode node = itemNode.GetFirstChildElement("Instance"); node.IsOK())
+				if (kxf::XMLNode node = itemNode.GetFirstChildElement("Instance"); node.IsOK())
 				{
 					Instance instance{node.GetAttribute("ID")};
 					if (instance)
@@ -42,7 +42,7 @@ namespace Kortex::NetworkManager::NXMHandler
 						m_Options.insert_or_assign(nexusID, std::move(instance));
 					}
 				}
-				else if (KxXMLNode node = itemNode.GetFirstChildElement("Command"); node.IsOK())
+				else if (kxf::XMLNode node = itemNode.GetFirstChildElement("Command"); node.IsOK())
 				{
 					Command command;
 					command.Executable = node.GetFirstChildElement("Executable").GetValue();

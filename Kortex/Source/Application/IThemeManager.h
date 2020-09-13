@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxColor.h>
 #include "Utility/EnumClassOperations.h"
 class KxSplitterWindow;

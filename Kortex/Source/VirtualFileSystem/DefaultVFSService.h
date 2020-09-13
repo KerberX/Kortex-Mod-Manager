@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "VirtualFileSystem/IVFSService.h"
 #include "VirtualFileSystem/IVirtualFileSystem.h"
 #include "IPC/FSController.h"
@@ -51,7 +51,7 @@ namespace Kortex::VirtualFileSystem
 				return &m_Controller;
 			}
 
-			wxString GetServiceName() const override
+			kxf::String GetServiceName() const override
 			{
 				return wxS("Kortex FSController");
 			}
@@ -67,13 +67,13 @@ namespace Kortex::VirtualFileSystem
 			void EnableLog(bool value = true) override;
 
 		public:
-			wxString GetLibraryName() const override;
-			wxString GetLibraryURL() const override;
-			KxVersion GetLibraryVersion() const override;
+			kxf::String GetLibraryName() const override;
+			kxf::String GetLibraryURL() const override;
+			kxf::Version GetLibraryVersion() const override;
 
 			bool HasNativeLibrary() const override;
-			wxString GetNativeLibraryName() const override;
-			wxString GetNativeLibraryURL() const override;
-			KxVersion GetNativeLibraryVersion() const override;
+			kxf::String GetNativeLibraryName() const override;
+			kxf::String GetNativeLibraryURL() const override;
+			kxf::Version GetNativeLibraryVersion() const override;
 	};
 }

@@ -1,17 +1,17 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "ModRepositoryReply.h"
 #include "ModRepositoryRequest.h"
 #include "GameInstance/GameID.h"
-#include "Application/Resources/ImageResourceID.h"
+#include "Application/Resources/Imagekxf::ResourceID.h"
 #include <KxFramework/KxComponentSystem.h>
 #include <KxFramework/KxSecretStore.h>
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 #include <KxFramework/KxURI.h>
 #include <Kx/RTTI.hpp>
 class KxMenu;
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex
 {
@@ -24,7 +24,7 @@ namespace Kortex
 {
 	class IModNetwork: public KxRTTI::Interface<IModNetwork>, public KxComponentContainer
 	{
-		KxDecalreIID(IModNetwork, {0xc58037c8, 0x9e52, 0x45df, {0xac, 0xd5, 0xa5, 0xb7, 0x4e, 0x3f, 0x88, 0x5f}});
+		KxRTTI_DeclareIID(IModNetwork, {0xc58037c8, 0x9e52, 0x45df, {0xac, 0xd5, 0xa5, 0xb7, 0x4e, 0x3f, 0x88, 0x5f}});
 
 		friend class INetworkManager;
 		friend class NetworkModule;
@@ -35,7 +35,7 @@ namespace Kortex
 			using ModsRefVector = std::vector<IGameMod*>;
 
 		public:
-			static ResourceID GetGenericIcon();
+			static kxf::ResourceID GetGenericIcon();
 
 		private:
 			void DoOnInit();
@@ -45,20 +45,20 @@ namespace Kortex
 			virtual void OnExit() = 0;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode) = 0;
-			KxURI GetIPBModPageURI(ModID modID, const wxString& modSignature = {}) const;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode) = 0;
+			KxURI GetIPBModPageURI(ModID modID, const kxf::String& modSignature = {}) const;
 
 		public:
 			bool IsDefault() const;
-			wxString GetCacheDirectory() const;
-			wxString GetLocationInCache(const wxString& relativePath) const;
+			kxf::String GetCacheDirectory() const;
+			kxf::String GetLocationInCache(const kxf::String& relativePath) const;
 			
-			virtual ResourceID GetIcon() const = 0;
-			virtual wxString GetName() const = 0;
+			virtual kxf::ResourceID GetIcon() const = 0;
+			virtual kxf::String GetName() const = 0;
 			
-			virtual wxString TranslateGameIDToNetwork(const GameID& id = {}) const = 0;
-			virtual GameID TranslateGameIDFromNetwork(const wxString& id) const = 0;
-			virtual void ConvertDescriptionText(wxString& description) const
+			virtual kxf::String TranslateGameIDToNetwork(const GameID& id = {}) const = 0;
+			virtual GameID TranslateGameIDFromNetwork(const kxf::String& id) const = 0;
+			virtual void ConvertDescriptionText(kxf::String& description) const
 			{
 			}
 			

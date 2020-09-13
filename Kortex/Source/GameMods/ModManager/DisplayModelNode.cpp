@@ -99,7 +99,7 @@ namespace Kortex::ModManager
 				case ColumnID::Version:
 				{
 					KxIconType icon = KxICON_NONE;
-					wxString message;
+					kxf::String message;
 
 					m_Mod->GetModSourceStore().Visit([&icon, &message](const ModSourceItem& item)
 					{
@@ -136,14 +136,14 @@ namespace Kortex::ModManager
 				}
 				case ColumnID::ModSource:
 				{
-					wxString text;
+					kxf::String text;
 					m_Mod->GetModSourceStore().Visit([&text](const ModSourceItem& item)
 					{
 						if (!text.IsEmpty())
 						{
 							text += wxS("\r\n");
 						}
-						if (wxString name; item.TryGetName(name))
+						if (kxf::String name; item.TryGetName(name))
 						{
 							text += name;
 							text += wxS(": ");
@@ -175,7 +175,7 @@ namespace Kortex::ModManager
 					KxDataView2::BitmapTextToggleValue valueData(m_Mod->IsActive(), KxDataView2::ToggleType::CheckBox);
 					if (m_Mod->GetName() != m_Mod->GetID())
 					{
-						valueData.SetText(KxString::Format(wxS("%1 (%2)"), m_Mod->GetName(), m_Mod->GetID()));
+						valueData.SetText(kxf::String::Format(wxS("%1 (%2)"), m_Mod->GetName(), m_Mod->GetID()));
 					}
 					else
 					{
@@ -191,17 +191,17 @@ namespace Kortex::ModManager
 				}
 				case ColumnID::Version:
 				{
-					KxVersion version = m_Mod->GetVersion();
+					kxf::Version version = m_Mod->GetVersion();
 					if (version.IsOK())
 					{
 						auto [anyUpdates, anyDeletions] = HasAnyNetworkUpdates();
 						if (anyUpdates)
 						{
-							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(ImageResourceID::InformationFrame));
+							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(Imagekxf::ResourceID::InformationFrame));
 						}
 						else if (anyDeletions)
 						{
-							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(ImageResourceID::Exclamation));
+							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(Imagekxf::ResourceID::Exclamation));
 						}
 					}
 					return version.ToString();
@@ -302,9 +302,9 @@ namespace Kortex::ModManager
 		{
 			case ColumnID::Name:
 			{
-				if (value.CheckType<wxString>())
+				if (value.CheckType<kxf::String>())
 				{
-					wxString newName = value.As<wxString>();
+					kxf::String newName = value.As<kxf::String>();
 					
 					// If mod name is the same as ID change its ID as well
 					if (m_Mod->GetID() == m_Mod->GetName())
@@ -349,7 +349,7 @@ namespace Kortex::ModManager
 			}
 			case ColumnID::Version:
 			{
-				wxString newVersion = value.As<wxString>();
+				kxf::String newVersion = value.As<kxf::String>();
 				if (newVersion != m_Mod->GetVersion())
 				{
 					m_Mod->SetVersion(newVersion);
@@ -362,7 +362,7 @@ namespace Kortex::ModManager
 			}
 			case ColumnID::Author:
 			{
-				wxString author = value.As<wxString>();
+				kxf::String author = value.As<kxf::String>();
 				if (author != m_Mod->GetAuthor())
 				{
 					m_Mod->SetAuthor(author);
@@ -534,7 +534,7 @@ namespace Kortex::ModManager
 		{
 			case ColumnID::Name:
 			{
-				return KxString::Format(wxS("%1 (%2)"), m_Tag->GetName(), m_Children.size());
+				return kxf::String::Format(wxS("%1 (%2)"), m_Tag->GetName(), m_Children.size());
 			}
 		};
 		return {};

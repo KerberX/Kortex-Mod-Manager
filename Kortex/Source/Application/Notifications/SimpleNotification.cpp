@@ -4,11 +4,11 @@
 
 namespace Kortex
 {
-	SimpleNotification::SimpleNotification(const wxString& caption, const wxString& message, KxIconType iconID)
+	SimpleNotification::SimpleNotification(const kxf::String& caption, const kxf::String& message, KxIconType iconID)
 		:m_Caption(caption), m_Message(message), m_Bitmap(iconID != KxICON_NONE ? wxArtProvider::GetMessageBoxIcon(iconID) : wxNullBitmap)
 	{
 	}
-	SimpleNotification::SimpleNotification(const wxString& caption, const wxString& message, const wxBitmap& bitmap)
+	SimpleNotification::SimpleNotification(const kxf::String& caption, const kxf::String& message, const wxBitmap& bitmap)
 		: m_Caption(caption), m_Message(message)
 	{
 		Utility::BitmapSize bitmapSize;

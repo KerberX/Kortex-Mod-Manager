@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ITranslator.h"
 class KxTranslation;
 
@@ -11,7 +11,7 @@ namespace Kortex
 			std::vector<std::reference_wrapper<const KxTranslation>> m_Translations;
 
 		protected:
-			OpString DoGetString(const wxString& id) const override;
+			OpString DoGetString(const kxf::String& id) const override;
 			OpString DoGetString(KxStandardID id) const override;
 			
 		public:

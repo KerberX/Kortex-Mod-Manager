@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxArchive.h>
 #include <KxFramework/KxArchiveEvent.h>
 #include <KxFramework/KxFileItem.h>
@@ -34,10 +34,10 @@ namespace Kortex::Archive
 
 namespace Kortex::Archive
 {
-	Format DetectFormat(const wxString& filePath);
+	Format DetectFormat(const kxf::String& filePath);
 
-	wxString GetExtensionFromFormat(Format format);
-	wxString GetFormatName(Format format);
+	kxf::String GetExtensionFromFormat(Format format);
+	kxf::String GetFormatName(Format format);
 }
 
 namespace Kortex::Archive::Property

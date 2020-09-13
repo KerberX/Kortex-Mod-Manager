@@ -22,7 +22,7 @@ namespace Kortex
 		static const ScreenshotsGallery::SupportedTypesVector ms_SupportedFormats = {wxBITMAP_TYPE_JPEG, wxBITMAP_TYPE_JPEG, wxBITMAP_TYPE_BMP, wxBITMAP_TYPE_PNG, wxBITMAP_TYPE_ICO, wxBITMAP_TYPE_TGA, wxBITMAP_TYPE_TIF};
 		return ms_SupportedFormats;
 	}
-	bool IScreenshotsGallery::IsAnimationFile(const wxString& filePath)
+	bool IScreenshotsGallery::IsAnimationFile(const kxf::String& filePath)
 	{
 		return Utility::SingleFileExtensionMatches(filePath, wxS("gif")) || Utility::SingleFileExtensionMatches(filePath, wxS("ani"));
 	}

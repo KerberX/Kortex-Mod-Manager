@@ -7,7 +7,7 @@
 
 namespace
 {
-	std::optional<wxString> GetTranslation(const wxString& value)
+	std::optional<kxf::String> GetTranslation(const kxf::String& value)
 	{
 		using namespace Kortex;
 
@@ -21,7 +21,7 @@ namespace
 
 namespace Kortex
 {
-	wxString SimpleModuleInfo::GetName() const
+	kxf::String SimpleModuleInfo::GetName() const
 	{
 		auto value = GetTranslation(m_Name);
 		return value ? *value : m_Name;
@@ -30,7 +30,7 @@ namespace Kortex
 
 namespace Kortex
 {
-	wxString SimpleManagerInfo::GetName() const
+	kxf::String SimpleManagerInfo::GetName() const
 	{
 		auto value = GetTranslation(m_Name);
 		return value ? *value : m_Name;

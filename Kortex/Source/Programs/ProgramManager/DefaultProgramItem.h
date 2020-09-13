@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Programs/IProgramItem.h"
 
 namespace Kortex::ProgramManager
@@ -10,11 +10,11 @@ namespace Kortex::ProgramManager
 			Utility::WithBitmap m_SmallBitmap;
 			Utility::WithBitmap m_LargeBitmap;
 
-			wxString m_Name;
-			wxString m_IconPath;
-			wxString m_Executable;
-			wxString m_Arguments;
-			wxString m_WorkingDirectory;
+			kxf::String m_Name;
+			kxf::String m_IconPath;
+			kxf::String m_Executable;
+			kxf::String m_Arguments;
+			kxf::String m_WorkingDirectory;
 
 			bool m_ShowInMainMenu = false;
 
@@ -23,8 +23,8 @@ namespace Kortex::ProgramManager
 			{
 				return !m_Name.IsEmpty() && !m_Executable.IsEmpty();
 			}
-			void Load(const KxXMLNode& node) override;
-			void Save(KxXMLNode& node) const override;
+			void Load(const kxf::XMLNode& node) override;
+			void Save(kxf::XMLNode& node) const override;
 		
 			bool RequiresVFS() const override;
 			bool CanRunNow() const override;
@@ -39,52 +39,52 @@ namespace Kortex::ProgramManager
 				m_ShowInMainMenu = value;
 			}
 
-			wxString RawGetName() const override
+			kxf::String RawGetName() const override
 			{
 				return m_Name;
 			}
-			wxString GetName() const override;
-			void SetName(const wxString& value) override
+			kxf::String GetName() const override;
+			void SetName(const kxf::String& value) override
 			{
 				m_Name = value;
 			}
 		
-			wxString RawGetIconPath() const override
+			kxf::String RawGetIconPath() const override
 			{
 				return m_IconPath;
 			}
-			wxString GetIconPath() const override;
-			void SetIconPath(const wxString& value) override
+			kxf::String GetIconPath() const override;
+			void SetIconPath(const kxf::String& value) override
 			{
 				m_IconPath = value;
 			}
 		
-			wxString RawGetExecutable() const override
+			kxf::String RawGetExecutable() const override
 			{
 				return m_Executable;
 			}
-			wxString GetExecutable() const override;
-			void SetExecutable(const wxString& value) override
+			kxf::String GetExecutable() const override;
+			void SetExecutable(const kxf::String& value) override
 			{
 				m_Executable = value;
 			}
 		
-			wxString RawGetArguments() const override
+			kxf::String RawGetArguments() const override
 			{
 				return m_Arguments;
 			}
-			wxString GetArguments() const override;
-			void SetArguments(const wxString& value) override
+			kxf::String GetArguments() const override;
+			void SetArguments(const kxf::String& value) override
 			{
 				m_Arguments = value;
 			}
 
-			wxString RawGetWorkingDirectory() const override
+			kxf::String RawGetWorkingDirectory() const override
 			{
 				return m_WorkingDirectory;
 			}
-			wxString GetWorkingDirectory() const override;
-			void SetWorkingDirectory(const wxString& value) override
+			kxf::String GetWorkingDirectory() const override;
+			void SetWorkingDirectory(const kxf::String& value) override
 			{
 				m_WorkingDirectory = value;
 			}

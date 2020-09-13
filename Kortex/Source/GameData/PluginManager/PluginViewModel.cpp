@@ -156,7 +156,7 @@ namespace Kortex::PluginManager
 		{
 			// Description
 			{
-				wxString description = bethesdaPlugin->GetDescription();
+				kxf::String description = bethesdaPlugin->GetDescription();
 
 				KxMenuItem* item = menu.AddItem(KTr("Generic.Description"));
 				item->Enable(!description.IsEmpty());
@@ -183,13 +183,13 @@ namespace Kortex::PluginManager
 				KxStringVector dependenciesList = bethesdaPlugin->GetRequiredPlugins();
 				KxMenu* dependenciesMenu = new KxMenu();
 				KxMenuItem* dependenciesMenuItem = menu.Add(dependenciesMenu,
-															wxString::Format(wxS("%s (%zu)"),
+															kxf::String::Format(wxS("%s (%zu)"),
 															KTr("PluginManager.PluginDependencies"),
 															dependenciesList.size())
 				);
 				dependenciesMenuItem->Enable(!dependenciesList.empty());
 
-				for (const wxString& name: dependenciesList)
+				for (const kxf::String& name: dependenciesList)
 				{
 					KxMenuItem* item = dependenciesMenu->AddItem(name);
 					item->SetBitmap(ImageProvider::GetBitmap(workspace->GetStatusImageForPlugin(manager->FindPluginByName(name))));
@@ -202,7 +202,7 @@ namespace Kortex::PluginManager
 				IGamePlugin::RefVector dependentList = plugin->GetDependentPlugins();
 				KxMenu* dependentMenu = new KxMenu();
 				KxMenuItem* dependentMenuItem = menu.Add(dependentMenu,
-														 KxString::Format(wxS("%1 (%2)"),
+														 kxf::String::Format(wxS("%1 (%2)"),
 														 KTr("PluginManager.DependentPlugins"),
 														 dependentList.size())
 				);
@@ -230,7 +230,7 @@ namespace Kortex::PluginManager
 		{
 			KxMenuItem* item = menu.AddItem(KTr("Generic.FileLocation"));
 			item->Enable(plugin);
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
 			item->Bind(KxEVT_MENU_SELECT, [plugin](KxMenuEvent& event)
 			{
 				KxShell::OpenFolderAndSelectItem(plugin->GetFullPath());
@@ -347,7 +347,7 @@ namespace Kortex::PluginManager
 	{
 		GetView()->Refresh();
 	}
-	bool PluginViewModel::SetSearchMask(const wxString& mask)
+	bool PluginViewModel::SetSearchMask(const kxf::String& mask)
 	{
 		return Utility::UI::SetSearchMask(m_SearchMask, mask);
 	}

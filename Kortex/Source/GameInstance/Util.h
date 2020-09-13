@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace
 {
@@ -13,7 +13,7 @@ namespace
 			InstanceID,
 			ProfileID
 		};
-		template<class ObjectT, FindBy findBy, class VectorT> ObjectT* FindObjectInVector(VectorT& storageVector, const wxString& value, typename VectorT::const_iterator* itOut = nullptr)
+		template<class ObjectT, FindBy findBy, class VectorT> ObjectT* FindObjectInVector(VectorT& storageVector, const kxf::String& value, typename VectorT::const_iterator* itOut = nullptr)
 		{
 			auto it = std::find_if(storageVector.begin(), storageVector.end(), [&value](const auto& object)
 			{
@@ -45,7 +45,7 @@ namespace
 			}
 			return nullptr;
 		}
-		template<class ObjectT, class MapT> ObjectT* FindObjectInMap(MapT& map, const wxString& id)
+		template<class ObjectT, class MapT> ObjectT* FindObjectInMap(MapT& map, const kxf::String& id)
 		{
 			auto it = map.find(id);
 			if (it != map.end())

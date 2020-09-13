@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 #include "Common.h"
 #include "IModNetwork.h"
@@ -43,23 +43,23 @@ namespace Kortex
 			};
 
 		protected:
-			wxString GetUserAgentString(NetworkSoftware networkSoftware) const;
+			kxf::String GetUserAgentString(NetworkSoftware networkSoftware) const;
 
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			
 		public:
 			INetworkManager();
 
 		public:
-			virtual wxString GetCacheDirectory() const = 0;
+			virtual kxf::String GetCacheDirectory() const = 0;
 			
 			virtual IModNetwork::RefVector GetModNetworks() = 0;
 			std::vector<ModNetworkRepository*> GetModRepositories();
 
 			virtual IModNetwork* GetDefaultModNetwork() const = 0;
-			virtual IModNetwork* GetModNetworkByName(const wxString& name) const = 0;
+			virtual IModNetwork* GetModNetworkByName(const kxf::String& name) const = 0;
 
 			virtual void OnAuthStateChanged() = 0;
 

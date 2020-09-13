@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PageBase.h"
 class KxComboBox;
 
@@ -39,11 +39,11 @@ namespace Kortex::PackageDesigner
 			virtual ~PageInterface();
 
 		public:
-			ResourceID GetIcon() const override
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Image;
+				return Imagekxf::ResourceID::Image;
 			}
-			wxString GetID() const override;
-			wxString GetPageName() const override;
+			kxf::String GetID() const override;
+			kxf::String GetPageName() const override;
 	};
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
 #include "Common.h"
 #include <KxFramework/KxSingleton.h>
@@ -29,7 +29,7 @@ namespace Kortex
 		private:
 			virtual void OnInit() override;
 			virtual void OnExit() override;
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 
 		public:
 			NetworkModule();

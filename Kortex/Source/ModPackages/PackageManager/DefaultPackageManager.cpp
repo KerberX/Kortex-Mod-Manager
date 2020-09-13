@@ -10,12 +10,12 @@
 
 namespace Kortex::PackageDesigner
 {
-	void DefaultPackageManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultPackageManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		LoadRequirementsGroup(m_StandardRequirements, managerNode.GetFirstChildElement("Requirements"));
 		
 		// Find script extender
-		wxString xSEID = instance.GetVariables().GetVariable(Variables::KVAR_SCRIPT_EXTENDER_ID).AsString();
+		kxf::String xSEID = instance.GetVariables().GetVariable(Variables::KVAR_SCRIPT_EXTENDER_ID).AsString();
 		if (PackageProject::RequirementItem* xSE = m_StandardRequirements.FindItem(xSEID))
 		{
 			m_WithScriptExtender.Assign(*xSE);
@@ -65,7 +65,7 @@ namespace Kortex::PackageDesigner
 		{
 			KxMenuItem* item = packageMenu->Add(new KxMenuItem(KTr("ModManager.Menu.Package.OpenLocation")));
 			item->Enable(isPackageExist);
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
 			item->Bind(KxEVT_MENU_SELECT, [focusedMod](KxMenuEvent& event)
 			{
 				KxShell::OpenFolderAndSelectItem(focusedMod->GetPackageFile());
@@ -76,7 +76,7 @@ namespace Kortex::PackageDesigner
 		{
 			KxMenuItem* item = packageMenu->Add(new KxMenuItem(KTr("ModManager.Menu.Package.Assign")));
 			item->Enable(!isFixedMod);
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BoxSearchResult));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BoxSearchResult));
 			item->Bind(KxEVT_MENU_SELECT, [focusedMod](KxMenuEvent& event)
 			{
 				KxFileBrowseDialog dialog(event.GetMenu()->GetWindow(), KxID_NONE, KxFBD_OPEN);
@@ -112,7 +112,7 @@ namespace Kortex::PackageDesigner
 				if (dialog.ShowModal() == KxID_OK)
 				{
 					// Extract archive in mod name folder inside the specified one.
-					wxString outPath = dialog.GetResult() + wxS('\\') + focusedMod->GetSafeName();
+					kxf::String outPath = dialog.GetResult() + wxS('\\') + focusedMod->GetSafeName();
 
 					ExtractAcrhiveWithProgress(event.GetMenu()->GetWindow(), focusedMod->GetPackageFile(), outPath);
 				}

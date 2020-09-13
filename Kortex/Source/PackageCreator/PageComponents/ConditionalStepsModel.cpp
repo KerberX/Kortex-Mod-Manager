@@ -103,7 +103,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddStep, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DirectionPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DirectionPlus));
 		}
 		menu.AddSeparator();
 		{
@@ -165,7 +165,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 
 namespace Kortex::PackageDesigner::PageComponentsNS
 {
-	ConditionalStepsDialog::ConditionalStepsDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, bool isAutomatic)
+	ConditionalStepsDialog::ConditionalStepsDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, bool isAutomatic)
 		:ConditionalStepsModel(controller)
 		//m_WindowOptions("ConditionalStepsDialog", "Window"), m_ViewOptions("ConditionalStepsDialog", "View")
 	{

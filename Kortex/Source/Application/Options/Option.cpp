@@ -11,7 +11,7 @@ namespace
 	using namespace Kortex::Application;
 	using Disposition = BasicOption::Disposition;
 
-	template<class... Args> KxXMLNode InitNode(Disposition disposition, KxXMLDocument& xml, Args&&... arg)
+	template<class... Args> kxf::XMLNode InitNode(Disposition disposition, kxf::XMLDocument& xml, Args&&... arg)
 	{
 		const wxChar* root = wxS("");
 		switch (disposition)
@@ -33,15 +33,15 @@ namespace
 			}
 		};
 
-		wxString xPath = AppOption::MakeXPath(root, std::forward<Args>(arg)...);
+		kxf::String xPath = AppOption::MakeXPath(root, std::forward<Args>(arg)...);
 		xPath.Replace(wxS("::"), wxS("-"));
 		return xml.ConstructElement(xPath);
 	}
-	template<class... Args> KxXMLNode InitNodeUsingModule(Disposition disposition, KxXMLDocument& xml, const  IModule& module, Args&&... arg)
+	template<class... Args> kxf::XMLNode InitNodeUsingModule(Disposition disposition, kxf::XMLDocument& xml, const  IModule& module, Args&&... arg)
 	{
 		return InitNode(disposition, xml, module.GetModuleInfo().GetID(), std::forward<Args>(arg)...);
 	}
-	template<class... Args> KxXMLNode InitNodeUsingManager(Disposition disposition, KxXMLDocument& xml, const IManager& manager, Args&&... arg)
+	template<class... Args> kxf::XMLNode InitNodeUsingManager(Disposition disposition, kxf::XMLDocument& xml, const IManager& manager, Args&&... arg)
 	{
 		return InitNodeUsingModule(disposition, xml, manager.GetModule(), manager.GetManagerInfo().GetID(), std::forward<Args>(arg)...);
 	}
@@ -49,57 +49,57 @@ namespace
 
 namespace Kortex::Application
 {
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNode(disposition, xml, branch);
+		kxf::XMLNode node = InitNode(disposition, xml, branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IApplication& app, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IApplication& app, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNode(disposition, xml, wxS("Application"), branch);
+		kxf::XMLNode node = InitNode(disposition, xml, wxS("Application"), branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IGameInstance& instance, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IGameInstance& instance, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNode(disposition, xml, branch);
+		kxf::XMLNode node = InitNode(disposition, xml, branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IGameProfile& profile, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IGameProfile& profile, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNode(disposition, xml, branch);
+		kxf::XMLNode node = InitNode(disposition, xml, branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IModule& module, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IModule& module, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNodeUsingModule(disposition, xml, module, branch);
+		kxf::XMLNode node = InitNodeUsingModule(disposition, xml, module, branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IManager& manager, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IManager& manager, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNodeUsingManager(disposition, xml, manager, branch);
+		kxf::XMLNode node = InitNodeUsingManager(disposition, xml, manager, branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IWorkspace& workspace, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IWorkspace& workspace, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNode(disposition, xml, wxS("Workspace"), workspace.GetID(), branch);
+		kxf::XMLNode node = InitNode(disposition, xml, wxS("Workspace"), workspace.GetID(), branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const IMainWindow& mainWindow, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const IMainWindow& mainWindow, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNode(disposition, xml, wxS("Application/MainWindow"), branch);
+		kxf::XMLNode node = InitNode(disposition, xml, wxS("Application/MainWindow"), branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
-	void BasicOption::Create(Disposition disposition, KxXMLDocument& xml, const InstallWizard::WizardDialog& installWizard, const wxString& branch)
+	void BasicOption::Create(Disposition disposition, kxf::XMLDocument& xml, const InstallWizard::WizardDialog& installWizard, const kxf::String& branch)
 	{
-		KxXMLNode node = InitNodeUsingManager(disposition, xml, *IPackageManager::GetInstance(), wxS("InstallWizard"), branch);
+		kxf::XMLNode node = InitNodeUsingManager(disposition, xml, *IPackageManager::GetInstance(), wxS("InstallWizard"), branch);
 		AssignDisposition(disposition);
 		AssignNode(node);
 	}
@@ -115,7 +115,7 @@ namespace Kortex::Application
 
 namespace Kortex::Application
 {
-	KxXMLDocument& GlobalOption::GetXML() const
+	kxf::XMLDocument& GlobalOption::GetXML() const
 	{
 		return IApplication::GetInstance()->GetGlobalConfig();
 	}
@@ -131,7 +131,7 @@ namespace Kortex::Application
 		}
 		return nullptr;
 	}
-	KxXMLDocument& InstanceOption::GetXML(IConfigurableGameInstance* instance) const
+	kxf::XMLDocument& InstanceOption::GetXML(IConfigurableGameInstance* instance) const
 	{
 		return instance->GetConfig();
 	}
@@ -139,7 +139,7 @@ namespace Kortex::Application
 
 namespace Kortex::Application
 {
-	KxXMLDocument& ProfileOption::GetXML(IGameProfile& profile) const
+	kxf::XMLDocument& ProfileOption::GetXML(IGameProfile& profile) const
 	{
 		return profile.GetConfig();
 	}

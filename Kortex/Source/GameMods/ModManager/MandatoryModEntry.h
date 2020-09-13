@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "FixedGameMod.h"
 
 namespace Kortex::ModManager
@@ -17,7 +17,7 @@ namespace Kortex::ModManager
 			{
 				return true;
 			}
-			virtual wxString GetModFilesDir() const override
+			virtual kxf::String GetModFilesDir() const override
 			{
 				return KVarExp(FixedGameMod::GetModFilesDir());
 			}

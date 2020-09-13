@@ -40,11 +40,11 @@ namespace Kortex::VirtualFileSystem
 		m_Controller.Send(RequestID::FSDisable, m_Handle);
 	}
 
-	wxString BaseFileSystem::GetMountPoint() const
+	kxf::String BaseFileSystem::GetMountPoint() const
 	{
-		return m_Controller.Send(RequestID::FSGetMountPoint, m_Handle).GetAs<wxString>();
+		return m_Controller.Send(RequestID::FSGetMountPoint, m_Handle).GetAs<kxf::String>();
 	}
-	void BaseFileSystem::SetMountPoint(const wxString& path)
+	void BaseFileSystem::SetMountPoint(const kxf::String& path)
 	{
 		m_Controller.Send(RequestID::FSSetMountPoint, m_Handle, path);
 	}

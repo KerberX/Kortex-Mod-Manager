@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageProject/Serializer.h"
 #include "PackageProject/Common.h"
 #include "PackageProject/ComponentsSection.h"
@@ -20,16 +20,16 @@ namespace Kortex::PackageProject
 	class FOModSerializer: public Serializer
 	{
 		private:
-			wxString m_InfoXML;
-			wxString m_ModuleConfigXML;
-			wxString m_ProjectFolder;
+			kxf::String m_InfoXML;
+			kxf::String m_ModuleConfigXML;
+			kxf::String m_ProjectFolder;
 	
 			ModPackageProject* m_ProjectLoad = nullptr;
 			const ModPackageProject* m_ProjectSave = nullptr;
-			KxXMLDocument m_XML;
+			kxf::XMLDocument m_XML;
 			bool m_ExportToNativeFormat = false;
 	
-			wxString m_EffectiveArchiveRoot;
+			kxf::String m_EffectiveArchiveRoot;
 			bool m_HasDataFolderAsRoot = false;
 			bool m_IsMorrowind = false;
 	
@@ -38,10 +38,10 @@ namespace Kortex::PackageProject
 			{
 				return m_HasDataFolderAsRoot || m_IsMorrowind;
 			}
-			wxString GetDataFolderName(bool withSeparator) const;
-			wxString MakeProjectPath(const wxString& path) const;
-			SelectionMode ConvertSelectionMode(const wxString& mode) const;
-			wxString ConvertSelectionMode(SelectionMode mode) const;
+			kxf::String GetDataFolderName(bool withSeparator) const;
+			kxf::String MakeProjectPath(const kxf::String& path) const;
+			SelectionMode ConvertSelectionMode(const kxf::String& mode) const;
+			kxf::String ConvertSelectionMode(SelectionMode mode) const;
 			template<class T> void UniqueStringArray(T& array)
 			{
 				auto it = std::unique(array.begin(), array.end());
@@ -53,27 +53,27 @@ namespace Kortex::PackageProject
 			void ReadInfo();
 	
 			void ReadInstallSteps();
-			void ReadConditionalSteps(const KxXMLNode& stepsArrayNode);
-			std::vector<FileItem*> ReadFileData(const KxXMLNode& filesArrayNode, ComponentItem* entry = nullptr);
+			void ReadConditionalSteps(const kxf::XMLNode& stepsArrayNode);
+			std::vector<FileItem*> ReadFileData(const kxf::XMLNode& filesArrayNode, ComponentItem* entry = nullptr);
 			void UniqueFileData();
 			void UniqueImages();
 	
 			// Serialize
 			void WriteInfo();
-			void WriteSites(KxXMLNode& infoNode, KxXMLNode& sitesNode);
+			void WriteSites(kxf::XMLNode& infoNode, kxf::XMLNode& sitesNode);
 	
 			void WriteInstallSteps();
-			void WriteConditionalSteps(KxXMLNode& stepsArrayNode);
-			void WriteFileData(KxXMLNode& node, const KxStringVector& files, bool alwaysInstall = false);
-			void WriteRequirements(KxXMLNode& node, const KxStringVector& requiremetSets);
+			void WriteConditionalSteps(kxf::XMLNode& stepsArrayNode);
+			void WriteFileData(kxf::XMLNode& node, const KxStringVector& files, bool alwaysInstall = false);
+			void WriteRequirements(kxf::XMLNode& node, const KxStringVector& requiremetSets);
 	
 		private:
 			void InitDataFolderInfo();
 			void Init();
 	
 		public:
-			FOModSerializer(const wxString& projectFolder = wxEmptyString);
-			FOModSerializer(const wxString& sInfoXML, const wxString& moduleConfigXML, const wxString& projectFolder = wxEmptyString);
+			FOModSerializer(const kxf::String& projectFolder = wxEmptyString);
+			FOModSerializer(const kxf::String& sInfoXML, const kxf::String& moduleConfigXML, const kxf::String& projectFolder = wxEmptyString);
 	
 		public:
 			void Serialize(const ModPackageProject& project) override;
@@ -84,7 +84,7 @@ namespace Kortex::PackageProject
 				m_ExportToNativeFormat = value;
 				SetPackageDataRoot(m_ExportToNativeFormat ? GetDefaultFOModRoot() : GetDefaultKMPRoot());
 			}
-			void SetEffectiveArchiveRoot(const wxString& path)
+			void SetEffectiveArchiveRoot(const kxf::String& path)
 			{
 				m_EffectiveArchiveRoot = path;
 				if (!m_EffectiveArchiveRoot.IsEmpty() && m_EffectiveArchiveRoot.Last() == '\\')
@@ -93,11 +93,11 @@ namespace Kortex::PackageProject
 				}
 			}
 			
-			const wxString& GetInfoXML() const
+			const kxf::String& GetInfoXML() const
 			{
 				return m_InfoXML;
 			}
-			const wxString& GetModuleConfigXML() const
+			const kxf::String& GetModuleConfigXML() const
 			{
 				return m_ModuleConfigXML;
 			}

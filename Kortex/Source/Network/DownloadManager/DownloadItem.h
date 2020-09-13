@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/ModRepositoryReply.h"
 #include "Network/NetworkModInfo.h"
@@ -36,8 +36,8 @@ namespace Kortex
 			ModFileReply m_FileInfo;
 			ModDownloadReply m_DownloadInfo;
 
-			wxString m_LocalFullPath;
-			wxString m_LocalFullTempPath;
+			kxf::String m_LocalFullPath;
+			kxf::String m_LocalFullTempPath;
 
 			int64_t m_DownloadedSize = 0;
 			int64_t m_DownloadSpeed = 0;
@@ -58,8 +58,8 @@ namespace Kortex
 			bool Serialize(wxOutputStream& stream) const;
 			bool Deserialize(wxInputStream& stream);
 
-			wxString ConstructFileName() const;
-			bool ChangeFileName(const wxString& newName);
+			kxf::String ConstructFileName() const;
+			bool ChangeFileName(const kxf::String& newName);
 
 			bool DoStart(int64_t startAt = 0);
 			void SetWaiting(bool value = true)
@@ -81,15 +81,15 @@ namespace Kortex
 
 		public:
 			bool IsOK() const;
-			wxString GetLocalPath() const;
-			wxString GetLocalTempPath() const;
-			wxString GetTempPathSuffix() const;
+			kxf::String GetLocalPath() const;
+			kxf::String GetLocalTempPath() const;
+			kxf::String GetTempPathSuffix() const;
 
 			KxURI GetURI() const
 			{
 				return m_DownloadInfo.URI;
 			}
-			wxString GetServerName() const
+			kxf::String GetServerName() const
 			{
 				return !m_DownloadInfo.ShortName.IsEmpty() ? m_DownloadInfo.ShortName : m_DownloadInfo.Name;
 			}
@@ -111,9 +111,9 @@ namespace Kortex
 				return m_FileInfo.Size;
 			}
 
-			wxString GetName() const;
-			wxString GetDisplayName() const;
-			KxVersion GetVersion() const
+			kxf::String GetName() const;
+			kxf::String GetDisplayName() const;
+			kxf::Version GetVersion() const
 			{
 				return m_FileInfo.Version;
 			}
@@ -122,7 +122,7 @@ namespace Kortex
 			{
 				return !m_FileInfo.ChangeLog.IsEmpty();
 			}
-			wxString GetChangeLog() const
+			kxf::String GetChangeLog() const
 			{
 				return m_FileInfo.ChangeLog;
 			}

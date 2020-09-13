@@ -8,26 +8,26 @@
 
 namespace Kortex::NetworkManager
 {
-	wxString NetworkWxFSHandler::GetCacheDirectory() const
+	kxf::String NetworkWxFSHandler::GetCacheDirectory() const
 	{
 		return m_NetworkManager.GetCacheDirectory();
 	}
-	wxString NetworkWxFSHandler::ExtractFileName(const wxString& location) const
+	kxf::String NetworkWxFSHandler::ExtractFileName(const kxf::String& location) const
 	{
 		return KxINet::SplitURL(location).FileName;
 	}
-	wxString NetworkWxFSHandler::ConstructFullPath(const wxString& location) const
+	kxf::String NetworkWxFSHandler::ConstructFullPath(const kxf::String& location) const
 	{
 		return GetCacheDirectory() + wxS('\\') + ExtractFileName(location);
 	}
-	wxFSFile* NetworkWxFSHandler::DoOpenFile(const wxString& location) const
+	wxFSFile* NetworkWxFSHandler::DoOpenFile(const kxf::String& location) const
 	{
 		Utility::Log::LogMessage("[NetworkWxFSHandler] Attempt to download resource: \"%1\"", location);
 		
 		KxFile file = GetCachedCopyFile(location);
 		if (file.IsFileExist() && IsNewerThan(file.GetFileTime(KxFILETIME_MODIFICATION), wxTimeSpan::Days(7)))
 		{
-			wxString fullPath = ConstructFullPath(location);
+			kxf::String fullPath = ConstructFullPath(location);
 			Utility::Log::LogMessage("[NetworkWxFSHandler] Using cached copy: \"%1\"", fullPath);
 
 			auto stream = std::make_unique<KxFileStream>(fullPath, KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting, KxFileStream::Share::Read);
@@ -37,7 +37,7 @@ namespace Kortex::NetworkManager
 		{
 			Utility::Log::LogMessage("[NetworkWxFSHandler] No cached copy or cached copy is too old, downloading");
 
-			wxString fullPath = ConstructFullPath(location);
+			kxf::String fullPath = ConstructFullPath(location);
 			auto stream = std::make_unique<KxFileStream>(fullPath, KxFileStream::Access::RW, KxFileStream::Disposition::CreateAlways, KxFileStream::Share::Read);
 			KxCURLStreamReply reply(*stream);
 
@@ -62,7 +62,7 @@ namespace Kortex::NetworkManager
 		return nullptr;
 	}
 	
-	KxFile NetworkWxFSHandler::GetCachedCopyFile(const wxString& location) const
+	KxFile NetworkWxFSHandler::GetCachedCopyFile(const kxf::String& location) const
 	{
 		return ConstructFullPath(location);
 	}
@@ -89,24 +89,24 @@ namespace Kortex::NetworkManager
 	{
 	}
 
-	bool NetworkWxFSHandler::CanOpen(const wxString& location)
+	bool NetworkWxFSHandler::CanOpen(const kxf::String& location)
 	{
 		// Base class doesn't seems to support HTTPS protocol
 		return GetProtocol(location) == wxS("https") || wxInternetFSHandler::CanOpen(location);
 	}
-	wxString NetworkWxFSHandler::FindFirst(const wxString& wildcard, int flags)
+	kxf::String NetworkWxFSHandler::FindFirst(const kxf::String& wildcard, int flags)
 	{
 		// This don't seems to be called at all
 		Utility::Log::LogInfo("[%1] Wildcards: %2, flags: %3", __FUNCTION__, wildcard, flags);
 		return wxInternetFSHandler::FindFirst(wildcard, flags);
 	}
-	wxString NetworkWxFSHandler::FindNext()
+	kxf::String NetworkWxFSHandler::FindNext()
 	{
 		// And this too
 		Utility::Log::LogInfo("[%1]", __FUNCTION__);
 		return wxInternetFSHandler::FindNext();
 	}
-	wxFSFile* NetworkWxFSHandler::OpenFile(wxFileSystem& fs, const wxString& location)
+	wxFSFile* NetworkWxFSHandler::OpenFile(wxFileSystem& fs, const kxf::String& location)
 	{
 		return DoOpenFile(location);
 	}

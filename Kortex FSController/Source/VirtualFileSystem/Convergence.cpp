@@ -5,7 +5,7 @@
 
 namespace Kortex::VirtualFileSystem
 {
-	Convergence::Convergence(const wxString& mountPoint, const wxString& writeTarget)
+	Convergence::Convergence(const kxf::String& mountPoint, const kxf::String& writeTarget)
 		:KxVFSWrapper(ToKxDynamicStringRef(mountPoint), ToKxDynamicStringRef(writeTarget))
 	{
 	}

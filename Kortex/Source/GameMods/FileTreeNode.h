@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxFileItem.h>
 
 namespace Kortex
@@ -28,7 +28,7 @@ namespace Kortex
 			};
 
 		private:
-			static const FileTreeNode* NavigateToElement(const FileTreeNode& rootNode, const wxString& relativePath, NavigateTo type);
+			static const FileTreeNode* NavigateToElement(const FileTreeNode& rootNode, const kxf::String& relativePath, NavigateTo type);
 			
 			template<class T>
 			static T* FindRootNode(T* thisNode)
@@ -52,15 +52,15 @@ namespace Kortex
 			}
 
 		public:
-			static const FileTreeNode* NavigateToFolder(const FileTreeNode& rootNode, const wxString& relativePath)
+			static const FileTreeNode* NavigateToFolder(const FileTreeNode& rootNode, const kxf::String& relativePath)
 			{
 				return NavigateToElement(rootNode, relativePath, NavigateTo::Folder);
 			}
-			static const FileTreeNode* NavigateToFile(const FileTreeNode& rootNode, const wxString& relativePath)
+			static const FileTreeNode* NavigateToFile(const FileTreeNode& rootNode, const kxf::String& relativePath)
 			{
 				return NavigateToElement(rootNode, relativePath, NavigateTo::File);
 			}
-			static const FileTreeNode* NavigateToAny(const FileTreeNode& rootNode, const wxString& relativePath)
+			static const FileTreeNode* NavigateToAny(const FileTreeNode& rootNode, const kxf::String& relativePath)
 			{
 				return NavigateToElement(rootNode, relativePath, NavigateTo::Any);
 			}
@@ -75,7 +75,7 @@ namespace Kortex
 			}
 
 			static size_t HashFileName(const std::wstring_view& name);
-			static size_t HashFileName(const wxString& name)
+			static size_t HashFileName(const kxf::String& name)
 			{
 				return HashFileName(std::wstring_view(name.wc_str(), name.length()));
 			}
@@ -203,20 +203,20 @@ namespace Kortex
 				m_NameHash = HashFileName(GetName());
 			}
 		
-			wxString GetName() const
+			kxf::String GetName() const
 			{
 				return m_Item.GetName();
 			}
-			wxString GetSource() const
+			kxf::String GetSource() const
 			{
 				return m_Item.GetSource();
 			}
-			wxString GetFullPath() const
+			kxf::String GetFullPath() const
 			{
 				return m_Item.GetFullPath();
 			}
-			wxString GetRelativePath() const;
-			wxString GetFileExtension() const
+			kxf::String GetRelativePath() const;
+			kxf::String GetFileExtension() const
 			{
 				return m_Item.GetFileExtension();
 			}

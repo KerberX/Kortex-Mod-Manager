@@ -1,7 +1,7 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 #include <KxFramework/KxURI.h>
 
 namespace Kortex
@@ -88,10 +88,10 @@ namespace Kortex
 			ModID ModID;
 			ModFileID ID;
 			int64_t Size = -1;
-			wxString Name;
-			wxString DisplayName;
-			wxString ChangeLog;
-			KxVersion Version;
+			kxf::String Name;
+			kxf::String DisplayName;
+			kxf::String ChangeLog;
+			kxf::Version Version;
 			wxDateTime UploadDate;
 			ModFileCategory Category = ModFileCategory::Unknown;
 			bool IsPrimary = false;
@@ -115,15 +115,15 @@ namespace Kortex
 		public:
 			ModID ID;
 
-			wxString Name;
-			wxString Summary;
-			wxString Description;
-			KxVersion Version;
-			wxString MainImage;
+			kxf::String Name;
+			kxf::String Summary;
+			kxf::String Description;
+			kxf::Version Version;
+			kxf::String MainImage;
 
-			wxString Author;
-			wxString Uploader;
-			wxString UploaderProfile;
+			kxf::String Author;
+			kxf::String Uploader;
+			kxf::String UploaderProfile;
 
 			wxDateTime UploadDate;
 			wxDateTime LastUpdateDate;
@@ -142,8 +142,8 @@ namespace Kortex
 	struct ModDownloadReply
 	{
 		public:
-			wxString Name;
-			wxString ShortName;
+			kxf::String Name;
+			kxf::String ShortName;
 			KxURI URI;
 			
 		public:
@@ -155,6 +155,6 @@ namespace Kortex
 	struct ModEndorsementReply
 	{
 		ModEndorsement Endorsement = ModEndorsement::Undecided();
-		wxString Message;
+		kxf::String Message;
 	};
 }

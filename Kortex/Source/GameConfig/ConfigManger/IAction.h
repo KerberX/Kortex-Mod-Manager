@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "ItemValue.h"
 #include "ItemSamples.h"
@@ -14,7 +14,7 @@ namespace Kortex::GameConfig
 		BrowseFolder,
 		PickColor,
 	};
-	struct IntrinsicActionDef: public KxIndexedEnum::Definition<IntrinsicActionDef, IntrinsicActionID, wxString, true>
+	struct IntrinsicActionDef: public KxIndexedEnum::Definition<IntrinsicActionDef, IntrinsicActionID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -33,7 +33,7 @@ namespace Kortex::GameConfig
 
 	class IAction: public KxRTTI::Interface<IAction>
 	{
-		KxDecalreIID(IAction, {0x1f517242, 0xafe0, 0x41e7, {0x84, 0x6b, 0x1e, 0x67, 0x97, 0xe, 0x16, 0xf1}});
+		KxRTTI_DeclareIID(IAction, {0x1f517242, 0xafe0, 0x41e7, {0x84, 0x6b, 0x1e, 0x67, 0x97, 0xe, 0x16, 0xf1}});
 
 		public:
 			static bool InvokeIntrinsicAction(IntrinsicActionID id, Item& item, ItemValue& value);

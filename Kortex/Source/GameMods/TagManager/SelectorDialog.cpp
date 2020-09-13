@@ -84,7 +84,7 @@ namespace Kortex::ModTagManager
 		}
 	}
 
-	SelectorDialog::SelectorDialog(wxWindow* parent, const wxString& caption)
+	SelectorDialog::SelectorDialog(wxWindow* parent, const kxf::String& caption)
 		:SelectorDisplayModel(true)
 	{
 		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))

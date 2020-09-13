@@ -19,7 +19,7 @@ namespace Kortex::ScreenshotsGallery
 		SetSizer(m_MainSizer);
 
 		m_ViewPane = new KxThumbView(this, KxID_NONE);
-		m_ViewPane->SetSpacing(wxSize(KLC_VERTICAL_SPACING, KLC_HORIZONTAL_SPACING));
+		m_ViewPane->SetSpacing(wxSize(LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing));
 		m_MainSizer->Add(m_ViewPane, 1, wxEXPAND);
 		IThemeManager::GetActive().Apply(m_ViewPane);
 
@@ -58,10 +58,10 @@ namespace Kortex::ScreenshotsGallery
 		m_LoadedImages.clear();
 
 		IScreenshotsGallery* manager = IScreenshotsGallery::GetInstance();
-		for (const wxString& folderPath: manager->GetConfig().GetLocations())
+		for (const kxf::String& folderPath: manager->GetConfig().GetLocations())
 		{
 			KxStringVector files = KxFile(KVarExp(folderPath)).Find(manager->GetSupportedExtensions(), KxFS_FILE, false);
-			for (const wxString& path: files)
+			for (const kxf::String& path: files)
 			{
 				m_LoadedImages.emplace_back(path);
 				m_ViewPane->AddThumb(path);
@@ -101,7 +101,7 @@ namespace Kortex::ScreenshotsGallery
 	{
 		if (event.GetInt() != wxNOT_FOUND)
 		{
-			const wxString path = m_LoadedImages[event.GetInt()];
+			const kxf::String path = m_LoadedImages[event.GetInt()];
 			KxShellMenu menu(path);
 			if (menu.IsOK())
 			{
@@ -141,11 +141,11 @@ namespace Kortex::ScreenshotsGallery
 		event.SetHasPrevNext(m_CurrentImageIndex > 0, (size_t)(m_CurrentImageIndex + 1) < m_LoadedImages.size());
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "KScreenshotsGalleryWorkspace";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("ScreenshotsGallery.NameShort");
 	}
@@ -154,7 +154,7 @@ namespace Kortex::ScreenshotsGallery
 		return &IMainWindow::GetInstance()->GetWorkspaceContainer();
 	}
 
-	void Workspace::DisplayInfo(const wxString& filePath)
+	void Workspace::DisplayInfo(const kxf::String& filePath)
 	{
 		ClearControls();
 	}

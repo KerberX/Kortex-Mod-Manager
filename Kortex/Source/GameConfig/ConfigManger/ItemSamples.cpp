@@ -41,7 +41,7 @@ namespace
 
 namespace Kortex::GameConfig
 {
-	CompareResult CompareStrings(const wxString& v1, const wxString& v2, SortOptionsValue sortOptions)
+	CompareResult CompareStrings(const kxf::String& v1, const kxf::String& v2, SortOptionsValue sortOptions)
 	{
 		constexpr const auto localeName = LOCALE_NAME_INVARIANT;
 		static CompareStringsData compareData(localeName);
@@ -64,12 +64,12 @@ namespace Kortex::GameConfig
 
 namespace Kortex::GameConfig
 {
-	size_t ItemSamples::LoadImmediateItems(const KxXMLNode& rootNode)
+	size_t ItemSamples::LoadImmediateItems(const kxf::XMLNode& rootNode)
 	{
 		size_t counter = 0;
 		m_Values.reserve(rootNode.GetChildrenCount());
 
-		for (KxXMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			SampleValue& sample = m_Values.emplace_back();
 			sample.SetLabel(m_Item.GetManager().TranslateItemLabel(node, {}, wxS("SampleValue"), true));
@@ -85,7 +85,7 @@ namespace Kortex::GameConfig
 		{
 			auto Comparator = [this](const SampleValue& v1, const SampleValue& v2)
 			{
-				const CompareResult ret = CompareStrings(v1.GetValue().As<wxString>(), v2.GetValue().As<wxString>(), m_SortOptions);
+				const CompareResult ret = CompareStrings(v1.GetValue().As<kxf::String>(), v2.GetValue().As<kxf::String>(), m_SortOptions);
 				switch (m_SortOrder.GetValue())
 				{
 					case SortOrderID::Ascending:
@@ -144,12 +144,12 @@ namespace Kortex::GameConfig
 		};
 	}
 
-	ItemSamples::ItemSamples(Item& item, const KxXMLNode& samplesNode)
+	ItemSamples::ItemSamples(Item& item, const kxf::XMLNode& samplesNode)
 		:m_Item(item)
 	{
 		Load(samplesNode);
 	}
-	void ItemSamples::Load(const KxXMLNode& samplesNode)
+	void ItemSamples::Load(const kxf::XMLNode& samplesNode)
 	{
 		if (samplesNode.IsOK())
 		{
@@ -207,11 +207,11 @@ namespace Kortex::GameConfig
 				}
 				case SamplesSourceID::Function:
 				{
-					const KxXMLNode functionNode = samplesNode.GetFirstChildElement(wxS("Function"));
+					const kxf::XMLNode functionNode = samplesNode.GetFirstChildElement(wxS("Function"));
 					m_SamplingFunctionName = functionNode.GetAttribute(wxS("Name"));
 
 					ItemValue::Vector arguments;
-					for (KxXMLNode argNode = functionNode.GetFirstChildElement(wxS("Arg")); argNode.IsOK(); argNode = argNode.GetNextSiblingElement(wxS("Arg")))
+					for (kxf::XMLNode argNode = functionNode.GetFirstChildElement(wxS("Arg")); argNode.IsOK(); argNode = argNode.GetNextSiblingElement(wxS("Arg")))
 					{
 						TypeID type;
 						if (type.FromString(argNode.GetAttribute(wxS("Type"))))
@@ -254,7 +254,7 @@ namespace Kortex::GameConfig
 			size_t counter = 0;
 			for (const SampleValue& sampleValue: m_Values)
 			{
-				if (sampleValue.GetValue().As<wxString>() == value.As<wxString>())
+				if (sampleValue.GetValue().As<kxf::String>() == value.As<kxf::String>())
 				{
 					KxUtility::SetIfNotNull(index, counter);
 					return &sampleValue;
@@ -264,7 +264,7 @@ namespace Kortex::GameConfig
 		}
 		return nullptr;
 	}
-	const SampleValue* ItemSamples::FindSampleByLabel(const wxString& label, size_t* index) const
+	const SampleValue* ItemSamples::FindSampleByLabel(const kxf::String& label, size_t* index) const
 	{
 		size_t counter = 0;
 		for (const SampleValue& sampleValue: m_Values)

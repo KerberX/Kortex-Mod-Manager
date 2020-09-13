@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageCreator/IDTracker.h"
 #include "PackageProject/FileDataSection.h"
@@ -29,8 +29,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			void GetValueByRow(wxAny& value, size_t row, const KxDataViewColumn* column) const override;
 			bool SetValueByRow(const wxAny& value, size_t row, const KxDataViewColumn* column) override;
 	
-			void AddEverythingFromPath(const wxString& filePath, PackageProject::FolderItem& fileEntry, Utility::OperationWithProgressBase& context);
-			bool DoTrackID(const wxString& trackedID, const wxString& newID, bool remove);
+			void AddEverythingFromPath(const kxf::String& filePath, PackageProject::FolderItem& fileEntry, Utility::OperationWithProgressBase& context);
+			bool DoTrackID(const kxf::String& trackedID, const kxf::String& newID, bool remove);
 	
 			void OnActivateItem(KxDataViewEvent& event);
 			void OnSelectItem(KxDataViewEvent& event);
@@ -54,11 +54,11 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			{
 				return this;
 			}
-			bool TrackChangeID(const wxString& trackedID, const wxString& newID) override
+			bool TrackChangeID(const kxf::String& trackedID, const kxf::String& newID) override
 			{
 				return DoTrackID(trackedID, newID, false);
 			}
-			bool TrackRemoveID(const wxString& trackedID) override
+			bool TrackRemoveID(const kxf::String& trackedID) override
 			{
 				return DoTrackID(trackedID, wxEmptyString, true);
 			}

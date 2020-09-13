@@ -1,13 +1,15 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 #include "Application/Module/ManagerInfo.h"
 #include "Application/Options/Option.h"
-#include <Kx/RTTI.hpp>
-class KxAuiToolBar;
-class KxAuiToolBarItem;
-class KxAuiToolBarEvent;
 
+namespace kxf::UI
+{
+	class AuiToolBar;
+	class AuiToolBarItem;
+	class AuiToolBarEvent;
+}
 namespace Kortex
 {
 	class IModule;
@@ -15,7 +17,6 @@ namespace Kortex
 	class IMainWindow;
 	class IApplication;
 	class IGameInstance;
-	class ResourceID;
 }
 
 namespace Kortex
@@ -25,15 +26,14 @@ namespace Kortex
 		class InstanceModuleLoader;
 	}
 
-	class IManager: public KxRTTI::Interface<IManager>, public Application::WithOptions<IManager>
+	class IManager: public kxf::RTTI::Interface<IManager>, public Application::WithOptions<IManager>
 	{
-		KxDecalreIID(IManager, {0x80d27f02, 0x98d6, 0x47cb, {0x84, 0xc5, 0x62, 0xd3, 0x7f, 0xa7, 0x91, 0xbf}});
+		KxRTTI_DeclareIID(IManager, {0x80d27f02, 0x98d6, 0x47cb, {0x84, 0xc5, 0x62, 0xd3, 0x7f, 0xa7, 0x91, 0xbf}});
 
 		friend class IModule;
 		friend class IMainWindow;
 		friend class IApplication;
 		friend class GameInstance::InstanceModuleLoader;
-		friend class KxIObject;
 
 		public:
 			using RefList = std::list<IManager*>;
@@ -61,7 +61,7 @@ namespace Kortex
 			IModule* m_Module = nullptr;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) = 0;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) = 0;
 			virtual void OnInit() = 0;
 			virtual void OnExit() = 0;
 			virtual void CreateWorkspaces()
@@ -95,7 +95,7 @@ namespace Kortex
 			{
 				return {};
 			}
-	
+			
 			void ScheduleWorkspacesReload();
 	};
 }
@@ -130,8 +130,8 @@ namespace Kortex::Application
 	class ManagerWithToolbarButton
 	{
 		protected:
-			virtual void OnSetToolbarButton(KxAuiToolBarItem& button) = 0;
-			virtual void OnToolbarButton(KxAuiToolBarEvent& event) = 0;
+			virtual void OnSetToolbarButton(kxf::UI::AuiToolBarItem& button) = 0;
+			virtual void OnToolbarButton(kxf::UI::AuiToolBarEvent& event) = 0;
 
 		public:
 			virtual ~ManagerWithToolbarButton() = default;
@@ -141,6 +141,6 @@ namespace Kortex::Application
 			{
 			}
 			
-			KxAuiToolBarItem& AddToolbarButton(KxAuiToolBar& toolbar, const ResourceID& image);
+			kxf::UI::AuiToolBarItem& AddToolbarButton(kxf::UI::AuiToolBar& toolbar, const kxf::ResourceID& image);
 	};
 }

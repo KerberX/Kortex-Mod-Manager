@@ -478,9 +478,6 @@
     <ClCompile Include="Source\Application\IManager.cpp">
       <Filter>Code\Source code\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Translation.cpp">
-      <Filter>Code\Source code\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Application\VariablesTable\VariableValue.cpp">
       <Filter>Code\Source code\Application\VariablesTable</Filter>
     </ClCompile>
@@ -1158,9 +1155,6 @@
     <ClInclude Include="Include\Kortex\VirtualGameFolder.hpp">
       <Filter>Code\Includes\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Kortex\Core.hpp">
-      <Filter>Code\Includes</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Kortex\ApplicationOptions.hpp">
       <Filter>Code\Includes\Components</Filter>
     </ClInclude>
@@ -1345,9 +1339,6 @@
       <Filter>Code\Source code\Application\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Resources\ImageResourceID.h">
-      <Filter>Code\Source code\Application\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Resources\ResourceID.h">
       <Filter>Code\Source code\Application\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Settings\ConfigManager.h">
@@ -2231,6 +2222,18 @@
     </ClInclude>
     <ClInclude Include="Source\stdafx.h">
       <Filter>Code\Source code</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\pch.hpp">
+      <Filter>Code\Source code</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Kortex\Framework.hpp">
+      <Filter>Code\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Kortex\Core.hpp">
+      <Filter>Code\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Kortex\Kortex.hpp">
+      <Filter>Code\Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

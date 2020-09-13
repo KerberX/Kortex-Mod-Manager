@@ -1,7 +1,7 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 
 namespace Kortex::Utility
 {
@@ -13,16 +13,16 @@ namespace Kortex::PluginManager
 	class LibLoot: public KxSingletonPtr<LibLoot>
 	{
 		public:
-			static wxString GetLibraryName();
-			static KxVersion GetLibraryVersion();
+			static kxf::String GetLibraryName();
+			static kxf::Version GetLibraryVersion();
 
 		public:
 			LibLoot() = default;
 
 		public:
-			wxString GetDataPath() const;
-			wxString GetMasterListPath() const;
-			wxString GetUserListPath() const;
+			kxf::String GetDataPath() const;
+			kxf::String GetMasterListPath() const;
+			kxf::String GetUserListPath() const;
 
 			bool CanSortNow() const;
 			bool SortPlugins(KxStringVector& sortedList, Utility::OperationWithProgressDialogBase* context = nullptr);

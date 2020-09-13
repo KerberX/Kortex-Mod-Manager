@@ -110,7 +110,7 @@ namespace Kortex::ModSource
 		{
 			case ColumnID::Name:
 			{
-				wxString name = data.As<wxString>();
+				kxf::String name = data.As<kxf::String>();
 				if (name != node->GetName())
 				{
 					node->SetName(name);
@@ -121,7 +121,7 @@ namespace Kortex::ModSource
 			}
 			case ColumnID::Value:
 			{
-				wxString newValue = data.As<wxString>();
+				kxf::String newValue = data.As<kxf::String>();
 				if (node->HasModNetwork())
 				{
 					NetworkModInfo modInfo;

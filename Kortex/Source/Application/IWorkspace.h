@@ -1,10 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Options/Option.h"
 #include "BroadcastProcessor.h"
-#include "Resources/ImageResourceID.h"
-#include <KxFramework/KxSingleton.h>
-#include <Kx/RTTI.hpp>
+#include <kxf/General/Singleton.h>
 
 namespace Kortex
 {
@@ -14,15 +12,11 @@ namespace Kortex
 
 namespace Kortex
 {
-	class IWorkspace: public KxRTTI::Interface<IWorkspace>, public Application::WithOptions<IWorkspace>
+	class IWorkspace: public kxf::RTTI::Interface<IWorkspace>, public Application::WithOptions<IWorkspace>
 	{
-		KxDecalreIID(IWorkspace, {0x9c8ee9bb, 0xaad3, 0x45df, {0xb8, 0x9c, 0xd6, 0x7b, 0x48, 0x47, 0x39, 0xfb}});
+		KxRTTI_DeclareIID(IWorkspace, {0x9c8ee9bb, 0xaad3, 0x45df, {0xb8, 0x9c, 0xd6, 0x7b, 0x48, 0x47, 0x39, 0xfb}});
 
 		friend class IWorkspaceContainer;
-		friend class KxIObject;
-
-		public:
-			using RefVector = std::vector<IWorkspace*>;
 
 		public:
 			template<class T> static void ScheduleReloadOf()
@@ -89,9 +83,9 @@ namespace Kortex
 				return const_cast<IWorkspace&>(*this).GetWindow();
 			}
 
-			virtual wxString GetID() const = 0;
-			virtual wxString GetName() const = 0;
-			virtual ResourceID GetIcon() const = 0;
+			virtual kxf::String GetID() const = 0;
+			virtual kxf::String GetName() const = 0;
+			virtual kxf::ResourceID GetIcon() const = 0;
 			virtual bool IsCreated() const = 0;
 			virtual bool OpenedOnce() const = 0;
 			

@@ -8,7 +8,7 @@ namespace Kortex::IPC
 	class ProcessingWindow: public KxFrame
 	{
 		public:
-			static wxString GetWindowName();
+			static kxf::String GetWindowName();
 
 		private:
 			WXLRESULT MSWWindowProc(WXUINT msg, WXWPARAM wParam, WXLPARAM lParam) override;

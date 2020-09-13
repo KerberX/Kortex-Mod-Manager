@@ -8,9 +8,9 @@ namespace Kortex::GameConfig::SamplingFunction
 	{
 		for (const DISPLAY_DEVICE& adapter: KxSystemSettings::EnumVideoAdapters())
 		{
-			// DeviceString field is wchar_t[] array so wrap it into wxString,
-			// otherwise wxAny will store pointer to the array and not copy its content as wxString.
-			m_Values.emplace_back(wxString(adapter.DeviceString));
+			// DeviceString field is wchar_t[] array so wrap it into kxf::String,
+			// otherwise wxAny will store pointer to the array and not copy its content as kxf::String.
+			m_Values.emplace_back(kxf::String(adapter.DeviceString));
 		}
 	}
 	void GetVideoAdapters::OnCall(const ItemValue::Vector& arguments)

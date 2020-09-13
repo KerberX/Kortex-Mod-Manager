@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex
 {
@@ -10,7 +10,7 @@ namespace Kortex::PluginManager
 {
 	class IPluginReader: public KxRTTI::Interface<IPluginReader>
 	{
-		KxDecalreIID(IPluginReader, {0x83328e94, 0x58c0, 0x48a4, {0xbc, 0x71, 0x8b, 0xcd, 0xb2, 0x8a, 0xdc, 0x4e}});
+		KxRTTI_DeclareIID(IPluginReader, {0x83328e94, 0x58c0, 0x48a4, {0xbc, 0x71, 0x8b, 0xcd, 0xb2, 0x8a, 0xdc, 0x4e}});
 
 		friend class IGamePlugin;
 

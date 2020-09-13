@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "DisplayModelNode.h"
 #include "Utility/BitmapSize.h"
 #include <KxFramework/DataView2/DataView2.h>
@@ -33,7 +33,7 @@ namespace Kortex::ModManager
 			};
 
 		public:
-			static wxString FormatTagList(const IGameMod& entry);
+			static kxf::String FormatTagList(const IGameMod& entry);
 
 		private:
 			bool m_ShowPriorityGroups = false;
@@ -52,10 +52,10 @@ namespace Kortex::ModManager
 
 			std::unique_ptr<IModTag> m_NoneTag;
 			std::vector<DisplayModelModNode> m_ModNodes;
-			std::unordered_map<wxString, DisplayModelTagNode> m_TagNodes;
+			std::unordered_map<kxf::String, DisplayModelTagNode> m_TagNodes;
 			std::vector<std::unique_ptr<PriorityGroup>> m_PriortyGroups;
 		
-			wxString m_SearchMask;
+			kxf::String m_SearchMask;
 			std::vector<KxDataView2::Column*> m_SearchColumns;
 
 		private:
@@ -125,7 +125,7 @@ namespace Kortex::ModManager
 			void SetPriorityGroupLabelAlignment(PriorityGroupLabelAlignment value);
 
 			void CreateSearchColumnsMenu(KxMenu& menu);
-			bool SetSearchMask(const wxString& mask);
+			bool SetSearchMask(const kxf::String& mask);
 			void SetSearchColumns(const std::vector<KxDataView2::Column*>& columns);
 			bool FilterMod(const IGameMod& mod) const;
 

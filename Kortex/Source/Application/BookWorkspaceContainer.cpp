@@ -10,7 +10,7 @@ namespace Kortex::Application
 		wxBookCtrlBase& bookCtrl = GetBookCtrl();
 		if (bookCtrl.InsertPage(index, &workspace.GetWindow(), workspace.GetName(), false))
 		{
-			if (auto iconID = workspace.GetIcon().TryAsInt())
+			if (auto iconID = workspace.GetIcon().QueryInt())
 			{
 				bookCtrl.SetPageImage(index, *iconID);
 			}
@@ -78,23 +78,25 @@ namespace Kortex::Application
 		// Nothing to do
 	}
 
-	IWorkspace::RefVector BookWorkspaceContainer::EnumWorkspaces() const
+	size_t BookWorkspaceContainer::EnumWorkspaces(std::function<bool(IWorkspace&)> func) const
 	{
 		const wxBookCtrlBase& bookCtrl = GetBookCtrl();
 
-		IWorkspace::RefVector items;
-		items.reserve(bookCtrl.GetPageCount());
-
+		size_t count = 0;
 		for (size_t i = 0; i < bookCtrl.GetPageCount(); i++)
 		{
-			if (!items.emplace_back(IWorkspace::FromWindow(bookCtrl.GetPage(i))))
+			if (IWorkspace* workspace = IWorkspace::FromWindow(bookCtrl.GetPage(i)))
 			{
-				items.pop_back();
+				count++;
+				if (!std::invoke(func, *workspace))
+				{
+					break;
+				}
 			}
 		}
-		return items;
+		return count;
 	}
-	IWorkspace* BookWorkspaceContainer::GetWorkspaceByID(const wxString& id) const
+	IWorkspace* BookWorkspaceContainer::GetWorkspaceByID(const kxf::String& id) const
 	{
 		Utility::Log::LogInfo("Attempt to convert workspace ID (%1) to workspace instance", id);
 

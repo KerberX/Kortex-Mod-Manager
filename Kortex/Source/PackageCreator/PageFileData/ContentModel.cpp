@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ContentModel.h"
 #include "PackageProject/ModPackageProject.h"
-#include "Application/Resources/ImageResourceID.h"
+#include "Application/Resources/Imagekxf::ResourceID.h"
 #include "Application/Resources/IImageProvider.h"
 #include <Kortex/Application.hpp>
 #include <KxFramework/KxFileBrowseDialog.h>
@@ -62,8 +62,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 				}
 				case ColumnID::Destination:
 				{
-					const wxString& sFolderDest = m_Folder->GetDestination();
-					const wxString& sFileDest = item->GetDestination();
+					const kxf::String& sFolderDest = m_Folder->GetDestination();
+					const kxf::String& sFileDest = item->GetDestination();
 					if (sFolderDest.IsEmpty())
 					{
 						value = sFileDest;
@@ -89,13 +89,13 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			{
 				case ColumnID::Source:
 				{
-					item->SetSource(value.As<wxString>());
+					item->SetSource(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
 				case ColumnID::Destination:
 				{
-					item->SetDestination(value.As<wxString>());
+					item->SetDestination(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
@@ -136,7 +136,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddMultipleFiles, KTr("PackageCreator.AddMultipleFiles")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentsPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentsPlus));
 		}
 		menu.AddSeparator();
 		{
@@ -176,7 +176,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		if (dialog.ShowModal() == KxID_OK)
 		{
 			wxWindowUpdateLocker lock(GetView());
-			for (const wxString& source: dialog.GetResults())
+			for (const kxf::String& source: dialog.GetResults())
 			{
 				PackageProject::FileItem& item = m_Folder->AddFile();
 				item.SetSource(source);

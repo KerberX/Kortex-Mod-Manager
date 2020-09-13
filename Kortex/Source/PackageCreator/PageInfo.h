@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PageBase.h"
 #include "Network/Common.h"
 #include "Utility/UI.h"
@@ -96,7 +96,7 @@ namespace Kortex::PackageDesigner
 				IModNetwork* modNetwork = T::GetInstance();
 				if (modNetwork)
 				{
-					wxString name = modNetwork->GetName().BeforeLast('.');
+					kxf::String name = modNetwork->GetName().BeforeLast('.');
 					if (name.IsEmpty())
 					{
 						name = modNetwork->GetName();
@@ -125,11 +125,11 @@ namespace Kortex::PackageDesigner
 			~PageInfo();
 
 		public:
-			ResourceID GetIcon() const override
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::InformationFrame;
+				return Imagekxf::ResourceID::InformationFrame;
 			}
-			wxString GetID() const override;
-			wxString GetPageName() const override;
+			kxf::String GetID() const override;
+			kxf::String GetPageName() const override;
 	};
 }

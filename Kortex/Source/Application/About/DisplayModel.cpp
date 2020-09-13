@@ -46,7 +46,7 @@ namespace Kortex::Application::About
 			{
 				if (item.HasLicense())
 				{
-					return ImageProvider::GetBitmap(ImageResourceID::Cheque);
+					return ImageProvider::GetBitmap(Imagekxf::ResourceID::Cheque);
 				}
 				break;
 			}
@@ -99,14 +99,14 @@ namespace Kortex::Application::About
 			{
 				case ColumnRef::License:
 				{
-					wxString license = item.GetLicense();
+					kxf::String license = item.GetLicense();
 					if (!license.IsEmpty())
 					{
 						KxHTMLWindow* window = m_Dialog.CreateHTMLWindow();
 						window->SetValue(license);
 
 						m_Dialog.CreateTemporaryTab(window,
-													KxString::Format("%1 \"%2\"", KTr("Generic.License"), item.GetName()),
+													kxf::String::Format("%1 \"%2\"", KTr("Generic.License"), item.GetName()),
 													ImageProvider::GetBitmap(item.GetIconID())
 						);
 					}
@@ -140,29 +140,29 @@ namespace Kortex::Application::About
 		});
 
 		// Add third party software
-		AddSoftwareNode("wxWidgets", IApplication::GetInstance()->GetWxWidgetsVersion(), "https://www.wxwidgets.org", ImageResourceID::Block);
+		AddSoftwareNode("wxWidgets", IApplication::GetInstance()->GetWxWidgetsVersion(), "https://www.wxwidgets.org", Imagekxf::ResourceID::Block);
 
 		IVFSService* vfsService = IVFSService::GetInstance();
 		if (vfsService)
 		{
-			AddSoftwareNode(vfsService->GetLibraryName(), vfsService->GetLibraryVersion(), vfsService->GetLibraryURL(), ImageResourceID::Jar);
+			AddSoftwareNode(vfsService->GetLibraryName(), vfsService->GetLibraryVersion(), vfsService->GetLibraryURL(), Imagekxf::ResourceID::Jar);
 			if (vfsService->HasNativeLibrary())
 			{
-				AddSoftwareNode(vfsService->GetNativeLibraryName(), vfsService->GetNativeLibraryVersion(), vfsService->GetNativeLibraryURL(), ImageResourceID::Dokany);
+				AddSoftwareNode(vfsService->GetNativeLibraryName(), vfsService->GetNativeLibraryVersion(), vfsService->GetNativeLibraryURL(), Imagekxf::ResourceID::Dokany);
 			}
 		}
 
-		AddSoftwareNode(KxINI::GetLibraryName(), KxINI::GetLibraryVersion(), "https://github.com/brofield/simpleini", ImageResourceID::DocumentPencil);
-		AddSoftwareNode(KxXMLDocument::GetLibraryName(), KxXMLDocument::GetLibraryVersion(), "https://github.com/leethomason/tinyxml2", ImageResourceID::EditCode);
-		AddSoftwareNode("OpenSSL", KxCrypto::GetOpenSSLVersion(), "https://www.openssl.org", ImageResourceID::LockSSL);
-		AddSoftwareNode("7-Zip", GenericArchive::GetLibraryVersion(), "https://www.7-zip.org", ImageResourceID::SevenZip);
-		AddSoftwareNode(KxCURL::GetLibraryName(), KxCURL::GetLibraryVersion(), "https://curl.haxx.se", ImageResourceID::LibCURL);
-		AddSoftwareNode(KxWebSocket::GetLibraryName(), KxWebSocket::GetLibraryVersion(), "https://github.com/zaphoyd/websocketpp", ImageResourceID::WebSocket);
-		AddSoftwareNode(KxJSON::GetLibraryName(), KxJSON::GetLibraryVersion(), "https://github.com/nlohmann/json", ImageResourceID::JSON);
+		AddSoftwareNode(KxINI::GetLibraryName(), KxINI::GetLibraryVersion(), "https://github.com/brofield/simpleini", Imagekxf::ResourceID::DocumentPencil);
+		AddSoftwareNode(kxf::XMLDocument::GetLibraryName(), kxf::XMLDocument::GetLibraryVersion(), "https://github.com/leethomason/tinyxml2", Imagekxf::ResourceID::EditCode);
+		AddSoftwareNode("OpenSSL", KxCrypto::GetOpenSSLVersion(), "https://www.openssl.org", Imagekxf::ResourceID::LockSSL);
+		AddSoftwareNode("7-Zip", GenericArchive::GetLibraryVersion(), "https://www.7-zip.org", Imagekxf::ResourceID::SevenZip);
+		AddSoftwareNode(KxCURL::GetLibraryName(), KxCURL::GetLibraryVersion(), "https://curl.haxx.se", Imagekxf::ResourceID::LibCURL);
+		AddSoftwareNode(KxWebSocket::GetLibraryName(), KxWebSocket::GetLibraryVersion(), "https://github.com/zaphoyd/websocketpp", Imagekxf::ResourceID::WebSocket);
+		AddSoftwareNode(KxJSON::GetLibraryName(), KxJSON::GetLibraryVersion(), "https://github.com/nlohmann/json", Imagekxf::ResourceID::JSON);
 
 		if (PluginManager::LibLoot* lootAPI = PluginManager::LibLoot::GetInstance())
 		{
-			AddSoftwareNode(lootAPI->GetLibraryName(), lootAPI->GetLibraryVersion(), "https://github.com/loot/loot-api", ImageResourceID::LOOT);
+			AddSoftwareNode(lootAPI->GetLibraryName(), lootAPI->GetLibraryVersion(), "https://github.com/loot/loot-api", Imagekxf::ResourceID::LOOT);
 		}
 
 		// Add resources

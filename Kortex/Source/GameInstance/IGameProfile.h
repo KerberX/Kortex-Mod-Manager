@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/AppOption.h"
 #include <KxFramework/KxSingleton.h>
-class KxXMLDocument;
+class kxf::XMLDocument;
 
 namespace Kortex
 {
@@ -31,13 +31,13 @@ namespace Kortex::GameInstance
 			using Vector = std::vector<ProfileMod>;
 
 		public:
-			wxString m_Signature;
+			kxf::String m_Signature;
 			intptr_t m_Priority = -1;
 			bool m_IsActive = false;
 
 		public:
 			ProfileMod(const IGameMod& mod, bool active);
-			ProfileMod(const wxString& signature, bool active, intptr_t priority = -1);
+			ProfileMod(const kxf::String& signature, bool active, intptr_t priority = -1);
 
 		public:
 			bool IsOK() const
@@ -54,7 +54,7 @@ namespace Kortex::GameInstance
 				return m_Priority;
 			}
 
-			const wxString& GetSignature() const
+			const kxf::String& GetSignature() const
 			{
 				return m_Signature;
 			}
@@ -70,13 +70,13 @@ namespace Kortex::GameInstance
 			using Vector = std::vector<ProfilePlugin>;
 
 		public:
-			wxString m_Name;
+			kxf::String m_Name;
 			intptr_t m_Priority = -1;
 			bool m_IsActive = false;
 
 		public:
 			ProfilePlugin(const IGamePlugin& plugin, bool active);
-			ProfilePlugin(const wxString& name, bool active, intptr_t priority = -1);
+			ProfilePlugin(const kxf::String& name, bool active, intptr_t priority = -1);
 
 		public:
 			bool IsOK() const
@@ -93,7 +93,7 @@ namespace Kortex::GameInstance
 				return m_Priority;
 			}
 
-			const wxString& GetName() const
+			const kxf::String& GetName() const
 			{
 				return m_Name;
 			}
@@ -120,11 +120,11 @@ namespace Kortex
 
 		public:
 			static IGameProfile* GetActive();
-			static wxString ProcessID(const wxString& id);
+			static kxf::String ProcessID(const kxf::String& id);
 			static void UpdateVariablesUsingActive(IVariableTable& variables);
 
 		protected:
-			static bool CreateLocalFolder(const wxString& id, const wxString& name);
+			static bool CreateLocalFolder(const kxf::String& id, const kxf::String& name);
 
 		public:
 			virtual ~IGameProfile() = default;
@@ -135,19 +135,19 @@ namespace Kortex
 				return GetActive() == this;
 			}
 
-			wxString GetConfigFile() const;
-			wxString GetProfileDir() const;
-			wxString GetProfileRelativePath(const wxString& name) const;
-			wxString GetSavesDir() const;
-			wxString GetConfigDir() const;
-			wxString GetOverwritesDir() const;
+			kxf::String GetConfigFile() const;
+			kxf::String GetProfileDir() const;
+			kxf::String GetProfileRelativePath(const kxf::String& name) const;
+			kxf::String GetSavesDir() const;
+			kxf::String GetConfigDir() const;
+			kxf::String GetOverwritesDir() const;
 
 			virtual std::unique_ptr<IGameProfile> Clone() const = 0;
 			virtual void LoadConfig() = 0;
 			virtual void SyncWithCurrentState() = 0;
 
-			virtual wxString GetID() const = 0;
-			virtual void SetID(const wxString& id) = 0;
+			virtual kxf::String GetID() const = 0;
+			virtual void SetID(const kxf::String& id) = 0;
 
 			virtual bool IsLocalSavesEnabled() const = 0;
 			virtual void SetLocalSavesEnabled(bool value) = 0;

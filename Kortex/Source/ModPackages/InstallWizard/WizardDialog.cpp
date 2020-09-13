@@ -22,7 +22,7 @@ namespace Kortex::InstallWizard
 }
 namespace Kortex::InstallWizard
 {
-	auto GetUIOption(const wxString& option = {})
+	auto GetUIOption(const kxf::String& option = {})
 	{
 		return Application::GetAInstanceOptionOf<IPackageManager>(wxS("InstallWizard"), option);
 	};
@@ -30,7 +30,7 @@ namespace Kortex::InstallWizard
 
 namespace Kortex::InstallWizard
 {
-	void WizardDialog::ShowInvalidPackageDialog(wxWindow* window, const wxString& packagePath)
+	void WizardDialog::ShowInvalidPackageDialog(wxWindow* window, const kxf::String& packagePath)
 	{
 		KxTaskDialog dialog(window, KxID_NONE, KTrf("InstallWizard.LoadFailed.Caption", packagePath), KTr("InstallWizard.LoadFailed.Message"), KxBTN_OK, KxICON_ERROR);
 		dialog.ShowModal();
@@ -89,7 +89,7 @@ namespace Kortex::InstallWizard
 		{
 			if (targetPage.OnOpenPage())
 			{
-				auto ProcessButton = [](KxButton* button, const WizardButton& config, const wxString& defaultLabel)
+				auto ProcessButton = [](KxButton* button, const WizardButton& config, const kxf::String& defaultLabel)
 				{
 					button->SetLabel(config.HasLabel() ? config.GetLabel() : defaultLabel);
 					button->Enable(config.IsEnabled());
@@ -106,7 +106,7 @@ namespace Kortex::InstallWizard
 		return false;
 	}
 
-	void WizardDialog::OpenPackage(const wxString& packagePath)
+	void WizardDialog::OpenPackage(const kxf::String& packagePath)
 	{
 		auto thread = new Utility::OperationWithProgressDialog<KxArchiveEvent>(true, GetParent());
 		thread->OnRun([this, thread, packagePath = packagePath.Clone()]()
@@ -334,7 +334,7 @@ namespace Kortex::InstallWizard
 	KxArchive::FileIndexVector WizardDialog::GetFilesOfFolder(const PackageProject::FolderItem* folder) const
 	{
 		KxUInt32Vector indexes;
-		const wxString& path = folder->GetSource();
+		const kxf::String& path = folder->GetSource();
 
 		KxArchive::FileFinder finder(GetArchive(), path, wxS('*'));
 		KxFileItem item = finder.FindNext();
@@ -345,19 +345,19 @@ namespace Kortex::InstallWizard
 		}
 		return indexes;
 	}
-	wxString WizardDialog::GetFinalPath(const KxFileItem& fileItem, const wxString& installLocation, const PackageProject::FileItem* fileEntry) const
+	kxf::String WizardDialog::GetFinalPath(const KxFileItem& fileItem, const kxf::String& installLocation, const PackageProject::FileItem* fileEntry) const
 	{
 		if (fileItem)
 		{
 			// Remove "in archive" source path from final file path
-			wxString targetPath = fileItem.GetFullPath().Remove(0, fileEntry->GetSource().Length());
+			kxf::String targetPath = fileItem.GetFullPath().Remove(0, fileEntry->GetSource().Length());
 			if (!targetPath.IsEmpty() && targetPath[0] == wxS('\\'))
 			{
 				targetPath.Remove(0, 1);
 			}
 
 			// Perpend destination path if needed
-			const wxString& destinationPrefix = fileEntry->GetDestination();
+			const kxf::String& destinationPrefix = fileEntry->GetDestination();
 			if (!destinationPrefix.IsEmpty())
 			{
 				if (!destinationPrefix.IsEmpty() && destinationPrefix[0] != wxS('\\'))
@@ -378,13 +378,13 @@ namespace Kortex::InstallWizard
 	{
 		SetModData();
 
-		wxString installLocation = m_Mod->GetModFilesDir();
+		kxf::String installLocation = m_Mod->GetModFilesDir();
 		if (installLocation.Last() == '\\')
 		{
 			installLocation.RemoveLast(1);
 		}
 
-		auto NotifyMajor = [this](size_t current, size_t max, const wxString& status)
+		auto NotifyMajor = [this](size_t current, size_t max, const kxf::String& status)
 		{
 			KxFileOperationEvent* event = new KxFileOperationEvent(KxArchiveEvent::EvtProcess);
 			event->SetEventObject(this);
@@ -417,7 +417,7 @@ namespace Kortex::InstallWizard
 					{
 						if (KxFileItem fileItem = GetArchive().GetItem(index))
 						{
-							wxString targetPath = GetFinalPath(fileItem, installLocation, folderEntry);
+							kxf::String targetPath = GetFinalPath(fileItem, installLocation, folderEntry);
 							if (!targetPath.IsEmpty())
 							{
 								if (fileItem.IsDirectory())
@@ -456,7 +456,7 @@ namespace Kortex::InstallWizard
 					KxFileItem item;
 					if (archive.FindFile(fileEntry->GetSource(), item))
 					{
-						wxString path = installLocation + wxS('\\') + fileEntry->GetDestination();
+						kxf::String path = installLocation + wxS('\\') + fileEntry->GetDestination();
 						archive.ExtractToFile(item.GetExtraData<KxArchive::FileIndex>(), path);
 					}
 				}
@@ -478,12 +478,12 @@ namespace Kortex::InstallWizard
 		m_ForwardDefaultLabel(KTr("InstallWizard.ForwardButton") + wxS(" >"))
 	{
 	}
-	WizardDialog::WizardDialog(wxWindow* parent, const wxString& packagePath)
+	WizardDialog::WizardDialog(wxWindow* parent, const kxf::String& packagePath)
 		:WizardDialog()
 	{
 		Create(parent, packagePath);
 	}
-	bool WizardDialog::Create(wxWindow* parent, const wxString& packagePath)
+	bool WizardDialog::Create(wxWindow* parent, const kxf::String& packagePath)
 	{
 		m_Package = std::make_unique<ModPackage>();
 		if (CreateUI(parent))

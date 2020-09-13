@@ -6,11 +6,11 @@
 
 namespace Kortex::GameConfig
 {
-	void Definition::LoadGroups(const KxXMLNode& groupsNode)
+	void Definition::LoadGroups(const kxf::XMLNode& groupsNode)
 	{
-		for (KxXMLNode node = groupsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = groupsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
-			wxString id = node.GetAttribute(wxS("ID"));
+			kxf::String id = node.GetAttribute(wxS("ID"));
 			m_Groups.insert_or_assign(id, std::make_unique<ItemGroup>(*this, id, node, m_Options));
 		}
 	}
@@ -22,12 +22,12 @@ namespace Kortex::GameConfig
 	bool Definition::Load()
 	{
 		KxFileStream stream(m_FilePath, KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting, KxFileStream::Share::Read);
-		if (KxXMLDocument xml(stream); xml.IsOK())
+		if (kxf::XMLDocument xml(stream); xml.IsOK())
 		{
-			const KxXMLNode rootNode = xml.GetFirstChildElement("Definition");
+			const kxf::XMLNode rootNode = xml.GetFirstChildElement("Definition");
 
 			// Load data types
-			for (KxXMLNode node = rootNode.GetFirstChildElement("DataTypes").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = rootNode.GetFirstChildElement("DataTypes").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				DataType type(node);
 				if (type.IsOK())
@@ -37,7 +37,7 @@ namespace Kortex::GameConfig
 			}
 
 			// Load type detectors config
-			for (KxXMLNode node = rootNode.GetFirstChildElement("TypeDetection").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = rootNode.GetFirstChildElement("TypeDetection").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				switch (TypeDetectorDef::FromString(node.GetName(), TypeDetectorID::None))
 				{

@@ -39,7 +39,7 @@ namespace Kortex::GameConfig
 	}
 	bool INIRefSource::ReadValue(Item& item, ItemValue& value) const
 	{
-		wxString valueData = m_INI.GetValue(item.GetPath(), item.GetName());
+		kxf::String valueData = m_INI.GetValue(item.GetPath(), item.GetName());
 		if (!valueData.IsEmpty())
 		{
 			return value.Deserialize(valueData, item);
@@ -48,9 +48,9 @@ namespace Kortex::GameConfig
 	}
 	void INIRefSource::LoadUnknownItems(ItemGroup& group)
 	{
-		for (const wxString& sectionName: m_INI.GetSectionNames())
+		for (const kxf::String& sectionName: m_INI.GetSectionNames())
 		{
-			for (const wxString& keyName: m_INI.GetKeyNames(sectionName))
+			for (const kxf::String& keyName: m_INI.GetKeyNames(sectionName))
 			{
 				// Skip C++ style comments
 				if (keyName.StartsWith(wxS("//")))
@@ -67,12 +67,12 @@ namespace Kortex::GameConfig
 					// Run type detectors
 					TypeID type = InvokeTypeDetectors(group, [this, &type, &keyName, &sectionName](const ITypeDetector& detector)
 					{
-						return std::tuple{keyName, detector.RequiresValueData() ? m_INI.GetValue(sectionName, keyName) : wxString()};
+						return std::tuple{keyName, detector.RequiresValueData() ? m_INI.GetValue(sectionName, keyName) : kxf::String()};
 					});
 					item->SetTypeID(type);
 
 					// Category is never a part of item's hash calculation, so set it here
-					wxString pathDescription = GetPathDescription();
+					kxf::String pathDescription = GetPathDescription();
 					if (!pathDescription.IsEmpty())
 					{
 						item->SetCategory(wxS('/') + pathDescription + wxS('/') + sectionName);

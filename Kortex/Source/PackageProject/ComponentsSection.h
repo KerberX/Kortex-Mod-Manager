@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 #include "Utility/LabeledValue.h"
 #include "Utility/WithNameAndID.h"
@@ -12,24 +12,24 @@ namespace Kortex::PackageProject
 			using Vector = std::vector<FlagItem>;
 			
 		public:
-			static wxString GetDeletedFlagPrefix();
+			static kxf::String GetDeletedFlagPrefix();
 			
 		private:
 			bool HasLabel() const = delete;
-			const wxString& GetRawLabel() const = delete;
-			const wxString& GetLabel() const = delete;
-			void SetLabel(const wxString& label) = delete;
+			const kxf::String& GetRawLabel() const = delete;
+			const kxf::String& GetLabel() const = delete;
+			void SetLabel(const kxf::String& label) = delete;
 			
 		public:
-			FlagItem(const wxString& value, const wxString& name = wxEmptyString);
+			FlagItem(const kxf::String& value, const kxf::String& name = wxEmptyString);
 			~FlagItem() = default;
 			
 		public:
-			const wxString& GetValue() const
+			const kxf::String& GetValue() const
 			{
 				return Utility::LabeledValue::GetValue();
 			}
-			void SetValue(const wxString& value)
+			void SetValue(const kxf::String& value)
 			{
 				Utility::LabeledValue::SetValue(value);
 			}
@@ -38,15 +38,15 @@ namespace Kortex::PackageProject
 			{
 				return Utility::LabeledValue::HasLabel();
 			}
-			const wxString& GetName() const
+			const kxf::String& GetName() const
 			{
 				return Utility::LabeledValue::GetRawLabel();
 			}
-			wxString GetDeletedName() const
+			kxf::String GetDeletedName() const
 			{
 				return GetDeletedFlagPrefix() + GetName();
 			}
-			void SetName(const wxString& value)
+			void SetName(const kxf::String& value)
 			{
 				Utility::LabeledValue::SetLabel(value);
 			}
@@ -142,8 +142,8 @@ namespace Kortex::PackageProject
 			using RefVector = std::vector<ComponentItem*>;
 	
 		private:
-			wxString m_Image;
-			wxString m_Description;
+			kxf::String m_Image;
+			kxf::String m_Description;
 			KxStringVector m_FileData;
 			KxStringVector m_Requirements;
 			TypeDescriptor m_TypeDescriptorDefault;
@@ -157,20 +157,20 @@ namespace Kortex::PackageProject
 			~ComponentItem();
 	
 		public:
-			const wxString& GetImage() const
+			const kxf::String& GetImage() const
 			{
 				return m_Image;
 			}
-			void SetImage(const wxString& value)
+			void SetImage(const kxf::String& value)
 			{
 				m_Image = value;
 			}
 	
-			const wxString& GetDescription() const
+			const kxf::String& GetDescription() const
 			{
 				return m_Description;
 			}
-			void SetDescription(const wxString& value)
+			void SetDescription(const kxf::String& value)
 			{
 				m_Description = value;
 			}
@@ -358,13 +358,13 @@ namespace Kortex::PackageProject
 			static const TypeDescriptor ms_DefaultTypeDescriptor = TypeDescriptor::Optional;
 	
 		public:
-			static TypeDescriptor StringToTypeDescriptor(const wxString& name, TypeDescriptor default = ms_DefaultTypeDescriptor);
-			static wxString TypeDescriptorToString(TypeDescriptor type);
-			static wxString TypeDescriptorToTranslation(TypeDescriptor type);
+			static TypeDescriptor StringToTypeDescriptor(const kxf::String& name, TypeDescriptor default = ms_DefaultTypeDescriptor);
+			static kxf::String TypeDescriptorToString(TypeDescriptor type);
+			static kxf::String TypeDescriptorToTranslation(TypeDescriptor type);
 	
-			static SelectionMode StringToSelectionMode(const wxString& name);
-			static wxString SelectionModeToString(SelectionMode type);
-			static wxString SelectionModeToTranslation(SelectionMode type);
+			static SelectionMode StringToSelectionMode(const kxf::String& name);
+			static kxf::String SelectionModeToString(SelectionMode type);
+			static kxf::String SelectionModeToTranslation(SelectionMode type);
 	
 		private:
 			enum class FlagAttribute

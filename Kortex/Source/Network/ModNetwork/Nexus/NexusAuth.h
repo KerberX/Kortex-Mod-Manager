@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include "Network/ModNetworkAuth.h"
@@ -24,7 +24,7 @@ namespace Kortex::NetworkManager
 			std::unique_ptr<KxIWebSocketClient> m_WebSocketClient;
 
 			std::optional<NexusValidationReply> m_LastValidationReply;
-			wxString m_UserToken;
+			kxf::String m_UserToken;
 			KxUUID m_SessionGUID;
 
 		protected:
@@ -47,7 +47,7 @@ namespace Kortex::NetworkManager
 			{
 				return m_LastValidationReply ? &m_LastValidationReply.value() : nullptr;
 			}
-			std::optional<NexusValidationReply> DoGetValidationInfo(const wxString& apiKey = {}, bool silent = false);
+			std::optional<NexusValidationReply> DoGetValidationInfo(const kxf::String& apiKey = {}, bool silent = false);
 
 		public:
 			NexusAuth(NexusModNetwork& nexus, NexusUtility& utility);

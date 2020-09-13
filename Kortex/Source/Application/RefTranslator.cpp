@@ -1,27 +1,22 @@
 #include "stdafx.h"
 #include "RefTranslator.h"
-#include <KxFramework/KxTranslation.h>
 
 namespace Kortex
 {
-	ITranslator::OpString RefTranslator::DoGetString(const wxString& id) const
+	std::optional<kxf::String> RefTranslator::DoGetString(const kxf::String& id) const
 	{
-		bool isSuccess = false;
-		wxString value = m_TranslationRef.GetString(id, &isSuccess);
-		if (isSuccess)
+		if (auto& item = m_TranslationRef->GetItem(id))
 		{
-			return value;
+			return item.GetString();
 		}
-		return std::nullopt;
+		return {};
 	}
-	ITranslator::OpString RefTranslator::DoGetString(KxStandardID id) const
+	std::optional<kxf::String> RefTranslator::DoGetString(kxf::StdID id) const
 	{
-		bool isSuccess = false;
-		wxString value = m_TranslationRef.GetString(id, &isSuccess);
-		if (isSuccess)
+		if (auto& item = m_TranslationRef->GetItem(id))
 		{
-			return value;
+			return item.GetString();
 		}
-		return std::nullopt;
+		return {};
 	}
 }

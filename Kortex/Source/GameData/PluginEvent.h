@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/BroadcastProcessor.h"
 
 namespace Kortex
@@ -33,7 +33,7 @@ namespace Kortex
 				:m_PluginsVector(plugins)
 			{
 			}
-			PluginEvent(const wxString& name)
+			PluginEvent(const kxf::String& name)
 			{
 				SetString(name);
 			}
@@ -52,7 +52,7 @@ namespace Kortex
 			{
 				return m_Plugin;
 			}
-			wxString GetPluginName() const;
+			kxf::String GetPluginName() const;
 
 			bool HasPluginsArray() const
 			{

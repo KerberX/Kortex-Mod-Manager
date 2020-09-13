@@ -21,7 +21,7 @@ namespace Kortex::PluginManager
 	void BasePluginManager::OnExit()
 	{
 	}
-	void BasePluginManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void BasePluginManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		m_Config.OnLoadInstance(instance, managerNode);
 	}
@@ -73,7 +73,7 @@ namespace Kortex::PluginManager
 		IGameProfile* profile = IGameInstance::GetActiveProfile();
 		GameInstance::ProfilePlugin::Vector& pluginsList = profile->GetPlugins();
 		pluginsList.clear();
-		for (const wxString& name: pluginNamesList)
+		for (const kxf::String& name: pluginNamesList)
 		{
 			bool isActive = false;
 			switch (mode)
@@ -115,7 +115,7 @@ namespace Kortex::PluginManager
 		}
 		return list;
 	}
-	IGamePlugin* BasePluginManager::FindPluginByName(const wxString& name) const
+	IGamePlugin* BasePluginManager::FindPluginByName(const kxf::String& name) const
 	{
 		auto it = std::find_if(m_Plugins.begin(), m_Plugins.end(), [&name](const auto& entry)
 		{

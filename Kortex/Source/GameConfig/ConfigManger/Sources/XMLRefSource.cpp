@@ -30,9 +30,9 @@ namespace Kortex::GameConfig
 	{
 		if (value.IsNull())
 		{
-			if (KxXMLNode node = m_XML.QueryElement(item.GetPath()); node.IsOK())
+			if (kxf::XMLNode node = m_XML.QueryElement(item.GetPath()); node.IsOK())
 			{
-				wxString attributeName = item.GetName();
+				kxf::String attributeName = item.GetName();
 				if (attributeName.IsEmpty())
 				{
 					return m_XML.RemoveNode(node);
@@ -45,9 +45,9 @@ namespace Kortex::GameConfig
 		}
 		else
 		{
-			if (KxXMLNode node = m_XML.ConstructElement(item.GetPath()); node.IsOK())
+			if (kxf::XMLNode node = m_XML.ConstructElement(item.GetPath()); node.IsOK())
 			{
-				wxString attributeName = item.GetName();
+				kxf::String attributeName = item.GetName();
 				if (attributeName.IsEmpty())
 				{
 					return node.SetValue(value.Serialize(item));
@@ -62,20 +62,20 @@ namespace Kortex::GameConfig
 	}
 	bool XMLRefSource::ReadValue(Item& item, ItemValue& value) const
 	{
-		if (KxXMLNode node = m_XML.QueryElement(item.GetPath()); node.IsOK())
+		if (kxf::XMLNode node = m_XML.QueryElement(item.GetPath()); node.IsOK())
 		{
-			wxString attributeName = item.GetName();
+			kxf::String attributeName = item.GetName();
 			if (!attributeName.IsEmpty())
 			{
 				// Check if we need to find array node with specified attribute value
-				if (attributeName.find(wxS('=')) != wxString::npos)
+				if (attributeName.find(wxS('=')) != kxf::String::npos)
 				{
-					wxString attributeValue;
+					kxf::String attributeValue;
 					attributeName = attributeName.BeforeFirst(wxS('='), &attributeValue);
 
-					wxString arrayItemName = item.GetPath().AfterLast(wxS('/'));
-					KxXMLNode arrayNode = node.GetParent();
-					for (KxXMLNode itemNode = arrayNode.GetFirstChildElement(arrayItemName); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement(arrayItemName))
+					kxf::String arrayItemName = item.GetPath().AfterLast(wxS('/'));
+					kxf::XMLNode arrayNode = node.GetParent();
+					for (kxf::XMLNode itemNode = arrayNode.GetFirstChildElement(arrayItemName); itemNode.IsOK(); itemNode = itemNode.GetNextSiblingElement(arrayItemName))
 					{
 						if (itemNode.GetAttribute(attributeName) == attributeValue)
 						{

@@ -3,7 +3,7 @@
 #include "CreationDialog.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/GameInstance.hpp>
-#include "Application/Resources/ImageResourceID.h"
+#include "Application/Resources/Imagekxf::ResourceID.h"
 #include "Application/Options/CmdLineDatabase.h"
 #include "Utility/Common.h"
 #include "Utility/BitmapSize.h"
@@ -54,9 +54,9 @@ namespace Kortex::GameInstance
 			m_GameFilter = static_cast<KxBitmapComboBox*>(GetDialogMainCtrl());
 
 			m_InstancesList = new KxListBox(m_LeftPane, KxID_NONE);
-			m_InstancesList->SetImageList(const_cast<KxImageList*>(&ImageProvider::GetImageList()), wxIMAGE_LIST_NORMAL);
-			m_InstancesList->SetImageList(const_cast<KxImageList*>(&ImageProvider::GetImageList()), wxIMAGE_LIST_SMALL);
-			m_LeftSizer->Add(m_InstancesList, 1, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+			m_InstancesList->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()), wxIMAGE_LIST_NORMAL);
+			m_InstancesList->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()), wxIMAGE_LIST_SMALL);
+			m_LeftSizer->Add(m_InstancesList, 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 			AddUserWindow(m_InstancesList);
 
 			// Right pane
@@ -118,7 +118,7 @@ namespace Kortex::GameInstance
 		const IGameInstance* active = IGameInstance::GetActive();
 		LoadGameFilter(active ? active->GetGameID() : GameIDs::NullGameID);
 
-		wxString instanceID = active ? active->GetInstanceID() : IApplication::GetInstance()->GetStartupInstanceID();
+		kxf::String instanceID = active ? active->GetInstanceID() : IApplication::GetInstance()->GetStartupInstanceID();
 		OnInstanceSelected(IGameInstance::GetShallowInstance(instanceID));
 
 		AdjustWindow(wxDefaultPosition, FromDIP(wxSize(650, 400)));
@@ -126,7 +126,7 @@ namespace Kortex::GameInstance
 	void SelectionDialog::LoadGameFilter(const GameID& gameID)
 	{
 		Utility::BitmapSize bitmapSize = Utility::BitmapSize().FromSystemIcon();
-		m_GameFilterImageList = new KxImageList(bitmapSize, IGameInstance::GetTemplatesCount());
+		m_GameFilterImageList = new kxf::ImageList(bitmapSize, IGameInstance::GetTemplatesCount());
 		m_GameFilter->AssignImageList(m_GameFilterImageList);
 
 		int imageID = m_GameFilterImageList->Add(IGameInstance::GetGenericIcon());
@@ -165,13 +165,13 @@ namespace Kortex::GameInstance
 				continue;
 			}
 
-			wxString name;
-			ImageResourceID imageID = ImageResourceID::None;
+			kxf::String name;
+			Imagekxf::ResourceID imageID = Imagekxf::ResourceID::None;
 			if (instnace->IsOK())
 			{
 				if (instnace->IsActiveInstance())
 				{
-					imageID = ImageResourceID::TickCircleFrame;
+					imageID = Imagekxf::ResourceID::TickCircleFrame;
 				}
 
 				if (gameID)
@@ -180,13 +180,13 @@ namespace Kortex::GameInstance
 				}
 				else
 				{
-					name = KxString::Format("[%1] %2", instnace->GetGameShortName(), instnace->GetInstanceID());
+					name = kxf::String::Format("[%1] %2", instnace->GetGameShortName(), instnace->GetInstanceID());
 				}
 			}
 			else
 			{
-				imageID = ImageResourceID::CrossCircleFrame;
-				name = KxString::Format("%1 (%2)", instnace->GetInstanceID(), KTr("InstanceSelection.InvalidInstance"));
+				imageID = Imagekxf::ResourceID::CrossCircleFrame;
+				name = kxf::String::Format("%1 (%2)", instnace->GetInstanceID(), KTr("InstanceSelection.InvalidInstance"));
 			}
 
 			int index = m_InstancesList->AddItem(name, (int)imageID);
@@ -203,7 +203,7 @@ namespace Kortex::GameInstance
 		event.SetInt(select);
 		m_InstancesList->HandleWindowEvent(event);
 	}
-	bool SelectionDialog::AskForGameFolder(const IGameInstance* instance, const wxString& currentGamePath)
+	bool SelectionDialog::AskForGameFolder(const IGameInstance* instance, const kxf::String& currentGamePath)
 	{
 		KxTaskDialog messageDialog(this, KxID_NONE, KTrf("InstanceSelection.GameNotFound.Caption", instance->GetGameName()), KTrf("InstanceSelection.GameNotFound.Message", instance->GetGameName()), KxBTN_CANCEL, KxICON_WARNING);
 		messageDialog.AddButton(KxID_SELECT_FOLDER);
@@ -282,7 +282,7 @@ namespace Kortex::GameInstance
 
 		// Game directory is need for instance to work correctly.
 		// Check it and try to get correct path if we have none.
-		wxString gamePath = instance->GetGameDir();
+		kxf::String gamePath = instance->GetGameDir();
 
 		// Try defaults
 		if (gamePath.IsEmpty())
@@ -319,7 +319,7 @@ namespace Kortex::GameInstance
 		{
 			KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
 			dialog.SetDefaultExtension("lnk");
-			dialog.SetFileName(wxString::Format("%s - %s", instance->GetGameShortName(), instance->GetInstanceID()));
+			dialog.SetFileName(kxf::String::Format("%s - %s", instance->GetGameShortName(), instance->GetInstanceID()));
 			dialog.SetOptionEnabled(KxFBD_NO_DEREFERENCE_LINKS);
 
 			dialog.AddFilter("*.lnk", KTr("FileFilter.Shortcuts"));
@@ -377,9 +377,9 @@ namespace Kortex::GameInstance
 		};
 		auto PrintVariables = [this](const IVariableTable& variables)
 		{
-			variables.Accept([this](const wxString& name, const VariableValue& value)
+			variables.Accept([this](const kxf::String& name, const VariableValue& value)
 			{
-				*m_TextBox << KxString::Format(wxS("$(%1)%2 = \"%3\"\r\n"), name, value.IsOverride() ? wxS("*") : wxS(""), value.AsString());
+				*m_TextBox << kxf::String::Format(wxS("$(%1)%2 = \"%3\"\r\n"), name, value.IsOverride() ? wxS("*") : wxS(""), value.AsString());
 				return true;
 			});
 		};
@@ -408,14 +408,14 @@ namespace Kortex::GameInstance
 			for (const auto&[id, item]: KxShell::GetShellFolderList())
 			{
 				// Skip 'SHF_' part for 'item.second'
-				*m_TextBox << KxString::Format(wxS("$SHF(%1) = \"%2\"\r\n"), item.second + 4, KxShell::GetFolder(id));
+				*m_TextBox << kxf::String::Format(wxS("$SHF(%1) = \"%2\"\r\n"), item.second + 4, KxShell::GetFolder(id));
 			}
 			PrintSeparator();
 
 			// $ENV(*) variables
 			for (const auto&[name, value]: KxSystem::GetEnvironmentVariables())
 			{
-				*m_TextBox << KxString::Format(wxS("$ENV(%1) = \"%2\"\r\n"), name, value);
+				*m_TextBox << kxf::String::Format(wxS("$ENV(%1) = \"%2\"\r\n"), name, value);
 			}
 		}
 	}

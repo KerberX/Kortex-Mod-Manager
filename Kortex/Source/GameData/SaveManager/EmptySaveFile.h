@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BaseGameSave.h"
 
 namespace Kortex::SaveManager
@@ -24,7 +24,7 @@ namespace Kortex::SaveManager
 			{
 				return m_Info;
 			}
-			wxString GetDisplayName() const override
+			kxf::String GetDisplayName() const override
 			{
 				return {};
 			}

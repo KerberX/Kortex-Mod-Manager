@@ -9,8 +9,8 @@
 namespace Kortex::Utility::UI
 {
 	KxAuiToolBarItem* CreateToolBarButton(KxAuiToolBar* toolBar,
-										  const wxString& label,
-										  const ResourceID& imageID,
+										  const kxf::String& label,
+										  const kxf::ResourceID& imageID,
 										  wxItemKind kind,
 										  int index
 	)
@@ -54,7 +54,7 @@ namespace Kortex::Utility::UI
 			const Utility::LabeledValue& url = urlList[i];
 			if (url.HasValue() && url.HasLabel())
 			{
-				dialog.AddButton(KxID_HIGHEST + i, wxString::Format("%s\n%s", url.GetLabel(), url.GetValue()));
+				dialog.AddButton(KxID_HIGHEST + i, kxf::String::Format("%s\n%s", url.GetLabel(), url.GetValue()));
 			}
 			else if (url.HasValue() && !url.HasLabel())
 			{
@@ -64,13 +64,13 @@ namespace Kortex::Utility::UI
 		return dialog.ShowModal() != KxID_CANCEL;
 	}
 
-	wxString MakeHTMLWindowPlaceholder(const wxString& text, const wxWindow* window)
+	kxf::String MakeHTMLWindowPlaceholder(const kxf::String& text, const wxWindow* window)
 	{
-		wxString color = window ? window->GetForegroundColour().MakeDisabled().GetAsString() : wxS("gray");
-		return wxString::Format(wxS("<br><br><font color=\"%s\"><div align=\"center\">%s</div></font>"), color, text);
+		kxf::String color = window ? window->GetForegroundColour().MakeDisabled().GetAsString() : wxS("gray");
+		return kxf::String::Format(wxS("<br><br><font color=\"%s\"><div align=\"center\">%s</div></font>"), color, text);
 	}
 
-	bool SetSearchMask(wxString& storage, const wxString& newMask)
+	bool SetSearchMask(kxf::String& storage, const kxf::String& newMask)
 	{
 		if (storage != newMask)
 		{
@@ -86,7 +86,7 @@ namespace Kortex::Utility::UI
 		}
 		return false;
 	}
-	bool CheckSearchMask(const wxString& mask, const wxString& string)
+	bool CheckSearchMask(const kxf::String& mask, const kxf::String& string)
 	{
 		return mask.IsEmpty() || (mask.length() == 1 && *mask.begin() == wxS('*')) || KxString::ToLower(string).Matches(mask);
 	}

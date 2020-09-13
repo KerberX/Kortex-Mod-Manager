@@ -17,9 +17,9 @@
 namespace
 {
 	template<class T>
-	bool GetCmdArgIntValue(const wxCmdLineParser& parser, const wxString& name, T& value)
+	bool GetCmdArgIntValue(const wxCmdLineParser& parser, const kxf::String& name, T& value)
 	{
-		wxString stringValue;
+		kxf::String stringValue;
 		unsigned long long intValue = 0;
 		if (parser.Found(name, &stringValue) && stringValue.ToULongLong(&intValue))
 		{
@@ -120,7 +120,7 @@ namespace Kortex::FSController
 	
 	bool Application::OnExceptionInMainLoop()
 	{
-		wxString message = "Unknown";
+		kxf::String message = "Unknown";
 		try
 		{
 			throw;
@@ -149,7 +149,7 @@ namespace Kortex::FSController
 		{
 			message = "unknown error.";
 		}
-		message = KxString::Format(wxS("Unexpected exception has occurred: %1.\r\n\r\nThe program will terminate."), message);
+		message = kxf::String::Format(wxS("Unexpected exception has occurred: %1.\r\n\r\nThe program will terminate."), message);
 
 		if (m_MainApp && m_MainApp->IsOK())
 		{
@@ -169,9 +169,9 @@ namespace Kortex::FSController
 		ExitApp(std::numeric_limits<int>::min());
 	}
 	
-	wxString Application::GetLibraryPath() const
+	kxf::String Application::GetLibraryPath() const
 	{
-		wxString path = m_RootFolder + wxS("\\KxVirtualFileSystem");
+		kxf::String path = m_RootFolder + wxS("\\KxVirtualFileSystem");
 
 		#if defined _WIN64
 		path += wxS(" x64");

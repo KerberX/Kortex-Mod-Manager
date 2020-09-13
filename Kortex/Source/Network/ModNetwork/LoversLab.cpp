@@ -8,16 +8,16 @@ namespace Kortex::NetworkManager
 	{
 	}
 
-	wxString LoversLabModNetwork::GetAPIURL() const
+	kxf::String LoversLabModNetwork::GetAPIURL() const
 	{
 		return wxS("https://www.loverslab.com/api");
 	}
 
-	ResourceID LoversLabModNetwork::GetIcon() const
+	kxf::ResourceID LoversLabModNetwork::GetIcon() const
 	{
-		return ImageResourceID::ModNetwork_LoversLab;
+		return Imagekxf::ResourceID::ModNetwork_LoversLab;
 	}
-	wxString LoversLabModNetwork::GetName() const
+	kxf::String LoversLabModNetwork::GetName() const
 	{
 		return wxS("LoversLab");
 	}
@@ -28,6 +28,6 @@ namespace Kortex::NetworkManager
 	}
 	KxURI LoversLabModNetwork::GetModPageURI(const ModRepositoryRequest& request) const
 	{
-		return GetIPBModPageURI(request.GetModID(), request.GetExtraInfo<wxString>());
+		return GetIPBModPageURI(request.GetModID(), request.GetExtraInfo<kxf::String>());
 	}
 }

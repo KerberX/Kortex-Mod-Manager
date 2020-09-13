@@ -12,21 +12,19 @@
 #include "Archive/GenericArchive.h"
 #include "Utility/Common.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxRegistry.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxSystem.h>
-#include <Kx/Sciter.hpp>
+#include <kxf/Application/ApplicationInitializer.h>
+#include <kxf/System/SystemProcess.h>
+#include <kxf/System/SystemInformation.h>
+#include <kxf/System/Registry.h>
+#include <kxf/System/DynamicLibrary.h>
+#include <kxf/FileSystem/FSPath.h>
+#include <kxf/FileSystem/NativeFileSystem.h>
+#include <kxf/IO/FileStream.h>
+#include <Kxf/Sciter.hpp>
 
 namespace
 {
-	template<class... Args> auto FormatMessage(Args&&... arg)
-	{
-		return FormatMessageW(std::forward<Args>(arg)...);
-	}
+	Kx_MakeWinUnicodeCallWrapper(FormatMessage);
 }
 
 #pragma push_macro("NULL")
@@ -49,11 +47,11 @@ namespace Kortex
 {
 	FILE* SystemApplicationTraits::CreateLogFile() const
 	{
-		wxString fileName = wxDateTime::Now().Format(wxS("%Y-%m-%d %H-%M-%S")) + wxS(".log");
-		wxString filePath = m_SystemApp.m_Application->GetLogsFolder();
+		kxf::String fileName = wxDateTime::Now().Format(wxS("%Y-%m-%d %H-%M-%S")) + wxS(".log");
+		kxf::String filePath = m_SystemApp.m_Application->GetLogsFolder();
 		wxFileName::Mkdir(filePath, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
 
-		wxString fullPath = filePath + wxS('\\') + fileName;
+		kxf::String fullPath = filePath + wxS('\\') + fileName;
 
 		FILE* handle = nullptr;
 		::_wfopen_s(&handle, fullPath.wc_str(), L"w+b");
@@ -85,9 +83,9 @@ namespace Kortex
 		const constexpr wxChar GUID[] = wxS("B5E8047C-9239-45C4-86F6-6C83A842063E");
 
 		template<class T>
-		wxString RemoveWhitespace(T&& value)
+		kxf::String RemoveWhitespace(T&& value)
 		{
-			wxString data(value, std::size(value) - 1);
+			kxf::String data(value, std::size(value) - 1);
 			return KxString::Trim(data, true, true);
 		}
 	}
@@ -263,7 +261,7 @@ namespace Kortex
 		}
 		return m_IsApplicationInitialized;
 	}
-	int SystemApplication::OnExit()
+	void SystemApplication::OnExit()
 	{
 		Utility::Log::LogInfo("SystemApplication::OnExit");
 
@@ -287,9 +285,8 @@ namespace Kortex
 		// Exit now
 		if (m_IsApplicationInitialized)
 		{
-			KxApp::OnExit();
+			GUIApplication::OnExit();
 		}
-		return HasExternalExitCode() ? GetExternalExitCode() : m_ExitCode;
 	}
 	void SystemApplication::OnError(LogEvent& event)
 	{
@@ -353,7 +350,7 @@ namespace Kortex
 		}
 		return true;
 	}
-	bool SystemApplication::OnExceptionInMainLoop()
+	bool SystemApplication::OnMainLoopException()
 	{
 		Utility::Log::LogInfo("SystemApplication::OnExceptionInMainLoop");
 
@@ -377,12 +374,12 @@ namespace Kortex
 		
 		OnException();
 	}
-	wxString SystemApplication::RethrowCatchAndGetExceptionInfo() const
+	kxf::String SystemApplication::RethrowCatchAndGetExceptionInfo() const
 	{
 		Utility::Log::LogError("Trying to extract message form current exception");
 
-		wxString message = "Unknown";
-		wxString type = "Unknown";
+		kxf::String message = "Unknown";
+		kxf::String type = "Unknown";
 		try
 		{
 			throw;
@@ -435,33 +432,9 @@ namespace Kortex
 		{
 		}
 
-		wxString value = KxString::Format("Unexpected exception has occurred: %1.\r\n\r\nThe program will terminate.\r\n\r\nException type: %2", message, type);
+		kxf::String value = kxf::String::Format("Unexpected exception has occurred: %1.\r\n\r\nThe program will terminate.\r\n\r\nException type: %2", message, type);
 		Utility::Log::LogFatalError(value);
 		return value;
-	}
-	
-	wxAppTraits* SystemApplication::CreateTraits()
-	{
-		m_AppTraits = new SystemApplicationTraits(*this);
-		return m_AppTraits;
-	}
-	void SystemApplication::ExitApp(int exitCode)
-	{
-		if (!KxApp::GetMainLoop())
-		{
-			// If there are no main loop then initialization process is not completed.
-			// In such case, we need to set exit code and call 'SystemApplication::OnExit' manually
-			// and then terminate the program without invoking wxWidgets. Because without main loop
-			// the 'wxExit' will call 'abort(-1)' anyway, but we need to exit with our own exit code.
-
-			m_ExitCode = exitCode;
-			std::exit(OnExit());
-		}
-		else
-		{
-			// Normal program termination process.
-			KxApp::ExitApp(exitCode);
-		}
 	}
 
 	bool SystemApplication::IsAnotherRunning() const
@@ -483,7 +456,7 @@ namespace Kortex
 		}
 		#undef IERegPath
 	}
-	bool SystemApplication::QueueDownloadToMainProcess(const wxString& link) const
+	bool SystemApplication::QueueDownloadToMainProcess(const kxf::String& link) const
 	{
 		if (KxProcess process(m_Application->GetExecutableName()); process.Find())
 		{
@@ -504,7 +477,7 @@ namespace Kortex
 		return false;
 	}
 
-	wxString SystemApplication::GetShortName() const
+	kxf::String SystemApplication::GetShortName() const
 	{
 		return SystemApplicationInfo::ShortName;
 	}
@@ -543,4 +516,8 @@ namespace Kortex
 	}
 }
 
-wxIMPLEMENT_APP(Kortex::SystemApplication);
+int main(int argc, char** argv)
+{
+	Kortex::SystemApplication app;
+	return kxf::ApplicationInitializer(app, argc, argv).Run();
+}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISamplingFunction.h"
 
 namespace Kortex
@@ -16,8 +16,8 @@ namespace Kortex::GameConfig::SamplingFunction
 			{
 				using Map = std::unordered_map<uint64_t, VirtualKeyInfo>;
 
-				wxString ID;
-				wxString Name;
+				kxf::String ID;
+				kxf::String Name;
 				uint64_t Code = 0;
 			};
 

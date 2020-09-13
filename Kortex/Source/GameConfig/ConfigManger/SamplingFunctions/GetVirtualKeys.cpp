@@ -13,21 +13,21 @@ namespace Kortex::GameConfig::SamplingFunction
 		m_KeyMap = &virtualKeys;
 
 		KxFileStream xmlStream(IApplication::GetInstance()->GetDataFolder() + wxS("\\VirtualKeys.xml"), KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting);
-		KxXMLDocument xml(xmlStream);
+		kxf::XMLDocument xml(xmlStream);
 
 		const ITranslator& translator = m_Manager.GetTranslator();
-		KxXMLNode node = xml.QueryElement("VirtualKeys");
+		kxf::XMLNode node = xml.QueryElement("VirtualKeys");
 		for (node = node.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			unsigned long keyCode = WXK_NONE;
-			wxString value = node.GetValue();
+			kxf::String value = node.GetValue();
 			if (value.Mid(2).ToCULong(&keyCode, 16) || value.ToCULong(&keyCode, 16))
 			{
-				wxString vkid = node.GetAttribute("VKID");
-				wxString name = node.GetAttribute("Name");
+				kxf::String vkid = node.GetAttribute("VKID");
+				kxf::String name = node.GetAttribute("Name");
 				if (name.IsEmpty())
 				{
-					name = KxString::Format("%1", keyCode);
+					name = kxf::String::Format("%1", keyCode);
 				}
 				auto label = translator.TryGetString(wxS("ConfigManager.VirtualKey.") + vkid);
 				if (label)

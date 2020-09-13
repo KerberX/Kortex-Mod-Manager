@@ -95,7 +95,7 @@ namespace Kortex::IPC
 			}
 			
 			template<>
-			void SetPayload(const wxString& payload) const
+			void SetPayload(const kxf::String& payload) const
 			{
 				GetSharedBuffer(payload.length() * sizeof(wxChar) + sizeof(wxChar)).WriteData(payload);
 			}
@@ -109,7 +109,7 @@ namespace Kortex::IPC
 				}
 				else
 				{
-					return IPC::Serializer::Deserialize<Args...>(GetPayload<wxString>());
+					return IPC::Serializer::Deserialize<Args...>(GetPayload<kxf::String>());
 				}
 			}
 			

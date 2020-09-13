@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "INIRefSource.h"
 
 namespace Kortex::GameConfig
@@ -10,7 +10,7 @@ namespace Kortex::GameConfig
 			KxINI m_INI;
 
 		public:
-			INISource(const wxString& iniText = {})
+			INISource(const kxf::String& iniText = {})
 				:INIRefSource(m_INI), m_INI(iniText)
 			{
 			}

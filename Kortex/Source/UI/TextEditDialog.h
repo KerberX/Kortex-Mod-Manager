@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxStdDialog.h>
 #include "WebView.h"
 class KxPanel;
@@ -27,7 +27,7 @@ namespace Kortex::UI
 			KxStyledTextBox* m_Editor = nullptr;
 			WebView m_Preview;
 			
-			wxString m_Text;
+			kxf::String m_Text;
 			bool m_IsTextModified = false;
 			bool m_EditMode = true;
 			bool m_Editable = true;
@@ -66,17 +66,17 @@ namespace Kortex::UI
 			void OnOK(wxNotifyEvent& event);
 			void OnSaveLoadFile(KxAuiToolBarEvent& event);
 
-			void ToggleTag(const wxString& tagStart, const wxString& tagEnd);
-			void ToggleTag(const wxString& tagName, const wxString& attributeName, const wxString& attributeValue)
+			void ToggleTag(const kxf::String& tagStart, const kxf::String& tagEnd);
+			void ToggleTag(const kxf::String& tagName, const kxf::String& attributeName, const kxf::String& attributeValue)
 			{
-				ToggleTag(wxString::Format(" %s=\"%s\"", attributeName, attributeValue), tagName);
+				ToggleTag(kxf::String::Format(" %s=\"%s\"", attributeName, attributeValue), tagName);
 			}
-			void ToggleTag(const wxString& tagName)
+			void ToggleTag(const kxf::String& tagName)
 			{
 				ToggleTag(tagName, tagName);
 			}
-			void LoadFromFile(const wxString& filePath);
-			void SaveToFile(const wxString& filePath) const;
+			void LoadFromFile(const kxf::String& filePath);
+			void SaveToFile(const kxf::String& filePath) const;
 			void DoShowPreview(bool show);
 
 		public:
@@ -87,8 +87,8 @@ namespace Kortex::UI
 			virtual int ShowModal() override;
 
 		public:
-			const wxString& GetText() const;
-			void SetText(const wxString& text);
+			const kxf::String& GetText() const;
+			void SetText(const kxf::String& text);
 			bool IsModified() const
 			{
 				return m_IsTextModified;

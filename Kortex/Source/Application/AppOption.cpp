@@ -7,22 +7,22 @@
 
 namespace Kortex
 {
-	wxString AppOption::DoGetValue(const wxString& defaultValue) const
+	std::optional<kxf::String> AppOption::DoGetValue() const
 	{
-		return m_ConfigNode.GetValue(defaultValue);
+		return m_ConfigNode.QueryValue();
 	}
-	bool AppOption::DoSetValue(const wxString& value, WriteEmpty writeEmpty, AsCDATA asCDATA)
+	bool AppOption::DoSetValue(const kxf::String& value, WriteEmpty writeEmpty, AsCDATA asCDATA)
 	{
 		const bool res = m_ConfigNode.SetValue(value, WriteEmpty::Never, asCDATA);
 		NotifyChange();
 		return res;
 	}
 
-	wxString AppOption::DoGetAttribute(const wxString& name, const wxString& defaultValue) const
+	std::optional<kxf::String> AppOption::DoGetAttribute(const kxf::String& name) const
 	{
-		return m_ConfigNode.GetAttribute(name, defaultValue);
+		return m_ConfigNode.QueryAttribute(name);
 	}
-	bool AppOption::DoSetAttribute(const wxString& name, const wxString& value, WriteEmpty writeEmpty)
+	bool AppOption::DoSetAttribute(const kxf::String& name, const kxf::String& value, WriteEmpty writeEmpty)
 	{
 		const bool res = m_ConfigNode.SetAttribute(name, value, WriteEmpty::Never);
 		NotifyChange();
@@ -57,28 +57,28 @@ namespace Kortex
 		m_Profile = IGameProfile::GetActive();
 	}
 
-	AppOption::AppOption(const AppOption& other, const KxXMLNode& node)
+	AppOption::AppOption(const AppOption& other, const kxf::XMLNode& node)
 	{
 		*this = other;
 		m_ConfigNode = node;
 	}
 
-	bool AppOption::IsOK() const
+	bool AppOption::IsNull() const
 	{
-		return m_ConfigNode.IsOK() && m_Disposition != Disposition::None;
+		return m_ConfigNode.IsNull() || m_Disposition == Disposition::None;
 	}
-	AppOption AppOption::QueryElement(const wxString& XPath) const
+	AppOption AppOption::QueryElement(const kxf::String& XPath) const
 	{
-		KxXMLNode node = m_ConfigNode.QueryElement(XPath);
+		kxf::XMLNode node = m_ConfigNode.QueryElement(XPath);
 		if (node.IsOK())
 		{
 			return AppOption(*this, node);
 		}
 		return {};
 	}
-	AppOption AppOption::ConstructElement(const wxString& XPath)
+	AppOption AppOption::ConstructElement(const kxf::String& XPath)
 	{
-		if (KxXMLNode node = m_ConfigNode.ConstructElement(XPath))
+		if (kxf::XMLNode node = m_ConfigNode.ConstructElement(XPath))
 		{
 			return AppOption(*this, node);
 		}

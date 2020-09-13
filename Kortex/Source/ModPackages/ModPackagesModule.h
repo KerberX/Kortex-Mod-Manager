@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
 #include <KxFramework/KxSingleton.h>
 
@@ -23,7 +23,7 @@ namespace Kortex
 			std::unique_ptr<IPackageManager> m_PackageManager;
 
 		protected:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 			void OnInit() override;
 			void OnExit() override;
 

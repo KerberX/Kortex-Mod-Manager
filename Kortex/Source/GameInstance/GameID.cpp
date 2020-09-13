@@ -5,11 +5,11 @@
 
 namespace Kortex
 {
-	bool GameID::TestGameID(const wxString& id) const
+	bool GameID::TestGameID(const kxf::String& id) const
 	{
 		return !id.IsEmpty();
 	}
-	IGameInstance* GameID::GetInstanceByID(const wxString& id) const
+	IGameInstance* GameID::GetInstanceByID(const kxf::String& id) const
 	{
 		if (TestGameID(id))
 		{
@@ -23,7 +23,7 @@ namespace Kortex
 		return nullptr;
 	}
 
-	GameID::GameID(const wxString& id)
+	GameID::GameID(const kxf::String& id)
 		:m_ID(TestGameID(id) ? id : wxEmptyString)
 	{
 	}
@@ -36,7 +36,7 @@ namespace Kortex
 	{
 		return TestGameID(m_ID);
 	}
-	wxString GameID::ToString() const
+	kxf::String GameID::ToString() const
 	{
 		return IsOK() ? m_ID : wxEmptyString;
 	}
@@ -45,7 +45,7 @@ namespace Kortex
 		return GetInstanceByID(m_ID);
 	}
 
-	GameID& GameID::operator=(const wxString& id)
+	GameID& GameID::operator=(const kxf::String& id)
 	{
 		m_ID = TestGameID(id) ? id : wxEmptyString;
 		return *this;

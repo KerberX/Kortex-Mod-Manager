@@ -47,8 +47,8 @@ namespace Kortex::PackageDesigner
 		wxWindowUpdateLocker lock(this);
 
 		/* Basic info */
-		const wxString id = projectInfo.GetProject().GetModID();
-		const wxString name = projectInfo.GetName();
+		const kxf::String id = projectInfo.GetProject().GetModID();
+		const kxf::String name = projectInfo.GetName();
 
 		if (id != name)
 		{
@@ -113,9 +113,9 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(m_Pane, KTr("PackageCreator.PageInfo.BasicInfo"));
-		m_PaneSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_PaneSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
-		wxFlexGridSizer* basicInfoSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, 0);
+		wxFlexGridSizer* basicInfoSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
 		basicInfoSizer->AddGrowableCol(1, 1);
 		m_PaneSizer->Add(basicInfoSizer, 0, wxEXPAND|wxLEFT, ms_LeftMargin);
 
@@ -124,7 +124,7 @@ namespace Kortex::PackageDesigner
 		AddControlsRow2(m_Pane, basicInfoSizer, KTr("PackageCreator.PageInfo.BasicInfo.Name"), nameIDSizer, 2);
 
 		m_NameInput = CreateInputField(m_Pane);
-		nameIDSizer->Add(m_NameInput, 1, wxEXPAND|wxRIGHT, 6 * KLC_HORIZONTAL_SPACING);
+		nameIDSizer->Add(m_NameInput, 1, wxEXPAND|wxRIGHT, 6 * LayoutConstants::HorizontalSpacing);
 
 		m_IDInput = AddControlsRow(nameIDSizer, KTr("PackageCreator.PageInfo.BasicInfo.ID"), CreateInputField(m_Pane));
 		m_IDInput->SetMaxSize(wxSize(150, -1));
@@ -147,7 +147,7 @@ namespace Kortex::PackageDesigner
 		KxCollapsiblePane* pCollapsePane = new KxCollapsiblePane(m_Pane, KxID_NONE, KTr("PackageCreator.PageInfo.BasicInfo.AdditionalData"));
 		collapsePaneContainerSizer->Add(pCollapsePane, 0, wxEXPAND);
 
-		wxFlexGridSizer* collapsePaneSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, 0);
+		wxFlexGridSizer* collapsePaneSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
 		collapsePaneSizer->AddGrowableCol(1, 1);
 		collapsePaneSizer->SetSizeHints(pCollapsePane->GetPane());
 		pCollapsePane->GetPane()->SetSizer(collapsePaneSizer);
@@ -219,9 +219,9 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(m_Pane, KTr("PackageCreator.PageInfo.Sites"));
-		m_PaneSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_PaneSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
-		wxFlexGridSizer* sitesSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, 0);
+		wxFlexGridSizer* sitesSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
 		sitesSizer->AddGrowableCol(1, 1);
 		m_PaneSizer->Add(sitesSizer, 0, wxEXPAND|wxLEFT, ms_LeftMargin);
 
@@ -273,9 +273,9 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(m_Pane, KTr("PackageCreator.PageInfo.Config"));
-		m_PaneSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_PaneSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
-		wxFlexGridSizer* configSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, 0);
+		wxFlexGridSizer* configSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
 		configSizer->AddGrowableCol(1, 1);
 		m_PaneSizer->Add(configSizer, 0, wxEXPAND|wxLEFT, ms_LeftMargin);
 
@@ -286,13 +286,13 @@ namespace Kortex::PackageDesigner
 		KxButton* installBackageFileButton = new KxButton(m_Pane, KxID_NONE, KTr(KxID_SELECT_FILE));
 
 		pathSizer->Add(m_InstallBackageFileInput, 1, wxEXPAND);
-		pathSizer->Add(installBackageFileButton, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING_SMALL);
+		pathSizer->Add(installBackageFileButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
 
 		// Compression level
 		m_CompressionLevel = AddControlsRow(configSizer, KTr("PackageCreator.PageInfo.Config.CompressionLevel"), new KxComboBox(m_Pane, KxID_NONE));
-		auto AddCompressionLevel = [this](const wxString& id, int level)
+		auto AddCompressionLevel = [this](const kxf::String& id, int level)
 		{
-			m_CompressionLevel->Append(wxString::Format("%d - %s", level, KTr(id)), reinterpret_cast<void*>(level));
+			m_CompressionLevel->Append(kxf::String::Format("%d - %s", level, KTr(id)), reinterpret_cast<void*>(level));
 		};
 		AddCompressionLevel("PackageCreator.PageInfo.Config.CompressionLevel.None", 0);
 		AddCompressionLevel("PackageCreator.PageInfo.Config.CompressionLevel.Fastest", 1);
@@ -307,7 +307,7 @@ namespace Kortex::PackageDesigner
 		KxCollapsiblePane* collapsePane = new KxCollapsiblePane(m_Pane, KxID_NONE, KTr("PackageCreator.PageInfo.Config.CompressionAdvanced"));
 		collapsePaneContainerSizer->Add(collapsePane, 0, wxEXPAND);
 
-		wxFlexGridSizer* collapsePaneSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, 0);
+		wxFlexGridSizer* collapsePaneSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
 		collapsePaneSizer->AddGrowableCol(1, 1);
 		collapsePaneSizer->SetSizeHints(collapsePane->GetPane());
 		collapsePane->GetPane()->SetSizer(collapsePaneSizer);
@@ -339,8 +339,8 @@ namespace Kortex::PackageDesigner
 		});
 		installBackageFileButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 		{
-			wxString name;
-			wxString folder = GetProjectConfig().GetInstallPackageFile().BeforeLast('\\', &name);
+			kxf::String name;
+			kxf::String folder = GetProjectConfig().GetInstallPackageFile().BeforeLast('\\', &name);
 			name = name.BeforeLast('.');
 			if (name.IsEmpty())
 			{
@@ -360,7 +360,7 @@ namespace Kortex::PackageDesigner
 
 			if (dialog.ShowModal() == KxID_OK)
 			{
-				wxString path = dialog.GetResult();
+				kxf::String path = dialog.GetResult();
 				GetProjectConfig().SetInstallPackageFile(path);
 				m_InstallBackageFileInput->SetValue(path);
 
@@ -410,10 +410,10 @@ namespace Kortex::PackageDesigner
 		const int memoryPerThread = 32;
 		int64_t memoryMB = std::pow(2, nPower);
 
-		wxString out;
+		kxf::String out;
 		int64_t requiredMemoryMB = 0;
 		bool isLessThan = false;
-		const wxString& method = GetProjectConfig().GetCompressionMethod();
+		const kxf::String& method = GetProjectConfig().GetCompressionMethod();
 		if (method == "LZMA" || method == "LZMA2")
 		{
 			if (nPower < 3)
@@ -481,11 +481,11 @@ namespace Kortex::PackageDesigner
 	{
 	}
 
-	wxString PageInfo::GetID() const
+	kxf::String PageInfo::GetID() const
 	{
 		return "KPackageCreator.Info";
 	}
-	wxString PageInfo::GetPageName() const
+	kxf::String PageInfo::GetPageName() const
 	{
 		return KTr("PackageCreator.PageInfo.Name");
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IGamePlugin.h"
 #include <KxFramework/KxFileItem.h>
 
@@ -13,7 +13,7 @@ namespace Kortex::PluginManager
 			bool m_IsActive = false;
 
 		protected:
-			void Create(const wxString& fullPath)
+			void Create(const kxf::String& fullPath)
 			{
 				m_FileItem.SetFullPath(fullPath);
 				m_FileItem.UpdateInfo();
@@ -21,7 +21,7 @@ namespace Kortex::PluginManager
 
 		public:
 			BaseGamePlugin() = default;
-			BaseGamePlugin(const wxString& fullPath)
+			BaseGamePlugin(const kxf::String& fullPath)
 				:m_FileItem(fullPath)
 			{
 			}
@@ -32,11 +32,11 @@ namespace Kortex::PluginManager
 				return m_FileItem.IsOK();
 			}
 
-			wxString GetName() const override
+			kxf::String GetName() const override
 			{
 				return m_FileItem.GetName();
 			}
-			wxString GetFullPath() const override
+			kxf::String GetFullPath() const override
 			{
 				return m_FileItem.GetFullPath();
 			}

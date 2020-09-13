@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISource.h"
 #include <KxFramework/KxXML.h>
 
@@ -8,21 +8,21 @@ namespace Kortex::GameConfig
 	class XMLRefSource: public ISource
 	{
 		private:
-			KxXMLDocument& m_XML;
+			kxf::XMLDocument& m_XML;
 			bool m_IsOpened = false;
 
 		protected:
-			const KxXMLDocument& GetXML() const
+			const kxf::XMLDocument& GetXML() const
 			{
 				return m_XML;
 			}
-			KxXMLDocument& GetXML()
+			kxf::XMLDocument& GetXML()
 			{
 				return m_XML;
 			}
 
 		public:
-			XMLRefSource(KxXMLDocument& xml)
+			XMLRefSource(kxf::XMLDocument& xml)
 				:m_XML(xml)
 			{
 			}
@@ -33,7 +33,7 @@ namespace Kortex::GameConfig
 			{
 				return SourceFormat::XML;
 			}
-			wxString GetPathDescription() const override
+			kxf::String GetPathDescription() const override
 			{
 				return {};
 			}

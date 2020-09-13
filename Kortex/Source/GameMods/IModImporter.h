@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameInstance/GameID.h"
 
 namespace Kortex::Utility
@@ -23,13 +23,13 @@ namespace Kortex
 			static void PerformImport(Type type, wxWindow* window);
 
 		private:
-			wxString m_SelectedProfile;
+			kxf::String m_SelectedProfile;
 			bool m_ShouldSkipExistingMods = false;
 
 		protected:
-			wxString GetProfileMatchingMessage(KxIconType* icon = nullptr) const;
+			kxf::String GetProfileMatchingMessage(KxIconType* icon = nullptr) const;
 		
-			const wxString& GetSelectedProfile() const
+			const kxf::String& GetSelectedProfile() const
 			{
 				return m_SelectedProfile;
 			}
@@ -47,7 +47,7 @@ namespace Kortex
 
 		public:
 			// Sets mod manager data directory. For MO this is the instance folder.
-			virtual void SetDirectory(const wxString& path) = 0;
+			virtual void SetDirectory(const kxf::String& path) = 0;
 
 			// Implement actual import here.
 			virtual void Import(Utility::OperationWithProgressDialogBase* context) = 0;
@@ -60,16 +60,16 @@ namespace Kortex
 			virtual GameID GetTargetGameID() const = 0;
 
 			// Return mod manager name.
-			virtual wxString GetModManagerName() const = 0;
+			virtual kxf::String GetModManagerName() const = 0;
 
 			// Any additional info.
-			virtual wxString GetAdditionalInfo() const
+			virtual kxf::String GetAdditionalInfo() const
 			{
 				return wxEmptyString;
 			}
 
 			// Get currently used profile or, if the mod manager doesn't support this, return empty string.
-			virtual wxString GetCurrentProfile() const
+			virtual kxf::String GetCurrentProfile() const
 			{
 				return wxEmptyString;
 			}

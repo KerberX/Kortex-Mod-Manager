@@ -39,11 +39,11 @@ namespace Kortex::VirtualFileSystem
 				return reinterpret_cast<IPC::FSHandle>(static_cast<const TBase*>(this));
 			}
 
-			wxString GetMountPointLocation() const
+			kxf::String GetMountPointLocation() const
 			{
-				return ToWxString(TBase::GetMountPoint());
+				return Tokxf::String(TBase::GetMountPoint());
 			}
-			void SetMountPointLocation(const wxString& mountPoint)
+			void SetMountPointLocation(const kxf::String& mountPoint)
 			{
 				TBase::SetMountPoint(ToKxDynamicStringRef(mountPoint));
 			}

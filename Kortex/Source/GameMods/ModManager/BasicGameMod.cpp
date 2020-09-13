@@ -18,7 +18,7 @@ namespace
 {
 	using namespace Kortex;
 
-	template<class T> void LoadOldSite(ModSourceStore& store, KxXMLNode& node, const wxString& attributeName, const wxString& sourceName)
+	template<class T> void LoadOldSite(ModSourceStore& store, kxf::XMLNode& node, const kxf::String& attributeName, const kxf::String& sourceName)
 	{
 		ModID modID = node.GetAttributeInt(attributeName, ModID::GetInvalidValue());
 		if (modID.HasValue())
@@ -43,14 +43,14 @@ namespace
 			}
 		}
 	}
-	void LoadOldSites(ModSourceStore& store, KxXMLNode& sitesNode)
+	void LoadOldSites(ModSourceStore& store, kxf::XMLNode& sitesNode)
 	{
 		LoadOldSite<NetworkManager::NexusModNetwork>(store, sitesNode, "NexusID", "Nexus");
 		LoadOldSite<NetworkManager::LoversLabModNetwork>(store, sitesNode, "LoversLabID", "LoversLab");
 		LoadOldSite<NetworkManager::TESALLModNetwork>(store, sitesNode, "TESALLID", "TESALL");
 
 		// Load any "free" sites
-		for (KxXMLNode node = sitesNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = sitesNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			store.TryAddItem(ModSourceItem(node.GetAttribute("Label"), node.GetValue()));
 		}
@@ -69,17 +69,17 @@ namespace Kortex::ModManager
 		return !m_ID.IsEmpty() && !m_Signature.IsEmpty();
 	}
 
-	bool BasicGameMod::LoadUsingSignature(const wxString& signature)
+	bool BasicGameMod::LoadUsingSignature(const kxf::String& signature)
 	{
 		m_Signature = signature;
 
 		if (!m_Signature.IsEmpty())
 		{
 			KxFileStream xmlStream(GetInfoFile(), KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting);
-			KxXMLDocument xml(xmlStream);
+			kxf::XMLDocument xml(xmlStream);
 			if (xml.IsOK())
 			{
-				KxXMLNode rootNode = xml.GetFirstChildElement("Mod");
+				kxf::XMLNode rootNode = xml.GetFirstChildElement("Mod");
 				if (m_Signature == rootNode.GetAttribute("Signature"))
 				{
 					m_ID = rootNode.GetFirstChildElement("ID").GetValue();
@@ -107,7 +107,7 @@ namespace Kortex::ModManager
 					m_Author = rootNode.GetFirstChildElement("Author").GetValue();
 
 					// Color
-					KxXMLNode colorNode = rootNode.GetFirstChildElement("Color");
+					kxf::XMLNode colorNode = rootNode.GetFirstChildElement("Color");
 					if (colorNode.IsOK())
 					{
 						int r = colorNode.GetAttributeInt("R", -1);
@@ -121,12 +121,12 @@ namespace Kortex::ModManager
 					}
 
 					// Tags
-					KxXMLNode tagsNode = rootNode.GetFirstChildElement("Tags");
+					kxf::XMLNode tagsNode = rootNode.GetFirstChildElement("Tags");
 
 					m_TagStore.Clear();
-					for (KxXMLNode node = tagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+					for (kxf::XMLNode node = tagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 					{
-						wxString tagID = node.GetValue();
+						kxf::String tagID = node.GetValue();
 						m_TagStore.AddTag(tagID);
 						if (node.GetAttributeBool("Primary"))
 						{
@@ -136,33 +136,33 @@ namespace Kortex::ModManager
 
 					// TODO: remove on v2.0 release
 					bool save = false;
-					if (wxString priorityGroupTag = tagsNode.GetAttribute("PriorityGroup"); !priorityGroupTag.IsEmpty())
+					if (kxf::String priorityGroupTag = tagsNode.GetAttribute("PriorityGroup"); !priorityGroupTag.IsEmpty())
 					{
 						m_TagStore.SetPrimaryTag(priorityGroupTag);
 						save = true;
 					}
 
 					// Sources
-					if (KxXMLNode node = rootNode.GetFirstChildElement("Sites"); node.IsOK())
+					if (kxf::XMLNode node = rootNode.GetFirstChildElement("Sites"); node.IsOK())
 					{
 						LoadOldSites(m_ModSourceStore, node);
 					}
-					else if (KxXMLNode node = rootNode.GetFirstChildElement("Provider"); node.IsOK())
+					else if (kxf::XMLNode node = rootNode.GetFirstChildElement("Provider"); node.IsOK())
 					{
 						m_ModSourceStore.LoadAssign(node);
 					}
-					else if (KxXMLNode node = rootNode.GetFirstChildElement("Source"); node.IsOK())
+					else if (kxf::XMLNode node = rootNode.GetFirstChildElement("Source"); node.IsOK())
 					{
 						m_ModSourceStore.LoadAssign(node);
 					}
 
 					// Time
-					KxXMLNode timeNode = rootNode.GetFirstChildElement("Time");
+					kxf::XMLNode timeNode = rootNode.GetFirstChildElement("Time");
 					if (timeNode.IsOK())
 					{
-						auto ParseTime = [this, &timeNode](const wxString& name, wxDateTime& value)
+						auto ParseTime = [this, &timeNode](const kxf::String& name, wxDateTime& value)
 						{
-							KxXMLNode node = timeNode.GetFirstChildElement(name);
+							kxf::XMLNode node = timeNode.GetFirstChildElement(name);
 							if (node.IsOK())
 							{
 								value.ParseISOCombined(node.GetValue());
@@ -176,7 +176,7 @@ namespace Kortex::ModManager
 					m_PackageFile = rootNode.GetFirstChildElement("InstallPackage").GetValue();
 
 					// Linked mod config
-					KxXMLNode linkedModNode = rootNode.GetFirstChildElement("LinkedMod");
+					kxf::XMLNode linkedModNode = rootNode.GetFirstChildElement("LinkedMod");
 					if (linkedModNode.IsOK())
 					{
 						m_LinkLocation = linkedModNode.GetAttribute("FolderPath");
@@ -192,7 +192,7 @@ namespace Kortex::ModManager
 		}
 		return false;
 	}
-	bool BasicGameMod::LoadUsingID(const wxString& id)
+	bool BasicGameMod::LoadUsingID(const kxf::String& id)
 	{
 		m_ID = id;
 		m_Signature = GetSignatureFromID(id);
@@ -230,22 +230,22 @@ namespace Kortex::ModManager
 		KxFileStream stream(GetInfoFile(), KxFileStream::Access::Write, KxFileStream::Disposition::CreateAlways);
 		if (stream.IsOk())
 		{
-			KxXMLDocument xml;
-			auto SaveValueArray = [&xml](KxXMLNode& node, const KxStringVector& array, const wxString& name)
+			kxf::XMLDocument xml;
+			auto SaveValueArray = [&xml](kxf::XMLNode& node, const KxStringVector& array, const kxf::String& name)
 			{
-				KxXMLNode arrayNode = node.NewElement(name);
-				for (const wxString& value: array)
+				kxf::XMLNode arrayNode = node.NewElement(name);
+				for (const kxf::String& value: array)
 				{
 					arrayNode.NewElement("Entry").SetValue(value);
 				}
 				return arrayNode;
 			};
-			auto SaveLabeledValueArray = [&xml](KxXMLNode& node, const Utility::LabeledValue::Vector& array, const wxString& name)
+			auto SaveLabeledValueArray = [&xml](kxf::XMLNode& node, const Utility::LabeledValue::Vector& array, const kxf::String& name)
 			{
-				KxXMLNode arrayNode = node.NewElement(name);
+				kxf::XMLNode arrayNode = node.NewElement(name);
 				for (const Utility::LabeledValue& value: array)
 				{
-					KxXMLNode elementNode = arrayNode.NewElement("Entry");
+					kxf::XMLNode elementNode = arrayNode.NewElement("Entry");
 					elementNode.SetValue(value.GetValue());
 					if (value.HasLabel())
 					{
@@ -256,7 +256,7 @@ namespace Kortex::ModManager
 			};
 
 			// Signature
-			KxXMLNode rootNode = xml.NewElement("Mod");
+			kxf::XMLNode rootNode = xml.NewElement("Mod");
 			rootNode.SetAttribute("Signature", m_Signature);
 
 			// Generic info
@@ -268,7 +268,7 @@ namespace Kortex::ModManager
 			// Color
 			if (m_Color.IsOk())
 			{
-				KxXMLNode colorNode = rootNode.NewElement("Color");
+				kxf::XMLNode colorNode = rootNode.NewElement("Color");
 				colorNode.SetAttribute("R", m_Color.GetR());
 				colorNode.SetAttribute("G", m_Color.GetG());
 				colorNode.SetAttribute("B", m_Color.GetB());
@@ -276,12 +276,12 @@ namespace Kortex::ModManager
 			}
 
 			// Tags
-			KxXMLNode tagsNode = rootNode.NewElement("Tags");
+			kxf::XMLNode tagsNode = rootNode.NewElement("Tags");
 
 			const IModTag* primaryTag = m_TagStore.GetPrimaryTag();
 			m_TagStore.Visit([&tagsNode, primaryTagID = primaryTag ? primaryTag->GetID() : wxEmptyString](const IModTag& tag)
 			{
-				KxXMLNode node = tagsNode.NewElement("Item");
+				kxf::XMLNode node = tagsNode.NewElement("Item");
 				node.SetValue(tag.GetID());
 				if (primaryTagID == tag.GetID())
 				{
@@ -293,13 +293,13 @@ namespace Kortex::ModManager
 			// Source
 			if (!m_ModSourceStore.IsEmpty())
 			{
-				KxXMLNode providersNode = rootNode.NewElement("Source");
+				kxf::XMLNode providersNode = rootNode.NewElement("Source");
 				m_ModSourceStore.Save(providersNode);
 			}
 
 			// Time
-			KxXMLNode timeNode = rootNode.NewElement("Time");
-			auto SaveTime = [this, &timeNode](const wxString& name, const wxDateTime& value)
+			kxf::XMLNode timeNode = rootNode.NewElement("Time");
+			auto SaveTime = [this, &timeNode](const kxf::String& name, const wxDateTime& value)
 			{
 				if (value.IsValid())
 				{
@@ -323,7 +323,7 @@ namespace Kortex::ModManager
 			// Linked mod config
 			if (IsLinkedMod())
 			{
-				KxXMLNode tLinkedModNode = rootNode.NewElement("LinkedMod");
+				kxf::XMLNode tLinkedModNode = rootNode.NewElement("LinkedMod");
 				tLinkedModNode.SetAttribute("FolderPath", m_LinkLocation);
 			}
 
@@ -332,7 +332,7 @@ namespace Kortex::ModManager
 		return false;
 	}
 	
-	wxString BasicGameMod::GetDescription() const
+	kxf::String BasicGameMod::GetDescription() const
 	{
 		if (m_Description.IsEmpty() && !IsDescriptionChanged())
 		{
@@ -344,7 +344,7 @@ namespace Kortex::ModManager
 		}
 		return m_Description;
 	}
-	void BasicGameMod::SetDescription(const wxString& value)
+	void BasicGameMod::SetDescription(const kxf::String& value)
 	{
 		m_Description = value;
 		m_IsDescriptionChanged = true;
@@ -362,7 +362,7 @@ namespace Kortex::ModManager
 	{
 		ClearFileTree();
 
-		auto BuildTreeBranch = [&](FileTreeNode::RefVector& directories, const wxString& path, FileTreeNode& treeNode, FileTreeNode* parentNode)
+		auto BuildTreeBranch = [&](FileTreeNode::RefVector& directories, const kxf::String& path, FileTreeNode& treeNode, FileTreeNode* parentNode)
 		{
 			KxFileFinder finder(path, wxS("*"));
 			for (KxFileItem item = finder.FindNext(); item.IsOK(); item = finder.FindNext())
@@ -402,7 +402,7 @@ namespace Kortex::ModManager
 		}
 	}
 
-	wxString BasicGameMod::GetModFilesDir() const
+	kxf::String BasicGameMod::GetModFilesDir() const
 	{
 		if (IsLinkedMod())
 		{

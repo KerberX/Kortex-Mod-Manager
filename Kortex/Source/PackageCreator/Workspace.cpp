@@ -144,7 +144,7 @@ namespace Kortex::PackageDesigner
 		// Layout
 		m_SplitterLeftRight->SplitVertically(&m_PagesContainer.GetListWindow(), m_RightPane);
 		rightPaneSizer->Add(m_MenuBar, 0, wxEXPAND);
-		rightPaneSizer->Add(&m_PagesContainer.GetWindow(), 1, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING);
+		rightPaneSizer->Add(&m_PagesContainer.GetWindow(), 1, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing);
 
 		// Create pages
 		m_PageInfo = &m_PagesContainer.MakeWorkspace<PageInfo>(*this, m_WorkspaceDocument);
@@ -216,27 +216,27 @@ namespace Kortex::PackageDesigner
 		KxMenuItem* item = nullptr;
 
 		item = menu->Add(new KxMenuItem(KxID_NEW, KTr("PackageCreator.MenuProject.New")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentNew));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentNew));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnNewProject, this);
 
 		item = menu->Add(new KxMenuItem(KxID_OPEN, KTr("PackageCreator.MenuProject.Open")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Document));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Document));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnOpenProject, this);
 		menu->AddSeparator();
 
 		item = menu->Add(new KxMenuItem(KxID_SAVE, KTr("PackageCreator.MenuProject.Save")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Disk));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Disk));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnSaveProject, this);
 
 		item = menu->Add(new KxMenuItem(KxID_SAVEAS, KTr("PackageCreator.MenuProject.SaveAs")));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnSaveProject, this);
 
 		item = menu->Add(new KxMenuItem(KxID_HIGHEST + ToInt(PackageProject::PackageType::FOModXML), KTr("PackageCreator.MenuProject.SaveAsFOMod")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentExport));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentExport));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnExportProject, this);
 
 		item = menu->Add(new KxMenuItem(KxID_HIGHEST + ToInt(PackageProject::PackageType::Native), KTr("PackageCreator.MenuProject.SaveAsKMP")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentExport));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentExport));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnExportProject, this);
 	}
 	void Workspace::CreateImportMenu()
@@ -247,11 +247,11 @@ namespace Kortex::PackageDesigner
 		KxMenuItem* item = nullptr;
 
 		item = menu->Add(new KxMenuItem(KxID_HIGHEST + 0, KTr("PackageCreator.MenuImport.FOModXML")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentImport));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentImport));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnImportProject, this);
 
 		item = menu->Add(new KxMenuItem(KxID_HIGHEST + 1, KTr("PackageCreator.MenuImport.Package")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentImport));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentImport));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnImportProject, this);
 	}
 	void Workspace::CreateBuildMenu()
@@ -262,7 +262,7 @@ namespace Kortex::PackageDesigner
 		KxMenuItem* item = nullptr;
 
 		item = menu->Add(new KxMenuItem(KTr("PackageCreator.MenuBuild.Build")));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Compile));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Compile));
 		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnBuildProject, this);
 
 		item = menu->Add(new KxMenuItem(KTr("PackageCreator.MenuBuild.Preview")));
@@ -341,8 +341,8 @@ namespace Kortex::PackageDesigner
 					FOModImportExportDialog dialog(this, false);
 					if (dialog.ShowModal() == KxID_OK)
 					{
-						wxString info = KxTextFile::ReadToString(dialog.GetInfoFile());
-						wxString sModuleConfig = KxTextFile::ReadToString(dialog.GetModuleConfigFile());
+						kxf::String info = KxTextFile::ReadToString(dialog.GetInfoFile());
+						kxf::String sModuleConfig = KxTextFile::ReadToString(dialog.GetModuleConfigFile());
 
 						PackageProject::FOModSerializer serailizer(info, sModuleConfig, dialog.GetProjectFolder());
 						m_WorkspaceDocument.ImportProject(serailizer);
@@ -415,11 +415,11 @@ namespace Kortex::PackageDesigner
 		m_WorkspaceDocument.BuildProject(true);
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "PackageDesigner::Workspace";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("PackageManager.CreatorName");
 	}
@@ -432,7 +432,7 @@ namespace Kortex::PackageDesigner
 	{
 		return static_cast<PageBase*>(m_PagesContainer.GetCurrentWorkspace());
 	}
-	ModPackageProject& Workspace::ImportProjectFromPackage(const wxString& path)
+	ModPackageProject& Workspace::ImportProjectFromPackage(const kxf::String& path)
 	{
 		EnsureCreated();
 

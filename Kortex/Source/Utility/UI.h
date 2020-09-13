@@ -1,19 +1,19 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "LabeledValue.h"
 class KxAuiToolBar;
 class KxURI;
 
 namespace Kortex
 {
-	class ResourceID;
+	class kxf::ResourceID;
 }
 
 namespace Kortex::Utility::UI
 {
 	KxAuiToolBarItem* CreateToolBarButton(KxAuiToolBar* toolBar,
-										  const wxString& label,
-										  const ResourceID& imageID = {},
+										  const kxf::String& label,
+										  const kxf::ResourceID& imageID = {},
 										  wxItemKind kind = wxITEM_NORMAL,
 										  int index = -1);
 
@@ -23,8 +23,8 @@ namespace Kortex::Utility::UI
 
 	// Creates placeholder for KxHTMLWindow to be showed when actual content is unavailable.
 	// Window is required if you want correct text color.
-	wxString MakeHTMLWindowPlaceholder(const wxString& text, const wxWindow* window = nullptr);
+	kxf::String MakeHTMLWindowPlaceholder(const kxf::String& text, const wxWindow* window = nullptr);
 
-	bool SetSearchMask(wxString& storage, const wxString& newMask);
-	bool CheckSearchMask(const wxString& mask, const wxString& string);
+	bool SetSearchMask(kxf::String& storage, const kxf::String& newMask);
+	bool CheckSearchMask(const kxf::String& mask, const kxf::String& string);
 }

@@ -93,7 +93,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			{
 				case ColumnID::ID:
 				{
-					value = KxDataViewBitmapTextValue(item->GetID(), ImageProvider::GetBitmap(item->QueryInterface<PackageProject::FolderItem>() ? ImageResourceID::Folder : ImageResourceID::Document));
+					value = KxDataViewBitmapTextValue(item->GetID(), ImageProvider::GetBitmap(item->QueryInterface<PackageProject::FolderItem>() ? Imagekxf::ResourceID::Folder : Imagekxf::ResourceID::Document));
 					break;
 				}
 				case ColumnID::Source:
@@ -123,7 +123,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			{
 				case ColumnID::ID:
 				{
-					wxString newID = value.As<wxString>();
+					kxf::String newID = value.As<kxf::String>();
 					if (newID != entry->GetID())
 					{
 						if (!PackageProject::FileDataSection::IsFileIDValid(newID))
@@ -146,13 +146,13 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 				}
 				case ColumnID::Source:
 				{
-					entry->SetSource(value.As<wxString>());
+					entry->SetSource(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
 				case ColumnID::Destination:
 				{
-					entry->SetDestination(value.As<wxString>());
+					entry->SetDestination(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
@@ -167,14 +167,14 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		return false;
 	}
 	
-	void MainListModel::AddEverythingFromPath(const wxString& filePath, PackageProject::FolderItem& folderItem, Utility::OperationWithProgressBase& context)
+	void MainListModel::AddEverythingFromPath(const kxf::String& filePath, PackageProject::FolderItem& folderItem, Utility::OperationWithProgressBase& context)
 	{
 		KxEvtFile source(filePath);
 		context.LinkHandler(&source, KxEVT_FILEOP_SEARCH);
 
-		for (const wxString& path: source.Find(KxFile::NullFilter, KxFS_FILE, true))
+		for (const kxf::String& path: source.Find(KxFile::NullFilter, KxFS_FILE, true))
 		{
-			wxString target = path;
+			kxf::String target = path;
 			target.Remove(0, filePath.Length());
 			if (!target.IsEmpty() && target[0] == wxS('\\'))
 			{
@@ -186,7 +186,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			entry.SetDestination(target);
 		}
 	}
-	bool MainListModel::DoTrackID(const wxString& trackedID, const wxString& newID, bool remove)
+	bool MainListModel::DoTrackID(const kxf::String& trackedID, const kxf::String& newID, bool remove)
 	{
 		// Required files
 		KxStringVector& tRequiredFiles = GetProject().GetComponents().GetRequiredFileData();
@@ -281,20 +281,20 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddFile, KTr("PackageCreator.AddFile")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentPlus));
 		}
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddFolder, KTr("PackageCreator.AddFolder")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
 		}
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddMultipleFolders, KTr("PackageCreator.AddMultipleFolders")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FoldersPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FoldersPlus));
 		}
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::ReplaceFolderContent, KTr("PackageCreator.PageFileData.ReplaceFolderContent")));
 			item->Enable(fileItem && fileItem->QueryInterface<PackageProject::FolderItem>());
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderArrow));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderArrow));
 		}
 		menu.AddSeparator();
 		{
@@ -384,8 +384,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			wxString source = dialog.GetResult();
-			wxString target = source.AfterLast('\\');
+			kxf::String source = dialog.GetResult();
+			kxf::String target = source.AfterLast('\\');
 			bool freeID = m_FileData->IsUnusedID(target);
 	
 			PackageProject::FileItem& entry = m_FileData->AddFile(std::make_unique<PackageProject::FileItem>());
@@ -409,8 +409,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN_FOLDER);
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			wxString source = dialog.GetResult();
-			wxString id = source.AfterLast('\\');
+			kxf::String source = dialog.GetResult();
+			kxf::String id = source.AfterLast('\\');
 			bool freeID = m_FileData->IsUnusedID(id);
 	
 			PackageProject::FolderItem& folderItem = m_FileData->AddFolder(std::make_unique<PackageProject::FolderItem>());
@@ -443,14 +443,14 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN_FOLDER);
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			wxString source = dialog.GetResult();
+			kxf::String source = dialog.GetResult();
 			auto operation = new Utility::OperationWithProgressDialog<KxFileOperationEvent>(true, GetView());
 			operation->OnRun([this, operation, source]()
 			{
 				KxStringVector folders = KxFile(source).Find(KxFile::NullFilter, KxFS_FOLDER, false);
-				for (const wxString& folderPath: folders)
+				for (const kxf::String& folderPath: folders)
 				{
-					wxString id = folderPath.AfterLast('\\');
+					kxf::String id = folderPath.AfterLast('\\');
 					bool bCanUseID = m_FileData->IsUnusedID(id);
 	
 					PackageProject::FolderItem& folderItem = m_FileData->AddFolder(std::make_unique<PackageProject::FolderItem>());
@@ -479,7 +479,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		KxFileBrowseDialog dialog(GetViewTLW(), KxID_NONE, KxFBD_OPEN_FOLDER);
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			wxString source = dialog.GetResult();
+			kxf::String source = dialog.GetResult();
 	
 			auto operation = new Utility::OperationWithProgressDialog<KxFileOperationEvent>(true, GetView());
 			operation->OnRun([this, operation, &folderEntry, source]()

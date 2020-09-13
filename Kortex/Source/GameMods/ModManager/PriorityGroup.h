@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BasicGameMod.h"
 
 namespace Kortex
@@ -12,7 +12,7 @@ namespace Kortex::ModManager
 {
 	class PriorityGroup: public KxRTTI::ExtendInterface<PriorityGroup, BasicGameMod>
 	{
-		KxDecalreIID(PriorityGroup, {0x23b5fc04, 0xc2f5, 0x42fb, {0xa6, 0x91, 0x45, 0xd8, 0x78, 0x37, 0xc9, 0xf4}});
+		KxRTTI_DeclareIID(PriorityGroup, {0x23b5fc04, 0xc2f5, 0x42fb, {0xa6, 0x91, 0x45, 0xd8, 0x78, 0x37, 0xc9, 0xf4}});
 
 		public:
 			IGameMod& m_BaseMod;
@@ -43,8 +43,8 @@ namespace Kortex::ModManager
 			{
 				return m_BaseMod.GetDisplayOrder();
 			}
-			wxString GetName() const override;
-			wxString GetID() const override;
+			kxf::String GetName() const override;
+			kxf::String GetID() const override;
 
 			bool HasColor() const override;
 			KxColor GetColor() const override;

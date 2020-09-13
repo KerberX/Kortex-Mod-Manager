@@ -1,11 +1,11 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IGameMod.h"
 #include "GameMods/FileTreeNode.h"
 #include "GameMods/ModTagStore.h"
 #include "Network/Common.h"
 #include "Network/ModSourceStore.h"
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 
 namespace Kortex
 {
@@ -20,26 +20,26 @@ namespace Kortex::ModManager
 
 	class BasicGameMod: public KxRTTI::ExtendInterface<BasicGameMod, IGameMod>
 	{
-		KxDecalreIID(BasicGameMod, {0x29e82e8c, 0xb63b, 0x4955, {0xba, 0xd9, 0xa7, 0x69, 0xc5, 0xae, 0x74, 0xbb}});
+		KxRTTI_DeclareIID(BasicGameMod, {0x29e82e8c, 0xb63b, 0x4955, {0xba, 0xd9, 0xa7, 0x69, 0xc5, 0xae, 0x74, 0xbb}});
 
 		private:
-			wxString m_Signature;
-			wxString m_ID;
-			wxString m_Name;
-			wxString m_Author;
-			KxVersion m_Version;
+			kxf::String m_Signature;
+			kxf::String m_ID;
+			kxf::String m_Name;
+			kxf::String m_Author;
+			kxf::Version m_Version;
 			intptr_t m_Priority;
 
 			bool m_IsDescriptionChanged = false;
-			mutable wxString m_Description;
+			mutable kxf::String m_Description;
 
 			ModSourceStore m_ModSourceStore;
 			ModTagStore m_TagStore;
 
 			wxDateTime m_TimeInstall;
 			wxDateTime m_TimeUninstall;
-			wxString m_PackageFile;
-			wxString m_LinkLocation;
+			kxf::String m_PackageFile;
+			kxf::String m_LinkLocation;
 
 			FileTreeNode m_FileTree;
 
@@ -55,25 +55,25 @@ namespace Kortex::ModManager
 			void CreateAllFolders();
 			bool Save() override;
 
-			bool LoadUsingSignature(const wxString& signature) override;
-			bool LoadUsingID(const wxString& id) override;
+			bool LoadUsingSignature(const kxf::String& signature) override;
+			bool LoadUsingID(const kxf::String& id) override;
 			bool CreateFromProject(const ModPackageProject& config) override;
 
-			wxString GetSignature() const override
+			kxf::String GetSignature() const override
 			{
 				return m_Signature;
 			}
-			wxString GetID() const override
+			kxf::String GetID() const override
 			{
 				return m_ID;
 			}
-			void SetID(const wxString& id) override
+			void SetID(const kxf::String& id) override
 			{
 				m_ID = id;
 				m_Signature = GetSignatureFromID(id);
 			}
 			
-			wxString GetName() const override
+			kxf::String GetName() const override
 			{
 				if (!m_Name.IsEmpty())
 				{
@@ -81,25 +81,25 @@ namespace Kortex::ModManager
 				}
 				return m_ID;
 			}
-			void SetName(const wxString& value) override
+			void SetName(const kxf::String& value) override
 			{
 				m_Name = value;
 			}
 			
-			wxString GetAuthor() const override
+			kxf::String GetAuthor() const override
 			{
 				return m_Author;
 			}
-			void SetAuthor(const wxString& value) override
+			void SetAuthor(const kxf::String& value) override
 			{
 				m_Author = value;
 			}
 
-			KxVersion GetVersion() const override
+			kxf::Version GetVersion() const override
 			{
 				return m_Version;
 			}
-			void SetVersion(const KxVersion& value) override
+			void SetVersion(const kxf::Version& value) override
 			{
 				m_Version = value;
 			}
@@ -108,8 +108,8 @@ namespace Kortex::ModManager
 			{
 				return m_IsDescriptionChanged;
 			}
-			wxString GetDescription() const override;
-			void SetDescription(const wxString& value) override;
+			kxf::String GetDescription() const override;
+			void SetDescription(const kxf::String& value) override;
 
 			wxDateTime GetInstallTime() const override
 			{
@@ -147,11 +147,11 @@ namespace Kortex::ModManager
 				return m_TagStore;
 			}
 
-			wxString GetPackageFile() const override
+			kxf::String GetPackageFile() const override
 			{
 				return m_PackageFile;
 			}
-			void SetPackageFile(const wxString& value) override
+			void SetPackageFile(const kxf::String& value) override
 			{
 				m_PackageFile = value;
 			}
@@ -185,7 +185,7 @@ namespace Kortex::ModManager
 			{
 				m_Color = color;
 			}
-			ResourceID BasicGameMod::GetIcon() const override
+			kxf::ResourceID BasicGameMod::GetIcon() const override
 			{
 				return {};
 			}
@@ -194,7 +194,7 @@ namespace Kortex::ModManager
 			{
 				return !m_LinkLocation.IsEmpty();
 			}
-			void LinkLocation(const wxString& path) override
+			void LinkLocation(const kxf::String& path) override
 			{
 				m_LinkLocation = path;
 			}
@@ -203,6 +203,6 @@ namespace Kortex::ModManager
 				m_LinkLocation.clear();
 			}
 
-			wxString GetModFilesDir() const override;
+			kxf::String GetModFilesDir() const override;
 	};
 }

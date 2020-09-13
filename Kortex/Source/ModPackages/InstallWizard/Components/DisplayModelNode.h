@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "../Common.h"
 
 namespace Kortex::InstallWizard::ComponentsPageNS

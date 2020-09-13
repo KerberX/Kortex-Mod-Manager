@@ -115,7 +115,7 @@ namespace Kortex
 		}
 	}
 
-	wxString IModImporter::GetProfileMatchingMessage(KxIconType* pIcon) const
+	kxf::String IModImporter::GetProfileMatchingMessage(KxIconType* pIcon) const
 	{
 		GameID targetID = GetTargetGameID();
 		if (!targetID.IsOK())

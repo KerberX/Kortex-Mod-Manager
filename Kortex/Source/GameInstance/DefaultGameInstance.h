@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IGameInstance.h"
 #include "Application/VariablesTable/VariablesDatabase.h"
 #include "Application/VariablesTable/StaticVariableTable.h"
@@ -9,23 +9,23 @@
 class KActiveGameInstance;
 class IVariableTable;
 class IGameProfile;
-class KxXMLDocument;
+class kxf::XMLDocument;
 
 namespace Kortex::GameInstance
 {
 	class DefaultGameInstance: public KxRTTI::ExtendInterface<DefaultGameInstance, IGameInstance>
 	{
-		KxDecalreIID(DefaultGameInstance, {0x73a46d8d, 0x1a8b, 0x4adc, {0xa5, 0x50, 0xbb, 0xfd, 0x36, 0x2c, 0x31, 0x83}});
+		KxRTTI_DeclareIID(DefaultGameInstance, {0x73a46d8d, 0x1a8b, 0x4adc, {0xa5, 0x50, 0xbb, 0xfd, 0x36, 0x2c, 0x31, 0x83}});
 
 		friend class IGameInstance;
 
 		protected:
 			GameID m_GameID;
-			wxString m_InstanceID;
-			wxString m_DefinitionFile;
+			kxf::String m_InstanceID;
+			kxf::String m_DefinitionFile;
 
-			wxString m_GameName;
-			wxString m_GameShortName;
+			kxf::String m_GameName;
+			kxf::String m_GameShortName;
 			int m_SortOrder = -1;
 			bool m_IsSystemTemplate = true;
 
@@ -33,14 +33,14 @@ namespace Kortex::GameInstance
 			ProfilesVector m_Profiles;
 
 		protected:
-			wxString CreateProfileID(const wxString& id) const override;
-			wxString CreateDefaultProfileID() const override;
+			kxf::String CreateProfileID(const kxf::String& id) const override;
+			kxf::String CreateDefaultProfileID() const override;
 
-			void LoadVariables(const KxXMLDocument& instanceConfig, const KxXMLDocument* userConfig = nullptr);
-			wxString LoadRegistryVariable(const KxXMLNode& node) const;
-			void DetectGameArchitecture(const KxXMLDocument& instanceConfig);
+			void LoadVariables(const kxf::XMLDocument& instanceConfig, const kxf::XMLDocument* userConfig = nullptr);
+			kxf::String LoadRegistryVariable(const kxf::XMLNode& node) const;
+			void DetectGameArchitecture(const kxf::XMLDocument& instanceConfig);
 
-			virtual bool OnLoadInstance(const KxXMLDocument& templateConfig)
+			virtual bool OnLoadInstance(const kxf::XMLDocument& templateConfig)
 			{
 				return true;
 			}
@@ -52,7 +52,7 @@ namespace Kortex::GameInstance
 
 		protected:
 			DefaultGameInstance() = default;
-			void Create(const wxString& definitionFile, const wxString& instanceID, bool isSystemTemplate)
+			void Create(const kxf::String& definitionFile, const kxf::String& instanceID, bool isSystemTemplate)
 			{
 				m_DefinitionFile = definitionFile;
 				m_InstanceID = instanceID;
@@ -60,7 +60,7 @@ namespace Kortex::GameInstance
 			}
 
 		public:
-			DefaultGameInstance(const wxString& templateFile, const wxString& instanceID, bool isSystemTemplate)
+			DefaultGameInstance(const kxf::String& templateFile, const kxf::String& instanceID, bool isSystemTemplate)
 				:m_DefinitionFile(templateFile), m_InstanceID(instanceID), m_IsSystemTemplate(isSystemTemplate)
 			{
 			}
@@ -74,7 +74,7 @@ namespace Kortex::GameInstance
 			{
 				return m_InstanceID.IsEmpty();
 			}
-			wxString GetDefinitionFile() const override
+			kxf::String GetDefinitionFile() const override
 			{
 				return m_DefinitionFile;
 			}
@@ -88,23 +88,23 @@ namespace Kortex::GameInstance
 			{
 				return m_Variables;
 			}
-			wxString ExpandVariablesLocally(const wxString& variables) const override;
-			wxString ExpandVariables(const wxString& variables) const override;
+			kxf::String ExpandVariablesLocally(const kxf::String& variables) const override;
+			kxf::String ExpandVariables(const kxf::String& variables) const override;
 
 			// Properties
 			GameID GetGameID() const override
 			{
 				return m_GameID;
 			}
-			wxString GetInstanceID() const override
+			kxf::String GetInstanceID() const override
 			{
 				return m_InstanceID;
 			}
-			wxString GetGameName() const override
+			kxf::String GetGameName() const override
 			{
 				return m_GameName.IsEmpty() ? m_GameShortName : m_GameName;
 			}
-			wxString GetGameShortName() const override
+			kxf::String GetGameShortName() const override
 			{
 				return m_GameShortName.IsEmpty() ? m_GameName : m_GameShortName;
 			}
@@ -118,18 +118,18 @@ namespace Kortex::GameInstance
 				return m_IsSystemTemplate;
 			}
 			
-			wxString GetIconLocation() const override;
+			kxf::String GetIconLocation() const override;
 			wxBitmap GetIcon(const wxSize& iconSize = wxDefaultSize) const override;
 
-			wxString GetInstanceTemplateDir() const override;
-			wxString GetInstanceDir() const override;
-			wxString GetInstanceRelativePath(const wxString& name) const override;
+			kxf::String GetInstanceTemplateDir() const override;
+			kxf::String GetInstanceDir() const override;
+			kxf::String GetInstanceRelativePath(const kxf::String& name) const override;
 
-			wxString GetConfigFile() const override;
-			wxString GetModsDir() const override;
-			wxString GetProfilesDir() const override;
-			wxString GetGameDir() const override;
-			wxString GetVirtualGameDir() const override;
+			kxf::String GetConfigFile() const override;
+			kxf::String GetModsDir() const override;
+			kxf::String GetProfilesDir() const override;
+			kxf::String GetGameDir() const override;
+			kxf::String GetVirtualGameDir() const override;
 
 			// Profiles
 			const ProfilesVector& GetProfiles() const override
@@ -141,14 +141,14 @@ namespace Kortex::GameInstance
 				return m_Profiles;
 			}
 
-			const IGameProfile* GetProfile(const wxString& id) const override;
-			IGameProfile* GetProfile(const wxString& id) override;
+			const IGameProfile* GetProfile(const kxf::String& id) const override;
+			IGameProfile* GetProfile(const kxf::String& id) override;
 
 			std::unique_ptr<IGameProfile> NewProfile() override;
-			IGameProfile* CreateProfile(const wxString& profileID, const IGameProfile* baseProfile = nullptr, uint32_t copyOptions = 0) override;
-			IGameProfile* ShallowCopyProfile(const IGameProfile& profile, const wxString& nameSuggets = wxEmptyString) override;
+			IGameProfile* CreateProfile(const kxf::String& profileID, const IGameProfile* baseProfile = nullptr, uint32_t copyOptions = 0) override;
+			IGameProfile* ShallowCopyProfile(const IGameProfile& profile, const kxf::String& nameSuggets = wxEmptyString) override;
 			bool RemoveProfile(IGameProfile& profile) override;
-			bool RenameProfile(IGameProfile& profile, const wxString& newID) override;
+			bool RenameProfile(IGameProfile& profile, const kxf::String& newID) override;
 			bool ChangeProfileTo(IGameProfile& profile) override;
 			void LoadSavedProfileOrDefault() override;
 	};
@@ -159,25 +159,25 @@ namespace Kortex::GameInstance
 	class ConfigurableGameInstance: public KxRTTI::ImplementInterface<ConfigurableGameInstance, DefaultGameInstance, IConfigurableGameInstance>
 	{
 		private:
-			KxXMLDocument m_Config;
+			kxf::XMLDocument m_Config;
 			const bool m_WasCreatedUsingOnlyInstanceID = false;
 
 		protected:
-			void LoadProfiles(const KxXMLDocument& instanceConfig);
+			void LoadProfiles(const kxf::XMLDocument& instanceConfig);
 			void LoadConfigFile();
 			bool InitInstance() override;
-			bool OnLoadInstance(const KxXMLDocument& templateConfig) override;
+			bool OnLoadInstance(const kxf::XMLDocument& templateConfig) override;
 
 		public:
-			ConfigurableGameInstance(const wxString& instanceID);
-			ConfigurableGameInstance(const IGameInstance& instanceTemplate, const wxString& instanceID);
+			ConfigurableGameInstance(const kxf::String& instanceID);
+			ConfigurableGameInstance(const IGameInstance& instanceTemplate, const kxf::String& instanceID);
 
 		public:
-			const KxXMLDocument& GetConfig() const override
+			const kxf::XMLDocument& GetConfig() const override
 			{
 				return m_Config;
 			}
-			KxXMLDocument& GetConfig() override
+			kxf::XMLDocument& GetConfig() override
 			{
 				return m_Config;
 			}

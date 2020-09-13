@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "KxFramework/KxDataViewListModelEx.h"
 #include "Programs/IProgramItem.h"
 #include "Programs/IProgramManager.h"
@@ -59,7 +59,7 @@ namespace Kortex::ProgramManager
 
 			bool AddProgram();
 			void RemoveProgram(IProgramItem& item);
-			wxString AskSelectIcon(const IProgramItem& item) const;
+			kxf::String AskSelectIcon(const IProgramItem& item) const;
 
 			bool SaveLoadExpandedValues(bool save, bool value = false) const;;
 

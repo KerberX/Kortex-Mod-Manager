@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/IConfigManager.h"
 #include "GameConfig/ConfigManger/DisplayModel.h"
 #include "ConfigManager.h"

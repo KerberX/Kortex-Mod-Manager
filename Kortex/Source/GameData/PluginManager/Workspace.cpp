@@ -86,15 +86,15 @@ namespace
 
 namespace Kortex::PluginManager
 {
-	ImageResourceID Workspace::GetStatusImageForPlugin(const IGamePlugin* plugin)
+	Imagekxf::ResourceID Workspace::GetStatusImageForPlugin(const IGamePlugin* plugin)
 	{
 		if (plugin)
 		{
-			return plugin->IsActive() ? ImageResourceID::TickCircleFrameEmpty : ImageResourceID::InformationFrameEmpty;
+			return plugin->IsActive() ? Imagekxf::ResourceID::TickCircleFrameEmpty : Imagekxf::ResourceID::InformationFrameEmpty;
 		}
 		else
 		{
-			return ImageResourceID::CrossCircleEmpty;
+			return Imagekxf::ResourceID::CrossCircleEmpty;
 		}
 	}
 
@@ -147,19 +147,19 @@ namespace Kortex::PluginManager
 
 			if (clientData->GetType() == PluginType::Total)
 			{
-				item->SetItemLabel(KxString::Format("%1: %2", KTr("PluginManager.PluginCounter.Total"), count));
+				item->SetItemLabel(kxf::String::Format("%1: %2", KTr("PluginManager.PluginCounter.Total"), count));
 			}
 			else if (clientData->GetType() == PluginType::Active)
 			{
 				if (pluginsConfig.HasPluginLimit())
 				{
-					item->SetItemLabel(KxString::Format("%1: %2/%3", KTr("PluginManager.PluginCounter.Active"), count, pluginsConfig.GetPluginLimit()));
-					item->SetBitmap(ImageProvider::GetBitmap(count >= static_cast<size_t>(pluginsConfig.GetPluginLimit()) ? ImageResourceID::Exclamation : ImageResourceID::TickCircleFrame));
+					item->SetItemLabel(kxf::String::Format("%1: %2/%3", KTr("PluginManager.PluginCounter.Active"), count, pluginsConfig.GetPluginLimit()));
+					item->SetBitmap(ImageProvider::GetBitmap(count >= static_cast<size_t>(pluginsConfig.GetPluginLimit()) ? Imagekxf::ResourceID::Exclamation : Imagekxf::ResourceID::TickCircleFrame));
 				}
 			}
 			else
 			{
-				wxString label;
+				kxf::String label;
 				if (clientData->GetType() == PluginType::Active)
 				{
 					label = KTr("Generic.All");
@@ -168,7 +168,7 @@ namespace Kortex::PluginManager
 				{
 					label = bethesda->GetPluginTypeName(clientData->GetType() & PluginType::Master, clientData->GetType() & PluginType::Light);
 				}
-				item->SetItemLabel(KxString::Format("%1: %2", label, count));
+				item->SetItemLabel(kxf::String::Format("%1: %2", label, count));
 			}
 		}
 	}
@@ -212,7 +212,7 @@ namespace Kortex::PluginManager
 		m_SearchBox = new KxSearchBox(this, KxID_NONE);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_SEARCH_BTN, &Workspace::OnModSerach, this);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_CANCEL_BTN, &Workspace::OnModSerach, this);
-		m_MainSizer->Add(m_SearchBox, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(m_SearchBox, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 
 		SetSizer(m_MainSizer);
 		GetDisplayModelOptions().LoadDataViewLayout(m_ModelView->GetView());
@@ -250,11 +250,11 @@ namespace Kortex::PluginManager
 		}
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "KPluginManagerWorkspace";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("PluginManager.NameShort");
 	}
@@ -399,7 +399,7 @@ namespace Kortex::PluginManager
 			}
 			else
 			{
-				mainWindow->SetStatus(wxEmptyString, statusIndex, ImageResourceID::CrossCircleFrame);
+				mainWindow->SetStatus(wxEmptyString, statusIndex, Imagekxf::ResourceID::CrossCircleFrame);
 			}
 		}
 	}

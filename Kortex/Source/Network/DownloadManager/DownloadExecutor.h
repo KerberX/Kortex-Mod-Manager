@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/IModNetwork.h"
 #include "Network/ModNetworkRepository.h"
 #include "DownloadEvent.h"
@@ -21,7 +21,7 @@ namespace Kortex::DownloadManager
 			IDownloadManager& m_DownloadManager;
 			DownloadItem& m_Item;
 
-			wxString m_LocalPath;
+			kxf::String m_LocalPath;
 			KxURI m_URI;
 
 			wxThread* m_Thread = nullptr;
@@ -43,15 +43,15 @@ namespace Kortex::DownloadManager
 			void OnDownload(KxCURLEvent& event);
 			void OnEnd();
 
-			void NotifyEvent(KxEventTag<DownloadEvent> eventType);
-			void QueueNotifyEvent(KxEventTag<DownloadEvent> eventType);
+			void NotifyEvent(kxf::EventTag<DownloadEvent> eventType);
+			void QueueNotifyEvent(kxf::EventTag<DownloadEvent> eventType);
 			void Terminate();
 
 			bool RenameTempFile();
 			bool DeleteTempFile();
 
 		public:
-			DownloadExecutor(DownloadItem& item, const KxURI& uri, const wxString& localPath);
+			DownloadExecutor(DownloadItem& item, const KxURI& uri, const kxf::String& localPath);
 			~DownloadExecutor();
 
 		public:
@@ -95,7 +95,7 @@ namespace Kortex::DownloadManager
 			}
 			
 			std::optional<int64_t> RequestContentLength() const override;
-			wxString GetLocalPath() const override;
-			wxString GetLocalTempPath() const override;
+			kxf::String GetLocalPath() const override;
+			kxf::String GetLocalTempPath() const override;
 	};
 }

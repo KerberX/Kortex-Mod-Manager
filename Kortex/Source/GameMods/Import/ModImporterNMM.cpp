@@ -17,13 +17,13 @@
 
 namespace Kortex::ModManager
 {
-	wxString ModImporterNMM::ProcessDescription(const wxString& path) const
+	kxf::String ModImporterNMM::ProcessDescription(const kxf::String& path) const
 	{
 		// Convert BB code
 		return PackageProject::Serializer::ConvertBBCode(path);
 	}
 
-	GameID ModImporterNMM::GetGameID(const wxString& name)
+	GameID ModImporterNMM::GetGameID(const kxf::String& name)
 	{
 		if (!name.IsEmpty())
 		{
@@ -79,14 +79,14 @@ namespace Kortex::ModManager
 	}
 	void ModImporterNMM::LoadOptions()
 	{
-		wxString gameModeID;
+		kxf::String gameModeID;
 
 		// Profiles list
-		KxXMLNode node = m_ProfileManagerXML.QueryElement("profileManager/profileList");
+		kxf::XMLNode node = m_ProfileManagerXML.QueryElement("profileManager/profileList");
 		for (node = node.GetFirstChildElement("profile"); node.IsOK(); node = node.GetNextSiblingElement("profile"))
 		{
-			wxString id = node.GetAttribute("profileId");
-			wxString name = node.GetAttribute("profileName");
+			kxf::String id = node.GetAttribute("profileId");
+			kxf::String name = node.GetAttribute("profileName");
 			if (!name.IsEmpty() && !id.IsEmpty())
 			{
 				gameModeID = node.GetFirstChildElement("gameModeId").GetValue();
@@ -98,7 +98,7 @@ namespace Kortex::ModManager
 		m_TargetGameID = GetGameID(gameModeID);
 		m_TargetGame = IGameInstance::GetTemplate(m_TargetGameID);
 	}
-	wxString ModImporterNMM::GetDataFolderName() const
+	kxf::String ModImporterNMM::GetDataFolderName() const
 	{
 		if (m_TargetGameID == GameIDs::Morrowind)
 		{
@@ -109,7 +109,7 @@ namespace Kortex::ModManager
 			return "Data";
 		}
 	}
-	wxString ModImporterNMM::GetProfileDirectory() const
+	kxf::String ModImporterNMM::GetProfileDirectory() const
 	{
 		auto it = std::find_if(m_ProfilesList.begin(), m_ProfilesList.end(), [this](const auto& v)
 		{
@@ -124,7 +124,7 @@ namespace Kortex::ModManager
 
 	void ModImporterNMM::CopySavesAndConfig(Utility::OperationWithProgressDialogBase* context)
 	{
-		context->SetDialogCaption(KxString::Format("%1 \"%2\"", KTr("Generic.Import"), ISaveManager::GetInstance()->GetManagerInfo().GetName()));
+		context->SetDialogCaption(kxf::String::Format("%1 \"%2\"", KTr("Generic.Import"), ISaveManager::GetInstance()->GetManagerInfo().GetName()));
 
 		// Saves
 		if (ISaveManager* saveManager = ISaveManager::GetInstance())
@@ -170,21 +170,21 @@ namespace Kortex::ModManager
 		};
 
 		KxFileStream installConfigStream(m_InstanceDirectory + "\\VirtualInstall\\VirtualModConfig.xml", KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting);
-		KxXMLDocument installConfig(installConfigStream);
+		kxf::XMLDocument installConfig(installConfigStream);
 
-		KxXMLNode modListNode = installConfig.QueryElement("virtualModActivator/modList");
+		kxf::XMLNode modListNode = installConfig.QueryElement("virtualModActivator/modList");
 		size_t modsProcessed = 0;
 		size_t modsTotal = modListNode.GetChildrenCount();
 
-		for (KxXMLNode modInfoNode = modListNode.GetFirstChildElement("modInfo"); modInfoNode.IsOK(); modInfoNode = modInfoNode.GetNextSiblingElement("modInfo"))
+		for (kxf::XMLNode modInfoNode = modListNode.GetFirstChildElement("modInfo"); modInfoNode.IsOK(); modInfoNode = modInfoNode.GetNextSiblingElement("modInfo"))
 		{
 			ModID modID = modInfoNode.GetAttributeInt("modId", ModID::GetInvalidValue());
-			wxString modName = modInfoNode.GetAttribute("modName");
-			wxString modFileName = modInfoNode.GetAttribute("modFileName");
-			wxString modBaseFolder = modInfoNode.GetAttribute("modFilePath") + "\\VirtualInstall";
+			kxf::String modName = modInfoNode.GetAttribute("modName");
+			kxf::String modFileName = modInfoNode.GetAttribute("modFileName");
+			kxf::String modBaseFolder = modInfoNode.GetAttribute("modFilePath") + "\\VirtualInstall";
 
 			// Notify
-			context->SetDialogCaption(KxString::Format("%1 \"%2\", %3/%4", KTr("Generic.Import"), modName, modsProcessed, modsTotal));
+			context->SetDialogCaption(kxf::String::Format("%1 \"%2\", %3/%4", KTr("Generic.Import"), modName, modsProcessed, modsTotal));
 
 			// Check mod existence
 			IGameMod* existingModEntry = IModManager::GetInstance()->FindModByID(modName);
@@ -198,8 +198,8 @@ namespace Kortex::ModManager
 			IGameMod& mod = IModManager::GetInstance()->EmplaceMod();
 
 			KxFileStream infoStream(m_InstanceDirectory + "\\cache\\" + modFileName.BeforeLast('.') + "\\Data\\fomod\\info.xml", KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting);
-			KxXMLDocument info(infoStream);
-			KxXMLNode infoNode = info.QueryElement("fomod");
+			kxf::XMLDocument info(infoStream);
+			kxf::XMLNode infoNode = info.QueryElement("fomod");
 
 			mod.SetName(modName);
 			mod.SetActive(true);
@@ -220,7 +220,7 @@ namespace Kortex::ModManager
 			// If such mod already exist, try create unique ID
 			if (existingModEntry)
 			{
-				mod.SetID(KxString::Format("[NMM %1] %2", modID.GetValue(), modName));
+				mod.SetID(kxf::String::Format("[NMM %1] %2", modID.GetValue(), modName));
 			}
 			else
 			{
@@ -234,10 +234,10 @@ namespace Kortex::ModManager
 			// Copy mod contents.
 			// NMM can stores mod files in folder named after mod's name or its ID and there is no way to know that.
 			// So I will check first file in the list, get folder from its path and construct final mod path.
-			wxString modFolder = modBaseFolder + wxS('\\') + modInfoNode.GetFirstChildElement("fileLink").GetAttribute("realPath").BeforeFirst('\\');
+			kxf::String modFolder = modBaseFolder + wxS('\\') + modInfoNode.GetFirstChildElement("fileLink").GetAttribute("realPath").BeforeFirst('\\');
 
 			KxEvtFile source(modFolder);
-			wxString destination = mod.GetModFilesDir() + wxS('\\') + GetDataFolderName();
+			kxf::String destination = mod.GetModFilesDir() + wxS('\\') + GetDataFolderName();
 			context->LinkHandler(&source, KxEVT_FILEOP_COPY_FOLDER);
 			source.CopyFolder(KxFile::NullFilter, destination, true, true);
 
@@ -252,20 +252,20 @@ namespace Kortex::ModManager
 	{
 		if (IPluginManager* pluginManager = IPluginManager::GetInstance())
 		{
-			context->SetDialogCaption(KxString::Format("%1 \"%2\"", KTr("Generic.Import"), pluginManager->GetManagerInfo().GetName()));
+			context->SetDialogCaption(kxf::String::Format("%1 \"%2\"", KTr("Generic.Import"), pluginManager->GetManagerInfo().GetName()));
 
 			IGameProfile* profile = IGameInstance::GetActive()->GetActiveProfile();
 			GameInstance::ProfilePlugin::Vector& profilePluginsList = profile->GetPlugins();
 			profilePluginsList.clear();
 
-			for (const wxString& value: KxTextFile::ReadToArray(GetProfileDirectory() + '\\' + "LoadOrder.txt"))
+			for (const kxf::String& value: KxTextFile::ReadToArray(GetProfileDirectory() + '\\' + "LoadOrder.txt"))
 			{
 				if (!context->CanContinue())
 				{
 					return;
 				}
 
-				wxString enabledValue = value.AfterFirst('=');
+				kxf::String enabledValue = value.AfterFirst('=');
 				const bool isEnabled = !enabledValue.IsEmpty() && enabledValue[0] == '1';
 
 				profilePluginsList.emplace_back(value.BeforeFirst('='), isEnabled);
@@ -289,8 +289,8 @@ namespace Kortex::ModManager
 				KxEvtFile archiveFile(fileItem.GetFullPath());
 
 				KxFileStream stream(m_InstanceDirectory + "\\cache\\" + fileItem.GetName().BeforeLast('.') + "\\Data\\fomod\\info.xml", KxFileStream::Access::Read, KxFileStream::Disposition::OpenExisting);
-				KxXMLDocument info(stream);
-				KxXMLNode infoNode = info.QueryElement("fomod");
+				kxf::XMLDocument info(stream);
+				kxf::XMLNode infoNode = info.QueryElement("fomod");
 
 				DownloadItemBuilder download;
 				download.SetTargetGame(m_TargetGame ? m_TargetGame->GetGameID() : GameIDs::NullGameID);
@@ -318,7 +318,7 @@ namespace Kortex::ModManager
 		}
 	}
 
-	void ModImporterNMM::SetDirectory(const wxString& path)
+	void ModImporterNMM::SetDirectory(const kxf::String& path)
 	{
 		m_InstanceDirectory = path;
 		if (!KxFileFinder::IsDirectoryEmpty(m_InstanceDirectory))
@@ -360,9 +360,9 @@ namespace Kortex::ModManager
 	{
 		return m_CanImport && m_TargetGame != nullptr;
 	}
-	wxString ModImporterNMM::GetAdditionalInfo() const
+	kxf::String ModImporterNMM::GetAdditionalInfo() const
 	{
-		wxString additionalInfo;
+		kxf::String additionalInfo;
 
 		// Target profile
 		if (m_TargetGame)

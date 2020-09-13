@@ -10,19 +10,19 @@ namespace Kortex::VirtualFileSystem
 	class Convergence: public KxVFSWrapper<KxVFS::ConvergenceFS>
 	{
 		public:
-			Convergence(const wxString& mountPoint = {}, const wxString& writeTarget = {});
+			Convergence(const kxf::String& mountPoint = {}, const kxf::String& writeTarget = {});
 
 		public:
-			wxString GetWriteTarget() const
+			kxf::String GetWriteTarget() const
 			{
-				return ToWxString(ConvergenceFS::GetWriteTarget());
+				return Tokxf::String(ConvergenceFS::GetWriteTarget());
 			}
-			void SetWriteTarget(const wxString& writeTarget)
+			void SetWriteTarget(const kxf::String& writeTarget)
 			{
 				return ConvergenceFS::SetWriteTarget(ToKxDynamicStringRef(writeTarget));
 			}
 
-			void AddVirtualFolder(const wxString& path)
+			void AddVirtualFolder(const kxf::String& path)
 			{
 				ConvergenceFS::AddVirtualFolder(ToKxDynamicStringRef(path));
 			}

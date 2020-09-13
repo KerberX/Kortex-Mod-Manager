@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/RequirementsSection.h"
 

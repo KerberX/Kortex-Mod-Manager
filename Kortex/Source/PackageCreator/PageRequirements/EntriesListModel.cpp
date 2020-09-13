@@ -158,11 +158,11 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				}
 				case ColumnID::CurrentVersion:
 				{
-					wxString operatorName = ModPackageProject::OperatorToSymbolicName(entry->GetRequiredVersionOperator());
-					wxString cv = entry->GetCurrentVersion();
-					wxString rv = entry->GetRequiredVersion();
+					kxf::String operatorName = ModPackageProject::OperatorToSymbolicName(entry->GetRequiredVersionOperator());
+					kxf::String cv = entry->GetCurrentVersion();
+					kxf::String rv = entry->GetRequiredVersion();
 	
-					value = KxString::Format("CV(%1) %2 RV(%3) %4 %5", cv, operatorName, rv, Utility::String::GetUnicodeChar(Utility::CharCode::ArrowRight), entry->CheckVersion());
+					value = kxf::String::Format("CV(%1) %2 RV(%3) %4 %5", cv, operatorName, rv, Utility::String::GetUnicodeChar(Utility::CharCode::ArrowRight), entry->CheckVersion());
 					break;
 				}
 				case ColumnID::RequiredState:
@@ -206,7 +206,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				}
 				case ColumnID::ID:
 				{
-					wxString newID = data.As<wxString>();
+					kxf::String newID = data.As<kxf::String>();
 					if (newID != entry->GetID())
 					{
 						if (newID.IsEmpty() || !m_Group->HasItemWithID(newID))
@@ -231,7 +231,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 					entry->ResetCurrentVersion();
 					entry->ResetObjectFunctionResult();
 	
-					entry->SetName(data.As<wxString>());
+					entry->SetName(data.As<kxf::String>());
 					entry->ConformToType();
 					ChangeNotify();
 					break;
@@ -240,7 +240,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				{
 					entry->ResetObjectFunctionResult();
 	
-					entry->SetRequiredVersion(data.As<wxString>());
+					entry->SetRequiredVersion(data.As<kxf::String>());
 					ChangeNotify();
 					break;
 				}
@@ -257,7 +257,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 					entry->ResetCurrentVersion();
 					entry->ResetObjectFunctionResult();
 	
-					entry->SetObject(data.As<wxString>());
+					entry->SetObject(data.As<kxf::String>());
 					ChangeNotify();
 					break;
 				}
@@ -417,7 +417,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 	
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddEntry, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ChequePlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ChequePlus));
 		}
 		menu.AddSeparator();
 		{

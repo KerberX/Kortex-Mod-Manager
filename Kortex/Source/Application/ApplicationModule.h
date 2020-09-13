@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Module/ModuleInfo.h"
 
 namespace Kortex
@@ -14,10 +14,10 @@ namespace Kortex::Application::Internal
 	class ApplicationModuleInfo: public IModuleInfo
 	{
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			KxVersion GetVersion() const override;
-			ResourceID GetImageID() const override;
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::Version GetVersion() const override;
+			kxf::ResourceID GetImageID() const override;
 	};
 }
 
@@ -31,7 +31,7 @@ namespace Kortex::Application
 			Internal::ApplicationModuleInfo m_ModuleInfo;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 			virtual void OnInit() override;
 			virtual void OnExit() override;
 

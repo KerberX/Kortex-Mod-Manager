@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 #include "Utility/WithNameAndID.h"
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 
 namespace Kortex::PackageProject
 {
@@ -13,11 +13,11 @@ namespace Kortex::PackageProject
 			using RefVector = std::vector<RequirementItem*>;
 	
 		private:
-			wxString m_Object;
-			KxVersion m_RequiredVersion;
+			kxf::String m_Object;
+			kxf::Version m_RequiredVersion;
 	
 			mutable bool m_CurrentVersionChecked = false;
-			mutable KxVersion m_CurrentVersion;
+			mutable kxf::Version m_CurrentVersion;
 			
 			Operator m_RequiredVersionFunction;
 			ObjectFunction m_ObjectFunction;
@@ -25,14 +25,14 @@ namespace Kortex::PackageProject
 			mutable bool m_ObjectFunctionResultChecked = false;
 			mutable ReqState m_ObjectFunctionResult = ReqState::Unknown;
 	
-			wxString m_Description;
-			wxString m_BinaryVersionKind = "FileVersion";
+			kxf::String m_Description;
+			kxf::String m_BinaryVersionKind = "FileVersion";
 			
 			bool m_OverallStatusCalculated = false;
 			bool m_OverallStatus = false;
 	
 			ReqType m_Type = ReqType::Auto;
-			wxString m_Category;
+			kxf::String m_Category;
 			KxStringVector m_Dependencies;
 	
 		public:
@@ -40,11 +40,11 @@ namespace Kortex::PackageProject
 			~RequirementItem();
 	
 		public:
-			const wxString& GetObject() const
+			const kxf::String& GetObject() const
 			{
 				return m_Object;
 			}
-			void SetObject(const wxString& value)
+			void SetObject(const kxf::String& value)
 			{
 				m_Object = value;
 			}
@@ -60,11 +60,11 @@ namespace Kortex::PackageProject
 			ReqState GetObjectFunctionResult() const;
 			void ResetObjectFunctionResult();
 
-			const KxVersion& GetRequiredVersion() const
+			const kxf::Version& GetRequiredVersion() const
 			{
 				return m_RequiredVersion;
 			}
-			void SetRequiredVersion(const wxString& value)
+			void SetRequiredVersion(const kxf::String& value)
 			{
 				m_RequiredVersion = value;
 			}
@@ -77,28 +77,28 @@ namespace Kortex::PackageProject
 				m_RequiredVersionFunction = operatorType;
 			}
 			
-			const KxVersion& GetCurrentVersion() const;
-			void SetCurrentVersion(const wxString& value)
+			const kxf::Version& GetCurrentVersion() const;
+			void SetCurrentVersion(const kxf::String& value)
 			{
 				m_CurrentVersion = value;
 			}
 			void ResetCurrentVersion();
 			bool CheckVersion() const;
 			
-			const wxString& GetDescription() const
+			const kxf::String& GetDescription() const
 			{
 				return m_Description;
 			}
-			void SetDescription(const wxString& value)
+			void SetDescription(const kxf::String& value)
 			{
 				m_Description = value;
 			}
 			
-			const wxString& GetBinaryVersionKind() const
+			const kxf::String& GetBinaryVersionKind() const
 			{
 				return m_BinaryVersionKind;
 			}
-			void SetBinaryVersionKind(const wxString& value)
+			void SetBinaryVersionKind(const kxf::String& value)
 			{
 				m_BinaryVersionKind = value;
 			}
@@ -114,11 +114,11 @@ namespace Kortex::PackageProject
 			bool SetType(ReqType type, bool force = false);
 			bool ConformToType();
 			
-			const wxString& GetCategory() const
+			const kxf::String& GetCategory() const
 			{
 				return m_Category;
 			}
-			void SetCategory(const wxString& value)
+			void SetCategory(const kxf::String& value)
 			{
 				m_Category = value;
 			}
@@ -149,11 +149,11 @@ namespace Kortex::PackageProject
 			using RefVector = std::vector<RequirementGroup*>;
 	
 		public:
-			static wxString GetFlagNamePrefix();
-			static wxString GetFlagName(const wxString& id);
+			static kxf::String GetFlagNamePrefix();
+			static kxf::String GetFlagName(const kxf::String& id);
 	
 		private:
-			wxString m_ID;
+			kxf::String m_ID;
 			Operator m_Operator;
 			RequirementItem::Vector m_Items;
 	
@@ -165,15 +165,15 @@ namespace Kortex::PackageProject
 			~RequirementGroup();
 	
 		public:
-			const wxString& GetID() const
+			const kxf::String& GetID() const
 			{
 				return m_ID;
 			}
-			void SetID(const wxString& id)
+			void SetID(const kxf::String& id)
 			{
 				m_ID = id;
 			}
-			wxString GetFlagName() const
+			kxf::String GetFlagName() const
 			{
 				return GetFlagName(GetID());
 			}
@@ -196,8 +196,8 @@ namespace Kortex::PackageProject
 				return m_Items;
 			}
 	
-			RequirementItem* FindItem(const wxString& id) const;
-			bool HasItemWithID(const wxString& id) const
+			RequirementItem* FindItem(const kxf::String& id) const;
+			bool HasItemWithID(const kxf::String& id) const
 			{
 				return FindItem(id) != nullptr;
 			}
@@ -221,13 +221,13 @@ namespace Kortex::PackageProject
 			static const ReqType ms_DefaultTypeDescriptor = ReqType::Auto;
 	
 		public:
-			static ObjectFunction StringToObjectFunction(const wxString& name);
-			static wxString ObjectFunctionToString(ObjectFunction state);
+			static ObjectFunction StringToObjectFunction(const kxf::String& name);
+			static kxf::String ObjectFunctionToString(ObjectFunction state);
 	
-			static ReqType StringToTypeDescriptor(const wxString& name);
-			static wxString TypeDescriptorToString(ReqType type);
+			static ReqType StringToTypeDescriptor(const kxf::String& name);
+			static kxf::String TypeDescriptorToString(ReqType type);
 	
-			static bool CompareVersions(Operator operatorType, const KxVersion& current, const KxVersion& required);
+			static bool CompareVersions(Operator operatorType, const kxf::Version& current, const kxf::Version& required);
 	
 		private:
 			RequirementGroup::Vector m_Groups;
@@ -259,10 +259,10 @@ namespace Kortex::PackageProject
 			{
 				return m_DefaultGroup;
 			}
-			bool IsDefaultGroupContains(const wxString& groupID) const;
+			bool IsDefaultGroupContains(const kxf::String& groupID) const;
 	
-			RequirementGroup* FindGroupWithID(const wxString& id) const;
-			bool HasSetWithID(const wxString& id) const
+			RequirementGroup* FindGroupWithID(const kxf::String& id) const;
+			bool HasSetWithID(const kxf::String& id) const
 			{
 				return FindGroupWithID(id) != nullptr;
 			}

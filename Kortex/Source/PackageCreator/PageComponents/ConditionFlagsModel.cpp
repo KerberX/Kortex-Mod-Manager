@@ -92,7 +92,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			{
 				case ColumnID::Name:
 				{
-					wxString newName = value.As<wxString>();
+					kxf::String newName = value.As<kxf::String>();
 					if (newName.StartsWith(PackageProject::RequirementGroup::GetFlagNamePrefix()))
 					{
 						wxRect rect = GetView()->GetAdjustedItemRect(GetItem(row), column);
@@ -107,7 +107,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				case ColumnID::Value:
 				{
-					entry->SetValue(value.As<wxString>());
+					entry->SetValue(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
@@ -139,7 +139,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddFlag, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FlagPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FlagPlus));
 		}
 		menu.AddSeparator();
 		{
@@ -184,7 +184,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		if (PackageProject::FlagItem* entry = GetDataEntry(GetRow(item)))
 		{
-			wxString deletedName = entry->GetDeletedName();
+			kxf::String deletedName = entry->GetDeletedName();
 			KxTaskDialog dialog(GetViewTLW(), KxID_NONE, KTrf("PackageCreator.Conditions.RemoveFlagDialog.Caption", entry->GetName()), KTrf("PackageCreator.Conditions.RemoveFlagDialog.Message", deletedName), KxBTN_CANCEL, KxICON_WARNING);
 			dialog.AddButton(KxID_REMOVE, KTr("PackageCreator.Conditions.RemoveFlagDialog.Remove"));
 			dialog.AddButton(KxID_RENAME, KTr("PackageCreator.Conditions.RemoveFlagDialog.RemoveRename"));
@@ -221,7 +221,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		NotifyCleared();
 	}
 
-	bool ConditionFlagsModel::DoTrackID(wxString trackedID, const wxString& newID, bool remove) const
+	bool ConditionFlagsModel::DoTrackID(kxf::String trackedID, const kxf::String& newID, bool remove) const
 	{
 		// Manual components
 		for (auto& step: GetProject().GetComponents().GetSteps())
@@ -269,7 +269,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 
 namespace Kortex::PackageDesigner::PageComponentsNS
 {
-	ConditionFlagsDialog::ConditionFlagsDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller)
+	ConditionFlagsDialog::ConditionFlagsDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 		:ConditionFlagsModel(controller)
 		//m_WindowOptions("ConditionFlagsDialog", "Window"), m_ViewOptions("ConditionGroupDialog", "View")
 	{

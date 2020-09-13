@@ -16,23 +16,23 @@
 
 namespace Kortex::PackageDesigner
 {
-	wxString PackageBuilder::GetTempPackagePath() const
+	kxf::String PackageBuilder::GetTempPackagePath() const
 	{
 		return GetPackagePath() + ".tmp";
 	}
-	wxString PackageBuilder::GetTempFolder() const
+	kxf::String PackageBuilder::GetTempFolder() const
 	{
-		return wxString::Format("%s\\%s\\0x%p\\", wxFileName::GetTempDir(), Kortex::IApplication::GetInstance()->GetName(), this);
+		return kxf::String::Format("%s\\%s\\0x%p\\", wxFileName::GetTempDir(), Kortex::IApplication::GetInstance()->GetName(), this);
 	}
-	wxString PackageBuilder::GetImagePath(const wxString& fileName) const
+	kxf::String PackageBuilder::GetImagePath(const kxf::String& fileName) const
 	{
 		return PackageProject::Serializer::GetDefaultFOModRoot() + "\\Images\\" + fileName.AfterLast('\\');
 	}
-	wxString PackageBuilder::GetDocumentPath(const wxString& fileName) const
+	kxf::String PackageBuilder::GetDocumentPath(const kxf::String& fileName) const
 	{
 		return PackageProject::Serializer::GetDefaultFOModRoot() + "\\Documents\\" + fileName.AfterLast('\\');
 	}
-	wxString PackageBuilder::GetFileDataEntryPath(const PackageProject::FileItem* fileDataEntry, const wxString& fileName) const
+	kxf::String PackageBuilder::GetFileDataEntryPath(const PackageProject::FileItem* fileDataEntry, const kxf::String& fileName) const
 	{
 		return fileDataEntry->GetID() + "\\" + fileName;
 	}
@@ -44,7 +44,7 @@ namespace Kortex::PackageDesigner
 		const PackageProject::FileDataSection& fileData = m_Project.GetFileData();
 
 		m_Status = BuildError::Success;
-		auto CheckAndAddMissingFile = [this](const wxString& path)
+		auto CheckAndAddMissingFile = [this](const kxf::String& path)
 		{
 			if (!KxFile(path).IsFileExist())
 			{
@@ -52,7 +52,7 @@ namespace Kortex::PackageDesigner
 				m_MissingFiles.push_back(path);
 			}
 		};
-		auto CheckAndAddMissingFolder = [this](const wxString& path)
+		auto CheckAndAddMissingFolder = [this](const kxf::String& path)
 		{
 			if (!KxFile(path).IsFolderExist())
 			{
@@ -103,7 +103,7 @@ namespace Kortex::PackageDesigner
 	}
 	void PackageBuilder::Configure()
 	{
-		auto ConvertMethod = [](const wxString& methodName)
+		auto ConvertMethod = [](const kxf::String& methodName)
 		{
 			if (methodName == wxS("LZMA"))
 			{
@@ -137,7 +137,7 @@ namespace Kortex::PackageDesigner
 	{
 		// Create KMP config
 		{
-			wxString packageConfigFile = CreateTempFile();
+			kxf::String packageConfigFile = CreateTempFile();
 			PackageProject::NativeSerializer serializer(false);
 			serializer.SetPackageDataRoot(PackageProject::Serializer::GetDefaultFOModRoot());
 			serializer.Serialize(m_Project);
@@ -149,8 +149,8 @@ namespace Kortex::PackageDesigner
 
 		// Create FOMod config
 		{
-			wxString infoFile = CreateTempFile();
-			wxString moduleConfigFile = CreateTempFile();
+			kxf::String infoFile = CreateTempFile();
+			kxf::String moduleConfigFile = CreateTempFile();
 
 			PackageProject::FOModSerializer serializer;
 			serializer.ExportToNativeFormat(true);
@@ -232,7 +232,7 @@ namespace Kortex::PackageDesigner
 		if (IsOK())
 		{
 			// Create new package as *.tmp file to avoid accidentally overwrite existing package
-			wxString tempPackagePath = GetTempPackagePath();
+			kxf::String tempPackagePath = GetTempPackagePath();
 
 			// Create containing folder
 			KxFile(wxFileName(tempPackagePath).GetPath()).CreateFolder();
@@ -262,7 +262,7 @@ namespace Kortex::PackageDesigner
 		return false;
 	}
 
-	const wxString& PackageBuilder::GetPackagePath() const
+	const kxf::String& PackageBuilder::GetPackagePath() const
 	{
 		return m_PackagePath.IsEmpty() ? m_Project.GetConfig().GetInstallPackageFile() : m_PackagePath;
 	}
@@ -289,7 +289,7 @@ namespace Kortex::PackageDesigner
 	{
 		if (m_CheckStatus != BuildError::Success)
 		{
-			wxString message;
+			kxf::String message;
 			switch (m_CheckStatus)
 			{
 				case BuildError::PackagePath:
@@ -323,9 +323,9 @@ namespace Kortex::PackageDesigner
 				}
 				else
 				{
-					wxString path = m_Project.GetConfig().GetInstallPackageFile();
-					wxString size = KxFile(path).GetFormattedFileSize(2);
-					wxString info = wxString::Format("%s: \"%s\"\r\n%s: %s", KTr(KxID_FILE), path, KTr("Generic.Size"), size);
+					kxf::String path = m_Project.GetConfig().GetInstallPackageFile();
+					kxf::String size = KxFile(path).GetFormattedFileSize(2);
+					kxf::String info = kxf::String::Format("%s: \"%s\"\r\n%s: %s", KTr(KxID_FILE), path, KTr("Generic.Size"), size);
 					KxTaskDialog(IApplication::GetInstance()->GetTopWindow(), KxID_NONE, KTr("PackageCreator.Build.Complete"), info, KxBTN_OK, KxICON_INFORMATION).ShowModal();
 				}
 			}

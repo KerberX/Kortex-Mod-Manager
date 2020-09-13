@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/INotification.h"
 #include "Application/INotificationCenter.h"
 class wxPopupTransientWindow;

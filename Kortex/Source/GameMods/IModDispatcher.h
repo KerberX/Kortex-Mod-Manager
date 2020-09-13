@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "FileTreeNode.h"
 #include "IGameMod.h"
 #include "ModManager/Common.h"
@@ -32,17 +32,17 @@ namespace Kortex
 			virtual const FileTreeNode& GetVirtualTree() const = 0;
 
 			// Resolves provided relative file path to real file.
-			virtual const FileTreeNode* ResolveLocation(const wxString& relativePath) const = 0;
+			virtual const FileTreeNode* ResolveLocation(const kxf::String& relativePath) const = 0;
 
 			// A different variant of 'ResolveLocation'. If 'relativePath' is not found, returns it as relative to write target.
 			// Returns absolute paths unchanged.
-			virtual wxString ResolveLocationPath(const wxString& relativePath, const IGameMod** owningMod = nullptr) const = 0;
+			virtual kxf::String ResolveLocationPath(const kxf::String& relativePath, const IGameMod** owningMod = nullptr) const = 0;
 
 			// Searches virtual tree for specified file given its fill path.
-			virtual const FileTreeNode* BackTrackFullPath(const wxString& fullPath) const = 0;
+			virtual const FileTreeNode* BackTrackFullPath(const kxf::String& fullPath) const = 0;
 		
 			// Searches files in virtual tree in specified directory.
-			virtual FileTreeNode::CRefVector Find(const wxString& relativePath, const FilterFunctor& filter, bool recurse = false) const = 0;
+			virtual FileTreeNode::CRefVector Find(const kxf::String& relativePath, const FilterFunctor& filter, bool recurse = false) const = 0;
 
 			// Searches files in specified node. This can be 'BasicGameMod' tree or virtual tree.
 			virtual FileTreeNode::CRefVector Find(const FileTreeNode& rootNode, const FilterFunctor& filter, bool recurse = false) const = 0;

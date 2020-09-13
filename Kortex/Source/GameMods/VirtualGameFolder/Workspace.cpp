@@ -57,7 +57,7 @@ namespace Kortex::VirtualGameFolder
 		m_SearchBox = new KxSearchBox(this, wxID_NONE);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_SEARCH_BTN, &Workspace::OnModSerach, this);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_CANCEL_BTN, &Workspace::OnModSerach, this);
-		m_MainSizer->Add(m_SearchBox, 0, wxTOP|wxEXPAND, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(m_SearchBox, 0, wxTOP|wxEXPAND, LayoutConstants::VerticalSpacing);
 
 		GetDisplayModelOption().LoadDataViewLayout(m_DisplayModel->GetView());
 
@@ -89,11 +89,11 @@ namespace Kortex::VirtualGameFolder
 		}
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "KModManagerVirtualGameFolderWS";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("VirtualGameFolderWS.NameShort");
 	}

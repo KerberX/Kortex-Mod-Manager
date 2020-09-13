@@ -59,7 +59,7 @@ namespace Kortex::NetworkManager
 
 		INetworkManager::OnExit();
 	}
-	void DefaultNetworkManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultNetworkManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		// Create sources
 		m_ModNetworks.reserve(3);
@@ -155,7 +155,7 @@ namespace Kortex::NetworkManager
 						}
 						else if (!authenticable->IsAuthenticated())
 						{
-							wxString label = KxString::Format("%1 (%2)", KTr("NetworkManager.ModNetwork.MakeDefault"), KTr("NetworkManager.NotSignedIn"));
+							kxf::String label = kxf::String::Format("%1 (%2)", KTr("NetworkManager.ModNetwork.MakeDefault"), KTr("NetworkManager.NotSignedIn"));
 							item->SetItemLabel(KxString::MakeCapitalized(label));
 						}
 						else
@@ -175,12 +175,12 @@ namespace Kortex::NetworkManager
 				if (authenticable)
 				{
 					{
-						wxString label;
+						kxf::String label;
 						if (bool isAuth = authenticable->IsAuthenticated())
 						{
 							if (auto credentials = authenticable->LoadCredentials())
 							{
-								label = KxString::Format(wxS("%1: %2"), KTr("NetworkManager.SignOut"), credentials->UserID);
+								label = kxf::String::Format(wxS("%1: %2"), KTr("NetworkManager.SignOut"), credentials->UserID);
 							}
 							else
 							{
@@ -213,7 +213,7 @@ namespace Kortex::NetworkManager
 				{
 					if (ModRepositoryLimits limits = repository->GetRequestLimits(); limits.IsOK() && limits.HasLimits())
 					{
-						wxString label;
+						kxf::String label;
 						auto AddSeparator = [&label]()
 						{
 							if (!label.IsEmpty())
@@ -231,10 +231,10 @@ namespace Kortex::NetworkManager
 							AddSeparator();
 							label += KTrf(wxS("NetworkManager.QueryLimits.Daily"), limits.GetDailyRemaining(), limits.GetDailyTotal());
 						}
-						label = KxString::Format(wxS("%1: [%2]"), KTr(wxS("NetworkManager.QueryLimits")), label);
+						label = kxf::String::Format(wxS("%1: [%2]"), KTr(wxS("NetworkManager.QueryLimits")), label);
 
 						KxMenuItem* item = subMenu->Add(new KxMenuItem(label));
-						item->SetBitmap(ImageProvider::GetBitmap(limits.AnyLimitDepleted() ? ImageResourceID::Exclamation : ImageResourceID::TickCircleFrame));
+						item->SetBitmap(ImageProvider::GetBitmap(limits.AnyLimitDepleted() ? Imagekxf::ResourceID::Exclamation : Imagekxf::ResourceID::TickCircleFrame));
 						item->SetClientData(modNetwork.get());
 						item->Bind(KxEVT_MENU_SELECT, [&modNetwork](KxMenuEvent& event)
 						{
@@ -311,7 +311,7 @@ namespace Kortex::NetworkManager
 		CreateMenu();
 		UpdateButton();
 	}
-	wxString DefaultNetworkManager::GetCacheDirectory() const
+	kxf::String DefaultNetworkManager::GetCacheDirectory() const
 	{
 		return IApplication::GetInstance()->GetUserSettingsFolder() + wxS("\\WebCache");
 	}
@@ -338,9 +338,9 @@ namespace Kortex::NetworkManager
 	{
 		return m_DefaultModNetwork;
 	}
-	IModNetwork* DefaultNetworkManager::GetModNetworkByName(const wxString& name) const
+	IModNetwork* DefaultNetworkManager::GetModNetworkByName(const kxf::String& name) const
 	{
-		auto FindModNetwork = [this](const wxString& name) -> IModNetwork*
+		auto FindModNetwork = [this](const kxf::String& name) -> IModNetwork*
 		{
 			for (const auto& modNetwork: m_ModNetworks)
 			{

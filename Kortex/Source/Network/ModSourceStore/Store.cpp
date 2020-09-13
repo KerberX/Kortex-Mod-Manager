@@ -3,11 +3,11 @@
 
 namespace Kortex
 {
-	const ModSourceItem* ModSourceStore::GetItem(const wxString& name) const
+	const ModSourceItem* ModSourceStore::GetItem(const kxf::String& name) const
 	{
 		return FindItemPtr(m_Items, name);
 	}
-	ModSourceItem* ModSourceStore::GetItem(const wxString& name)
+	ModSourceItem* ModSourceStore::GetItem(const kxf::String& name)
 	{
 		return FindItemPtr(m_Items, name);
 	}
@@ -21,7 +21,7 @@ namespace Kortex
 		return FindItemPtr(m_Items, &modNetwork);
 	}
 
-	ModSourceItem& ModSourceStore::AssignWith(const wxString& name, const wxString& url)
+	ModSourceItem& ModSourceStore::AssignWith(const kxf::String& name, const kxf::String& url)
 	{
 		auto it = FindItem(m_Items, name);
 		if (it == m_Items.end())
@@ -35,7 +35,7 @@ namespace Kortex
 			return *it;
 		}
 	}
-	ModSourceItem& ModSourceStore::AssignWith(const wxString& name, NetworkModInfo modInfo)
+	ModSourceItem& ModSourceStore::AssignWith(const kxf::String& name, NetworkModInfo modInfo)
 	{
 		auto it = FindItem(m_Items, name);
 		if (it == m_Items.end())
@@ -50,7 +50,7 @@ namespace Kortex
 		}
 	}
 
-	ModSourceItem& ModSourceStore::AssignWith(IModNetwork& modNetwork, const wxString& url)
+	ModSourceItem& ModSourceStore::AssignWith(IModNetwork& modNetwork, const kxf::String& url)
 	{
 		auto it = FindItem(m_Items, &modNetwork);
 		if (it == m_Items.end())
@@ -79,7 +79,7 @@ namespace Kortex
 		}
 	}
 
-	bool ModSourceStore::RemoveItem(const wxString& name)
+	bool ModSourceStore::RemoveItem(const kxf::String& name)
 	{
 		auto it = FindItem(m_Items, name);
 		if (it != m_Items.end())
@@ -112,7 +112,7 @@ namespace Kortex
 		return false;
 	}
 
-	KxURI ModSourceStore::GetModPageURI(const wxString& name, const GameID& gameID) const
+	KxURI ModSourceStore::GetModPageURI(const kxf::String& name, const GameID& gameID) const
 	{
 		if (const ModSourceItem* item = GetItem(name))
 		{
@@ -152,21 +152,21 @@ namespace Kortex
 		return items;
 	}
 
-	void ModSourceStore::LoadTryAdd(const KxXMLNode& arrayNode)
+	void ModSourceStore::LoadTryAdd(const kxf::XMLNode& arrayNode)
 	{
 		LoadHelper<LoadMode::TryAdd>(*this, arrayNode);
 	}
-	void ModSourceStore::LoadAssign(const KxXMLNode& arrayNode)
+	void ModSourceStore::LoadAssign(const kxf::XMLNode& arrayNode)
 	{
 		LoadHelper<LoadMode::Assign>(*this, arrayNode);
 	}
-	void ModSourceStore::Save(KxXMLNode& arrayNode) const
+	void ModSourceStore::Save(kxf::XMLNode& arrayNode) const
 	{
 		for (const ModSourceItem& item: m_Items)
 		{
 			if (item.IsOK() && !item.IsEmptyValue())
 			{
-				KxXMLNode node = arrayNode.NewElement(wxS("Entry"));
+				kxf::XMLNode node = arrayNode.NewElement(wxS("Entry"));
 				item.Save(node);
 			}
 		}

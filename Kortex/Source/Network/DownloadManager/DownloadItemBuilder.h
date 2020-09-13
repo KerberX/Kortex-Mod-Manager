@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include <KxFramework/KxURI.h>
 
@@ -45,9 +45,9 @@ namespace Kortex
 			DownloadItemBuilder& SetTotalSize(int64_t size);
 			DownloadItemBuilder& SetDownloadedSize(int64_t size);
 			
-			DownloadItemBuilder& SetName(const wxString& value);
-			DownloadItemBuilder& SetDisplayName(const wxString& value);
-			DownloadItemBuilder& SetVersion(const KxVersion& value);
+			DownloadItemBuilder& SetName(const kxf::String& value);
+			DownloadItemBuilder& SetDisplayName(const kxf::String& value);
+			DownloadItemBuilder& SetVersion(const kxf::Version& value);
 			DownloadItemBuilder& SetModID(ModID modID);
 			DownloadItemBuilder& SetFileID(ModFileID fileID);
 			

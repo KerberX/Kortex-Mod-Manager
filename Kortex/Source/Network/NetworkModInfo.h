@@ -39,15 +39,15 @@ namespace Kortex
 				return !HasModID() && !HasFileID();
 			}
 			
-			wxString ToString() const
+			kxf::String ToString() const
 			{
 				if (HasFileID())
 				{
-					return KxString::Format(wxS("%1:%2"), m_ModID.GetValue(), m_FileID.GetValue());
+					return kxf::String::Format(wxS("%1:%2"), m_ModID.GetValue(), m_FileID.GetValue());
 				}
 				return m_ModID.ToString();
 			}
-			bool FromString(const wxString& stringValue);
+			bool FromString(const kxf::String& stringValue);
 
 			bool HasModID() const
 			{
@@ -86,7 +86,7 @@ namespace std
 	{
 		size_t operator()(const Kortex::NetworkModInfo& modinfo) const
 		{
-			return std::hash<wxString>()(modinfo.ToString());
+			return std::hash<kxf::String>()(modinfo.ToString());
 		}
 	};
 }

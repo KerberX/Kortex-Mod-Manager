@@ -1,10 +1,10 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "ISource.h"
 #include "Item.h"
 #include "ItemOptions.h"
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex
 {
@@ -22,7 +22,7 @@ namespace Kortex::GameConfig
 		private:
 			Definition& m_Definition;
 
-			wxString m_ID;
+			kxf::String m_ID;
 			ItemOptions m_Options;
 			SourceTypeValue m_SourceType = SourceType::None;
 			std::unique_ptr<ISource> m_Source;
@@ -32,7 +32,7 @@ namespace Kortex::GameConfig
 			bool m_Destructing = false;
 
 		private:
-			void LoadItems(const KxXMLNode& groupNode);
+			void LoadItems(const kxf::XMLNode& groupNode);
 			void RemoveAllUnknownItems();
 
 			void AddKnownItem(size_t hash, Item& item);
@@ -47,7 +47,7 @@ namespace Kortex::GameConfig
 			}
 			
 		public:
-			ItemGroup(Definition& definition, const wxString& id, const KxXMLNode& groupNode, const ItemOptions& parentOptions);
+			ItemGroup(Definition& definition, const kxf::String& id, const kxf::XMLNode& groupNode, const ItemOptions& parentOptions);
 			~ItemGroup();
 
 		public:
@@ -55,7 +55,7 @@ namespace Kortex::GameConfig
 			{
 				return !m_ID.IsEmpty() && m_Source != nullptr;
 			}
-			wxString GetID() const
+			kxf::String GetID() const
 			{
 				return m_ID;
 			}
@@ -83,7 +83,7 @@ namespace Kortex::GameConfig
 			}
 
 			void LoadItemsData();
-			void OnLoadInstance(const KxXMLNode& groupNode);
+			void OnLoadInstance(const kxf::XMLNode& groupNode);
 
 			template<class TFunctor> void ForEachItem(TFunctor&& func) const
 			{

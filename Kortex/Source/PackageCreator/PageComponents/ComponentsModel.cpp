@@ -397,13 +397,13 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				else
 				{
-					value = KxDataViewBitmapTextValue(step->GetName(), ImageProvider::GetBitmap(ImageResourceID::Direction));
+					value = KxDataViewBitmapTextValue(step->GetName(), ImageProvider::GetBitmap(Imagekxf::ResourceID::Direction));
 				}
 				break;
 			}
 			case ColumnID::Value:
 			{
-				wxString conditions = PageComponents::ConditionGroupToString(step->GetConditionGroup());
+				kxf::String conditions = PageComponents::ConditionGroupToString(step->GetConditionGroup());
 				if (conditions.IsEmpty())
 				{
 					conditions = Utility::MakeNoneLabel();
@@ -425,7 +425,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				else
 				{
-					value = KxDataViewBitmapTextValue(group->GetName(), ImageProvider::GetBitmap(ImageResourceID::Folder));
+					value = KxDataViewBitmapTextValue(group->GetName(), ImageProvider::GetBitmap(Imagekxf::ResourceID::Folder));
 				}
 				break;
 			}
@@ -455,7 +455,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				else
 				{
-					value = KxDataViewBitmapTextValue(entry->GetName(), ImageProvider::GetBitmap(ImageResourceID::Block));
+					value = KxDataViewBitmapTextValue(entry->GetName(), ImageProvider::GetBitmap(Imagekxf::ResourceID::Block));
 				}
 				break;
 			}
@@ -599,7 +599,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					}
 					case ColumnID::Value:
 					{
-						wxString conditions = PageComponents::ConditionGroupToString(entry->GetTDConditionGroup());
+						kxf::String conditions = PageComponents::ConditionGroupToString(entry->GetTDConditionGroup());
 						if (conditions.IsEmpty())
 						{
 							conditions = Utility::MakeNoneLabel();
@@ -634,7 +634,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					}
 					case ColumnID::Value:
 					{
-						wxString flags = PageComponents::ConditionToString(entry->GetConditionFlags(), false);
+						kxf::String flags = PageComponents::ConditionToString(entry->GetConditionFlags(), false);
 						if (flags.IsEmpty())
 						{
 							flags = Utility::MakeNoneLabel();
@@ -654,7 +654,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		{
 			case ColumnID::Name:
 			{
-				step->SetName(value.As<wxString>());
+				step->SetName(value.As<kxf::String>());
 				return true;
 			}
 		};
@@ -666,7 +666,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		{
 			case ColumnID::Name:
 			{
-				group->SetName(value.As<wxString>());
+				group->SetName(value.As<kxf::String>());
 				return true;
 			}
 			case ColumnID::Value:
@@ -683,7 +683,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		{
 			case ColumnID::Name:
 			{
-				entry->SetName(value.As<wxString>());
+				entry->SetName(value.As<kxf::String>());
 				return true;
 			}
 		};
@@ -772,7 +772,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				{
 					wxAny value;
 					GetValue(value, item, GetView()->GetColumnByID(ColumnID::Name));
-					return value.As<wxString>();
+					return value.As<kxf::String>();
 				};
 	
 				PackageProject::ComponentItem* entry = node->GetParent()->GetEntry();
@@ -867,7 +867,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				CreateAllItemsMenuEntry(allItemsMenu, node, KTr("PackageCreator.PageComponents.Conditions"), &ComponentsModel::AllSteps_Conditions);
 	
 				KxMenuItem* item = contextMenu.Add(allItemsMenu, KTr("PackageCreator.PageComponents.AllSteps"));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Direction));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Direction));
 			}
 			if (node)
 			{
@@ -879,7 +879,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.SelectionMode"), &ComponentsModel::AllGroups_SelectionMode);
 	
 					KxMenuItem* item = contextMenu.Add(allItemsMenu, KTrf("PackageCreator.PageComponents.AllGroupsOf", parent->GetStep()->GetName()));
-					item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Folder));
+					item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Folder));
 				}
 			}
 			if (node && (node->GetGroup() || node->GetEntry() || node->IsEntryItem()))
@@ -898,7 +898,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.AssignedFlags"), &ComponentsModel::AllEntries_AssignedFlags);
 	
 					KxMenuItem* item = contextMenu.Add(allItemsMenu, KTrf("PackageCreator.PageComponents.AllEntriesOf", parent->GetGroup()->GetName()));
-					item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Block));
+					item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Block));
 					item->SetClientData(node);
 				}
 			}
@@ -907,22 +907,22 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			// Add item
 			{
 				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddStep, KTr("PackageCreator.PageComponents.AddStep")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DirectionPlus));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DirectionPlus));
 				item->Enable(true);
 			}
 			{
 				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddGroup, KTr("PackageCreator.PageComponents.AddGroup")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
 				item->Enable(node);
 			}
 			{
 				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddEntry, KTr("PackageCreator.PageComponents.AddEntry")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BlockPlus));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BlockPlus));
 				item->Enable(node && (node->GetGroup() || node->GetEntry() || node->IsEntryItem()));
 			}
 			{
 				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddEntriesFromFiles, KTr("PackageCreator.PageComponents.AddEntriesFromFiles")));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FoldersPlus));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FoldersPlus));
 				item->Enable(node && (node->GetGroup() || node->GetEntry() || node->IsEntryItem()));
 			}
 	
@@ -936,15 +936,15 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 				if (const PackageProject::ComponentStep* step = node->GetStep())
 				{
-					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DirectionMinus));
-					menuItemRemove->SetItemLabel(wxString::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveStep"), step->GetName()));
+					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DirectionMinus));
+					menuItemRemove->SetItemLabel(kxf::String::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveStep"), step->GetName()));
 					menuItemRemove->SetClientData(node);
 					menuItemRemove->Enable(true);
 				}
 				else if (const PackageProject::ComponentGroup* group = node->GetGroup())
 				{
-					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderMinus));
-					menuItemRemove->SetItemLabel(wxString::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveGroup"), group->GetName()));
+					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderMinus));
+					menuItemRemove->SetItemLabel(kxf::String::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveGroup"), group->GetName()));
 					menuItemRemove->SetClientData(node);
 					menuItemRemove->Enable(true);
 				}
@@ -952,8 +952,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				{
 					const PackageProject::ComponentItem* entry = node->GetEntry() ? node->GetEntry() : node->GetParent()->GetEntry();
 	
-					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BlockMinus));
-					menuItemRemove->SetItemLabel(wxString::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveEntry"), entry->GetName()));
+					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BlockMinus));
+					menuItemRemove->SetItemLabel(kxf::String::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveEntry"), entry->GetName()));
 					menuItemRemove->SetClientData(node->GetEntry() ? node : node->GetParent());
 					menuItemRemove->Enable(true);
 				}
@@ -1066,7 +1066,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		{
 			if (image.HasDescription())
 			{
-				imagesList.push_back(wxString::Format("%s - \"%s\"", image.GetPath(), image.GetDescription()));
+				imagesList.push_back(kxf::String::Format("%s - \"%s\"", image.GetPath(), image.GetDescription()));
 			}
 			else
 			{
@@ -1271,7 +1271,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		return new KxMenu();
 	}
-	void ComponentsModel::CreateAllItemsMenuEntry(KxMenu* menu, ComponentsModelNode* node, const wxString& name, AllItemsFunc func)
+	void ComponentsModel::CreateAllItemsMenuEntry(KxMenu* menu, ComponentsModelNode* node, const kxf::String& name, AllItemsFunc func)
 	{
 		KxMenuItem* item = menu->Add(new KxMenuItem(name));
 		if (node)
@@ -1283,7 +1283,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		}
 	}
 	
-	void ComponentsModel::AllSteps_Name(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllSteps_Name(ComponentsModelNode* node, const kxf::String& name)
 	{
 		KxTextBoxDialog dialog(GetViewTLW(), KxID_NONE, name);
 		if (dialog.ShowModal() == KxID_OK)
@@ -1295,7 +1295,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllSteps_Conditions(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllSteps_Conditions(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem tempEntry;
 		ConditionGroupDialog dialog(GetViewTLW(), name, m_Controller, tempEntry.GetTDConditionGroup());
@@ -1309,7 +1309,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		}
 	}
 	
-	void ComponentsModel::AllGroups_Name(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllGroups_Name(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentGroup::Vector& groups = node->GetStep()->GetGroups();
 	
@@ -1323,7 +1323,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllGroups_SelectionMode(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllGroups_SelectionMode(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentGroup::Vector& groups = node->GetStep()->GetGroups();
 	
@@ -1339,7 +1339,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		}
 	}
 	
-	void ComponentsModel::AllEntries_Name(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_Name(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
@@ -1353,7 +1353,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllEntries_DefaultTypeDescriptor(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_DefaultTypeDescriptor(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
@@ -1368,7 +1368,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllEntries_FileData(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_FileData(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
@@ -1383,7 +1383,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllEntries_Requirements(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_Requirements(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
@@ -1398,7 +1398,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllEntries_Image(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_Image(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 		const PackageProject::ImageItem::Vector& images = GetInterface().GetImages();
@@ -1420,7 +1420,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			SelectItem(GetView()->GetSelection());
 		}
 	}
-	void ComponentsModel::AllEntries_Conditions(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_Conditions(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 		PackageProject::ComponentItem tempEntry;
@@ -1436,7 +1436,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllEntries_AssignedFlags(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_AssignedFlags(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 		PackageProject::ComponentItem tempEntry;
@@ -1452,7 +1452,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			GetView()->Refresh();
 		}
 	}
-	void ComponentsModel::AllEntries_Description(ComponentsModelNode* node, const wxString& name)
+	void ComponentsModel::AllEntries_Description(ComponentsModelNode* node, const kxf::String& name)
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	

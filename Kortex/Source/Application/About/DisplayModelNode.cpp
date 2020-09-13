@@ -8,7 +8,7 @@ using namespace Kortex::Utility;
 
 namespace Kortex::Application::About
 {
-	wxString INode::GetLocation(Type type) const
+	kxf::String INode::GetLocation(Type type) const
 	{
 		const IApplication* app = IApplication::GetInstance();
 
@@ -29,9 +29,9 @@ namespace Kortex::Application::About
 		};
 		return wxEmptyString;
 	}
-	wxString INode::ReadLicense(Type type) const
+	kxf::String INode::ReadLicense(Type type) const
 	{
-		wxString license = KxTextFile::ReadToString(String::ConcatWithSeparator(wxS('\\'), GetLocation(type), wxS("License.txt")));
+		kxf::String license = KxTextFile::ReadToString(String::ConcatWithSeparator(wxS('\\'), GetLocation(type), wxS("License.txt")));
 		if (!license.IsEmpty())
 		{
 			// Create clickable links (<a href="link">link</a>) from '<link>' or just link
@@ -48,7 +48,7 @@ namespace Kortex::Application::About
 		}
 		return license;
 	}
-	const wxString& INode::LoadLicense(LicenseData& data, Type type) const
+	const kxf::String& INode::LoadLicense(LicenseData& data, Type type) const
 	{
 		if (data.m_License.IsEmpty() && data.m_ShouldLoad)
 		{
@@ -61,17 +61,17 @@ namespace Kortex::Application::About
 
 namespace Kortex::Application::About
 {
-	wxString AppNode::GetName() const
+	kxf::String AppNode::GetName() const
 	{
 		return IApplication::GetInstance()->GetName();
 	}
-	KxVersion AppNode::GetVersion() const
+	kxf::Version AppNode::GetVersion() const
 	{
 		return IApplication::GetInstance()->GetVersion();
 	}
-	ResourceID AppNode::GetIconID() const
+	kxf::ResourceID AppNode::GetIconID() const
 	{
-		return ImageResourceID::KortexLogoSmall;
+		return Imagekxf::ResourceID::KortexLogoSmall;
 	}
 	KxURI AppNode::GetURI() const
 	{
@@ -82,7 +82,7 @@ namespace Kortex::Application::About
 	{
 		return !LoadLicense(m_Licence, Type::Application).IsEmpty();
 	}
-	wxString AppNode::GetLicense() const
+	kxf::String AppNode::GetLicense() const
 	{
 		return LoadLicense(m_Licence, Type::Application);
 	}
@@ -90,15 +90,15 @@ namespace Kortex::Application::About
 
 namespace Kortex::Application::About
 {
-	wxString ModuleNode::GetName() const
+	kxf::String ModuleNode::GetName() const
 	{
 		return m_Module.GetModuleInfo().GetName();
 	}
-	KxVersion ModuleNode::GetVersion() const
+	kxf::Version ModuleNode::GetVersion() const
 	{
 		return m_Module.GetModuleInfo().GetVersion();
 	}
-	ResourceID ModuleNode::GetIconID() const
+	kxf::ResourceID ModuleNode::GetIconID() const
 	{
 		return m_Module.GetModuleInfo().GetImageID();
 	}
@@ -107,7 +107,7 @@ namespace Kortex::Application::About
 	{
 		return !LoadLicense(m_Licence, Type::Software).IsEmpty();
 	}
-	wxString ModuleNode::GetLicense() const
+	kxf::String ModuleNode::GetLicense() const
 	{
 		return LoadLicense(m_Licence, Type::Software);
 	}

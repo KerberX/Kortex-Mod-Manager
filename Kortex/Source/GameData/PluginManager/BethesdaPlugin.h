@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BaseGamePlugin.h"
 #include "IBethesdaGamePlugin.h"
 #include "IBethesdaPluginReader.h"
@@ -30,7 +30,7 @@ namespace Kortex::PluginManager
 
 		public:
 			BethesdaPlugin() = default;
-			BethesdaPlugin(const wxString& fullPath)
+			BethesdaPlugin(const kxf::String& fullPath)
 			{
 				BaseGamePlugin::Create(fullPath);
 			}
@@ -67,12 +67,12 @@ namespace Kortex::PluginManager
 				ReadDataIfNeeded();
 				return m_Data.m_RequiredPlugins;
 			}
-			wxString GetAuthor() const override
+			kxf::String GetAuthor() const override
 			{
 				ReadDataIfNeeded();
 				return m_Data.m_Author;
 			}
-			wxString GetDescription() const override
+			kxf::String GetDescription() const override
 			{
 				ReadDataIfNeeded();
 				return m_Data.m_Description;

@@ -38,11 +38,11 @@ namespace Kortex::Application
 	{
 	}
 
-	wxString DefaultApplication::ExpandVariablesLocally(const wxString& variables) const
+	kxf::String DefaultApplication::ExpandVariablesLocally(const kxf::String& variables) const
 	{
 		return m_Variables.Expand(variables);
 	}
-	wxString DefaultApplication::ExpandVariables(const wxString& variables) const
+	kxf::String DefaultApplication::ExpandVariables(const kxf::String& variables) const
 	{
 		if (IGameInstance* instance = IGameInstance::GetActive())
 		{
@@ -60,7 +60,7 @@ namespace Kortex::Application
 		});
 
 		// Setup paths
-		const wxString rootFolder = GetRootFolder();
+		const kxf::String rootFolder = GetRootFolder();
 
 		m_DataFolder = rootFolder + "\\Data";
 		m_UserSettingsFolder = KxShell::GetFolder(KxSHF_APPLICATIONDATA_LOCAL) + '\\' + GetID();
@@ -185,26 +185,26 @@ namespace Kortex::Application
 	void DefaultApplication::OnError(LogEvent& event)
 	{
 		KxIconType iconType = KxICON_NONE;
-		ImageResourceID iconImageID = ImageResourceID::None;
+		Imagekxf::ResourceID iconImageID = Imagekxf::ResourceID::None;
 
 		if (event.GetLevel() == LogEvent::EvtInfo)
 		{
 			iconType = KxICON_INFORMATION;
-			iconImageID = ImageResourceID::InformationFrame;
+			iconImageID = Imagekxf::ResourceID::InformationFrame;
 		}
 		else if (event.GetLevel() == LogEvent::EvtWarning)
 		{
 			iconType = KxICON_WARNING;
-			iconImageID = ImageResourceID::ExclamationCircleFrame;
+			iconImageID = Imagekxf::ResourceID::ExclamationCircleFrame;
 		}
 		else if (event.GetLevel() == LogEvent::EvtError || event.GetLevel() == LogEvent::EvtCritical)
 		{
 			iconType = KxICON_ERROR;
-			iconImageID = ImageResourceID::CrossCircleFrame;
+			iconImageID = Imagekxf::ResourceID::CrossCircleFrame;
 		}
 
-		wxString caption;
-		wxString message;
+		kxf::String caption;
+		kxf::String message;
 		if (IsTranslationLoaded())
 		{
 			if (event.IsCritical())
@@ -341,7 +341,7 @@ namespace Kortex::Application
 	void DefaultApplication::ShowWorkspace()
 	{
 		auto option = GetAInstanceOption(OName::Workspace);
-		wxString startPage = option.GetValue();
+		kxf::String startPage = option.GetValue();
 		Utility::Log::LogInfo("Start page is: %1", startPage);
 
 		IWorkspaceContainer& container = m_MainWindow->GetWorkspaceContainer();
@@ -428,7 +428,7 @@ namespace Kortex::Application
 	}
 	bool DefaultApplication::ShowFirstTimeConfigDialog(wxWindow* parent)
 	{
-		wxString message = wxString::Format("%s\r\n\r\n%s: %s", KTr("Init.ProfilesPath2"), KTr("Generic.DefaultValue"), m_DefaultInstancesFolder);
+		kxf::String message = kxf::String::Format("%s\r\n\r\n%s: %s", KTr("Init.ProfilesPath2"), KTr("Generic.DefaultValue"), m_DefaultInstancesFolder);
 		KxTaskDialog messageDialog(parent, KxID_NONE, KTr("Init.ProfilesPath1"), message, KxBTN_NONE);
 		messageDialog.AddButton(KxID_YES, KTr("Generic.UseDefaultValue"));
 		messageDialog.AddButton(KxID_NO, KTr("Generic.BrowseFolder"));
@@ -541,7 +541,7 @@ namespace Kortex::Application
 		}
 		return false;
 	}
-	bool DefaultApplication::DispatchDownloadLink(const wxString& link, bool* canContinue)
+	bool DefaultApplication::DispatchDownloadLink(const kxf::String& link, bool* canContinue)
 	{
 		// Enum all mod repositories and ask them to process the link
 		for (ModNetworkRepository* repository: INetworkManager::GetInstance()->GetModRepositories())
@@ -577,7 +577,7 @@ namespace Kortex::Application
 
 				if (command.Executable != GetExecutablePath())
 				{
-					KxProcess process(command.Executable, KxString::Format(command.Arguments, link));
+					KxProcess process(command.Executable, kxf::String::Format(command.Arguments, link));
 					process.Run(KxPROCESS_RUN_SYNC);
 					return true;
 				}

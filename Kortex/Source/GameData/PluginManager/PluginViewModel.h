@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "KxFramework/KxDataViewListModelEx.h"
 #include "GameData/IPluginManager.h"
 #include "BethesdaPluginManager.h"
@@ -16,7 +16,7 @@ namespace Kortex::PluginManager
 		private:
 			IGamePlugin::Vector& m_Items;
 			std::unique_ptr<IDisplayModel> m_DisplayModel;
-			wxString m_SearchMask;
+			kxf::String m_SearchMask;
 
 		private:
 			void OnInitControl() override;
@@ -87,7 +87,7 @@ namespace Kortex::PluginManager
 			
 			void SetAllEnabled(bool value);
 			void UpdateUI();
-			bool SetSearchMask(const wxString& mask);
+			bool SetSearchMask(const kxf::String& mask);
 	};
 }
 

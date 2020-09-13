@@ -6,7 +6,7 @@
 
 namespace
 {
-	static wxString g_GlobalTemp;
+	static kxf::String g_GlobalTemp;
 }
 
 namespace Kortex::Utility
@@ -27,16 +27,16 @@ namespace Kortex::Utility
 			KxFile(g_GlobalTemp).CreateFolder();
 		}
 	}
-	const wxString& TempFolderKeeper::GetGlobalTemp()
+	const kxf::String& TempFolderKeeper::GetGlobalTemp()
 	{
 		InitGlobalTemp();
 		return g_GlobalTemp;
 	}
-	wxString TempFolderKeeper::DoCreateTempFile(const wxString& folder)
+	kxf::String TempFolderKeeper::DoCreateTempFile(const kxf::String& folder)
 	{
 		return wxFileName::CreateTempFileName(folder);
 	}
-	wxString TempFolderKeeper::DoCreateTempFile(const wxString& folder, const wxString& suffix)
+	kxf::String TempFolderKeeper::DoCreateTempFile(const kxf::String& folder, const kxf::String& suffix)
 	{
 		if (suffix.IsEmpty())
 		{
@@ -44,28 +44,28 @@ namespace Kortex::Utility
 		}
 		else
 		{
-			wxString tempFile = DoCreateTempFile(folder);
-			wxString newTempFile = tempFile + suffix;
+			kxf::String tempFile = DoCreateTempFile(folder);
+			kxf::String newTempFile = tempFile + suffix;
 			KxFile(tempFile).Rename(newTempFile, true);
 			return newTempFile;
 		}
 	}
 
-	wxString TempFolderKeeper::CreateGlobalTempFile(const wxString& suffix)
+	kxf::String TempFolderKeeper::CreateGlobalTempFile(const kxf::String& suffix)
 	{
 		return DoCreateTempFile(g_GlobalTemp, suffix);
 	}
-	ScopedTempFile TempFolderKeeper::CreateScopedGlobalTempFile(const wxString& suffix)
+	ScopedTempFile TempFolderKeeper::CreateScopedGlobalTempFile(const kxf::String& suffix)
 	{
 		return ScopedTempFile(DoCreateTempFile(g_GlobalTemp, suffix));
 	}
 
-	wxString TempFolderKeeper::InitTempFolder() const
+	kxf::String TempFolderKeeper::InitTempFolder() const
 	{
 		const void* pInstance = this + KxMath::RandomInt(std::numeric_limits<size_t>::max());
 
 		// Global temp folder already has path separator at its end.
-		return wxString::Format("%s0x%p\\", GetGlobalTemp(), pInstance);
+		return kxf::String::Format("%s0x%p\\", GetGlobalTemp(), pInstance);
 	}
 
 	TempFolderKeeper::TempFolderKeeper()
@@ -78,11 +78,11 @@ namespace Kortex::Utility
 		KxFile(m_TempFolder).RemoveFolderTree(true);
 	}
 
-	wxString TempFolderKeeper::CreateTempFile(const wxString& suffix) const
+	kxf::String TempFolderKeeper::CreateTempFile(const kxf::String& suffix) const
 	{
 		return DoCreateTempFile(m_TempFolder, suffix);
 	}
-	ScopedTempFile TempFolderKeeper::CreateScopedTempFile(const wxString& suffix)
+	ScopedTempFile TempFolderKeeper::CreateScopedTempFile(const kxf::String& suffix)
 	{
 		return CreateTempFile(suffix);
 	}

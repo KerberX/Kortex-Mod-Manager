@@ -1,12 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 #include "Application/RefStackTranslator.h"
 #include "ConfigManger/ItemValue.h"
 #include "ConfigManger/IAction.h"
 #include "ConfigManger/ISamplingFunction.h"
 #include <KxFramework/KxTranslation.h>
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex
 {
@@ -25,7 +25,7 @@ namespace Kortex
 	class IConfigManager:
 		public KxRTTI::ExtendInterface<IConfigManager, ManagerWithTypeInfo<IManager, ConfigManager::Internal::TypeInfo>>
 	{
-		KxDecalreIID(IConfigManager, {0x7a3622ac, 0xf11, 0x4999, {0x9c, 0xe5, 0xad, 0x8d, 0xd4, 0xf, 0xf9, 0xa5}});
+		KxRTTI_DeclareIID(IConfigManager, {0x7a3622ac, 0xf11, 0x4999, {0x9c, 0xe5, 0xad, 0x8d, 0xd4, 0xf, 0xf9, 0xa5}});
 
 		friend class GameConfig::Item;
 		friend class GameConfig::DisplayModel;
@@ -34,7 +34,7 @@ namespace Kortex
 			using DefinitionFunc = std::function<void(const GameConfig::Definition& definition)>;
 
 		public:
-			static wxString GetDefinitionFileByID(const wxString& id);
+			static kxf::String GetDefinitionFileByID(const kxf::String& id);
 
 		private:
 			KxTranslation m_Translation;
@@ -42,7 +42,7 @@ namespace Kortex
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			
 			virtual void OnCreateDisplayModel(GameConfig::DisplayModel& displayModel)
 			{
@@ -52,7 +52,7 @@ namespace Kortex
 			}
 
 			virtual RefStackTranslator& GetTranslatorStack() = 0;
-			bool LoadTranslation(KxTranslation& translation, const wxString& component);
+			bool LoadTranslation(KxTranslation& translation, const kxf::String& component);
 			bool LoadDefaultTranslation();
 
 			virtual void OnItemChanged(GameConfig::Item& item) = 0;
@@ -86,15 +86,15 @@ namespace Kortex
 			virtual void DiscardChanges() = 0;
 			virtual bool HasUnsavedChanges() const = 0;
 
-			wxString TranslateItemLabel(const wxString& name, const wxString& perfix) const;
-			wxString TranslateItemLabel(const KxXMLNode& itemNode, const wxString& name, const wxString& perfix, bool isAttribute = false) const;
-			std::pair<wxString, bool> TranslateItemElement(const KxXMLNode& itemNode, bool isAttribute = false, const wxString& attributeName = {}) const;
+			kxf::String TranslateItemLabel(const kxf::String& name, const kxf::String& perfix) const;
+			kxf::String TranslateItemLabel(const kxf::XMLNode& itemNode, const kxf::String& name, const kxf::String& perfix, bool isAttribute = false) const;
+			std::pair<kxf::String, bool> TranslateItemElement(const kxf::XMLNode& itemNode, bool isAttribute = false, const kxf::String& attributeName = {}) const;
 
-			virtual std::unique_ptr<GameConfig::IAction> QueryAction(const wxString& name)
+			virtual std::unique_ptr<GameConfig::IAction> QueryAction(const kxf::String& name)
 			{
 				return nullptr;
 			}
-			virtual std::unique_ptr<GameConfig::ISamplingFunction> QuerySamplingFunction(const wxString& name, GameConfig::SampleValue::Vector& samples)
+			virtual std::unique_ptr<GameConfig::ISamplingFunction> QuerySamplingFunction(const kxf::String& name, GameConfig::SampleValue::Vector& samples)
 			{
 				return nullptr;
 			}

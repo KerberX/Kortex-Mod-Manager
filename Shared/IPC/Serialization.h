@@ -26,7 +26,7 @@ namespace Kortex::IPC
 
 		public:
 			template<class... Args>
-			static wxString Serialize(Args&&... arg)
+			static kxf::String Serialize(Args&&... arg)
 			{
 				Serializer serializer;
 				SerializeAux(serializer, arg...);
@@ -34,24 +34,24 @@ namespace Kortex::IPC
 			}
 			
 			template<class... Args>
-			static std::tuple<Args...> Deserialize(const wxString& serialized)
+			static std::tuple<Args...> Deserialize(const kxf::String& serialized)
 			{
 				Serializer serializer(serialized);
 				return ConvertToTuple<Args...>()(serializer, std::make_index_sequence<sizeof...(Args)>());
 			}
 
 		private:
-			KxXMLDocument m_XML;
-			KxXMLNode m_RootNode;
+			kxf::XMLDocument m_XML;
+			kxf::XMLNode m_RootNode;
 
-			const wxString m_ItemName = wxS("Item");
-			const wxString m_RootName = wxS("Serialized");
+			const kxf::String m_ItemName = wxS("Item");
+			const kxf::String m_RootName = wxS("Serialized");
 
 		private:
-			KxXMLNode GetNthNode(const size_t index) const
+			kxf::XMLNode GetNthNode(const size_t index) const
 			{
 				size_t i = 0;
-				for (KxXMLNode node = m_RootNode.GetFirstChildElement(); node; node = node.GetNextSiblingElement())
+				for (kxf::XMLNode node = m_RootNode.GetFirstChildElement(); node; node = node.GetNextSiblingElement())
 				{
 					if (i == index)
 					{
@@ -67,14 +67,14 @@ namespace Kortex::IPC
 			{
 				m_RootNode = m_XML.NewElement(m_RootName);
 			}
-			Serializer(const wxString& serialized)
+			Serializer(const kxf::String& serialized)
 				:m_XML(serialized)
 			{
 				m_RootNode = m_XML.ConstructElement(m_RootName);
 			}
 
 		public:
-			wxString ToString() const
+			kxf::String ToString() const
 			{
 				return m_XML.GetXML();
 			}
@@ -100,7 +100,7 @@ namespace Kortex::IPC
 			}
 			
 			template<>
-			void PushValue(const wxString& value)
+			void PushValue(const kxf::String& value)
 			{
 				m_RootNode.NewElement(m_ItemName).SetValue(value);
 			}
@@ -126,7 +126,7 @@ namespace Kortex::IPC
 			}
 			
 			template<>
-			wxString Get(size_t index, const wxString& defaultValue) const
+			kxf::String Get(size_t index, const kxf::String& defaultValue) const
 			{
 				return GetNthNode(index).GetValue(defaultValue);
 			}

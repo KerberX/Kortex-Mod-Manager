@@ -23,7 +23,7 @@ namespace Kortex::Application
 	{
 		m_BookCtrl = new KxSimplebook(&m_MainWindow, KxID_NONE);
 		m_BookCtrl->SetBackgroundColour(m_MainWindow.GetBackgroundColour());
-		m_BookCtrl->SetImageList(const_cast<KxImageList*>(&ImageProvider::GetImageList()));
+		m_BookCtrl->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()));
 	}
 
 	void MainWindowWorkspaceContainer::ShowWorkspace(IWorkspace& workspace)
@@ -67,8 +67,8 @@ namespace Kortex::Application
 			}
 
 			KxAuiToolBar* toolBar = new KxAuiToolBar(this, KxID_NONE, flags);
-			toolBar->SetToolBorderPadding(FromDIP(KLC_HORIZONTAL_SPACING_SMALL));
-			toolBar->SetMargins(FromDIP(KLC_HORIZONTAL_SPACING), FromDIP(KLC_HORIZONTAL_SPACING), FromDIP(KLC_VERTICAL_SPACING), FromDIP(KLC_VERTICAL_SPACING + 1));
+			toolBar->SetToolBorderPadding(FromDIP(LayoutConstants::HorizontalSpacing_SMALL));
+			toolBar->SetMargins(FromDIP(LayoutConstants::HorizontalSpacing), FromDIP(LayoutConstants::HorizontalSpacing), FromDIP(LayoutConstants::VerticalSpacing), FromDIP(LayoutConstants::VerticalSpacing + 1));
 			IThemeManager::GetActive().Apply(toolBar);
 
 			m_ToolBarSizer->Add(toolBar, proportion, wxEXPAND);
@@ -78,7 +78,7 @@ namespace Kortex::Application
 		// Main ToolBar
 		m_ToolBar = NewToolBar(1, true);
 		{
-			m_ToolBar_MainMenu = m_ToolBar->AddTool(wxString::Format("%8s%s%8s", "", "Kortex", ""), wxNullBitmap, wxITEM_DROPDOWN);
+			m_ToolBar_MainMenu = m_ToolBar->AddTool(kxf::String::Format("%8s%s%8s", "", "Kortex", ""), wxNullBitmap, wxITEM_DROPDOWN);
 			m_ToolBar_MainMenu->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
 			m_ToolBar_MainMenu->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& evnt)
 			{
@@ -102,14 +102,14 @@ namespace Kortex::Application
 		// Quick ToolBar
 		m_QuickToolBar = NewToolBar(0, true);
 		{
-			INetworkManager::GetInstance()->AddToolbarButton(*m_QuickToolBar, ImageResourceID::KortexLogoSmall);
+			INetworkManager::GetInstance()->AddToolbarButton(*m_QuickToolBar, Imagekxf::ResourceID::KortexLogoSmall);
 			m_QuickToolBar->AddSeparator();
-			INotificationCenter::GetInstance()->AddToolbarButton(*m_QuickToolBar, ImageResourceID::Bell);
+			INotificationCenter::GetInstance()->AddToolbarButton(*m_QuickToolBar, Imagekxf::ResourceID::Bell);
 
-			m_QuickToolBar_QuickSettingsMenu = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(ImageResourceID::Gear), wxITEM_NORMAL);
+			m_QuickToolBar_QuickSettingsMenu = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(Imagekxf::ResourceID::Gear), wxITEM_NORMAL);
 			m_QuickToolBar_QuickSettingsMenu->Bind(KxEVT_AUI_TOOLBAR_CLICK, &MainWindow::OnQSMButton, this);
 
-			m_QuickToolBar_Help = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(ImageResourceID::QuestionFrame), wxITEM_NORMAL);
+			m_QuickToolBar_Help = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(Imagekxf::ResourceID::QuestionFrame), wxITEM_NORMAL);
 		}
 		m_QuickToolBar->Realize();
 	}
@@ -132,7 +132,7 @@ namespace Kortex::Application
 		if (msg == WM_COPYDATA)
 		{
 			const COPYDATASTRUCT* data = reinterpret_cast<const COPYDATASTRUCT*>(lParam);
-			const wxString uri(reinterpret_cast<const wchar_t*>(data->lpData), data->dwData);
+			const kxf::String uri(reinterpret_cast<const wchar_t*>(data->lpData), data->dwData);
 
 			IDownloadManager::GetInstance()->QueueUnknownDownload(uri);
 		}
@@ -159,7 +159,7 @@ namespace Kortex::Application
 	{
 		{
 			KxMenuItem* item = mainMenu.Add(new KxMenuItem(KTr("MainMenu.Settings")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ApplicationTask));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ApplicationTask));
 			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
 			{
 				Settings::Window(this).ShowModal();
@@ -188,7 +188,7 @@ namespace Kortex::Application
 		// Add about
 		{
 			KxMenuItem* item = mainMenu.Add(new KxMenuItem(KTr("MainMenu.About")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::InformationFrame));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::InformationFrame));
 			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
 			{
 				AboutDialog(this).ShowModal();
@@ -222,7 +222,7 @@ namespace Kortex::Application
 				m_Locations.emplace_back(KLabeledValue(wxEmptyString, wxEmptyString));
 
 				// Load profile locations
-				for (KxXMLNode entryNode = node.GetFirstChildElement("Entry"); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+				for (kxf::XMLNode entryNode = node.GetFirstChildElement("Entry"); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 				{
 					KLabeledValue& value = m_Locations.emplace_back(KLabeledValue(KVarExp(entryNode.GetValue()), KVarExp(entryNode.GetAttribute("Label"))));
 					if (value.GetValue().IsEmpty())
@@ -244,7 +244,7 @@ namespace Kortex::Application
 			else
 			{
 				KxMenuItem* item = locationsMenu->Add(new KxMenuItem(KVarExp(entry.GetLabel())));
-				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Folder));
+				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Folder));
 				item->Bind(KxEVT_MENU_SELECT, [this, &entry](KxMenuEvent& event)
 				{
 					// Create the folder, shouldn't be harmful.
@@ -255,7 +255,7 @@ namespace Kortex::Application
 				});
 			}
 		}
-		mainMenu.Add(locationsMenu, KTr("MainMenu.OpenLocation"))->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
+		mainMenu.Add(locationsMenu, KTr("MainMenu.OpenLocation"))->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
 		mainMenu.AddSeparator();
 }
 
@@ -351,12 +351,12 @@ namespace Kortex::Application
 		if (isActive)
 		{
 			m_StatusBar->SetStatusText(KTr("VFS.Status.Active"));
-			m_StatusBar->SetStatusImage((int)ImageResourceID::TickCircleFrame, 0);
+			m_StatusBar->SetStatusImage((int)Imagekxf::ResourceID::TickCircleFrame, 0);
 		}
 		else
 		{
 			m_StatusBar->SetStatusText(KTr("VFS.Status.Inactive"));
-			m_StatusBar->SetStatusImage((int)ImageResourceID::InformationFrameEmpty, 0);
+			m_StatusBar->SetStatusImage((int)Imagekxf::ResourceID::InformationFrameEmpty, 0);
 		}
 		IThemeManager::GetActive().Apply(m_StatusBar, isActive);
 	}
@@ -402,7 +402,7 @@ namespace Kortex::Application
 			m_StatusBar->SetStatusImage(-1, index + 1);
 		}
 	}
-	void MainWindow::SetStatus(const wxString& label, int index, const ResourceID& image)
+	void MainWindow::SetStatus(const kxf::String& label, int index, const kxf::ResourceID& image)
 	{
 		if (m_StatusBar)
 		{

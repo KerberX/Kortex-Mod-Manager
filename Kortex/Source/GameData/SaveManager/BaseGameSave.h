@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IGameSave.h"
 
 namespace Kortex::SaveManager
@@ -20,7 +20,7 @@ namespace Kortex::SaveManager
 
 		public:
 			bool IsOK() const override;
-			bool Create(const wxString& filePath) override;
+			bool Create(const kxf::String& filePath) override;
 			bool ReadFile() override;
 
 			wxBitmap GetThumbBitmap() const override

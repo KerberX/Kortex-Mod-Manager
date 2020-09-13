@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IVariableTable.h"
 
 // This is static variables table. It can return values that explicitly saved there
@@ -11,7 +11,7 @@ namespace Kortex
 	class StaticVariableTable: public IVariableTable
 	{
 		protected:
-			std::unordered_map<wxString, VariableValue> m_StaticVariables;
+			std::unordered_map<kxf::String, VariableValue> m_StaticVariables;
 
 		protected:
 			bool IterateOverStatic(const Visitor& visitor) const;
@@ -25,9 +25,9 @@ namespace Kortex
 		public:
 			bool IsEmpty() const;
 
-			bool HasVariable(const wxString& id) const override;
-			VariableValue GetVariable(const wxString& id) const override;
-			void SetVariable(const wxString& id, const VariableValue& value) override;
+			bool HasVariable(const kxf::String& id) const override;
+			VariableValue GetVariable(const kxf::String& id) const override;
+			void SetVariable(const kxf::String& id, const VariableValue& value) override;
 
 			void Accept(const Visitor& visitor) const override
 			{

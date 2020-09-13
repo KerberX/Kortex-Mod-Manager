@@ -15,7 +15,7 @@
 
 namespace Kortex::NetworkManager
 {
-	wxString NexusRepository::ConvertEndorsementState(const ModEndorsement& state) const
+	kxf::String NexusRepository::ConvertEndorsementState(const ModEndorsement& state) const
 	{
 		if (state.IsEndorsed())
 		{
@@ -30,7 +30,7 @@ namespace Kortex::NetworkManager
 	void NexusRepository::OnResponseHeader(KxCURLEvent& event)
 	{
 		event.Skip();
-		const wxString headerName = event.GetHeaderName();
+		const kxf::String headerName = event.GetHeaderName();
 
 		auto ToInt = [&event]() -> std::optional<int>
 		{
@@ -110,7 +110,7 @@ namespace Kortex::NetworkManager
 		};
 		return m_Auth.IsAuthenticated() && CheckDaily(0.1);
 	}
-	bool NexusRepository::ParseDownloadName(const wxString& name, ModFileReply& result)
+	bool NexusRepository::ParseDownloadName(const kxf::String& name, ModFileReply& result)
 	{
 		wxRegEx reg(u8R"((.+?)\-(\d+)\-(.+?\-?.*?)\-(.+)\.)", wxRE_ADVANCED|wxRE_ICASE);
 		if (reg.Matches(name))
@@ -119,7 +119,7 @@ namespace Kortex::NetworkManager
 			result.ModID = reg.GetMatch(name, 2);
 			result.ID = reg.GetMatch(name, 4);
 
-			wxString version = reg.GetMatch(name, 3);
+			kxf::String version = reg.GetMatch(name, 3);
 			version.Replace(wxS("-"), wxS("."));
 			result.Version = version;
 
@@ -185,7 +185,7 @@ namespace Kortex::NetworkManager
 	void NexusRepository::OnToolBarMenu(KxMenu& menu)
 	{
 		KxMenuItem* item = menu.Add(new KxMenuItem(KTr("NetworkManager.NXMHandler.Caption"), wxEmptyString, wxITEM_CHECK));
-		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ModNetwork_Nexus));
+		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ModNetwork_Nexus));
 		item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
 		{
 			ConfigureNXMHandler();
@@ -203,7 +203,7 @@ namespace Kortex::NetworkManager
 		}
 	}
 	
-	bool NexusRepository::QueueDownload(const wxString& link)
+	bool NexusRepository::QueueDownload(const kxf::String& link)
 	{
 		GameID gameID;
 		NetworkModInfo modInfo;
@@ -226,7 +226,7 @@ namespace Kortex::NetworkManager
 		}
 		return false;
 	}
-	wxAny NexusRepository::GetDownloadTarget(const wxString& link)
+	wxAny NexusRepository::GetDownloadTarget(const kxf::String& link)
 	{
 		LoadNXMHandlerOptions();
 		
@@ -235,7 +235,7 @@ namespace Kortex::NetworkManager
 		NexusNXMLinkData nxmExtraInfo;
 		if (ParseNXM(link, gameID, modInfo, nxmExtraInfo))
 		{
-			wxString nexusID = m_Nexus.TranslateGameIDToNetwork(gameID);
+			kxf::String nexusID = m_Nexus.TranslateGameIDToNetwork(gameID);
 
 			using namespace NXMHandler;
 			if (auto value = m_NXMHandlerOptions->GetOption<OptionStore::Instance>(nexusID))
@@ -255,7 +255,7 @@ namespace Kortex::NetworkManager
 
 	std::optional<ModInfoReply> NexusRepository::GetModInfo(const ModRepositoryRequest& request) const
 	{
-		auto connection = m_Nexus.NewCURLSession(KxString::Format(wxS("%1/games/%2/mods/%3"),
+		auto connection = m_Nexus.NewCURLSession(kxf::String::Format(wxS("%1/games/%2/mods/%3"),
 												 m_Nexus.GetAPIURL(),
 												 m_Nexus.TranslateGameIDToNetwork(request),
 												 request.GetModID().GetValue())
@@ -272,15 +272,15 @@ namespace Kortex::NetworkManager
 			KxJSONObject json = KxJSON::Load(reply);
 
 			info.ID = request.GetModID();
-			info.Name = json["name"].get<wxString>();
-			info.Summary = json["summary"].get<wxString>();
-			info.Description = json["description"].get<wxString>();
-			info.Author = json["author"].get<wxString>();
-			info.Uploader = json["uploaded_by"].get<wxString>();
-			info.UploaderProfile = json["uploaded_users_profile_url"].get<wxString>();
-			info.MainImage = json["picture_url"].get<wxString>();
+			info.Name = json["name"].get<kxf::String>();
+			info.Summary = json["summary"].get<kxf::String>();
+			info.Description = json["description"].get<kxf::String>();
+			info.Author = json["author"].get<kxf::String>();
+			info.Uploader = json["uploaded_by"].get<kxf::String>();
+			info.UploaderProfile = json["uploaded_users_profile_url"].get<kxf::String>();
+			info.MainImage = json["picture_url"].get<kxf::String>();
 
-			info.Version = json["version"].get<wxString>();
+			info.Version = json["version"].get<kxf::String>();
 			info.UploadDate = m_Utility.ReadDateTime(json["created_time"]);
 			info.LastUpdateDate = m_Utility.ReadDateTime(json["updated_time"]);
 
@@ -319,14 +319,14 @@ namespace Kortex::NetworkManager
 	}
 	std::optional<ModEndorsementReply> NexusRepository::EndorseMod(const ModRepositoryRequest& request, ModEndorsement state)
 	{
-		auto connection = m_Nexus.NewCURLSession(KxString::Format(wxS("%1/games/%2/mods/%3/%4"),
+		auto connection = m_Nexus.NewCURLSession(kxf::String::Format(wxS("%1/games/%2/mods/%3/%4"),
 												 m_Nexus.GetAPIURL(),
 												 m_Nexus.TranslateGameIDToNetwork(request),
 												 request.GetModID().GetValue(),
 												 ConvertEndorsementState(state))
 		);
 
-		KxVersion modVersion;
+		kxf::Version modVersion;
 		if (request.GetExtraInfo(modVersion))
 		{
 			connection->SetPostData(KxJSON::Save(KxJSONObject {{"Version", modVersion.ToString()}}));
@@ -346,7 +346,7 @@ namespace Kortex::NetworkManager
 		try
 		{
 			KxJSONObject json = KxJSON::Load(reply);
-			info.Message = json["message"].get<wxString>();
+			info.Message = json["message"].get<kxf::String>();
 
 			if (auto statusIt = json.find("status"); statusIt != json.end())
 			{
@@ -374,7 +374,7 @@ namespace Kortex::NetworkManager
 	
 	std::optional<ModFileReply> NexusRepository::GetModFileInfo(const ModRepositoryRequest& request) const
 	{
-		auto connection = m_Nexus.NewCURLSession(KxString::Format(wxS("%1/games/%2/mods/%3/files/%4"),
+		auto connection = m_Nexus.NewCURLSession(kxf::String::Format(wxS("%1/games/%2/mods/%3/files/%4"),
 												 m_Nexus.GetAPIURL(),
 												 m_Nexus.TranslateGameIDToNetwork(request),
 												 request.GetModID().GetValue(),
@@ -421,7 +421,7 @@ namespace Kortex::NetworkManager
 	}
 	auto NexusRepository::GetModFiles2(const ModRepositoryRequest& request, bool files, bool updates) const -> std::optional<GetModFiles2Result>
 	{
-		auto connection = m_Nexus.NewCURLSession(KxString::Format(wxS("%1/games/%2/mods/%3/files"),
+		auto connection = m_Nexus.NewCURLSession(kxf::String::Format(wxS("%1/games/%2/mods/%3/files"),
 												 m_Nexus.GetAPIURL(),
 												 m_Nexus.TranslateGameIDToNetwork(request),
 												 request.GetModID().GetValue())
@@ -459,8 +459,8 @@ namespace Kortex::NetworkManager
 					info.OldID = oldID;
 					info.NewID = value["new_file_id"].get<ModFileID::TValue>();
 
-					info.OldName = value["old_file_name"].get<wxString>();
-					info.NewName = value["new_file_name"].get<wxString>();
+					info.OldName = value["old_file_name"].get<kxf::String>();
+					info.NewName = value["new_file_name"].get<kxf::String>();
 
 					info.UploadedDate = m_Utility.ReadDateTime(value["uploaded_time"]);
 				}
@@ -476,7 +476,7 @@ namespace Kortex::NetworkManager
 	}
 	std::vector<ModDownloadReply> NexusRepository::GetFileDownloads(const ModRepositoryRequest& request) const
 	{
-		wxString query = KxString::Format(wxS("%1/games/%2/mods/%3/files/%4/download_link"),
+		kxf::String query = kxf::String::Format(wxS("%1/games/%2/mods/%3/files/%4/download_link"),
 										  m_Nexus.GetAPIURL(),
 										  m_Nexus.TranslateGameIDToNetwork(request),
 										  request.GetModID().GetValue(),
@@ -486,7 +486,7 @@ namespace Kortex::NetworkManager
 		NexusNXMLinkData nxmExtraInfo;
 		if (request.GetExtraInfo(nxmExtraInfo))
 		{
-			query += KxString::Format("?key=%1&expires=%2&user_id=%3", nxmExtraInfo.Key, nxmExtraInfo.Expires, nxmExtraInfo.UserID);
+			query += kxf::String::Format("?key=%1&expires=%2&user_id=%3", nxmExtraInfo.Key, nxmExtraInfo.Expires, nxmExtraInfo.UserID);
 		}
 		auto connection = m_Nexus.NewCURLSession(query);
 
@@ -505,10 +505,10 @@ namespace Kortex::NetworkManager
 			for (const KxJSONObject& value: json)
 			{
 				ModDownloadReply& info = infoVector.emplace_back();
-				info.Name = value["name"].get<wxString>();
-				info.ShortName = value["short_name"].get<wxString>();
+				info.Name = value["name"].get<kxf::String>();
+				info.ShortName = value["short_name"].get<kxf::String>();
 
-				wxString url = value["URI"].get<wxString>();
+				kxf::String url = value["URI"].get<kxf::String>();
 				m_Utility.ConvertUnicodeEscapes(url);
 				info.URI = url;
 			}
@@ -522,20 +522,20 @@ namespace Kortex::NetworkManager
 
 	KxURI NexusRepository::ConstructNXM(const NetworkModInfo& modInfo, const GameID& id, const NexusNXMLinkData& linkData) const
 	{
-		wxString nxm = KxString::Format(wxS("nxm://%1/mods/%2/files/%3"),
+		kxf::String nxm = kxf::String::Format(wxS("nxm://%1/mods/%2/files/%3"),
 										m_Nexus.TranslateGameIDToNetwork(id),
 										modInfo.GetModID().GetValue(),
 										modInfo.GetFileID().GetValue()
 		);
 		if (!linkData.IsEmpty())
 		{
-			nxm += KxString::Format(wxS("?key=%1&expires=%2&user_id=%3"), linkData.Key, linkData.Expires, linkData.UserID);
+			nxm += kxf::String::Format(wxS("?key=%1&expires=%2&user_id=%3"), linkData.Key, linkData.Expires, linkData.UserID);
 		}
 
 		nxm.MakeLower();
 		return nxm;
 	}
-	bool NexusRepository::ParseNXM(const wxString& link, GameID& gameID, NetworkModInfo& modInfo, NexusNXMLinkData& linkData) const
+	bool NexusRepository::ParseNXM(const kxf::String& link, GameID& gameID, NetworkModInfo& modInfo, NexusNXMLinkData& linkData) const
 	{
 		if (KxURI uri(link); uri.IsOk())
 		{
@@ -546,7 +546,7 @@ namespace Kortex::NetworkManager
 
 				// Parse base part of the link
 				constexpr auto baseNXM = u8R"(mods\/(\d+)\/files\/(\d+))";
-				const wxString& path = uri.GetPath();
+				const kxf::String& path = uri.GetPath();
 
 				if (wxRegEx regEx(baseNXM, wxRE_ADVANCED|wxRE_ICASE); regEx.Matches(path))
 				{
@@ -556,7 +556,7 @@ namespace Kortex::NetworkManager
 				}
 
 				// If there's a query parse it
-				if (const wxString& query = uri.GetQuery(); uri.HasQuery())
+				if (const kxf::String& query = uri.GetQuery(); uri.HasQuery())
 				{
 					constexpr auto extraInfo = u8R"(key=(.*)&expires=(.*)&user_id=(.*))";
 					if (wxRegEx regEx(extraInfo, wxRE_ADVANCED|wxRE_ICASE); regEx.Matches(query))

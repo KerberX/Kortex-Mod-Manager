@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/ModNetworkRepository.h"
 #include "NexusNetworkReply.h"
@@ -42,7 +42,7 @@ namespace Kortex::NetworkManager
 			std::unique_ptr<NXMHandler::OptionStore> m_NXMHandlerOptions;
 
 		protected:
-			wxString ConvertEndorsementState(const ModEndorsement& state) const;
+			kxf::String ConvertEndorsementState(const ModEndorsement& state) const;
 			void OnResponseHeader(KxCURLEvent& event);
 
 			AppOption GetNXMHandlerOptions() const;
@@ -55,14 +55,14 @@ namespace Kortex::NetworkManager
 		public:
 			ModRepositoryLimits GetRequestLimits() const override;
 			bool IsAutomaticUpdateCheckAllowed() const;
-			bool ParseDownloadName(const wxString& name, ModFileReply& result);
+			bool ParseDownloadName(const kxf::String& name, ModFileReply& result);
 
 			bool QueryDownload(const KxFileItem& fileItem, const DownloadItem& download, ModFileReply& fileReply) override;
 			void OnToolBarMenu(KxMenu& menu);
 			void OnDownloadMenu(KxMenu& menu, DownloadItem* download = nullptr) override;
 
-			bool QueueDownload(const wxString& link) override;
-			wxAny GetDownloadTarget(const wxString& link) override;
+			bool QueueDownload(const kxf::String& link) override;
+			wxAny GetDownloadTarget(const kxf::String& link) override;
 
 			std::optional<ModInfoReply> GetModInfo(const ModRepositoryRequest& request) const override;
 			std::optional<ModEndorsementReply> EndorseMod(const ModRepositoryRequest& request, ModEndorsement state) override;
@@ -74,7 +74,7 @@ namespace Kortex::NetworkManager
 
 		public:
 			KxURI ConstructNXM(const NetworkModInfo& modInfo, const GameID& id = {}, const NexusNXMLinkData& linkData = {}) const;
-			bool ParseNXM(const wxString& link, GameID& gameID, NetworkModInfo& modInfo, NexusNXMLinkData& linkData) const;
+			bool ParseNXM(const kxf::String& link, GameID& gameID, NetworkModInfo& modInfo, NexusNXMLinkData& linkData) const;
 			bool ParseNXM(const KxURI& uri, GameID& gameID, NetworkModInfo& modInfo, NexusNXMLinkData& linkData) const
 			{
 				return ParseNXM(uri.BuildUnescapedURI(), gameID, modInfo, linkData);

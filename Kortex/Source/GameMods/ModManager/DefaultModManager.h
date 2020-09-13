@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IModManager.h"
 #include "GameMods/IGameMod.h"
 #include "GameMods/ModEvent.h"
@@ -26,7 +26,7 @@ namespace Kortex::ModManager
 
 		private:
 			KxStringVector m_Sources;
-			wxString m_Target;
+			kxf::String m_Target;
 
 		private:
 			bool IsOK() const
@@ -35,7 +35,7 @@ namespace Kortex::ModManager
 			}
 
 		public:
-			MirroredLocation(const KxXMLNode& parentNode);
+			MirroredLocation(const kxf::XMLNode& parentNode);
 
 		public:
 			bool ShouldUseMultiMirror() const
@@ -44,8 +44,8 @@ namespace Kortex::ModManager
 			}
 
 			KxStringVector GetSources() const;
-			wxString GetSource() const;
-			wxString GetTarget() const;
+			kxf::String GetSource() const;
+			kxf::String GetTarget() const;
 	};
 	class MandatoryLocation
 	{
@@ -53,11 +53,11 @@ namespace Kortex::ModManager
 			using Vector = std::vector<MandatoryLocation>;
 
 		private:
-			wxString m_Source;
-			wxString m_Name;
+			kxf::String m_Source;
+			kxf::String m_Name;
 
 		public:
-			MandatoryLocation(const KxXMLNode& parentNode);
+			MandatoryLocation(const kxf::XMLNode& parentNode);
 
 		public:
 			bool IsOK() const
@@ -65,8 +65,8 @@ namespace Kortex::ModManager
 				return !m_Source.IsEmpty();
 			}
 
-			wxString GetSource() const;
-			wxString GetName() const;
+			kxf::String GetSource() const;
+			kxf::String GetName() const;
 	};
 
 	class Config
@@ -76,7 +76,7 @@ namespace Kortex::ModManager
 			MandatoryLocation::Vector m_MandatoryLocations;
 
 		public:
-			void OnLoadInstance(IGameInstance& profile, const KxXMLNode& node);
+			void OnLoadInstance(IGameInstance& profile, const kxf::XMLNode& node);
 
 		public:
 			const MirroredLocation::Vector& GetMirroredLocations() const
@@ -110,7 +110,7 @@ namespace Kortex::ModManager
 			bool m_InitialLoadMods = false;
 
 		private:
-			IGameMod* DoCreateMod(const wxString& signature);
+			IGameMod* DoCreateMod(const kxf::String& signature);
 			void ProcessInstallMod(IGameMod& mod);
 			
 			void DoUninstallMod(IGameMod& mod, const bool erase);
@@ -122,7 +122,7 @@ namespace Kortex::ModManager
 			void OnProfileSelected(ProfileEvent& event);
 
 		protected:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void OnInit() override;
 			void OnExit() override;
 			void CreateWorkspaces() override;
@@ -154,19 +154,19 @@ namespace Kortex::ModManager
 				return m_WriteTarget;
 			}
 
-			IGameMod* FindModByID(const wxString& modID) const override;
-			IGameMod* FindModByName(const wxString& modName) const override;
-			IGameMod* FindModBySignature(const wxString& signature) const override;
-			IGameMod* FindModByModNetwork(const wxString& modNetworkName, NetworkModInfo modInfo) const override;
+			IGameMod* FindModByID(const kxf::String& modID) const override;
+			IGameMod* FindModByName(const kxf::String& modName) const override;
+			IGameMod* FindModBySignature(const kxf::String& signature) const override;
+			IGameMod* FindModByModNetwork(const kxf::String& modNetworkName, NetworkModInfo modInfo) const override;
 			IGameMod* FindModByModNetwork(const IModNetwork& modNetwork, NetworkModInfo modInfo) const override;
 			
-			bool IsModActive(const wxString& modID) const override;
-			bool ChangeModID(IGameMod& mod, const wxString& newID) override;
-			void ExportModList(const wxString& outputFilePath) const override;
+			bool IsModActive(const kxf::String& modID) const override;
+			bool ChangeModID(IGameMod& mod, const kxf::String& newID) override;
+			void ExportModList(const kxf::String& outputFilePath) const override;
 
-			void InstallEmptyMod(const wxString& name) override;
-			void InstallModFromFolder(const wxString& sourcePath, const wxString& name, bool linkLocation = false) override;
-			void InstallModFromPackage(const wxString& packagePath) override;
+			void InstallEmptyMod(const kxf::String& name) override;
+			void InstallModFromFolder(const kxf::String& sourcePath, const kxf::String& name, bool linkLocation = false) override;
+			void InstallModFromPackage(const kxf::String& packagePath) override;
 			void UninstallMod(IGameMod& mod) override
 			{
 				DoUninstallMod(mod, false);

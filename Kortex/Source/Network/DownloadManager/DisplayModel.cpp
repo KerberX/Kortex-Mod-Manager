@@ -24,20 +24,20 @@ namespace Kortex::DownloadManager
 		{
 			const DisplayModelNode& displayNode = static_cast<const DisplayModelNode&>(node);
 
-			wxString message;
+			kxf::String message;
 			for (size_t i = 0; i < GetView()->GetColumnCount(); i++)
 			{
 				KxDataView2::Column* column = GetView()->GetColumn(i);
 				if (column)
 				{
-					wxString text = column->GetRenderer().GetTextValue(displayNode.GetValue(*column));
+					kxf::String text = column->GetRenderer().GetTextValue(displayNode.GetValue(*column));
 					if (!text.IsEmpty())
 					{
 						if (!message.IsEmpty())
 						{
 							message += wxS("\r\n");
 						}
-						message += KxString::Format(wxS("%1:\t%2"), column->GetTitle(), text);
+						message += kxf::String::Format(wxS("%1:\t%2"), column->GetTitle(), text);
 					}
 				}
 			}
@@ -68,7 +68,7 @@ namespace Kortex::DownloadManager
 		KxMenu contextMenu;
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("DownloadManager.Menu.Install"));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Box));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Box));
 			item->Enable(isCompleted);
 			item->Bind(KxEVT_MENU_SELECT, [this, download](KxMenuEvent& event)
 			{
@@ -79,7 +79,7 @@ namespace Kortex::DownloadManager
 
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("DownloadManager.Menu.AddFromURL"));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
 			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
 			{
 				KxTextBoxDialog dialog(GetView(), KxID_NONE, KTr("DownloadManager.Menu.AddFromURL.Message"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL);
@@ -92,7 +92,7 @@ namespace Kortex::DownloadManager
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("DownloadManager.Menu.Pause"));
 			item->Enable(isRunning);
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ControlPause));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ControlPause));
 			item->Bind(KxEVT_MENU_SELECT, [download](KxMenuEvent& event)
 			{
 				download->Pause();
@@ -101,7 +101,7 @@ namespace Kortex::DownloadManager
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("DownloadManager.Menu.Abort"));
 			item->Enable(isRunning || isPaused);
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ControlStopSquare));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ControlStopSquare));
 			item->Bind(KxEVT_MENU_SELECT, [download](KxMenuEvent& event)
 			{
 				download->Stop();
@@ -110,7 +110,7 @@ namespace Kortex::DownloadManager
 		{
 			KxMenuItem* item = contextMenu.AddItem(isPaused ? KTr("DownloadManager.Menu.Resume") : KTr("DownloadManager.Menu.Start"));
 			item->Enable(download && (download->CanStart() || download->CanResume()));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ControlRight));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ControlRight));
 			item->Bind(KxEVT_MENU_SELECT, [download, isPaused](KxMenuEvent& event)
 			{
 				if (isPaused)
@@ -191,7 +191,7 @@ namespace Kortex::DownloadManager
 				}
 				else
 				{
-					wxString message = KTrf("DownloadManager.Notification.QueryDownloadInfoFailed", download->GetName());
+					kxf::String message = KTrf("DownloadManager.Notification.QueryDownloadInfoFailed", download->GetName());
 					INotificationCenter::NotifyUsing<IDownloadManager>(message, KxICON_WARNING);
 				}
 			});
@@ -199,11 +199,11 @@ namespace Kortex::DownloadManager
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("DownloadManager.Menu.ShowChangeLog"));
 			item->Enable(download && download->HasChangeLog());
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::EditList));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::EditList));
 			item->Bind(KxEVT_MENU_SELECT, [this, download](KxMenuEvent& event)
 			{
 				KxTaskDialog dialog(GetView(), KxID_NONE, download->GetDisplayName(), wxEmptyString, KxBTN_OK, KxICON_NONE);
-				dialog.SetMessage(KxString::Format("%1 %2", KTr("Generic.Version"), download->GetVersion()));
+				dialog.SetMessage(kxf::String::Format("%1 %2", KTr("Generic.Version"), download->GetVersion()));
 				dialog.SetExMessage(download->GetChangeLog());
 				dialog.SetMainIcon(KxShell::GetFileIcon(download->GetLocalPath()));
 				dialog.SetOptionEnabled(KxTD_EXMESSAGE_EXPANDED);
@@ -214,7 +214,7 @@ namespace Kortex::DownloadManager
 
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("DownloadManager.Menu.Remove"));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Bin));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Bin));
 			item->Enable(download && !isListEmpty && !isRunning);
 			item->Bind(KxEVT_MENU_SELECT, [this, download](KxMenuEvent& event)
 			{
@@ -248,7 +248,7 @@ namespace Kortex::DownloadManager
 
 			KxMenuItem* item = contextMenu.AddItem(isVisible ? KTr("DownloadManager.Menu.Hide") : KTr("DownloadManager.Menu.Unhide"));
 			item->Enable(!isRunning);
-			item->SetBitmap(ImageProvider::GetBitmap(isVisible ? ImageResourceID::MagnifierMinus : ImageResourceID::MagnifierPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(isVisible ? Imagekxf::ResourceID::MagnifierMinus : Imagekxf::ResourceID::MagnifierPlus));
 			item->Bind(KxEVT_MENU_SELECT, [this, download, isVisible](KxMenuEvent& event)
 			{
 				download->Show(!isVisible);
@@ -308,7 +308,7 @@ namespace Kortex::DownloadManager
 
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr("MainMenu.OpenLocation"));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
 			item->Bind(KxEVT_MENU_SELECT, [this, download](KxMenuEvent& event)
 			{
 				if (download)
@@ -333,7 +333,7 @@ namespace Kortex::DownloadManager
 		}
 		{
 			KxMenuItem* item = contextMenu.AddItem(KTr(KxID_REFRESH));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ArrowCircleDouble));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ArrowCircleDouble));
 			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
 			{
 				if (AskRefresh())

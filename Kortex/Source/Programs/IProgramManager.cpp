@@ -15,7 +15,7 @@ namespace
 {
 	using namespace Kortex;
 
-	void InitProcessPaths(KxProcess& process, const wxString& executable, const wxString& arguments = {}, const wxString& workingDirectory = {})
+	void InitProcessPaths(KxProcess& process, const kxf::String& executable, const kxf::String& arguments = {}, const kxf::String& workingDirectory = {})
 	{
 		process.SetExecutablePath(executable);
 		process.SetWorkingFolder(workingDirectory.IsEmpty() ? executable.BeforeLast(wxS('\\')) : workingDirectory);
@@ -40,7 +40,7 @@ namespace Kortex
 		{
 			if (entry->ShouldShowInMainMenu())
 			{
-				KxMenuItem* item = menu.Add(new KxMenuItem(KxString::Format("%1 %2", KTr("Generic.Run"), entry->GetName())));
+				KxMenuItem* item = menu.Add(new KxMenuItem(kxf::String::Format("%1 %2", KTr("Generic.Run"), entry->GetName())));
 				item->Enable(entry->CanRunNow());
 				item->Bind(KxEVT_MENU_SELECT, [this, &entry](KxMenuEvent& event)
 				{
@@ -91,9 +91,9 @@ namespace Kortex
 		}
 	}
 
-	void IProgramManager::LoadProgramsFromXML(IProgramItem::Vector& programs, const KxXMLNode& rootNode)
+	void IProgramManager::LoadProgramsFromXML(IProgramItem::Vector& programs, const kxf::XMLNode& rootNode)
 	{
-		for (KxXMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = rootNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			auto program = NewProgram();
 			program->Load(node);
@@ -129,7 +129,7 @@ namespace Kortex
 	wxBitmap IProgramManager::LoadProgramIcon(const IProgramItem& entry, BitmapVariant bitmapVariant) const
 	{
 		wxBitmap bitmap;
-		wxString iconPath = entry.GetIconPath();
+		kxf::String iconPath = entry.GetIconPath();
 
 		// If icon points to an 'exe' ask system for its icon, otherwise load it ourselves.
 		if (Utility::SingleFileExtensionMatches(iconPath, wxS("exe")))

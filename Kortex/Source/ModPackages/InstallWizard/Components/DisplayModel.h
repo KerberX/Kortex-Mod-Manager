@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "../Common.h"
 #include "DisplayModelNode.h"
 #include <KxFramework/KxDataView.h>
@@ -31,9 +31,9 @@ namespace Kortex::InstallWizard::ComponentsPageNS
 
 		private:
 			wxBitmap GetImageByTypeDescriptor(PackageProject::TypeDescriptor type) const;
-			wxString GetMessageTypeDescriptor(PackageProject::TypeDescriptor type) const;
+			kxf::String GetMessageTypeDescriptor(PackageProject::TypeDescriptor type) const;
 			KxDataViewBitmapTextToggleValue::ToggleType GetToggleType(PackageProject::SelectionMode mode) const;
-			const wxString& GetSelectionModeString(const PackageProject::ComponentGroup& group) const;
+			const kxf::String& GetSelectionModeString(const PackageProject::ComponentGroup& group) const;
 			DisplayModelNode::RefVector GetGroupNodes(const DisplayModelNode* groupNode);
 			bool NodeChanged(const DisplayModelNode* node)
 			{

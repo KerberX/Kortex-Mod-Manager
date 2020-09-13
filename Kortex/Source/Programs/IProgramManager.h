@@ -1,12 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 #include "Application/IModule.h"
 #include "IProgramItem.h"
 #include <KxFramework/KxMenu.h>
 #include <KxFramework/KxSingleton.h>
 #include <KxFramework/KxProcess.h>
-class KxXMLNode;
+class kxf::XMLNode;
 class KxMenu;
 
 namespace Kortex
@@ -35,7 +35,7 @@ namespace Kortex
 			bool DoCheckEntry(const IProgramItem& entry) const;
 
 		protected:
-			void LoadProgramsFromXML(IProgramItem::Vector& programs, const KxXMLNode& rootNode);
+			void LoadProgramsFromXML(IProgramItem::Vector& programs, const kxf::XMLNode& rootNode);
 
 		public:
 			IProgramManager();

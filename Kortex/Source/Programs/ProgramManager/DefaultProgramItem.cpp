@@ -17,15 +17,15 @@ namespace
 		ToVirtual
 	};
 
-	bool IsRelative(const wxString& path)
+	bool IsRelative(const kxf::String& path)
 	{
 		return !(path.length() >= 2 && path[1] == wxS(':'));
 	}
-	wxString ResolvePath(const wxString& path, Mode mode = Mode::ToReal, bool* isRelative = nullptr)
+	kxf::String ResolvePath(const kxf::String& path, Mode mode = Mode::ToReal, bool* isRelative = nullptr)
 	{
 		if (!path.IsEmpty())
 		{
-			wxString pathExp = KVarExp(path);
+			kxf::String pathExp = KVarExp(path);
 			if (IsRelative(pathExp))
 			{
 				KxUtility::SetIfNotNull(isRelative, true);
@@ -63,7 +63,7 @@ namespace
 
 namespace Kortex::ProgramManager
 {
-	void DefaultProgramItem::Load(const KxXMLNode& node)
+	void DefaultProgramItem::Load(const kxf::XMLNode& node)
 	{
 		m_ShowInMainMenu = node.GetAttributeBool("ShowInMainMenu");
 
@@ -73,7 +73,7 @@ namespace Kortex::ProgramManager
 		m_Arguments = node.GetFirstChildElement("Arguments").GetValue();
 		m_WorkingDirectory = node.GetFirstChildElement("WorkingDirectory").GetValue();
 	}
-	void DefaultProgramItem::Save(KxXMLNode& node) const
+	void DefaultProgramItem::Save(kxf::XMLNode& node) const
 	{
 		node.SetAttribute("ShowInMainMenu", m_ShowInMainMenu);
 
@@ -112,7 +112,7 @@ namespace Kortex::ProgramManager
 		return false;
 	}
 
-	wxString DefaultProgramItem::GetName() const
+	kxf::String DefaultProgramItem::GetName() const
 	{
 		if (m_Name.IsEmpty())
 		{
@@ -120,24 +120,24 @@ namespace Kortex::ProgramManager
 		}
 		return KVarExp(m_Name);
 	}
-	wxString DefaultProgramItem::GetIconPath() const
+	kxf::String DefaultProgramItem::GetIconPath() const
 	{
-		wxString path = ResolvePath(m_IconPath, Mode::ToReal);
+		kxf::String path = ResolvePath(m_IconPath, Mode::ToReal);
 		if (path.IsEmpty())
 		{
 			path = ResolvePath(m_Executable, Mode::ToReal);
 		}
 		return path;
 	}
-	wxString DefaultProgramItem::GetExecutable() const
+	kxf::String DefaultProgramItem::GetExecutable() const
 	{
 		return ResolvePath(m_Executable, Mode::ToVirtual);
 	}
-	wxString DefaultProgramItem::GetArguments() const
+	kxf::String DefaultProgramItem::GetArguments() const
 	{
 		return KVarExp(m_Arguments);
 	}
-	wxString DefaultProgramItem::GetWorkingDirectory() const
+	kxf::String DefaultProgramItem::GetWorkingDirectory() const
 	{
 		return ResolvePath(m_WorkingDirectory, Mode::ToVirtual);
 	}

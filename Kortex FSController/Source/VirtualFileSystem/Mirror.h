@@ -9,14 +9,14 @@ namespace Kortex::VirtualFileSystem
 	class Mirror: public KxVFSWrapper<KxVFS::MirrorFS>
 	{
 		public:
-			Mirror(const wxString& mountPoint = {}, const wxString& source = {});
+			Mirror(const kxf::String& mountPoint = {}, const kxf::String& source = {});
 
 		public:
-			wxString GetSource() const
+			kxf::String GetSource() const
 			{
-				return ToWxString(MirrorFS::GetSource());
+				return Tokxf::String(MirrorFS::GetSource());
 			}
-			void SetSource(const wxString& source)
+			void SetSource(const kxf::String& source)
 			{
 				MirrorFS::SetSource(ToKxDynamicStringRef(source));
 			}

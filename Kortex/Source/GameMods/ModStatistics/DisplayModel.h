@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "KxFramework/KxDataViewListModelEx.h"
 #include "GameMods/IModStatistics.h"
 
@@ -18,8 +18,8 @@ namespace Kortex::ModStatistics
 			bool SetValueByRow(const wxAny& value, size_t row, const KxDataViewColumn* column) override;
 
 		private:
-			wxString GetStatName(size_t index) const;
-			const wxString& GetStatValue(size_t index) const;
+			kxf::String GetStatName(size_t index) const;
+			const kxf::String& GetStatValue(size_t index) const;
 
 		public:
 			DisplayModel();

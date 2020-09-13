@@ -5,7 +5,7 @@
 
 namespace Kortex
 {
-	std::optional<wxString> IModTag::GetTranslatedNameByID(const wxString& id)
+	std::optional<kxf::String> IModTag::GetTranslatedNameByID(const kxf::String& id)
 	{
 		return ITranslator::GetAppTranslator().TryGetString(wxS("TagManager.Tag.") + id);
 	}

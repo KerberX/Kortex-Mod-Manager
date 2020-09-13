@@ -34,7 +34,7 @@ namespace Kortex::NetworkManager
 		}
 		return nullptr;
 	}
-	void NexusUpdateThread::OnUpdateChecked(NetworkModUpdateInfo& updateInfo, ModUpdateState state, std::optional<KxVersion> version)
+	void NexusUpdateThread::OnUpdateChecked(NetworkModUpdateInfo& updateInfo, ModUpdateState state, std::optional<kxf::Version> version)
 	{
 		updateInfo.SetState(state);
 		updateInfo.SetUpdateCheckDate(m_CurrentDate);

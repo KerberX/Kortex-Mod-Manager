@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Utility/OperationWithProgress.h"
 #include "Utility/TempFolderKeeper.h"
 #include <KxFramework/KxArchiveEvent.h>
@@ -30,7 +30,7 @@ namespace Kortex::PackageDesigner
 		private:
 			const ModPackageProject& m_Project;
 			Utility::OperationWithProgressBase& m_Thread;	
-			wxString m_PackagePath;
+			kxf::String m_PackagePath;
 			const bool m_BuildPreview = false;
 
 			std::unique_ptr<GenericArchive> m_Archive;
@@ -40,13 +40,13 @@ namespace Kortex::PackageDesigner
 			BuildError m_Status = BuildError::Generic;
 
 		private:
-			wxString GetTempFolder() const;
-			wxString GetTempPackagePath() const;
-			wxString GetImagePath(const wxString& fileName) const;
-			wxString GetDocumentPath(const wxString& fileName) const;
-			wxString GetFileDataEntryPath(const PackageProject::FileItem* fileDataEntry, const wxString& fileName) const;
+			kxf::String GetTempFolder() const;
+			kxf::String GetTempPackagePath() const;
+			kxf::String GetImagePath(const kxf::String& fileName) const;
+			kxf::String GetDocumentPath(const kxf::String& fileName) const;
+			kxf::String GetFileDataEntryPath(const PackageProject::FileItem* fileDataEntry, const kxf::String& fileName) const;
 
-			void SetPackagePath(const wxString& path)
+			void SetPackagePath(const kxf::String& path)
 			{
 				m_PackagePath = path;
 			}
@@ -77,7 +77,7 @@ namespace Kortex::PackageDesigner
 				return m_MissingFiles;
 			}
 		
-			const wxString& GetPackagePath() const;
+			const kxf::String& GetPackagePath() const;
 			bool IsPrevievBuild() const
 			{
 				return m_BuildPreview;
@@ -93,7 +93,7 @@ namespace Kortex::PackageDesigner
 	{
 		private:
 			const ModPackageProject& m_Project;
-			wxString m_PackagePath;
+			kxf::String m_PackagePath;
 			bool m_BuildPreview = false;
 
 			KxStringVector m_MissingFiles;

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include <KxFramework/KxSingleton.h>
@@ -11,7 +11,7 @@ namespace Kortex::NetworkManager
 		public KxRTTI::ExtendInterface<TESALLModNetwork, IModNetwork>,
 		public KxSingletonPtr<TESALLModNetwork>
 	{
-		KxDecalreIID(TESALLModNetwork, {0xc4255aa9, 0x9087, 0x49e5, {0xb3, 0xf5, 0x36, 0x67, 0x21, 0x60, 0x6f, 0xbc}});
+		KxRTTI_DeclareIID(TESALLModNetwork, {0xc4255aa9, 0x9087, 0x49e5, {0xb3, 0xf5, 0x36, 0x67, 0x21, 0x60, 0x6f, 0xbc}});
 
 		protected:
 			void OnInit() override
@@ -20,7 +20,7 @@ namespace Kortex::NetworkManager
 			void OnExit() override
 			{
 			}
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode) override
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode) override
 			{
 			}
 
@@ -28,14 +28,14 @@ namespace Kortex::NetworkManager
 			TESALLModNetwork();
 
 		public:
-			ResourceID GetIcon() const override;
-			wxString GetName() const override;
+			kxf::ResourceID GetIcon() const override;
+			kxf::String GetName() const override;
 
-			wxString TranslateGameIDToNetwork(const GameID& id = {}) const override
+			kxf::String TranslateGameIDToNetwork(const GameID& id = {}) const override
 			{
 				return {};
 			}
-			GameID TranslateGameIDFromNetwork(const wxString& id) const override
+			GameID TranslateGameIDFromNetwork(const kxf::String& id) const override
 			{
 				return {};
 			}

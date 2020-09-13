@@ -19,16 +19,16 @@ namespace Kortex::PackageProject
 {
 	namespace
 	{
-		void LoadStringArray(KxStringVector& array, const KxXMLNode& arrayNode)
+		void LoadStringArray(KxStringVector& array, const kxf::XMLNode& arrayNode)
 		{
-			for (KxXMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				array.emplace_back(node.GetValue());
 			}
 		}
-		void ReadConditionGroup(ConditionGroup& conditionGroup, const KxXMLNode& flagsNode, bool isRequired)
+		void ReadConditionGroup(ConditionGroup& conditionGroup, const kxf::XMLNode& flagsNode, bool isRequired)
 		{
-			for (KxXMLNode node = flagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = flagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				conditionGroup.GetOrCreateFirstCondition().GetFlags().emplace_back(node.GetValue(), node.GetAttribute("Name"));
 			}
@@ -38,20 +38,20 @@ namespace Kortex::PackageProject
 
 namespace Kortex::PackageProject
 {
-	wxString LegacySerializer::ConvertMultiLine(const wxString& source) const
+	kxf::String LegacySerializer::ConvertMultiLine(const kxf::String& source) const
 	{
 		// Convert terrible line separator used in 3.x versions to normal line separator
 	
-		wxString out = source;
+		kxf::String out = source;
 		out.Replace("[NewLine]", "\r\n", true);
 		return out;
 	}
-	wxString LegacySerializer::ConvertVariable(const wxString& sOldVariable) const
+	kxf::String LegacySerializer::ConvertVariable(const kxf::String& sOldVariable) const
 	{
 		using namespace Kortex;
 		using namespace Kortex::Variables;
 	
-		wxString oldVariableFixed = sOldVariable;
+		kxf::String oldVariableFixed = sOldVariable;
 	
 		// If variable is inside '%' symbols, remove them
 		if (!oldVariableFixed.IsEmpty() && oldVariableFixed[0] == '%' && oldVariableFixed.Last() == '%')
@@ -67,7 +67,7 @@ namespace Kortex::PackageProject
 	
 		if (oldVariableFixed == "Data" || oldVariableFixed == "DataFilesPath")
 		{
-			const wxString& id = m_Project->GetTargetProfileID();
+			const kxf::String& id = m_Project->GetTargetProfileID();
 			if (id == "Morrowind")
 			{
 				return WrapAsInline(KVAR_VIRTUAL_GAME_DIR) + "\\Data Files";
@@ -83,7 +83,7 @@ namespace Kortex::PackageProject
 			return WrapAsInline(KVAR_CONFIG_DIR);
 		}
 	
-		auto AsShellVar = [](const wxString& name)
+		auto AsShellVar = [](const kxf::String& name)
 		{
 			return WrapAsInline(name, NS::ShellFolder);
 		};
@@ -128,11 +128,11 @@ namespace Kortex::PackageProject
 		#undef SHVAR
 		return wxEmptyString;
 	}
-	void LegacySerializer::AddSite(const wxString& url)
+	void LegacySerializer::AddSite(const kxf::String& url)
 	{
 		ModSourceStore& store = m_Project->GetInfo().GetModSourceStore();
 	
-		wxString siteName;
+		kxf::String siteName;
 		ModSourceItem item = TryParseWebSite(url, &siteName);
 		if (item.IsOK())
 		{
@@ -231,11 +231,11 @@ namespace Kortex::PackageProject
 			m_XML.QueryElement("SetupInfo/Installer/Settings/Components").GetValueBool() ||
 			m_XML.QueryElement("SetupInfo/Installer/Settings/UseComponents").GetValueBool();
 	}
-	void LegacySerializer::ReadInterface3x4x5x(const wxString& sLogoNodeName)
+	void LegacySerializer::ReadInterface3x4x5x(const kxf::String& sLogoNodeName)
 	{
 		InterfaceSection& interfaceConfig = m_Project->GetInterface();
 	
-		KxXMLNode interfaceNode = m_XML.QueryElement("SetupInfo/Installer/Interface");
+		kxf::XMLNode interfaceNode = m_XML.QueryElement("SetupInfo/Installer/Interface");
 		if (interfaceNode.IsOK())
 		{
 			// Attributes 'WindowTitle', 'WindowSubtitle', background image and colors no longer supported since 5.0.
@@ -243,13 +243,13 @@ namespace Kortex::PackageProject
 			// SMI stores only file names. KMP stores full paths.
 			const char* path = "SetupInfo\\Images\\";
 	
-			for (KxXMLNode node = interfaceNode.GetFirstChildElement("Images").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = interfaceNode.GetFirstChildElement("Images").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				interfaceConfig.GetImages().emplace_back(ImageItem(path + node.GetValue(), wxEmptyString, true));
 			}
 	
 			// Set main image or if main image not set in this installer choose first available
-			wxString sLogo = interfaceNode.GetFirstChildElement(sLogoNodeName).GetValue();
+			kxf::String sLogo = interfaceNode.GetFirstChildElement(sLogoNodeName).GetValue();
 			if (!sLogo.IsEmpty())
 			{
 				interfaceConfig.SetMainImage(path + sLogo);
@@ -268,19 +268,19 @@ namespace Kortex::PackageProject
 	}
 	void LegacySerializer::ReadFiles3x4x()
 	{
-		KxXMLNode fileDataNode = m_XML.QueryElement("SetupInfo/Installer/Files");
+		kxf::XMLNode fileDataNode = m_XML.QueryElement("SetupInfo/Installer/Files");
 		if (fileDataNode.IsOK())
 		{
 			bool bNestedStructure = fileDataNode.GetAttributeInt("StructureType", 0) == 0;
 			FileDataSection& fileData = m_Project->GetFileData();
 	
-			for (KxXMLNode folderNode = fileDataNode.GetFirstChildElement(); folderNode.IsOK(); folderNode = folderNode.GetNextSiblingElement())
+			for (kxf::XMLNode folderNode = fileDataNode.GetFirstChildElement(); folderNode.IsOK(); folderNode = folderNode.GetNextSiblingElement())
 			{
 				FolderItem& folderEntry = fileData.AddFolder(std::make_unique<FolderItem>());
 				folderEntry.SetID(folderNode.GetAttribute("ID", folderNode.GetAttribute("Source")));
 	
 				// Source
-				wxString source = folderNode.GetAttribute("Source", folderEntry.GetID());
+				kxf::String source = folderNode.GetAttribute("Source", folderEntry.GetID());
 				folderEntry.SetSource(bNestedStructure ? "SetupData\\" + source : source);
 				
 				// ExtractingPath == 0 -> Game root, ExtractingPath == 1 -> Data folder (0 is the default).
@@ -293,12 +293,12 @@ namespace Kortex::PackageProject
 		}
 	}
 	
-	KxVersion LegacySerializer::ReadBase()
+	kxf::Version LegacySerializer::ReadBase()
 	{
-		KxXMLNode baseNode = m_XML.QueryElement("SetupInfo");
+		kxf::XMLNode baseNode = m_XML.QueryElement("SetupInfo");
 		if (baseNode.IsOK())
 		{
-			KxXMLNode installerNode = baseNode.GetFirstChildElement("Installer");
+			kxf::XMLNode installerNode = baseNode.GetFirstChildElement("Installer");
 			m_Project->SetModID(installerNode.GetAttribute("ID"));
 	
 			// Defaults to 'Skyrim' for compatibility with SKSM
@@ -310,7 +310,7 @@ namespace Kortex::PackageProject
 	}
 	void LegacySerializer::ReadConfig()
 	{
-		KxXMLNode configNode = m_XML.QueryElement("SetupInfo/Installer/Settings");
+		kxf::XMLNode configNode = m_XML.QueryElement("SetupInfo/Installer/Settings");
 		if (configNode.IsOK())
 		{
 			ConfigSection& config = m_Project->GetConfig();
@@ -329,11 +329,11 @@ namespace Kortex::PackageProject
 		InfoSection& info = m_Project->GetInfo();
 	
 		// Basic info
-		KxXMLNode basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info/Plugin");
+		kxf::XMLNode basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info/Plugin");
 		if (basicInfoNode.IsOK())
 		{
-			wxString name = basicInfoNode.GetFirstChildElement("Name").GetValue();
-			wxString originalName = basicInfoNode.GetFirstChildElement("OriginalName").GetValue();
+			kxf::String name = basicInfoNode.GetFirstChildElement("Name").GetValue();
+			kxf::String originalName = basicInfoNode.GetFirstChildElement("OriginalName").GetValue();
 	
 			if (originalName.IsEmpty())
 			{
@@ -351,7 +351,7 @@ namespace Kortex::PackageProject
 			info.SetDescription(ConvertMultiLine(basicInfoNode.GetFirstChildElement("Description").GetValue()));
 	
 			// Copyrights field no longer supported, but it still can be saved
-			wxString copyrights = ConvertMultiLine(basicInfoNode.GetFirstChildElement("Copyrights").GetValue());
+			kxf::String copyrights = ConvertMultiLine(basicInfoNode.GetFirstChildElement("Copyrights").GetValue());
 			if (!copyrights.IsEmpty())
 			{
 				copyrights.Replace("\r\n", "; ", true);
@@ -360,7 +360,7 @@ namespace Kortex::PackageProject
 	
 			// This version support inclusion of one PDF file
 			// There are attribute 'Included' in 'PDFDocument' node, but it was redundant even then.
-			wxString documentPDF = basicInfoNode.GetFirstChildElement("PDFDocument").GetValue();
+			kxf::String documentPDF = basicInfoNode.GetFirstChildElement("PDFDocument").GetValue();
 			if (!documentPDF.IsEmpty())
 			{
 				info.GetDocuments().emplace_back("SetupInfo\\" + documentPDF, documentPDF.AfterLast('.'));
@@ -370,7 +370,7 @@ namespace Kortex::PackageProject
 			AddSite(basicInfoNode.GetFirstChildElement("URL").GetValue());
 	
 			// URL for discussion site (almost always empty)
-			wxString discussion = basicInfoNode.GetFirstChildElement("Discussion").GetValue();
+			kxf::String discussion = basicInfoNode.GetFirstChildElement("Discussion").GetValue();
 			if (!discussion.IsEmpty())
 			{
 				info.GetModSourceStore().AssignWith("Discussion", discussion);
@@ -378,7 +378,7 @@ namespace Kortex::PackageProject
 		}
 	
 		// Custom info have slightly different format
-		for (KxXMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/CustomFields").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/CustomFields").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			info.GetCustomFields().emplace_back(node.GetAttribute("Value"), node.GetAttribute("Name"));
 		}
@@ -395,7 +395,7 @@ namespace Kortex::PackageProject
 	{
 		RequirementsSection& requirements = m_Project->GetRequirements();
 	
-		KxXMLNode requirementsNode = m_XML.QueryElement("SetupInfo/Installer/Dependencies");
+		kxf::XMLNode requirementsNode = m_XML.QueryElement("SetupInfo/Installer/Dependencies");
 		if (requirementsNode.IsOK())
 		{
 			RequirementGroup* requirementGroup = requirements.GetGroups().emplace_back(std::make_unique<RequirementGroup>()).get();
@@ -403,7 +403,7 @@ namespace Kortex::PackageProject
 			requirements.GetDefaultGroup().push_back(requirementGroup->GetID());
 	
 			// In this version there is only one group with multiple requirements
-			for (KxXMLNode node = requirementsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = requirementsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 			{
 				if (node.HasChildren())
 				{
@@ -429,7 +429,7 @@ namespace Kortex::PackageProject
 	{
 		ComponentsSection& components = m_Project->GetComponents();
 	
-		KxXMLNode componentsNode = m_XML.QueryElement("SetupInfo/Installer/Components");
+		kxf::XMLNode componentsNode = m_XML.QueryElement("SetupInfo/Installer/Components");
 		if (componentsNode.IsOK() && componentsNode.HasChildren())
 		{
 			// Ignore bool attribute 'Use' as it almost always just reflect existence of components array
@@ -442,20 +442,20 @@ namespace Kortex::PackageProject
 			group->SetName("Options");
 			group->SetSelectionMode(SelectionMode::Any);
 	
-			for (KxXMLNode entryNode = componentsNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+			for (kxf::XMLNode entryNode = componentsNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 			{
 				ComponentItem* entry = group->GetItems().emplace_back(std::make_unique<ComponentItem>()).get();
 				entry->SetName(entryNode.GetAttribute("Name"));
 				entry->SetDescription(entryNode.GetAttribute("Description"));
 				entry->SetTDDefaultValue(entryNode.GetAttributeBool("Main") ? TypeDescriptor::Recommended : TypeDescriptor::Optional);
 				
-				wxString folder = entryNode.GetAttribute("Folder");
+				kxf::String folder = entryNode.GetAttribute("Folder");
 				if (!folder.IsEmpty())
 				{
 					entry->GetFileData().emplace_back();
 				}
 	
-				wxString image = entryNode.GetAttribute("Image");
+				kxf::String image = entryNode.GetAttribute("Image");
 				if (!image.IsEmpty() && image != "---")
 				{
 					entry->SetImage("SetupInfo\\Images\\" + image);
@@ -475,7 +475,7 @@ namespace Kortex::PackageProject
 	
 		// Basic info
 		// Word 'Standart' is not a typo here, but typo in 4.x versions
-		KxXMLNode basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info/Standart");
+		kxf::XMLNode basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info/Standart");
 		if (basicInfoNode.IsOK())
 		{
 			info.SetName(basicInfoNode.GetFirstChildElement("Name").GetValue());
@@ -486,7 +486,7 @@ namespace Kortex::PackageProject
 			info.SetDescription(basicInfoNode.GetFirstChildElement("Description").GetValue());
 	
 			// Copyrights field no longer supported, but it still can be saved
-			wxString copyrights = basicInfoNode.GetFirstChildElement("Copyrights").GetValue();
+			kxf::String copyrights = basicInfoNode.GetFirstChildElement("Copyrights").GetValue();
 			if (!copyrights.IsEmpty())
 			{
 				copyrights.Replace("\r\n", "; ", true);
@@ -497,7 +497,7 @@ namespace Kortex::PackageProject
 			AddSite(basicInfoNode.GetFirstChildElement("URL").GetValue());
 	
 			// URL for discussion site (almost always empty)
-			wxString discussion = basicInfoNode.GetFirstChildElement("Discussion").GetValue();
+			kxf::String discussion = basicInfoNode.GetFirstChildElement("Discussion").GetValue();
 			if (!discussion.IsEmpty())
 			{
 				#if 0
@@ -506,7 +506,7 @@ namespace Kortex::PackageProject
 			}
 	
 			// An ID of '---' means no category
-			wxString category = basicInfoNode.GetFirstChildElement("Category").GetValue();
+			kxf::String category = basicInfoNode.GetFirstChildElement("Category").GetValue();
 			if (!category.IsEmpty() && category != "---" && CheckTag(category))
 			{
 				info.GetTagStore().AddTag(ModTagManager::DefaultTag(category));
@@ -514,13 +514,13 @@ namespace Kortex::PackageProject
 		}
 	
 		// Custom info have very different (but perfectly compatible) format
-		for (KxXMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Custom").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Custom").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			info.GetCustomFields().emplace_back(node.GetFirstChildElement("Value").GetValue(), node.GetFirstChildElement("Name").GetValue());
 		}
 	
 		// Documents
-		for (KxXMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Documents/Files").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Documents/Files").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			// Attributes 'Index' and 'Show' are ignored.
 			info.GetDocuments().emplace_back("SetupInfo\\Documents\\" + node.GetValue(), node.GetAttribute("Name"));
@@ -538,14 +538,14 @@ namespace Kortex::PackageProject
 	{
 		RequirementsSection& requirements = m_Project->GetRequirements();
 	
-		KxXMLNode requirementsNode = m_XML.QueryElement("SetupInfo/Installer/Requirements");
+		kxf::XMLNode requirementsNode = m_XML.QueryElement("SetupInfo/Installer/Requirements");
 		if (requirementsNode.IsOK())
 		{
 			// This means use set with ID '---' as main requirements group.
 			// Introduced in version 4.3
 			bool setMainGroup = requirementsNode.GetAttributeBool("CommonRequirements", true) || requirementsNode.GetAttributeBool("ShowCommonRequirements", true);
 	
-			for (KxXMLNode setNode = requirementsNode.GetFirstChildElement(); setNode.IsOK(); setNode = setNode.GetNextSiblingElement())
+			for (kxf::XMLNode setNode = requirementsNode.GetFirstChildElement(); setNode.IsOK(); setNode = setNode.GetNextSiblingElement())
 			{
 				if (setNode.HasChildren())
 				{
@@ -558,7 +558,7 @@ namespace Kortex::PackageProject
 						requirements.GetDefaultGroup().push_back(requirementGroup->GetID());
 					}
 	
-					for (KxXMLNode entryNode = setNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+					for (kxf::XMLNode entryNode = setNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 					{
 						if (entryNode.HasChildren())
 						{
@@ -590,12 +590,12 @@ namespace Kortex::PackageProject
 			// For additional info see 'ReadComponents3x' function
 			ComponentsSection& components = m_Project->GetComponents();
 	
-			KxXMLNode componentsNode = m_XML.QueryElement("SetupInfo/Installer/Components");
+			kxf::XMLNode componentsNode = m_XML.QueryElement("SetupInfo/Installer/Components");
 			if (componentsNode.IsOK())
 			{
-				auto ReadEntriesArray = [&components](ComponentGroup* group, const KxXMLNode& groupNode)
+				auto ReadEntriesArray = [&components](ComponentGroup* group, const kxf::XMLNode& groupNode)
 				{
-					for (KxXMLNode entryNode = groupNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+					for (kxf::XMLNode entryNode = groupNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 					{
 						ComponentItem* entry = group->GetItems().emplace_back(std::make_unique<ComponentItem>()).get();
 						entry->SetName(Utility::String::StrOr(entryNode.GetFirstChildElement("Name").GetValue(), entryNode.GetAttribute("ID")));
@@ -607,19 +607,19 @@ namespace Kortex::PackageProject
 						entry->SetDescription(entryNode.GetFirstChildElement("Description").GetValue());
 						entry->SetTDDefaultValue(entryNode.GetAttributeBool("Checked") ? TypeDescriptor::Recommended : TypeDescriptor::Optional);
 	
-						wxString folder = entryNode.GetFirstChildElement("Folder").GetValue();
+						kxf::String folder = entryNode.GetFirstChildElement("Folder").GetValue();
 						if (!folder.IsEmpty())
 						{
 							entry->GetFileData().emplace_back(folder);
 						}
 	
-						wxString reqSet = entryNode.GetFirstChildElement("RequirementsSet").GetValue();
+						kxf::String reqSet = entryNode.GetFirstChildElement("RequirementsSet").GetValue();
 						if (!reqSet.IsEmpty())
 						{
 							entry->GetRequirements().emplace_back(reqSet);
 						}
 	
-						wxString image = entryNode.GetFirstChildElement("Image").GetValue();
+						kxf::String image = entryNode.GetFirstChildElement("Image").GetValue();
 						if (!image.IsEmpty() && image != "---")
 						{
 							entry->SetImage("SetupInfo\\Images\\" + image);
@@ -628,7 +628,7 @@ namespace Kortex::PackageProject
 				};
 	
 				// Versions before 4.3 supports only one group
-				if (m_ProjectVersion < KxVersion("4.3"))
+				if (m_ProjectVersion < kxf::Version("4.3"))
 				{
 					ComponentStep* step = components.GetSteps().emplace_back(std::make_unique<ComponentStep>()).get();
 					step->SetName("Select options");
@@ -648,7 +648,7 @@ namespace Kortex::PackageProject
 						ComponentStep* step = components.GetSteps().emplace_back(std::make_unique<ComponentStep>()).get();
 						step->SetName("Select options");
 	
-						for (KxXMLNode groupNode = componentsNode.GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
+						for (kxf::XMLNode groupNode = componentsNode.GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
 						{
 							ComponentGroup* group = step->GetGroups().emplace_back(std::make_unique<ComponentGroup>()).get();
 							group->SetName(Utility::String::StrOr(groupNode.GetFirstChildElement("Name").GetValue(), groupNode.GetAttribute("ID")));
@@ -668,7 +668,7 @@ namespace Kortex::PackageProject
 	
 		// Basic info
 		// Seems like this variant somehow get into 5.x version
-		KxXMLNode basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info/Standart");
+		kxf::XMLNode basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info/Standart");
 		if (!basicInfoNode.IsOK())
 		{
 			basicInfoNode = m_XML.QueryElement("SetupInfo/Installer/Info");
@@ -684,7 +684,7 @@ namespace Kortex::PackageProject
 			info.SetDescription(basicInfoNode.GetFirstChildElement("Description").GetValue());
 	
 			// Copyrights field no longer supported, but it still can be saved
-			wxString copyrights = basicInfoNode.GetFirstChildElement("Copyrights").GetValue();
+			kxf::String copyrights = basicInfoNode.GetFirstChildElement("Copyrights").GetValue();
 			if (!copyrights.IsEmpty())
 			{
 				copyrights.Replace("\r\n", "; ", true);
@@ -696,7 +696,7 @@ namespace Kortex::PackageProject
 			AddSite(basicInfoNode.GetFirstChildElement("OriginalURL").GetValue());
 	
 			// URL for discussion site (almost always empty)
-			wxString discussion = basicInfoNode.GetFirstChildElement("Discussion").GetValue();
+			kxf::String discussion = basicInfoNode.GetFirstChildElement("Discussion").GetValue();
 			if (!discussion.IsEmpty())
 			{
 				#if 0
@@ -705,7 +705,7 @@ namespace Kortex::PackageProject
 			}
 	
 			// An ID of '---' means no category
-			wxString category = basicInfoNode.GetFirstChildElement("Category").GetValue();
+			kxf::String category = basicInfoNode.GetFirstChildElement("Category").GetValue();
 			if (!category.IsEmpty() && category != "---" && CheckTag(category))
 			{
 				info.GetTagStore().AddTag(ModTagManager::DefaultTag(category));
@@ -713,13 +713,13 @@ namespace Kortex::PackageProject
 		}
 	
 		// Custom info have very different (but perfectly compatible) format
-		for (KxXMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Custom").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Custom").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			info.GetCustomFields().emplace_back(node.GetFirstChildElement("Value").GetValue(), node.GetFirstChildElement("Name").GetValue());
 		}
 	
 		// Documents
-		for (KxXMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Documents").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = m_XML.QueryElement("SetupInfo/Installer/Info/Documents").GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			// Attributes 'Index' and 'Show' are ignored.
 			info.GetDocuments().emplace_back("SetupInfo\\Documents\\" + node.GetValue(), node.GetAttribute("Name"));
@@ -731,21 +731,21 @@ namespace Kortex::PackageProject
 	}
 	void LegacySerializer::ReadFiles5x()
 	{
-		KxXMLNode fileDataNode = m_XML.QueryElement("SetupInfo/Installer/Files");
+		kxf::XMLNode fileDataNode = m_XML.QueryElement("SetupInfo/Installer/Files");
 		if (fileDataNode.IsOK())
 		{
 			FileDataSection& fileData = m_Project->GetFileData();
 			bool isNestedStructure = fileDataNode.GetAttribute("StructureType") == "Nested";
 	
 			// Folder
-			for (KxXMLNode entryNode = fileDataNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+			for (kxf::XMLNode entryNode = fileDataNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 			{
 				FileItem& item = entryNode.GetName() == "Folder" ? fileData.AddFolder(std::make_unique<FolderItem>()) : fileData.AddFile(std::make_unique<FileItem>());
 
 				item.SetID(entryNode.GetAttribute("ID", entryNode.GetAttribute("Source")));
 				item.SetDestination(entryNode.GetAttribute("Destination"));
 				
-				wxString source = entryNode.GetAttribute("Source", item.GetID());
+				kxf::String source = entryNode.GetAttribute("Source", item.GetID());
 				item.SetSource(isNestedStructure ? "SetupData\\" + source : source);
 			}
 	
@@ -759,12 +759,12 @@ namespace Kortex::PackageProject
 	{
 		RequirementsSection& requirements = m_Project->GetRequirements();
 	
-		KxXMLNode requirementsNode = m_XML.QueryElement("SetupInfo/Installer/Requirements");
+		kxf::XMLNode requirementsNode = m_XML.QueryElement("SetupInfo/Installer/Requirements");
 		if (requirementsNode.IsOK())
 		{
 			bool showCommonRequirements = requirementsNode.GetAttributeBool("CommonRequirements", true) || requirementsNode.GetAttributeBool("ShowCommonRequirements", true);
 	
-			for (KxXMLNode setsNode = requirementsNode.GetFirstChildElement(); setsNode.IsOK(); setsNode = setsNode.GetNextSiblingElement())
+			for (kxf::XMLNode setsNode = requirementsNode.GetFirstChildElement(); setsNode.IsOK(); setsNode = setsNode.GetNextSiblingElement())
 			{
 				if (setsNode.HasChildren())
 				{
@@ -778,7 +778,7 @@ namespace Kortex::PackageProject
 						requirements.GetDefaultGroup().push_back(group->GetID());
 					}
 	
-					for (KxXMLNode entryNode = setsNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+					for (kxf::XMLNode entryNode = setsNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 					{
 						if (entryNode.HasChildren())
 						{
@@ -789,14 +789,14 @@ namespace Kortex::PackageProject
 							entry->SetDescription(entryNode.GetFirstChildElement("Comment").GetValue());
 	
 							// File path
-							wxString path = entryNode.GetFirstChildElement("Path").GetValue();
+							kxf::String path = entryNode.GetFirstChildElement("Path").GetValue();
 							if (Utility::SingleFileExtensionMatches(path, "esp") || Utility::SingleFileExtensionMatches(path, "esm"))
 							{
 								entry->SetObject(path);
 							}
 							else if (!path.IsEmpty())
 							{
-								wxString sVariable = ConvertVariable(entryNode.GetFirstChildElement("Variable").GetValue());
+								kxf::String sVariable = ConvertVariable(entryNode.GetFirstChildElement("Variable").GetValue());
 								entry->SetObject(sVariable + '\\' + path);
 							}
 	
@@ -806,7 +806,7 @@ namespace Kortex::PackageProject
 							}
 	
 							// Required state
-							wxString state = entryNode.GetFirstChildElement("State").GetValue();
+							kxf::String state = entryNode.GetFirstChildElement("State").GetValue();
 							ObjectFunction objectFunction = ObjectFunction::Invalid;
 							if (state == "Active")
 							{
@@ -833,7 +833,7 @@ namespace Kortex::PackageProject
 							entry->SetObjectFunction(objectFunction != ObjectFunction::Invalid ? objectFunction : ObjectFunction::ModActive);
 	
 							// Operator
-							wxString operatorRVName = entryNode.GetFirstChildElement("Operator").GetValue();
+							kxf::String operatorRVName = entryNode.GetFirstChildElement("Operator").GetValue();
 							Operator operatorRVType = Operator::Invalid;
 							if (operatorRVName == "==")
 							{
@@ -879,29 +879,29 @@ namespace Kortex::PackageProject
 		{
 			ComponentsSection& components = m_Project->GetComponents();
 	
-			auto ReadFlagsArray = [](Condition& conditions, const KxXMLNode& flagsNode)
+			auto ReadFlagsArray = [](Condition& conditions, const kxf::XMLNode& flagsNode)
 			{
-				for (KxXMLNode node = flagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+				for (kxf::XMLNode node = flagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 				{
 					conditions.GetFlags().emplace_back(node.GetAttribute("Value"), node.GetValue());
 				}
 			};
 	
-			KxXMLNode componentsNode = m_XML.QueryElement("SetupInfo/Installer/Components");
+			kxf::XMLNode componentsNode = m_XML.QueryElement("SetupInfo/Installer/Components");
 			if (componentsNode.IsOK())
 			{
 				// Read required files
 				LoadStringArray(components.GetRequiredFileData(), componentsNode.GetFirstChildElement("RequiredFiles"));
 	
 				// Read sets
-				std::vector<std::pair<wxString, KxXMLNode>> groupsIDArray;
+				std::vector<std::pair<kxf::String, kxf::XMLNode>> groupsIDArray;
 	
-				for (KxXMLNode groupNode = componentsNode.GetFirstChildElement("Sets").GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
+				for (kxf::XMLNode groupNode = componentsNode.GetFirstChildElement("Sets").GetFirstChildElement(); groupNode.IsOK(); groupNode = groupNode.GetNextSiblingElement())
 				{
 					groupsIDArray.emplace_back(groupNode.GetAttribute("ID"), groupNode);
 				}
 	
-				auto ReadGroup = [&components, &ReadFlagsArray](const KxXMLNode& groupNode) -> ComponentGroup*
+				auto ReadGroup = [&components, &ReadFlagsArray](const kxf::XMLNode& groupNode) -> ComponentGroup*
 				{
 					ComponentGroup* group = new ComponentGroup();
 	
@@ -912,19 +912,19 @@ namespace Kortex::PackageProject
 					// Required flags for group no longer supported, so skip it
 	
 					/* Entries */
-					for (KxXMLNode entryNode = groupNode.GetFirstChildElement("Data").GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+					for (kxf::XMLNode entryNode = groupNode.GetFirstChildElement("Data").GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 					{
 						ComponentItem* entry = group->GetItems().emplace_back(std::make_unique<ComponentItem>()).get();
 						entry->SetName(entryNode.GetFirstChildElement("Name").GetValue());
 						entry->SetDescription(entryNode.GetFirstChildElement("Description").GetValue());
 	
-						wxString image = entryNode.GetFirstChildElement("Image").GetValue();
+						kxf::String image = entryNode.GetFirstChildElement("Image").GetValue();
 						if (!image.IsEmpty() && image != "---")
 						{
 							entry->SetImage("SetupInfo\\Images\\" + image);
 						}
 	
-						wxString reqSet = entryNode.GetFirstChildElement("RequirementsSet").GetValue();
+						kxf::String reqSet = entryNode.GetFirstChildElement("RequirementsSet").GetValue();
 						if (!reqSet.IsEmpty() && reqSet != "---")
 						{
 							entry->GetRequirements().emplace_back(reqSet);
@@ -957,7 +957,7 @@ namespace Kortex::PackageProject
 				};
 	
 				// Read steps
-				for (KxXMLNode stepNode = componentsNode.GetFirstChildElement("Steps").GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
+				for (kxf::XMLNode stepNode = componentsNode.GetFirstChildElement("Steps").GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
 				{
 					ComponentStep* step = components.GetSteps().emplace_back(std::make_unique<ComponentStep>()).get();
 					step->SetName(stepNode.GetAttribute("Name"));
@@ -967,7 +967,7 @@ namespace Kortex::PackageProject
 					// Version 5.x stores groups separately and links them by IDs.
 					KxStringVector groups;
 					LoadStringArray(groups, stepNode.GetFirstChildElement("Data"));
-					for (const wxString& groupID: groups)
+					for (const kxf::String& groupID: groups)
 					{
 						auto it = std::find_if(groupsIDArray.begin(), groupsIDArray.end(), [&groupID](const auto& v)
 						{
@@ -982,9 +982,9 @@ namespace Kortex::PackageProject
 				}
 	
 				// Conditional steps
-				auto ReadConditionalSteps = [&componentsNode, &components, &ReadFlagsArray](const wxString& sRootNodeName, const wxString& sNodeName)
+				auto ReadConditionalSteps = [&componentsNode, &components, &ReadFlagsArray](const kxf::String& sRootNodeName, const kxf::String& sNodeName)
 				{
-					for (KxXMLNode stepNode = componentsNode.GetFirstChildElement(sRootNodeName).GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
+					for (kxf::XMLNode stepNode = componentsNode.GetFirstChildElement(sRootNodeName).GetFirstChildElement(); stepNode.IsOK(); stepNode = stepNode.GetNextSiblingElement())
 					{
 						auto& step = components.GetConditionalSteps().emplace_back(std::make_unique<ConditionalComponentStep>());
 						ReadFlagsArray(step->GetConditionGroup().GetOrCreateFirstCondition(), stepNode.GetFirstChildElement("RequiredFlags"));
@@ -1001,7 +1001,7 @@ namespace Kortex::PackageProject
 	
 		// Current version of package format don't support storing game config edits
 		// as ConfigManager doesn't currently support external modifying requests.
-		KxXMLNode iniNode = m_XML.QueryElement("SetupInfo/Installer/INI");
+		kxf::XMLNode iniNode = m_XML.QueryElement("SetupInfo/Installer/INI");
 		if (!iniNode.IsOK())
 		{
 			m_XML.QueryElement("SetupInfo/Installer/INI-Files");
@@ -1009,23 +1009,23 @@ namespace Kortex::PackageProject
 	
 		if (iniNode.IsOK())
 		{
-			for (KxXMLNode entryNode = iniNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
+			for (kxf::XMLNode entryNode = iniNode.GetFirstChildElement(); entryNode.IsOK(); entryNode = entryNode.GetNextSiblingElement())
 			{
 				// Maybe I find something someday
-				if (m_ProjectVersion < KxVersion("5.0"))
+				if (m_ProjectVersion < kxf::Version("5.0"))
 				{
 					wxMessageBox(m_ProjectVersion);
 				}
 	
-				wxString id = entryNode.GetAttribute("ID");
+				kxf::String id = entryNode.GetAttribute("ID");
 				bool isAuto = entryNode.GetAttributeBool("AutoApply");
-				wxString path = wxString::Format("$(%s)\\%s", entryNode.GetFirstChildElement("Variable").GetValue(), entryNode.GetFirstChildElement("Path").GetValue());
-				wxString section = entryNode.GetFirstChildElement("Section").GetValue();
-				wxString key = entryNode.GetFirstChildElement("Key").GetValue();
-				wxString value = entryNode.GetFirstChildElement("Value").GetValue();
+				kxf::String path = kxf::String::Format("$(%s)\\%s", entryNode.GetFirstChildElement("Variable").GetValue(), entryNode.GetFirstChildElement("Path").GetValue());
+				kxf::String section = entryNode.GetFirstChildElement("Section").GetValue();
+				kxf::String key = entryNode.GetFirstChildElement("Key").GetValue();
+				kxf::String value = entryNode.GetFirstChildElement("Value").GetValue();
 	
-				wxString serializedName = wxString::Format("INI<string id = %s, bool bAutoApply = %d>", id, (int)isAuto);
-				wxString serializedValue = wxString::Format("INI(\"%s\").SetValue(string section = \"%s\", string key = \"%s\", string value = \"%s\");", path, section, key, value);
+				kxf::String serializedName = kxf::String::Format("INI<string id = %s, bool bAutoApply = %d>", id, (int)isAuto);
+				kxf::String serializedValue = kxf::String::Format("INI(\"%s\").SetValue(string section = \"%s\", string key = \"%s\", string value = \"%s\");", path, section, key, value);
 				info.GetCustomFields().emplace_back(serializedValue, serializedName);
 			}
 		}
@@ -1040,7 +1040,7 @@ namespace Kortex::PackageProject
 	
 		// Config can be read from any version
 		ReadConfig();
-		if (m_ProjectVersion >= KxVersion("5.0"))
+		if (m_ProjectVersion >= kxf::Version("5.0"))
 		{
 			// AMI variant (SMI 5.0+)
 			ReadInfo5x();
@@ -1050,7 +1050,7 @@ namespace Kortex::PackageProject
 			ReadComponents5x();
 			ReadINI5x();
 		}
-		else if (m_ProjectVersion >= KxVersion("4.0"))
+		else if (m_ProjectVersion >= kxf::Version("4.0"))
 		{
 			// SMI 4.0+
 			ReadInfo4x();
@@ -1060,7 +1060,7 @@ namespace Kortex::PackageProject
 			ReadComponents4x();
 			ReadINI5x(); // Can't find example for 4.0, but this may work
 		}
-		else if (m_ProjectVersion >= KxVersion("3.0"))
+		else if (m_ProjectVersion >= kxf::Version("3.0"))
 		{
 			// SMI 3.0+
 			ReadInfo3x();

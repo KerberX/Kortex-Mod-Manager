@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "DefaultGameInstance.h"
 
 namespace Kortex
@@ -21,13 +21,13 @@ namespace Kortex::GameInstance
 			IGameInstance* m_Instance = nullptr;
 
 		protected:
-			void LoadGlobalModule(IModule& module, const KxXMLDocument& instanceConfig);
-			void LoadModule(IModule& module, const KxXMLNode& node);
+			void LoadGlobalModule(IModule& module, const kxf::XMLDocument& instanceConfig);
+			void LoadModule(IModule& module, const kxf::XMLNode& node);
 			
 			template<class T, bool isAlwaysEnabled = false>
-			std::unique_ptr<T> InitModule(const KxXMLDocument& instanceConfig)
+			std::unique_ptr<T> InitModule(const kxf::XMLDocument& instanceConfig)
 			{
-				const KxXMLNode node = instanceConfig.GetFirstChildElement("Definition").GetFirstChildElement(T::GetModuleTypeInfo().GetID());
+				const kxf::XMLNode node = instanceConfig.GetFirstChildElement("Definition").GetFirstChildElement(T::GetModuleTypeInfo().GetID());
 				if (isAlwaysEnabled || node.GetAttributeBool("Enabled", true))
 				{
 					auto module = std::make_unique<T>();
@@ -48,24 +48,24 @@ namespace Kortex::GameInstance
 	{
 		private:
 			KxFileStream m_DirectoryLock;
-			wxString m_CurrentProfileID;
+			kxf::String m_CurrentProfileID;
 		
 			std::unique_ptr<GameDataModule> m_GameDataModule;
 			std::unique_ptr<GameConfigModule> m_GameConfigModule;
 
 		protected:
-			void InitModulesConfig(const KxXMLDocument& instanceConfig);
+			void InitModulesConfig(const kxf::XMLDocument& instanceConfig);
 			void InitVariables(const IGameProfile& profile);
 		
-			bool OnLoadInstance(const KxXMLDocument& instanceConfig) override;
+			bool OnLoadInstance(const kxf::XMLDocument& instanceConfig) override;
 			bool ShouldInitProfiles() const override;
 
 		public:
-			ActiveGameInstance(const IGameInstance& instanceTemplate, const wxString& instanceID);
+			ActiveGameInstance(const IGameInstance& instanceTemplate, const kxf::String& instanceID);
 
 		public:
-			const wxString& GetActiveProfileID() const;
-			void SetCurrentProfileID(const wxString& id);
+			const kxf::String& GetActiveProfileID() const;
+			void SetCurrentProfileID(const kxf::String& id);
 
 			const IGameProfile* GetActiveProfile() const
 			{

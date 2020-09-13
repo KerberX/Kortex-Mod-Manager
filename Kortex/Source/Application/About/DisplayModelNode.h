@@ -1,7 +1,7 @@
 #pragma once
-#include "stdafx.h"
-#include "Application/Resources/ImageResourceID.h"
-#include <KxFramework/KxVersion.h>
+#include <Kortex/Kortex.hpp>
+#include "Application/Resources/Imagekxf::ResourceID.h"
+#include <KxFramework/kxf::Version.h>
 #include <KxFramework/KxURI.h>
 
 namespace Kortex
@@ -19,11 +19,11 @@ namespace Kortex::Application::About
 				friend class INode;
 
 				private:
-					wxString m_License;
+					kxf::String m_License;
 					bool m_ShouldLoad = true;
 
 				public:
-					operator const wxString&() const
+					operator const kxf::String&() const
 					{
 						return m_License;
 					}
@@ -41,21 +41,21 @@ namespace Kortex::Application::About
 			};
 
 		protected:
-			wxString GetLocation(Type type) const;
-			wxString ReadLicense(Type type) const;
-			const wxString& LoadLicense(LicenseData& data, Type type) const;
+			kxf::String GetLocation(Type type) const;
+			kxf::String ReadLicense(Type type) const;
+			const kxf::String& LoadLicense(LicenseData& data, Type type) const;
 
 		public:
 			virtual ~INode() = default;
 
 		public:
-			virtual wxString GetName() const = 0;
-			virtual KxVersion GetVersion() const = 0;
-			virtual ResourceID GetIconID() const = 0;
+			virtual kxf::String GetName() const = 0;
+			virtual kxf::Version GetVersion() const = 0;
+			virtual kxf::ResourceID GetIconID() const = 0;
 			virtual KxURI GetURI() const = 0;
 
 			virtual bool HasLicense() const = 0;
-			virtual wxString GetLicense() const = 0;
+			virtual kxf::String GetLicense() const = 0;
 	};
 }
 
@@ -67,13 +67,13 @@ namespace Kortex::Application::About
 			mutable LicenseData m_Licence;
 
 		public:
-			wxString GetName() const override;
-			KxVersion GetVersion() const override;
-			ResourceID GetIconID() const override;
+			kxf::String GetName() const override;
+			kxf::Version GetVersion() const override;
+			kxf::ResourceID GetIconID() const override;
 			KxURI GetURI() const override;
 
 			bool HasLicense() const override;
-			wxString GetLicense() const override;
+			kxf::String GetLicense() const override;
 
 	};
 }
@@ -93,16 +93,16 @@ namespace Kortex::Application::About
 			}
 
 		public:
-			wxString GetName() const override;
-			KxVersion GetVersion() const override;
-			ResourceID GetIconID() const override;
+			kxf::String GetName() const override;
+			kxf::Version GetVersion() const override;
+			kxf::ResourceID GetIconID() const override;
 			KxURI GetURI() const override
 			{
 				return {};
 			}
 			
 			bool HasLicense() const override;
-			wxString GetLicense() const override;
+			kxf::String GetLicense() const override;
 	};
 }
 
@@ -112,28 +112,28 @@ namespace Kortex::Application::About
 	{
 		private:
 			const Type m_Type;
-			const wxString m_Name;
-			const KxVersion m_Version;
+			const kxf::String m_Name;
+			const kxf::Version m_Version;
 			const KxURI m_URL;
-			const ResourceID m_IconID;
+			const kxf::ResourceID m_IconID;
 			mutable LicenseData m_Licence;
 
 		public:
-			GenericNode(Type type, const wxString& name, const KxVersion& version, const wxString& url, const ResourceID& iconID)
+			GenericNode(Type type, const kxf::String& name, const kxf::Version& version, const kxf::String& url, const kxf::ResourceID& iconID)
 				:m_Type(type), m_Name(name), m_Version(version), m_URL(url), m_IconID(iconID)
 			{
 			}
 
 		public:
-			wxString GetName() const override
+			kxf::String GetName() const override
 			{
 				return m_Name;
 			}
-			KxVersion GetVersion() const override
+			kxf::Version GetVersion() const override
 			{
 				return m_Version;
 			}
-			ResourceID GetIconID() const override
+			kxf::ResourceID GetIconID() const override
 			{
 				return m_IconID;
 			}
@@ -146,7 +146,7 @@ namespace Kortex::Application::About
 			{
 				return !LoadLicense(m_Licence, m_Type).IsEmpty();
 			}
-			wxString GetLicense() const override
+			kxf::String GetLicense() const override
 			{
 				return LoadLicense(m_Licence, m_Type);
 			}
@@ -158,7 +158,7 @@ namespace Kortex::Application::About
 	class SoftwareNode: public GenericNode
 	{
 		public:
-			SoftwareNode(const wxString& name, const KxVersion& version, const wxString& url, const ResourceID& iconID = ImageResourceID::None)
+			SoftwareNode(const kxf::String& name, const kxf::Version& version, const kxf::String& url, const kxf::ResourceID& iconID = Imagekxf::ResourceID::None)
 				:GenericNode(Type::Software, name, version, url, iconID)
 			{
 			}
@@ -170,26 +170,26 @@ namespace Kortex::Application::About
 	class ResourceNode: public INode
 	{
 		private:
-			const wxString m_Name;
+			const kxf::String m_Name;
 			const KxURI m_URL;
 			mutable LicenseData m_Licence;
 
 		public:
-			ResourceNode(const wxString& name, const wxString& url)
+			ResourceNode(const kxf::String& name, const kxf::String& url)
 				:m_Name(name), m_URL(url)
 			{
 			}
 
 		public:
-			wxString GetName() const override
+			kxf::String GetName() const override
 			{
 				return m_Name;
 			}
-			KxVersion GetVersion() const override
+			kxf::Version GetVersion() const override
 			{
-				return KxVersion();
+				return kxf::Version();
 			}
-			ResourceID GetIconID() const override
+			kxf::ResourceID GetIconID() const override
 			{
 				return {};
 			}
@@ -202,7 +202,7 @@ namespace Kortex::Application::About
 			{
 				return !LoadLicense(m_Licence, Type::Resource).IsEmpty();
 			}
-			wxString GetLicense() const override
+			kxf::String GetLicense() const override
 			{
 				return LoadLicense(m_Licence, Type::Resource);
 			}

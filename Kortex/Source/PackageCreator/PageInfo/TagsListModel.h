@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <Kortex/ModTagManager.hpp>
 #include "Utility/LabeledValue.h"
 class KxDataViewComboBox;

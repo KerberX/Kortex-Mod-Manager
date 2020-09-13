@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
 #include <KxFramework/KxSingleton.h>
 
@@ -21,7 +21,7 @@ namespace Kortex
 			std::unique_ptr<IProgramManager> m_ProgramManager;
 
 		protected:
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 			virtual void OnInit() override;
 			virtual void OnExit() override;
 

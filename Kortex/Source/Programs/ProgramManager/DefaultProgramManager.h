@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Programs/IProgramItem.h"
 #include "Programs/IProgramManager.h"
 #include "Application/IWorkspace.h"
@@ -20,7 +20,7 @@ namespace Kortex::ProgramManager
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void CreateWorkspaces() override;
 
 		public:

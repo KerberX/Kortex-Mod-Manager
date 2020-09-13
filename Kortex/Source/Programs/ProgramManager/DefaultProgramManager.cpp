@@ -21,7 +21,7 @@ namespace Kortex::ProgramManager
 	{
 		SaveUserPrograms();
 	}
-	void DefaultProgramManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultProgramManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		LoadProgramsFromXML(m_DefaultPrograms, managerNode.GetFirstChildElement("DefaultPrograms"));
 	}
@@ -32,18 +32,18 @@ namespace Kortex::ProgramManager
 
 	void DefaultProgramManager::LoadUserPrograms()
 	{
-		KxXMLNode node = GetAInstanceOption(Application::OName::UserPrograms).GetNode();
+		kxf::XMLNode node = GetAInstanceOption(Application::OName::UserPrograms).GetNode();
 		LoadProgramsFromXML(m_UserPrograms, node);
 	}
 	void DefaultProgramManager::SaveUserPrograms() const
 	{
 		auto option = GetAInstanceOption(Application::OName::UserPrograms);
-		KxXMLNode rootNode = option.GetNode();
+		kxf::XMLNode rootNode = option.GetNode();
 		rootNode.ClearNode();
 
 		for (const auto& entry: m_UserPrograms)
 		{
-			KxXMLNode node = rootNode.NewElement(wxS("Entry"));
+			kxf::XMLNode node = rootNode.NewElement(wxS("Entry"));
 			entry->Save(node);
 		}
 		option.NotifyChange();

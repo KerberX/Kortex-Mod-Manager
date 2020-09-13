@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/ComponentsSection.h"
 #include "PackageProject/RequirementsSection.h"
@@ -68,7 +68,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			}
 	
 		public:
-			RequirementsSelectorDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller);
+			RequirementsSelectorDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller);
 			~RequirementsSelectorDialog();
 	};
 }

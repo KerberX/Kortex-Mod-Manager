@@ -16,10 +16,10 @@ namespace Kortex
 	{
 	}
 
-	bool NetworkModInfo::FromString(const wxString& stringValue)
+	bool NetworkModInfo::FromString(const kxf::String& stringValue)
 	{
-		wxString fileID;
-		wxString modID = stringValue.BeforeFirst(wxS(':'), &fileID);
+		kxf::String fileID;
+		kxf::String modID = stringValue.BeforeFirst(wxS(':'), &fileID);
 
 		m_FileID.FromString(fileID);
 		return m_ModID.FromString(modID);

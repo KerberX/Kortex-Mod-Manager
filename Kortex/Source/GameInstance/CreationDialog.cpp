@@ -39,16 +39,16 @@ namespace Kortex::GameInstance
 
 			// Copy from
 			wxBoxSizer* copySizer = new wxBoxSizer(wxHORIZONTAL);
-			mainSizer->Add(copySizer, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING_SMALL);
+			mainSizer->Add(copySizer, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
 
 			KxLabel* copyFromLabel = new KxLabel(contentPanel, KxID_NONE, KTr("InstanceCreatorDialog.CopyFrom"));
-			copySizer->Add(copyFromLabel, 1, wxTOP, KLC_VERTICAL_SPACING_SMALL);
+			copySizer->Add(copyFromLabel, 1, wxTOP, LayoutConstants::VerticalSpacing_SMALL);
 
 			wxBoxSizer* copyOptionsSizer = new wxBoxSizer(wxVERTICAL);
 			copySizer->Add(copyOptionsSizer, 1, wxEXPAND);
 
 			mainSizer->Detach(m_InstancesList);
-			copyOptionsSizer->Add(m_InstancesList, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING_SMALL);
+			copyOptionsSizer->Add(m_InstancesList, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
 			m_InstancesList->AddItem(KVarExp("<$T(ID_NONE)>"));
 
 			for (const auto& instance: IGameInstance::GetShallowInstances())
@@ -64,7 +64,7 @@ namespace Kortex::GameInstance
 
 			// Copy instance config
 			m_CopyInstanceConfigCHK = new KxCheckBox(contentPanel, KxID_NONE, KTr("InstanceCreatorDialog.CopyInstanceConfig"));
-			copyOptionsSizer->Add(m_CopyInstanceConfigCHK, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING_SMALL);
+			copyOptionsSizer->Add(m_CopyInstanceConfigCHK, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
 
 			AddUserWindow(m_NameInput);
 			AdjustWindow(wxDefaultPosition);

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/DataView2/DataView2.h>
 #include "BaseNotification.h"
 #include "Utility/BitmapSize.h"
@@ -28,7 +28,7 @@ namespace Kortex::Notifications
 			{
 				return *m_Notifications[node.GetRow()];
 			}
-			wxString FormatText(const INotification& notification) const;
+			kxf::String FormatText(const INotification& notification) const;
 
 		public:
 			DisplayModel();

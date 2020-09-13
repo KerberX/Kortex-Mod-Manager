@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IModTag.h"
 #include "Application/IManager.h"
 #include <KxFramework/KxSingleton.h>
@@ -51,8 +51,8 @@ namespace Kortex
 			IModTag& EmplaceTag(std::unique_ptr<IModTag> tag);
 			IModTag& EmplaceTag(IModTag::Vector& items, std::unique_ptr<IModTag> tag);
 
-			IModTag& EmplaceTagWith(const wxString& id, const wxString& name = wxEmptyString);
-			IModTag& EmplaceTagWith(IModTag::Vector& items, const wxString& id, const wxString& name = wxEmptyString);
+			IModTag& EmplaceTagWith(const kxf::String& id, const kxf::String& name = wxEmptyString);
+			IModTag& EmplaceTagWith(IModTag::Vector& items, const kxf::String& id, const kxf::String& name = wxEmptyString);
 
 			void RemoveAllTags();
 			void RemoveAllTags(IModTag::Vector& items);
@@ -60,16 +60,16 @@ namespace Kortex
 			bool RemoveTag(IModTag& tag);
 			bool RemoveTag(IModTag::Vector& items, IModTag& tag);
 
-			bool RemoveTagByID(const wxString& id);
-			bool RemoveTagByID(IModTag::Vector& items, const wxString& id);
+			bool RemoveTagByID(const kxf::String& id);
+			bool RemoveTagByID(IModTag::Vector& items, const kxf::String& id);
 
-			IModTag* FindTagByID(const wxString& id) const;
-			IModTag* FindTagByID(const IModTag::Vector& items, const wxString& id) const;
+			IModTag* FindTagByID(const kxf::String& id) const;
+			IModTag* FindTagByID(const IModTag::Vector& items, const kxf::String& id) const;
 
-			IModTag* FindTagByName(const wxString& name) const;
-			IModTag* FindTagByName(const IModTag::Vector& items, const wxString& name) const;
+			IModTag* FindTagByName(const kxf::String& name) const;
+			IModTag* FindTagByName(const IModTag::Vector& items, const kxf::String& name) const;
 
-			wxString GetTagNameByID(const wxString& id) const;
-			wxString GetTagNameByID(const IModTag::Vector& items, const wxString& id) const;
+			kxf::String GetTagNameByID(const kxf::String& id) const;
+			kxf::String GetTagNameByID(const IModTag::Vector& items, const kxf::String& id) const;
 	};
 }

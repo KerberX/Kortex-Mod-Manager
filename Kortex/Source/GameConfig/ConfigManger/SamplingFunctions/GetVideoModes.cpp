@@ -8,7 +8,7 @@
 namespace
 {
 	using Component = Kortex::GameConfig::SamplingFunction::GetVideoModes::Component;
-	struct ComponentDef: public KxIndexedEnum::Definition<ComponentDef, Component, wxString, true>
+	struct ComponentDef: public KxIndexedEnum::Definition<ComponentDef, Component, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -21,7 +21,7 @@ namespace
 
 namespace Kortex::GameConfig::SamplingFunction
 {
-	void GetVideoModes::DoCall(Component component, const wxString& format)
+	void GetVideoModes::DoCall(Component component, const kxf::String& format)
 	{
 		std::unordered_set<uint32_t> addedValues;
 		auto AddValueIfUnique = [this, &addedValues](uint32_t testValue, const auto& value) -> SampleValue*
@@ -51,7 +51,7 @@ namespace Kortex::GameConfig::SamplingFunction
 				case Component::Both:
 				{
 					uint32_t hashValue = videoMode.Width ^ videoMode.Height;
-					SampleValue* sample = AddValueIfUnique(hashValue, KxString::Format(format, videoMode.Width, videoMode.Height));
+					SampleValue* sample = AddValueIfUnique(hashValue, kxf::String::Format(format, videoMode.Width, videoMode.Height));
 					if (sample)
 					{
 						sample->SetLabel(Utility::GetResolutionRatio(wxSize(videoMode.Width, videoMode.Height)));
@@ -69,10 +69,10 @@ namespace Kortex::GameConfig::SamplingFunction
 	{
 		if (arguments.size() >= 1)
 		{
-			Component component = ComponentDef::FromOrExpression(arguments[0].As<wxString>(), Component::None);
+			Component component = ComponentDef::FromOrExpression(arguments[0].As<kxf::String>(), Component::None);
 			if (component != Component::None)
 			{
-				DoCall(component, arguments.size() >= 2 ? arguments[1].As<wxString>() : wxEmptyString);
+				DoCall(component, arguments.size() >= 2 ? arguments[1].As<kxf::String>() : wxEmptyString);
 			}
 		}
 	}

@@ -18,10 +18,10 @@ namespace Kortex
 {
 	bool DownloadItem::Serialize(wxOutputStream& stream) const
 	{
-		KxXMLDocument xml;
-		if (KxXMLNode rootNode = xml.NewElement("Download"); true)
+		kxf::XMLDocument xml;
+		if (kxf::XMLNode rootNode = xml.NewElement("Download"); true)
 		{
-			if (KxXMLNode sourceNode = rootNode.NewElement("Source"); true)
+			if (kxf::XMLNode sourceNode = rootNode.NewElement("Source"); true)
 			{
 				if (m_ModNetwork)
 				{
@@ -45,7 +45,7 @@ namespace Kortex
 				}
 			}
 
-			if (KxXMLNode infoNode = rootNode.NewElement("Info"); true)
+			if (kxf::XMLNode infoNode = rootNode.NewElement("Info"); true)
 			{
 				infoNode.NewElement("DisplayName").SetValue(GetDisplayName());
 				infoNode.NewElement("Version").SetValue(m_FileInfo.Version);
@@ -62,7 +62,7 @@ namespace Kortex
 				}
 			}
 
-			if (KxXMLNode stateNode = rootNode.NewElement("State"); true)
+			if (kxf::XMLNode stateNode = rootNode.NewElement("State"); true)
 			{
 				stateNode.NewElement("Paused").SetValue(IsPaused());
 				stateNode.NewElement("Hidden").SetValue(m_IsHidden);
@@ -74,12 +74,12 @@ namespace Kortex
 	}
 	bool DownloadItem::Deserialize(wxInputStream& stream)
 	{
-		KxXMLDocument xml;
+		kxf::XMLDocument xml;
 		xml.Load(stream);
 
-		if (KxXMLNode rootNode = xml.GetFirstChildElement("Download"); rootNode.IsOK())
+		if (kxf::XMLNode rootNode = xml.GetFirstChildElement("Download"); rootNode.IsOK())
 		{
-			if (KxXMLNode sourceNode = rootNode.GetFirstChildElement("Source"); sourceNode.IsOK())
+			if (kxf::XMLNode sourceNode = rootNode.GetFirstChildElement("Source"); sourceNode.IsOK())
 			{
 				m_ModNetwork = INetworkManager::GetInstance()->GetModNetworkByName(sourceNode.GetAttribute("Name"));
 
@@ -89,7 +89,7 @@ namespace Kortex
 				m_DownloadInfo.URI = sourceNode.GetFirstChildElement("URI").GetValue();
 			}
 
-			if (KxXMLNode infoNode = rootNode.GetFirstChildElement("Info"); infoNode.IsOK())
+			if (kxf::XMLNode infoNode = rootNode.GetFirstChildElement("Info"); infoNode.IsOK())
 			{
 				m_FileInfo.DisplayName = infoNode.GetFirstChildElement("DisplayName").GetValue();
 				m_FileInfo.Version = infoNode.GetFirstChildElement("Version").GetValue();
@@ -98,7 +98,7 @@ namespace Kortex
 				m_DownloadDate.ParseISOCombined(infoNode.GetFirstChildElement("DownloadDate").GetValue());
 			}
 
-			if (KxXMLNode stateNode = rootNode.GetFirstChildElement("State"); stateNode.IsOK())
+			if (kxf::XMLNode stateNode = rootNode.GetFirstChildElement("State"); stateNode.IsOK())
 			{
 				m_IsHidden = stateNode.GetFirstChildElement("Hidden").GetValueBool();
 				m_IsFailed = stateNode.GetFirstChildElement("Failed").GetValueBool(m_DownloadedSize != m_FileInfo.Size) || !KxFile(GetLocalPath()).IsFileExist();
@@ -110,9 +110,9 @@ namespace Kortex
 		return false;
 	}
 
-	wxString DownloadItem::ConstructFileName() const
+	kxf::String DownloadItem::ConstructFileName() const
 	{
-		wxString name = m_FileInfo.Name;
+		kxf::String name = m_FileInfo.Name;
 		if (name.IsEmpty())
 		{
 			name = m_FileInfo.DisplayName;
@@ -124,7 +124,7 @@ namespace Kortex
 
 		return Utility::MakeSafeFileName(name);
 	}
-	bool DownloadItem::ChangeFileName(const wxString& newName)
+	bool DownloadItem::ChangeFileName(const kxf::String& newName)
 	{
 		if (IsCompleted())
 		{
@@ -162,14 +162,14 @@ namespace Kortex
 			// File is renamed to its real name by this time.
 			if (!m_LocalFullPath.IsEmpty())
 			{
-				wxString ext = m_LocalFullPath.AfterLast(wxS('.'));
+				kxf::String ext = m_LocalFullPath.AfterLast(wxS('.'));
 				if (ext.IsEmpty() || ext == m_LocalFullPath)
 				{
 					ext = Archive::GetExtensionFromFormat(Archive::DetectFormat(m_LocalFullPath));
 					if (!ext.IsEmpty())
 					{
 						// Remember old path
-						const wxString oldPath = m_LocalFullPath;
+						const kxf::String oldPath = m_LocalFullPath;
 
 						// Update names
 						m_LocalFullPath += wxS('.');
@@ -233,7 +233,7 @@ namespace Kortex
 	{
 		return m_FileInfo.IsOK() && (!m_FileInfo.Name.IsEmpty() || !m_FileInfo.DisplayName.IsEmpty()) && m_DownloadInfo.URI.IsOk();
 	}
-	wxString DownloadItem::GetLocalPath() const
+	kxf::String DownloadItem::GetLocalPath() const
 	{
 		if (!m_LocalFullPath.IsEmpty())
 		{
@@ -241,7 +241,7 @@ namespace Kortex
 		}
 		return IDownloadManager::GetInstance()->GetDownloadsLocation() + wxS('\\') + GetName();
 	}
-	wxString DownloadItem::GetLocalTempPath() const
+	kxf::String DownloadItem::GetLocalTempPath() const
 	{
 		if (!m_LocalFullTempPath.IsEmpty())
 		{
@@ -249,16 +249,16 @@ namespace Kortex
 		}
 		return GetLocalPath() + g_TempDownloadSuffix;
 	}
-	wxString DownloadItem::GetTempPathSuffix() const
+	kxf::String DownloadItem::GetTempPathSuffix() const
 	{
 		return g_TempDownloadSuffix;
 	}
 
-	wxString DownloadItem::GetName() const
+	kxf::String DownloadItem::GetName() const
 	{
 		return Utility::MakeSafeFileName(!m_FileInfo.Name.IsEmpty() ? m_FileInfo.Name : m_FileInfo.DisplayName);
 	}
-	wxString DownloadItem::GetDisplayName() const
+	kxf::String DownloadItem::GetDisplayName() const
 	{
 		return !m_FileInfo.DisplayName.IsEmpty() ? m_FileInfo.DisplayName : m_FileInfo.Name;
 	}

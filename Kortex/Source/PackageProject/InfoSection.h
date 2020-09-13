@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 #include "Utility/LabeledValue.h"
 #include "Network/ModSourceStore.h"
@@ -11,12 +11,12 @@ namespace Kortex::PackageProject
 	class InfoSection: public ProjectSection
 	{
 		private:
-			wxString m_Name;
-			wxString m_TranslatedName;
-			wxString m_Version;
-			wxString m_Author;
-			wxString m_Translator;
-			wxString m_Description;
+			kxf::String m_Name;
+			kxf::String m_TranslatedName;
+			kxf::String m_Version;
+			kxf::String m_Author;
+			kxf::String m_Translator;
+			kxf::String m_Description;
 			Utility::LabeledValue::Vector m_CustomFields;
 			Utility::LabeledValue::Vector m_Documents;
 			Utility::LabeledValue::Vector m_WebSites;
@@ -28,56 +28,56 @@ namespace Kortex::PackageProject
 			virtual ~InfoSection();
 	
 		public:
-			const wxString& GetName() const
+			const kxf::String& GetName() const
 			{
 				return m_Name;
 			}
-			void SetName(const wxString& value)
+			void SetName(const kxf::String& value)
 			{
 				m_Name = value;
 			}
 			
-			const wxString& GetTranslatedName() const
+			const kxf::String& GetTranslatedName() const
 			{
 				return m_TranslatedName;
 			}
-			void SetTranslatedName(const wxString& value)
+			void SetTranslatedName(const kxf::String& value)
 			{
 				m_TranslatedName = value;
 			}
 			
-			const wxString& GetVersion() const
+			const kxf::String& GetVersion() const
 			{
 				return m_Version;
 			}
-			void SetVersion(const wxString& value)
+			void SetVersion(const kxf::String& value)
 			{
 				m_Version = value;
 			}
 			
-			const wxString& GetAuthor() const
+			const kxf::String& GetAuthor() const
 			{
 				return m_Author;
 			}
-			void SetAuthor(const wxString& value)
+			void SetAuthor(const kxf::String& value)
 			{
 				m_Author = value;
 			}
 			
-			const wxString& GetTranslator() const
+			const kxf::String& GetTranslator() const
 			{
 				return m_Translator;
 			}
-			void SetTranslator(const wxString& value)
+			void SetTranslator(const kxf::String& value)
 			{
 				m_Translator = value;
 			}
 			
-			const wxString& GetDescription() const
+			const kxf::String& GetDescription() const
 			{
 				return m_Description;
 			}
-			void SetDescription(const wxString& value)
+			void SetDescription(const kxf::String& value)
 			{
 				m_Description = value;
 			}

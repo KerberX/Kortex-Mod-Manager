@@ -25,9 +25,9 @@ namespace
 	using namespace Kortex;
 	using namespace Kortex::Application;
 
-	wxString FilterNameToSignature(const Utility::LabeledValue& filter)
+	kxf::String FilterNameToSignature(const Utility::LabeledValue& filter)
 	{
-		wxStringInputStream stream(filter.GetValue());
+		kxf::StringInputStream stream(filter.GetValue());
 		return wxS("Filter-") + KxCrypto::CRC32(stream);
 	}
 
@@ -96,12 +96,12 @@ namespace Kortex::SaveManager
 		{
 			GetDisplayModelOptions().SaveDataViewLayout(m_DisplayModel->GetView());
 
-			KxXMLNode filterNode = GetFiltersOptions().GetNode();
+			kxf::XMLNode filterNode = GetFiltersOptions().GetNode();
 			filterNode.ClearNode();
 
 			for (const auto& filter: ISaveManager::GetInstance()->GetConfig().GetFileFilters())
 			{
-				KxXMLNode node = filterNode.NewElement(FilterNameToSignature(filter));
+				kxf::XMLNode node = filterNode.NewElement(FilterNameToSignature(filter));
 				node.SetAttribute(OName::Enabled, FiltersMenu_IsFilterActive(filter.GetValue()));
 			}
 		}
@@ -115,7 +115,7 @@ namespace Kortex::SaveManager
 	void Workspace::UpdateFilters()
 	{
 		KxStringVector filterList;
-		for (const wxString& filter: m_ActiveFilters)
+		for (const kxf::String& filter: m_ActiveFilters)
 		{
 			filterList.push_back(filter);
 		}
@@ -200,11 +200,11 @@ namespace Kortex::SaveManager
 		return false;
 	}
 
-	wxString Workspace::GetID() const
+	kxf::String Workspace::GetID() const
 	{
 		return "SaveManager::Workspace";
 	}
-	wxString Workspace::GetName() const
+	kxf::String Workspace::GetName() const
 	{
 		return KTr("SaveManager.NameShort");
 	}
@@ -232,7 +232,7 @@ namespace Kortex::SaveManager
 			}
 			else
 			{
-				mainWindow->SetStatus(KTr("SaveManager.InvalidFile"), statusIndex, ImageResourceID::CrossCircleFrame);
+				mainWindow->SetStatus(KTr("SaveManager.InvalidFile"), statusIndex, Imagekxf::ResourceID::CrossCircleFrame);
 			}
 		}
 	}
@@ -253,7 +253,7 @@ namespace Kortex::SaveManager
 			const KxStringVector pluginsList = bethesdaSave->GetPlugins();
 
 			KxMenu* pluginsMenu = new KxMenu();
-			KxMenuItem* pluginsMenuItem = menu.Add(pluginsMenu, KxString::Format(wxS("%1 (%2)"), KTr("SaveManager.Tab.PluginsList"), pluginsList.size()));
+			KxMenuItem* pluginsMenuItem = menu.Add(pluginsMenu, kxf::String::Format(wxS("%1 (%2)"), KTr("SaveManager.Tab.PluginsList"), pluginsList.size()));
 			pluginsMenuItem->Enable(!pluginsList.empty());
 
 			if (!pluginManager->HasPlugins())
@@ -261,7 +261,7 @@ namespace Kortex::SaveManager
 				pluginManager->Load();
 			}
 
-			for (const wxString& name: pluginsList)
+			for (const kxf::String& name: pluginsList)
 			{
 				KxMenuItem* item = pluginsMenu->AddItem(name);
 				item->SetBitmap(ImageProvider::GetBitmap(pluginWorkspace->GetStatusImageForPlugin(pluginManager->FindPluginByName(name))));
@@ -281,7 +281,7 @@ namespace Kortex::SaveManager
 
 				for (const Utility::LabeledValue& entry: basicInfo)
 				{
-					KxMenuItem* item = basicInfoMenu->AddItem(KxString::Format(wxS("%1: %2"), entry.GetLabel(), entry.GetValue()));
+					KxMenuItem* item = basicInfoMenu->AddItem(kxf::String::Format(wxS("%1: %2"), entry.GetLabel(), entry.GetValue()));
 				}
 				basicInfoMenu->Bind(KxEVT_MENU_SELECT, [](KxMenuEvent& event)
 				{
@@ -294,7 +294,7 @@ namespace Kortex::SaveManager
 		// Sync
 		{
 			KxMenuItem* item = menu.AddItem(KTr("SaveManager.SyncPluginsList"));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlugDisconnect));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlugDisconnect));
 			item->Enable(!isMultiSelect && bethesdaSave && hasPlugins && pluginManager);
 			item->Bind(KxEVT_MENU_SELECT, [this, bethesdaSave](KxMenuEvent& event)
 			{
@@ -305,7 +305,7 @@ namespace Kortex::SaveManager
 		// Save
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_SAVE, KTr("SaveManager.SavePluginsList")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Disk));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Disk));
 			item->Enable(!isMultiSelect && bethesdaSave && hasPlugins);
 			item->Bind(KxEVT_MENU_SELECT, [this, bethesdaSave](KxMenuEvent& event)
 			{
@@ -342,7 +342,7 @@ namespace Kortex::SaveManager
 		// Open location
 		{
 			KxMenuItem* item = menu.AddItem(save ? KTr("Generic.FileLocation") : KTr("Generic.FolderLocation"));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
 			item->Bind(KxEVT_MENU_SELECT, [this, save](KxMenuEvent& event)
 			{
 				if (save)
@@ -359,7 +359,7 @@ namespace Kortex::SaveManager
 		// Reload items
 		{
 			KxMenuItem* item = menu.AddItem(KTr(KxID_REFRESH));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ArrowCircleDouble));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ArrowCircleDouble));
 			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
 			{
 				ScheduleReload();

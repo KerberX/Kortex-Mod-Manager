@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Utility/WithBitmap.h"
 #include <KxFramework/KxXML.h>
 
@@ -16,8 +16,8 @@ namespace Kortex
 
 		public:
 			virtual bool IsOK() const = 0;
-			virtual void Load(const KxXMLNode& node) = 0;
-			virtual void Save(KxXMLNode& node) const = 0;
+			virtual void Load(const kxf::XMLNode& node) = 0;
+			virtual void Save(kxf::XMLNode& node) const = 0;
 
 			virtual bool RequiresVFS() const = 0;
 			virtual bool CanRunNow() const = 0;
@@ -26,40 +26,40 @@ namespace Kortex
 			virtual bool ShouldShowInMainMenu() const = 0;
 			virtual void ShowInMainMenu(bool value) = 0;
 
-			virtual wxString RawGetName() const
+			virtual kxf::String RawGetName() const
 			{
 				return GetName();
 			}
-			virtual wxString GetName() const = 0;
-			virtual void SetName(const wxString& value) = 0;
+			virtual kxf::String GetName() const = 0;
+			virtual void SetName(const kxf::String& value) = 0;
 			
-			virtual wxString RawGetIconPath() const
+			virtual kxf::String RawGetIconPath() const
 			{
 				return GetIconPath();
 			}
-			virtual wxString GetIconPath() const = 0;
-			virtual void SetIconPath(const wxString& value) = 0;
+			virtual kxf::String GetIconPath() const = 0;
+			virtual void SetIconPath(const kxf::String& value) = 0;
 			
-			virtual wxString RawGetExecutable() const
+			virtual kxf::String RawGetExecutable() const
 			{
 				return GetExecutable();
 			}
-			virtual wxString GetExecutable() const = 0;
-			virtual void SetExecutable(const wxString& value) = 0;
+			virtual kxf::String GetExecutable() const = 0;
+			virtual void SetExecutable(const kxf::String& value) = 0;
 
-			virtual wxString RawGetArguments() const
+			virtual kxf::String RawGetArguments() const
 			{
 				return GetArguments();
 			}
-			virtual wxString GetArguments() const = 0;
-			virtual void SetArguments(const wxString& value) = 0;
+			virtual kxf::String GetArguments() const = 0;
+			virtual void SetArguments(const kxf::String& value) = 0;
 
-			virtual wxString RawGetWorkingDirectory() const
+			virtual kxf::String RawGetWorkingDirectory() const
 			{
 				return GetWorkingDirectory();
 			}
-			virtual wxString GetWorkingDirectory() const = 0;
-			virtual void SetWorkingDirectory(const wxString& value) = 0;
+			virtual kxf::String GetWorkingDirectory() const = 0;
+			virtual void SetWorkingDirectory(const kxf::String& value) = 0;
 
 			virtual Utility::WithBitmap& GetSmallBitmap() = 0;
 			const Utility::WithBitmap& GetSmallBitmap() const

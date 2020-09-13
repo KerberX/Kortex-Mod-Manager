@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxSplitterWindow.h>
 #include <KxFramework/KxComboBoxDialog.h>
 class KxTextBox;
@@ -22,7 +22,7 @@ namespace Kortex::GameInstance
 			KxCheckBox* m_CopyInstanceConfigCHK = nullptr;
 			
 			IGameInstance* m_InstanceTemplate = nullptr;
-			wxString m_InstanceID;
+			kxf::String m_InstanceID;
 
 		private:
 			wxWindow* GetDialogFocusCtrl() const override;
@@ -36,7 +36,7 @@ namespace Kortex::GameInstance
 			}
 
 		public:
-			wxString GetInstanceID() const
+			kxf::String GetInstanceID() const
 			{
 				return m_InstanceID;
 			}

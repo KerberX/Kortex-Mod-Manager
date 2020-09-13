@@ -1,12 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/Item.h"
 
 namespace Kortex::GameConfig
 {
 	class SimpleItem: public KxRTTI::ExtendInterface<SimpleItem, Item>
 	{
-		KxDecalreIID(SimpleItem, {0x72c89da9, 0xb654, 0x491e, {0xa3, 0x74, 0x72, 0xc, 0x40, 0x3c, 0x39, 0x90}});
+		KxRTTI_DeclareIID(SimpleItem, {0x72c89da9, 0xb654, 0x491e, {0xa3, 0x74, 0x72, 0xc, 0x40, 0x3c, 0x39, 0x90}});
 
 		private:
 			ItemValue m_Value;
@@ -14,7 +14,7 @@ namespace Kortex::GameConfig
 			const bool m_IsUnknown = false;
 
 			mutable std::unique_ptr<KxDataView2::Editor> m_Editor;
-			mutable std::optional<wxString> m_CachedViewData;
+			mutable std::optional<kxf::String> m_CachedViewData;
 
 		protected:
 
@@ -34,11 +34,11 @@ namespace Kortex::GameConfig
 			}
 
 		public:
-			SimpleItem(ItemGroup& group, const KxXMLNode& itemNode = {});
+			SimpleItem(ItemGroup& group, const kxf::XMLNode& itemNode = {});
 			SimpleItem(ItemGroup& group, bool isUnknown);
 
 		public:
-			bool Create(const KxXMLNode& itemNode = {}) override;
+			bool Create(const kxf::XMLNode& itemNode = {}) override;
 			bool IsUnknown() const override
 			{
 				return m_IsUnknown;
@@ -54,7 +54,7 @@ namespace Kortex::GameConfig
 			}
 			
 		public:
-			wxString GetViewString(ColumnID id) const override;
+			kxf::String GetViewString(ColumnID id) const override;
 			void OnActivate(KxDataView2::Column& column) override;
 
 			wxAny GetValue(const KxDataView2::Column& column) const override;

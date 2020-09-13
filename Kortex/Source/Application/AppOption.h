@@ -1,9 +1,9 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Utility/String.h"
 #include "Options/OptionSerializer.h"
-#include <KxFramework/KxXDocumentNode.h>
-#include <KxFramework/KxXML.h>
+#include <kxf/Serialization/XDocument.h>
+#include <kxf/Serialization/XML.h>
 
 namespace Kortex
 {
@@ -14,9 +14,9 @@ namespace Kortex
 
 namespace Kortex
 {
-	class AppOption: public KxXDocumentNode<AppOption>
+	class AppOption: public kxf::XDocument::XNode<AppOption>
 	{
-		friend class KxXDocumentNode<AppOption>;
+		friend class kxf::XDocument::XNode<AppOption>;
 
 		public:
 			using SerializationMode = Application::OptionSerializer::SerializationMode;
@@ -29,21 +29,25 @@ namespace Kortex
 			};
 
 		public:
-			static wxString MakeXPath()
+			static kxf::String MakeXPath()
 			{
-				return wxString();
+				return kxf::String();
 			}
-			template<class Args> static wxString MakeXPath(Args&& arg)
+
+			template<class Args>
+			static kxf::String MakeXPath(Args&& arg)
 			{
 				return arg;
 			}
-			template<class... Args> static wxString MakeXPath(Args&&... arg)
+			
+			template<class... Args>
+			static kxf::String MakeXPath(Args&&... arg)
 			{
 				return Utility::String::ConcatWithSeparator(wxS('/'), std::forward<Args>(arg)...);
 			}
 
 		private:
-			KxXMLNode m_ConfigNode;
+			kxf::XMLNode m_ConfigNode;
 			IConfigurableGameInstance* m_Instance = nullptr;
 			IGameProfile* m_Profile = nullptr;
 			Disposition m_Disposition = Disposition::None;
@@ -51,13 +55,13 @@ namespace Kortex
 			Application::OptionSerializer::UILayout m_UISerializer;
 			
 		protected:
-			wxString DoGetValue(const wxString& defaultValue = wxEmptyString) const override;
-			bool DoSetValue(const wxString& value, WriteEmpty writeEmpty, AsCDATA asCDATA = AsCDATA::Auto) override;
+			std::optional<kxf::String> DoGetValue() const override;
+			bool DoSetValue(const kxf::String& value, WriteEmpty writeEmpty, AsCDATA asCDATA = AsCDATA::Auto) override;
 
-			wxString DoGetAttribute(const wxString& name, const wxString& defaultValue = wxEmptyString) const override;
-			bool DoSetAttribute(const wxString& name, const wxString& value, WriteEmpty writeEmpty) override;
+			std::optional<kxf::String> DoGetAttribute(const kxf::String& name) const override;
+			bool DoSetAttribute(const kxf::String& name, const kxf::String& value, WriteEmpty writeEmpty) override;
 
-			void AssignNode(const KxXMLNode& node)
+			void AssignNode(const kxf::XMLNode& node)
 			{
 				m_ConfigNode = node;
 			}
@@ -73,14 +77,14 @@ namespace Kortex
 			void AssignActiveProfile();
 
 		protected:
-			AppOption(const AppOption& other, const KxXMLNode& node);
+			AppOption(const AppOption& other, const kxf::XMLNode& node);
 			AppOption() = default;
 
 		public:
 			// General
-			bool IsOK() const override;
-			AppOption QueryElement(const wxString& XPath) const override;
-			AppOption ConstructElement(const wxString& XPath) override;
+			bool IsNull() const override;
+			AppOption QueryElement(const kxf::String& XPath) const override;
+			AppOption ConstructElement(const kxf::String& XPath) override;
 
 			Disposition GetDisposition() const
 			{
@@ -99,15 +103,15 @@ namespace Kortex
 				return m_Disposition == Disposition::Profile;
 			}
 
-			KxXMLNode GetNode() const
+			kxf::XMLNode GetNode() const
 			{
 				return m_ConfigNode;
 			}
-			wxString GetXPath() const override
+			kxf::String GetXPath() const override
 			{
 				return m_ConfigNode.GetXPath();
 			}
-			wxString GetName() const override
+			kxf::String GetName() const override
 			{
 				return m_ConfigNode.GetName();
 			}
@@ -170,8 +174,8 @@ namespace Kortex::Application
 			virtual ~IWithConfig() = default;
 
 		public:
-			virtual const KxXMLDocument& GetConfig() const = 0;
-			virtual KxXMLDocument& GetConfig() = 0;
+			virtual const kxf::XMLDocument& GetConfig() const = 0;
+			virtual kxf::XMLDocument& GetConfig() = 0;
 
 			virtual void OnConfigChanged(AppOption& option) = 0;
 			virtual void SaveConfig() = 0;

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 class KxDataViewCtrl;
 class KxSplitterWindow;
 class wxTopLevelWindow;

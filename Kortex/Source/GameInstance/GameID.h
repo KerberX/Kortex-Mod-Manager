@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex
 {
@@ -8,14 +8,14 @@ namespace Kortex
 	class GameID
 	{
 		private:
-			wxString m_ID;
+			kxf::String m_ID;
 
 		private:
-			bool TestGameID(const wxString& id) const;
-			IGameInstance* GetInstanceByID(const wxString& id) const;
+			bool TestGameID(const kxf::String& id) const;
+			IGameInstance* GetInstanceByID(const kxf::String& id) const;
 
 		public:
-			GameID(const wxString& id = wxEmptyString);
+			GameID(const kxf::String& id = wxEmptyString);
 			GameID(const IGameInstance& instance);
 			GameID(const GameID&) = default;
 			GameID(GameID&&) = default;
@@ -31,8 +31,8 @@ namespace Kortex
 				return !IsOK();
 			}
 
-			wxString ToString() const;
-			operator wxString() const
+			kxf::String ToString() const;
+			operator kxf::String() const
 			{
 				return ToString();
 			}
@@ -46,13 +46,13 @@ namespace Kortex
 		public:
 			GameID& operator=(const GameID&) = default;
 			GameID& operator=(GameID&&) = default;
-			GameID& operator=(const wxString& id);
+			GameID& operator=(const kxf::String& id);
 
 			bool operator==(const GameID& other) const
 			{
 				return m_ID == other.m_ID;
 			}
-			bool operator==(const wxString& other) const
+			bool operator==(const kxf::String& other) const
 			{
 				return m_ID == other;
 			}
@@ -60,7 +60,7 @@ namespace Kortex
 			{
 				return m_ID != other.m_ID;
 			}
-			bool operator!=(const wxString& other) const
+			bool operator!=(const kxf::String& other) const
 			{
 				return m_ID != other;
 			}

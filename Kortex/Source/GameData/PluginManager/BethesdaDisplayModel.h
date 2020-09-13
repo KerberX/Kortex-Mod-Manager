@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IDisplayModel.h"
 
 namespace Kortex::PluginManager
@@ -28,7 +28,7 @@ namespace Kortex::PluginManager
 			virtual bool Compare(const IGamePlugin& pluginLeft, const IGamePlugin& pluginRight, const KxDataViewColumn* column) const override;
 
 		public:
-			wxString GetPartOfName(const IGamePlugin& plugin) const;
-			wxString GetPluginAuthor(const IGamePlugin& plugin) const;
+			kxf::String GetPartOfName(const IGamePlugin& plugin) const;
+			kxf::String GetPluginAuthor(const IGamePlugin& plugin) const;
 	};
 }

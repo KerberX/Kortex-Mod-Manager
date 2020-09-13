@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "BethesdaPlugin.h"
 
 namespace Kortex::PluginManager
@@ -11,7 +11,7 @@ namespace Kortex::PluginManager
 
 		public:
 			BethesdaPlugin2() = default;
-			BethesdaPlugin2(const wxString& fullPath)
+			BethesdaPlugin2(const kxf::String& fullPath)
 				:BethesdaPlugin(fullPath)
 			{
 			}

@@ -90,7 +90,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 		const PackageProject::ImageItem* entry = GetDataEntry(row);
 		if (entry)
 		{
-			auto IsChecked = [entry](const wxString& path)
+			auto IsChecked = [entry](const kxf::String& path)
 			{
 				return !path.IsEmpty() && !entry->GetPath().IsEmpty() && entry->GetPath() == path;
 			};
@@ -135,7 +135,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 		PackageProject::ImageItem* entry = GetDataEntry(row);
 		if (entry)
 		{
-			auto SetChecked = [&value, entry]() -> wxString
+			auto SetChecked = [&value, entry]() -> kxf::String
 			{
 				return value.As<bool>() ? entry->GetPath() : wxEmptyString;
 			};
@@ -165,7 +165,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 		return false;
 	}
 	
-	bool ImageListModel::DoTrackImagePath(const wxString& trackedID, const wxString& newID, bool remove) const
+	bool ImageListModel::DoTrackImagePath(const kxf::String& trackedID, const kxf::String& newID, bool remove) const
 	{
 		PackageProject::InterfaceSection& interfaceConfig = GetProject().GetInterface();
 	
@@ -230,7 +230,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 						dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 						if (dialog.ShowModal() == KxID_OK)
 						{
-							wxString newPath = dialog.GetResult();
+							kxf::String newPath = dialog.GetResult();
 							TrackChangeID(entry->GetPath(), newPath);
 	
 							entry->ResetBitmap();
@@ -271,11 +271,11 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 	
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::ImportFiles, KTr("PackageCreator.ImportFiles")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderSearchResult));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderSearchResult));
 		}
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddMultipleFiles, KTr("PackageCreator.AddMultipleFiles")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentsPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentsPlus));
 		}
 		menu.AddSeparator();
 		{
@@ -353,7 +353,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN_FOLDER);
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			wxString source = dialog.GetResult();
+			kxf::String source = dialog.GetResult();
 			auto operation = new Utility::OperationWithProgressDialog<KxFileOperationEvent>(true, GetView());
 			operation->OnRun([this, operation, source]()
 			{
@@ -363,7 +363,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 	
 				size_t count = files.size();
 				size_t processed = 0;
-				for (const wxString& path: files)
+				for (const kxf::String& path: files)
 				{
 					if (operation->CanContinue())
 					{
@@ -392,7 +392,7 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 		if (dialog.ShowModal() == KxID_OK)
 		{
-			for (const wxString& path: dialog.GetResults())
+			for (const kxf::String& path: dialog.GetResults())
 			{
 				GetDataVector()->emplace_back(PackageProject::ImageItem(path, wxEmptyString, true));
 			}

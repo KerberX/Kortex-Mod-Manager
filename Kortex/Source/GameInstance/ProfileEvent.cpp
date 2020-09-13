@@ -4,7 +4,7 @@
 
 namespace Kortex
 {
-	wxString ProfileEvent::GetProfileID() const
+	kxf::String ProfileEvent::GetProfileID() const
 	{
 		return m_Profile ? m_Profile->GetID() : GetString();
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/IDownloadManager.h"
 #include "Application/IWorkspace.h"
 
@@ -21,7 +21,7 @@ namespace Kortex::DownloadManager
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 			void CreateWorkspaces() override;
 
 		public:
@@ -29,13 +29,13 @@ namespace Kortex::DownloadManager
 
 			std::unique_ptr<IDownloadExecutor> NewDownloadExecutor(DownloadItem& item,
 																   const KxURI& uri,
-																   const wxString& localPath
+																   const kxf::String& localPath
 			) override;
 			bool QueueDownload(ModNetworkRepository& modRepository,
 							   const ModDownloadReply& downloadInfo,
 							   const ModFileReply& fileInfo,
 							   const GameID& id = {}
 			) override;
-			bool QueueSimpleDownload(const KxURI& uri, const wxString& localPath = {}) override;
+			bool QueueSimpleDownload(const KxURI& uri, const kxf::String& localPath = {}) override;
 	};
 }

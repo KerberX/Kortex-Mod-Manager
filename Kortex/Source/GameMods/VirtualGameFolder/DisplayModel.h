@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <Kortex/ModManager.hpp>
 #include "KxFramework/KxDataViewListModelEx.h"
 
@@ -18,7 +18,7 @@ namespace Kortex::VirtualGameFolder
 			FileTreeNode::Vector m_FoundItems;
 			mutable std::unordered_map<const FileTreeNode*, wxBitmap> m_IconCache;
 
-			wxString m_SearchMask;
+			kxf::String m_SearchMask;
 			KxDataViewComboBoxEditor* m_PartOfEditor = nullptr;
 
 		private:
@@ -58,7 +58,7 @@ namespace Kortex::VirtualGameFolder
 			{
 				return !m_SearchMask.IsEmpty();
 			}
-			bool SetSearchMask(const wxString& mask);
+			bool SetSearchMask(const kxf::String& mask);
 
 			KxDataViewItem MakeItem(const FileTreeNode* node) const
 			{

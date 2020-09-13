@@ -66,7 +66,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		if (reqData)
 		{
 			// Add selected first
-			for (const wxString& id: data)
+			for (const kxf::String& id: data)
 			{
 				if (PackageProject::RequirementGroup* entry = m_ReqData->FindGroupWithID(id))
 				{
@@ -101,7 +101,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 
 namespace Kortex::PackageDesigner::PageComponentsNS
 {
-	RequirementsSelectorDialog::RequirementsSelectorDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller)
+	RequirementsSelectorDialog::RequirementsSelectorDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 	{
 		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
 		{

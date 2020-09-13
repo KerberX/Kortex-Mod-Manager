@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/InterfaceSection.h"
 #include "PackageCreator/IDTracker.h"
@@ -37,18 +37,18 @@ namespace Kortex::PackageDesigner::PageInterfaceNS
 				return true;
 			}
 	
-			bool DoTrackImagePath(const wxString& trackedID, const wxString& newID, bool remove) const;
+			bool DoTrackImagePath(const kxf::String& trackedID, const kxf::String& newID, bool remove) const;
 	
 		protected:
 			IDTracker* GetTracker() override
 			{
 				return this;
 			}
-			bool TrackChangeID(const wxString& trackedID, const wxString& newID) override
+			bool TrackChangeID(const kxf::String& trackedID, const kxf::String& newID) override
 			{
 				return DoTrackImagePath(trackedID, newID, false);
 			}
-			bool TrackRemoveID(const wxString& trackedID) override
+			bool TrackRemoveID(const kxf::String& trackedID) override
 			{
 				return DoTrackImagePath(trackedID, wxEmptyString, true);
 			}

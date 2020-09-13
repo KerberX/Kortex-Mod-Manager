@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
 #include <KxFramework/KxSingleton.h>
 
@@ -24,10 +24,10 @@ namespace Kortex
 		private:
 			virtual void OnInit() override;
 			virtual void OnExit() override;
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& node) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node) override;
 
 		private:
-			std::unique_ptr<IGameConfigManager> CreateGameConfigManager(const KxXMLNode& node) const;
+			std::unique_ptr<IGameConfigManager> CreateGameConfigManager(const kxf::XMLNode& node) const;
 
 		public:
 			GameConfigModule();

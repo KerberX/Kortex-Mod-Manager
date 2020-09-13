@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/Item.h"
 #include "StructSubItem.h"
 
@@ -16,7 +16,7 @@ namespace Kortex::GameConfig
 		Default,
 		SideBySide,
 	};
-	struct StructKindDef: public KxIndexedEnum::Definition<StructKindDef, StructKindID, wxString, true>
+	struct StructKindDef: public KxIndexedEnum::Definition<StructKindDef, StructKindID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -35,7 +35,7 @@ namespace Kortex::GameConfig
 		ElementWise = 0,
 		AsString
 	};
-	struct StructSerializationModeDef: public KxIndexedEnum::Definition<StructSerializationModeDef, StructSerializationModeID, wxString, true>
+	struct StructSerializationModeDef: public KxIndexedEnum::Definition<StructSerializationModeDef, StructSerializationModeID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -50,7 +50,7 @@ namespace Kortex::GameConfig
 {
 	class StructItem: public KxRTTI::ExtendInterface<StructItem, Item>
 	{
-		KxDecalreIID(StructItem, {0x3ca50288, 0xb99d, 0x4eb8, {0xbd, 0x81, 0x79, 0xdf, 0x45, 0x6b, 0xf8, 0x7}});
+		KxRTTI_DeclareIID(StructItem, {0x3ca50288, 0xb99d, 0x4eb8, {0xbd, 0x81, 0x79, 0xdf, 0x45, 0x6b, 0xf8, 0x7}});
 
 		friend class StructSubItem;
 
@@ -60,8 +60,8 @@ namespace Kortex::GameConfig
 			StructKindValue m_StructKindValue;
 
 			mutable std::unique_ptr<KxDataView2::ComboBoxEditor> m_Editor;
-			mutable std::optional<wxString> m_CachedViewType;
-			mutable std::optional<wxString> m_CachedViewValue;
+			mutable std::optional<kxf::String> m_CachedViewType;
+			mutable std::optional<kxf::String> m_CachedViewValue;
 
 		protected:
 			void Clear() override;
@@ -70,8 +70,8 @@ namespace Kortex::GameConfig
 			void ChangeNotify() override;
 
 		private:
-			void ParseFromString(const wxString& sourceString);
-			wxString FormatToOutput(SerializeFor mode) const;
+			void ParseFromString(const kxf::String& sourceString);
+			kxf::String FormatToOutput(SerializeFor mode) const;
 			size_t GetMinOfAllSamples() const;
 		
 			std::unique_ptr<KxDataView2::ComboBoxEditor> CreateEditor() const;
@@ -89,11 +89,11 @@ namespace Kortex::GameConfig
 			}
 
 		public:
-			StructItem(ItemGroup& group, const KxXMLNode& itemNode = {});
+			StructItem(ItemGroup& group, const kxf::XMLNode& itemNode = {});
 			StructItem(ItemGroup& group, bool isUnknown);
 
 		public:
-			bool Create(const KxXMLNode& itemNode = {}) override;
+			bool Create(const kxf::XMLNode& itemNode = {}) override;
 			bool IsOK() const override
 			{
 				return !m_SubItems.empty() && Item::IsOK();
@@ -122,7 +122,7 @@ namespace Kortex::GameConfig
 			}
 
 		public:
-			wxString GetViewString(ColumnID id) const override;
+			kxf::String GetViewString(ColumnID id) const override;
 			void OnActivate(KxDataView2::Column& column) override;
 			void OnAttachToView() override;
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <DataView2/DataView2.h>
 
 namespace Kortex
@@ -17,7 +17,7 @@ namespace Kortex::NetworkManager::NXMHandler
 	class DisplayModelNode: public KxDataView2::Node
 	{
 		private:
-			wxString m_NexusID;
+			kxf::String m_NexusID;
 			OptionStore& m_Options;
 			IGameInstance& m_Instance;
 

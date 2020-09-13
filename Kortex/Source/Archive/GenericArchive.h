@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxArchive.h>
 #include <KxFramework/KxArchiveEvent.h>
 #include <KxFramework/KxFileItem.h>
@@ -33,8 +33,8 @@ namespace Kortex
 			using FileIndexVector = KxArchive::FileIndexVector;
 
 		public:
-			static wxString GetLibraryPath();
-			static wxString GetLibraryVersion();
+			static kxf::String GetLibraryPath();
+			static kxf::String GetLibraryVersion();
 
 			static bool IsLibraryLoaded();
 			static bool Init();
@@ -48,7 +48,7 @@ namespace Kortex
 			mutable std::optional<int64_t> m_CompressedSize;
 
 		private:
-			void OpenArchive(const wxString& filePath);
+			void OpenArchive(const kxf::String& filePath);
 			void CloseArchive();
 
 		protected:
@@ -56,7 +56,7 @@ namespace Kortex
 
 		public:
 			GenericArchive();
-			GenericArchive(const wxString& filePath);
+			GenericArchive(const kxf::String& filePath);
 			GenericArchive(const GenericArchive&) = delete;
 			GenericArchive(GenericArchive&& other);
 			virtual ~GenericArchive();
@@ -64,9 +64,9 @@ namespace Kortex
 		public:
 			// IArchive
 			bool IsOK() const override;
-			bool Open(const wxString& filePath) override;
+			bool Open(const kxf::String& filePath) override;
 			void Close() override;
-			wxString GetFilePath() const override;
+			kxf::String GetFilePath() const override;
 
 			int64_t GetOriginalSize() const override;
 			int64_t GetCompressedSize() const override;
@@ -78,7 +78,7 @@ namespace Kortex
 
 		public:
 			// IArchiveSearch
-			void* FindFirstFile(const wxString& filter, KxFileItem& fileItem) const override;
+			void* FindFirstFile(const kxf::String& filter, KxFileItem& fileItem) const override;
 			bool FindNextFile(void* handle, KxFileItem& item) const override;
 			void FindClose(void* handle) const override;
 
@@ -89,27 +89,27 @@ namespace Kortex
 
 		public:
 			// IArchiveCompression
-			bool CompressDirectory(const wxString& directory, bool recursive) override;
+			bool CompressDirectory(const kxf::String& directory, bool recursive) override;
 
-			bool CompressFiles(const wxString& directory, const wxString& searchFilter, bool recursive) override;
+			bool CompressFiles(const kxf::String& directory, const kxf::String& searchFilter, bool recursive) override;
 			bool CompressSpecifiedFiles(const KxStringVector& sourcePaths, const KxStringVector& archivePaths) override;
 
-			bool CompressFile(const wxString& sourcePath) override;
-			bool CompressFile(const wxString& sourcePath, const wxString& archivePath) override;
+			bool CompressFile(const kxf::String& sourcePath) override;
+			bool CompressFile(const kxf::String& sourcePath, const kxf::String& archivePath) override;
 
 		public:
 			// IArchiveProperties
-			std::optional<bool> GetPropertyBool(wxStringView property) const override;
-			bool SetPropertyBool(wxStringView property, bool value) override;
+			std::optional<bool> GetPropertyBool(kxf::StringView property) const override;
+			bool SetPropertyBool(kxf::StringView property, bool value) override;
 
-			std::optional<int64_t> GetPropertyInt(wxStringView property) const override;
-			bool SetPropertyInt(wxStringView property, int64_t value)  override;
+			std::optional<int64_t> GetPropertyInt(kxf::StringView property) const override;
+			bool SetPropertyInt(kxf::StringView property, int64_t value)  override;
 
-			std::optional<double> GetPropertyFloat(wxStringView property) const override;
-			bool SetPropertyFloat(wxStringView property, double value) override;
+			std::optional<double> GetPropertyFloat(kxf::StringView property) const override;
+			bool SetPropertyFloat(kxf::StringView property, double value) override;
 
-			std::optional<wxString> GetPropertyString(wxStringView property) const override;
-			bool SetPropertyString(wxStringView property, wxStringView value) override;
+			std::optional<kxf::String> GetPropertyString(kxf::StringView property) const override;
+			bool SetPropertyString(kxf::StringView property, kxf::StringView value) override;
 
 		public:
 			GenericArchive& operator=(const GenericArchive&) = delete;

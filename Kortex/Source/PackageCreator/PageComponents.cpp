@@ -16,19 +16,19 @@
 
 namespace Kortex::PackageDesigner
 {
-	wxString PageComponents::FormatArrayToText(const KxStringVector& array)
+	kxf::String PageComponents::FormatArrayToText(const KxStringVector& array)
 	{
 		return array.empty() ? wxEmptyString : KxString::Join(array, wxS(", "));
 	}
-	wxString PageComponents::ConditionToString(const PackageProject::Condition& condition, bool isRequired)
+	kxf::String PageComponents::ConditionToString(const PackageProject::Condition& condition, bool isRequired)
 	{
-		wxString out;
+		kxf::String out;
 
 		const PackageProject::FlagItem::Vector& flags = condition.GetFlags();
 		for (size_t i = 0; i < flags.size(); i++)
 		{
 			const PackageProject::FlagItem& flag = flags[i];
-			out.Append(KxString::Format(wxS("%1 %2 \"%3\""), flag.GetName(), (isRequired ? wxS("==") : wxS("=")), flag.GetValue()));
+			out.Append(kxf::String::Format(wxS("%1 %2 \"%3\""), flag.GetName(), (isRequired ? wxS("==") : wxS("=")), flag.GetValue()));
 
 			if (i + 1 != flags.size())
 			{
@@ -46,9 +46,9 @@ namespace Kortex::PackageDesigner
 		}
 		return out;
 	}
-	wxString PageComponents::ConditionGroupToString(const PackageProject::ConditionGroup& conditionGroup)
+	kxf::String PageComponents::ConditionGroupToString(const PackageProject::ConditionGroup& conditionGroup)
 	{
-		wxString out;
+		kxf::String out;
 		if (conditionGroup.HasConditions())
 		{
 			const PackageProject::Condition::Vector& conditions = conditionGroup.GetConditions();
@@ -80,7 +80,7 @@ namespace Kortex::PackageDesigner
 	{
 		// Main caption
 		KxLabel* label = CreateCaptionLabel(this, KTr("PackageCreator.PageComponents.Name"));
-		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 		m_MainSizer->Add(sizer, 1, wxEXPAND|wxLEFT, ms_LeftMargin);
@@ -91,14 +91,14 @@ namespace Kortex::PackageDesigner
 	void PageComponents::CreateMiscControls()
 	{
 		wxBoxSizer* stepsSizer = new wxBoxSizer(wxHORIZONTAL);
-		m_MainSizer->Add(stepsSizer, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+		m_MainSizer->Add(stepsSizer, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 
 		// Main caption
 		wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
 		stepsSizer->Add(leftSizer, 1, wxEXPAND);
 
 		KxLabel* label = CreateCaptionLabel(this, KTr("PackageCreator.PageComponents.Advanced"));
-		leftSizer->Add(label, 0, wxEXPAND|wxBOTTOM, KLC_VERTICAL_SPACING);
+		leftSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Entry image
 		m_EntryImage = new KxImageView(this, KxID_NONE, wxBORDER_THEME);
@@ -117,11 +117,11 @@ namespace Kortex::PackageDesigner
 				dialog.ShowModal();
 			}
 		});
-		stepsSizer->Add(m_EntryImage, 0, wxEXPAND|wxLEFT, KLC_HORIZONTAL_SPACING)->SetRatio(1.77f);
+		stepsSizer->Add(m_EntryImage, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing)->SetRatio(1.77f);
 		m_ComponentsModel->SetEntryImageView(m_EntryImage);
 
 		// Sizer
-		wxFlexGridSizer* leftTableSizer = new wxFlexGridSizer(2, KLC_VERTICAL_SPACING, KLC_HORIZONTAL_SPACING);
+		wxFlexGridSizer* leftTableSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing);
 		leftTableSizer->AddGrowableCol(1, 1);
 		leftSizer->Add(leftTableSizer, 1, wxEXPAND|wxLEFT, ms_LeftMargin);
 
@@ -176,11 +176,11 @@ namespace Kortex::PackageDesigner
 		}
 	}
 
-	wxString PageComponents::GetID() const
+	kxf::String PageComponents::GetID() const
 	{
 		return "KPackageCreator.PageComponents";
 	}
-	wxString PageComponents::GetPageName() const
+	kxf::String PageComponents::GetPageName() const
 	{
 		return KTr("PackageCreator.PageComponents.Name");
 	}

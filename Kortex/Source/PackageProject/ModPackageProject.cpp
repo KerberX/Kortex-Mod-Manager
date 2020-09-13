@@ -45,7 +45,7 @@ namespace Kortex::PackageProject
 
 namespace Kortex
 {
-	wxString ModPackageProject::OperatorToSymbolicName(PackageProject::Operator operatorType)
+	kxf::String ModPackageProject::OperatorToSymbolicName(PackageProject::Operator operatorType)
 	{
 		using namespace PackageProject;
 
@@ -86,7 +86,7 @@ namespace Kortex
 		};
 		return OperatorConst::NONE;
 	}
-	wxString ModPackageProject::OperatorToString(PackageProject::Operator operatorType)
+	kxf::String ModPackageProject::OperatorToString(PackageProject::Operator operatorType)
 	{
 		using namespace PackageProject;
 
@@ -127,7 +127,7 @@ namespace Kortex
 		};
 		return OperatorConst::NONE_STRING;
 	}
-	PackageProject::Operator ModPackageProject::StringToOperator(const wxString& name, bool allowNone, PackageProject::Operator default)
+	PackageProject::Operator ModPackageProject::StringToOperator(const kxf::String& name, bool allowNone, PackageProject::Operator default)
 	{
 		using namespace PackageProject;
 
@@ -195,11 +195,11 @@ namespace Kortex
 	{
 	}
 	
-	void ModPackageProject::SetModID(const wxString& id)
+	void ModPackageProject::SetModID(const kxf::String& id)
 	{
 		m_ModID = id;
 	}
-	wxString ModPackageProject::GetModID() const
+	kxf::String ModPackageProject::GetModID() const
 	{
 		// ID -> Name -> translated name -> package file name
 		if (!m_ModID.IsEmpty())
@@ -208,14 +208,14 @@ namespace Kortex
 		}
 		else
 		{
-			const wxString& name = GetInfo().GetName();
+			const kxf::String& name = GetInfo().GetName();
 			if (!name.IsEmpty())
 			{
 				return name;
 			}
 			else
 			{
-				const wxString& translatedName = GetInfo().GetTranslatedName();
+				const kxf::String& translatedName = GetInfo().GetTranslatedName();
 				if (!translatedName.IsEmpty())
 				{
 					return translatedName;
@@ -225,17 +225,17 @@ namespace Kortex
 		}
 		return wxEmptyString;
 	}
-	wxString ModPackageProject::GetModName() const
+	kxf::String ModPackageProject::GetModName() const
 	{
 		// Name -> translated name -> ID (using 'GetModID')
-		const wxString& name = GetInfo().GetName();
+		const kxf::String& name = GetInfo().GetName();
 		if (!name.IsEmpty())
 		{
 			return name;
 		}
 		else
 		{
-			const wxString& translatedName = GetInfo().GetTranslatedName();
+			const kxf::String& translatedName = GetInfo().GetTranslatedName();
 			if (!translatedName.IsEmpty())
 			{
 				return translatedName;
@@ -244,7 +244,7 @@ namespace Kortex
 		}
 		return wxEmptyString;
 	}
-	wxString ModPackageProject::GetSignature() const
+	kxf::String ModPackageProject::GetSignature() const
 	{
 		return ModManager::BasicGameMod::GetSignatureFromID(GetModID());
 	}

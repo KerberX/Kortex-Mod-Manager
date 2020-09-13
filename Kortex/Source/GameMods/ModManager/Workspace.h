@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include "Application/BookWorkspaceContainer.h"
 #include "GameMods/IGameMod.h"
@@ -51,10 +51,10 @@ namespace Kortex::ModManager
 			{
 				return true;
 			}
-			void Load(const KxXMLNode& node) override
+			void Load(const kxf::XMLNode& node) override
 			{
 			}
-			void Save(KxXMLNode& node) const override
+			void Save(kxf::XMLNode& node) const override
 			{
 			}
 
@@ -73,40 +73,40 @@ namespace Kortex::ModManager
 			{
 			}
 
-			wxString GetName() const override;
-			void SetName(const wxString&) override
+			kxf::String GetName() const override;
+			void SetName(const kxf::String&) override
 			{
 			}
 
-			wxString GetIconPath() const override
+			kxf::String GetIconPath() const override
 			{
 				return {};
 			}
-			void SetIconPath(const wxString&) override
+			void SetIconPath(const kxf::String&) override
 			{
 			}
 
-			wxString GetExecutable() const override
+			kxf::String GetExecutable() const override
 			{
 				return {};
 			}
-			void SetExecutable(const wxString&) override
+			void SetExecutable(const kxf::String&) override
 			{
 			}
 
-			wxString GetArguments() const override
+			kxf::String GetArguments() const override
 			{
 				return {};
 			}
-			void SetArguments(const wxString&) override
+			void SetArguments(const kxf::String&) override
 			{
 			}
 
-			wxString GetWorkingDirectory() const override
+			kxf::String GetWorkingDirectory() const override
 			{
 				return {};
 			}
-			void SetWorkingDirectory(const wxString&) override
+			void SetWorkingDirectory(const kxf::String&) override
 			{
 			}
 
@@ -215,7 +215,7 @@ namespace Kortex::ModManager
 
 		private:
 			bool ShowChangeModIDDialog(IGameMod& mod);
-			void ProcessSelectProfile(const wxString& newProfileID);
+			void ProcessSelectProfile(const kxf::String& newProfileID);
 			void OnSelectProfile(wxCommandEvent& event);
 			void OnShowProfileEditor(KxAuiToolBarEvent& event);
 
@@ -256,11 +256,11 @@ namespace Kortex::ModManager
 			~Workspace();
 
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			ResourceID GetIcon() const override
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Puzzle;
+				return Imagekxf::ResourceID::Puzzle;
 			}
 			
 			IWorkspaceContainer* GetPreferredContainer() const override;

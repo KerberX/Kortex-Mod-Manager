@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameInstance/GameID.h"
 #include "Application/BroadcastProcessor.h"
 #include <KxFramework/KxComboBoxDialog.h>
@@ -7,7 +7,7 @@ class KxPanel;
 class KxButton;
 class KxTextBox;
 class KxListBox;
-class KxImageList;
+class kxf::ImageList;
 class KxBitmapComboBox;
 class KxSplitterWindow;
 
@@ -28,7 +28,7 @@ namespace Kortex::GameInstance
 			KxPanel* m_LeftPane = nullptr;
 			wxBoxSizer* m_LeftSizer = nullptr;
 			KxBitmapComboBox* m_GameFilter = nullptr;
-			KxImageList* m_GameFilterImageList = nullptr;
+			kxf::ImageList* m_GameFilterImageList = nullptr;
 			KxListBox* m_InstancesList = nullptr;
 
 			KxPanel* m_RightPane = nullptr;
@@ -41,7 +41,7 @@ namespace Kortex::GameInstance
 			KxButton* m_CreateShortcutButton = nullptr;
 
 		private:
-			wxString m_SelectedGameRoot;
+			kxf::String m_SelectedGameRoot;
 			IGameInstance* m_SelectedInstance = nullptr;
 
 		public:
@@ -62,7 +62,7 @@ namespace Kortex::GameInstance
 			{
 				return !m_SelectedGameRoot.IsEmpty();
 			}
-			wxString GetSelectedGameRoot() const
+			kxf::String GetSelectedGameRoot() const
 			{
 				return m_SelectedGameRoot;
 			}
@@ -74,7 +74,7 @@ namespace Kortex::GameInstance
 			void Configure();
 			void LoadGameFilter(const GameID& gameID = GameIDs::NullGameID);
 			void LoadInstancesList(const GameID& gameID = GameIDs::NullGameID, IGameInstance* selectInstance = nullptr);
-			bool AskForGameFolder(const IGameInstance* instance, const wxString& currentGamePath);
+			bool AskForGameFolder(const IGameInstance* instance, const kxf::String& currentGamePath);
 
 			void OnFilterSelected(const GameID& gameID = GameIDs::NullGameID);
 			void OnInstanceSelected(IGameInstance* instance = nullptr);

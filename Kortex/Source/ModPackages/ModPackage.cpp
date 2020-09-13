@@ -52,7 +52,7 @@ namespace Kortex
 		return wxNullBitmap;
 	}
 
-	wxString ModPackage::ReadString(wxInputStream& stream, bool isASCII) const
+	kxf::String ModPackage::ReadString(wxInputStream& stream, bool isASCII) const
 	{
 		if (!isASCII)
 		{
@@ -64,22 +64,22 @@ namespace Kortex
 				if (stream.GetC() == BOM[0] && stream.GetC() == BOM[1])
 				{
 					auto buffer = ReadStringBuffer(stream);
-					return wxString(reinterpret_cast<const wchar_t*>(buffer.data()), buffer.size() / sizeof(wchar_t));
+					return kxf::String(reinterpret_cast<const wchar_t*>(buffer.data()), buffer.size() / sizeof(wchar_t));
 				}
 
 				stream.SeekI(0, wxSeekMode::wxFromStart);
 			}
 
 			auto buffer = ReadStringBuffer(stream);
-			return wxString::FromUTF8(reinterpret_cast<const char*>(buffer.data()), buffer.size());
+			return kxf::String::FromUTF8(reinterpret_cast<const char*>(buffer.data()), buffer.size());
 		}
 		else
 		{
 			auto buffer = ReadStringBuffer(stream);
-			return wxString(reinterpret_cast<const char*>(buffer.data()), buffer.size());
+			return kxf::String(reinterpret_cast<const char*>(buffer.data()), buffer.size());
 		}
 	}
-	wxString ModPackage::ReadString(size_t index, bool isASCII) const
+	kxf::String ModPackage::ReadString(size_t index, bool isASCII) const
 	{
 		if (index != ms_InvalidIndex)
 		{
@@ -114,7 +114,7 @@ namespace Kortex
 			// SMI/AMI legacy format
 			{
 				KxFileItem item;
-				wxString rootFolder = "SetupInfo";
+				kxf::String rootFolder = "SetupInfo";
 				if (!m_Archive.FindFileInFolder(rootFolder, "Setup.xml", item))
 				{
 					m_Archive.FindFileInFolder(rootFolder, "Project.smp", item);
@@ -216,17 +216,17 @@ namespace Kortex
 		serializer.Structurize(project);
 	}
 
-	wxString ModPackage::DetectEffectiveArchiveRoot(const KxFileItem& item, const wxString& subPath) const
+	kxf::String ModPackage::DetectEffectiveArchiveRoot(const KxFileItem& item, const kxf::String& subPath) const
 	{
-		wxString path = item.GetSource();
+		kxf::String path = item.GetSource();
 		if (!path.IsEmpty())
 		{
 			if (!subPath.IsEmpty())
 			{
 				// If path is going to be something like "123456\\FOMod" then 'subPath' should contain "FOMod" part.
 				// Here we're going to remove it to get effective root.
-				wxString afterRoot;
-				if (wxString actualRoot = path.BeforeLast(wxS('\\'), &afterRoot); KxComparator::IsEqual(afterRoot, subPath, true))
+				kxf::String afterRoot;
+				if (kxf::String actualRoot = path.BeforeLast(wxS('\\'), &afterRoot); KxComparator::IsEqual(afterRoot, subPath, true))
 				{
 					return actualRoot;
 				}
@@ -307,7 +307,7 @@ namespace Kortex
 		}
 	}
 
-	void ModPackage::Init(const wxString& archivePath)
+	void ModPackage::Init(const kxf::String& archivePath)
 	{
 		m_PackageFilePath = archivePath;
 
@@ -318,15 +318,15 @@ namespace Kortex
 	ModPackage::ModPackage()
 	{
 	}
-	ModPackage::ModPackage(const wxString& archivePath)
+	ModPackage::ModPackage(const kxf::String& archivePath)
 	{
 		Create(archivePath);
 	}
-	ModPackage::ModPackage(const wxString& archivePath, ModPackageProject& project)
+	ModPackage::ModPackage(const kxf::String& archivePath, ModPackageProject& project)
 	{
 		Create(archivePath, project);
 	}
-	bool ModPackage::Create(const wxString& archivePath)
+	bool ModPackage::Create(const kxf::String& archivePath)
 	{
 		Init(archivePath);
 
@@ -341,7 +341,7 @@ namespace Kortex
 		}
 		return false;
 	}
-	bool ModPackage::Create(const wxString& archivePath, ModPackageProject& project)
+	bool ModPackage::Create(const kxf::String& archivePath, ModPackageProject& project)
 	{
 		Init(archivePath);
 

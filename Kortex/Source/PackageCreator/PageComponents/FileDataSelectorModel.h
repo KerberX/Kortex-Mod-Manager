@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/ComponentsSection.h"
 #include "PackageProject/FileDataSection.h"
@@ -92,7 +92,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			}
 	
 		public:
-			FileDataSelectorDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller);
+			FileDataSelectorDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller);
 			~FileDataSelectorDialog();
 	};
 }

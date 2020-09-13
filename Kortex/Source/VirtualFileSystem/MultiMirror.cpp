@@ -6,15 +6,15 @@ using namespace Kortex::IPC;
 
 namespace Kortex::VirtualFileSystem
 {
-	MultiMirror::MultiMirror(FileSystemID id, const wxString& mountPoint, const wxString& source)
+	MultiMirror::MultiMirror(FileSystemID id, const kxf::String& mountPoint, const kxf::String& source)
 		:Convergence(id, mountPoint, source)
 	{
 	}
-	MultiMirror::MultiMirror(const wxString& mountPoint, const wxString& source)
+	MultiMirror::MultiMirror(const kxf::String& mountPoint, const kxf::String& source)
 		:Convergence(IPC::FileSystemID::MultiMirror, mountPoint, source)
 	{
 	}
-	MultiMirror::MultiMirror(const wxString& mountPoint, const KxStringVector& sources)
+	MultiMirror::MultiMirror(const kxf::String& mountPoint, const KxStringVector& sources)
 		:MultiMirror(mountPoint, sources.front())
 	{
 		for (size_t i = 1; i < sources.size(); i++)

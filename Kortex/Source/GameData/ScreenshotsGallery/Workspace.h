@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include <KxFramework/KxSingleton.h>
 #include <KxFramework/KxPanel.h>
@@ -44,16 +44,16 @@ namespace Kortex::ScreenshotsGallery
 			void SetNavigationInfo(UI::ImageViewerEvent& event);
 
 		public:
-			wxString GetID() const override;
-			wxString GetName() const override;
-			ResourceID GetIcon() const override
+			kxf::String GetID() const override;
+			kxf::String GetName() const override;
+			kxf::ResourceID GetIcon() const override
 			{
-				return ImageResourceID::Pictures;
+				return Imagekxf::ResourceID::Pictures;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 
 		private:
-			void DisplayInfo(const wxString& filePath);
+			void DisplayInfo(const kxf::String& filePath);
 			void ClearControls();
 	};
 }

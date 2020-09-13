@@ -24,11 +24,11 @@ namespace
 		HideDialog
 	};
 
-	bool CheckMountPoint(const wxString& folderPath)
+	bool CheckMountPoint(const kxf::String& folderPath)
 	{
 		return KxFileFinder::IsDirectoryEmpty(folderPath);
 	}
-	void AddIfNotEmpty(KxStringVector& items, const wxString& path)
+	void AddIfNotEmpty(KxStringVector& items, const kxf::String& path)
 	{
 		if (!CheckMountPoint(path))
 		{
@@ -67,7 +67,7 @@ namespace Kortex::ModManager
 		auto fileSystem = std::make_unique<VirtualFileSystem::Convergence>(instance->GetVirtualGameDir(), m_Manager.GetWriteTarget().GetModFilesDir());
 		SetFileSystemOptions(*fileSystem);
 
-		for (const wxString& path: folders)
+		for (const kxf::String& path: folders)
 		{
 			fileSystem->AddVirtualFolder(path);
 		}
@@ -342,13 +342,13 @@ namespace Kortex::ModManager
 							dialog.SetCaption(KTr("VFS.ActiveProcesses.Caption"));
 							dialog.SetMessage(KTr("VFS.ActiveProcesses.Message"));
 
-							wxString processesList;
+							kxf::String processesList;
 							for (const auto& process: activeProcesses)
 							{
 								// Processes created in VFS has path names if the following format:
 								// \Device\Volume{<GUID>}\<Actual path name>
 								// So we need to extract the path to show it to the user
-								wxString path = process->GetImageName();
+								kxf::String path = process->GetImageName();
 								wxRegEx regex(wxS("\\\\Device\\\\Volume{(.+)}\\\\(.*)"), wxRE_ADVANCED|wxRE_ICASE);
 								if (regex.Matches(path))
 								{
@@ -356,7 +356,7 @@ namespace Kortex::ModManager
 								}
 
 								// If path isn't in the format above, display it as is.
-								processesList += KxString::Format(wxS("\"%1\" (ID: %2)\r\n"), path, process->GetPID());
+								processesList += kxf::String::Format(wxS("\"%1\" (ID: %2)\r\n"), path, process->GetPID());
 							}
 							dialog.SetExMessage(processesList);
 							dialog.SetOptionEnabled(KxTD_Options::KxTD_EXMESSAGE_EXPANDED);

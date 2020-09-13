@@ -2,7 +2,7 @@
 #include "IManager.h"
 #include "IWorkspace.h"
 #include "Resources/IImageProvider.h"
-#include <KxFramework/KxAuiToolBar.h>
+#include <kxf/UI/Controls/AUI/AuiToolBar.h>
 
 namespace Kortex
 {
@@ -17,10 +17,12 @@ namespace Kortex
 
 namespace Kortex::Application
 {
-	KxAuiToolBarItem& ManagerWithToolbarButton::AddToolbarButton(KxAuiToolBar& toolbar, const ResourceID& image)
+	kxf::UI::AuiToolBarItem& ManagerWithToolbarButton::AddToolbarButton(kxf::UI::AuiToolBar& toolbar, const kxf::ResourceID& image)
 	{
-		KxAuiToolBarItem* button = toolbar.AddTool(wxEmptyString, ImageProvider::GetBitmap(image), wxITEM_NORMAL);
-		button->Bind(KxEVT_AUI_TOOLBAR_CLICK, &ManagerWithToolbarButton::OnToolbarButton, this);
+		using namespace kxf::UI;
+
+		AuiToolBarItem* button = toolbar.AddTool(wxEmptyString, ImageProvider::GetBitmap(image), wxITEM_NORMAL);
+		button->Bind(AuiToolBarEvent::EvtItemClick, &ManagerWithToolbarButton::OnToolbarButton, this);
 		OnSetToolbarButton(*button);
 
 		return *button;

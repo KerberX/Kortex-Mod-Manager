@@ -24,7 +24,7 @@ namespace Kortex::PluginManager
 				stream.Seek(4);
 
 				// Read master-files if any
-				wxString recordName = stream.ReadStringASCII(4);
+				kxf::String recordName = stream.ReadStringASCII(4);
 				while (recordName == "MAST")
 				{
 					m_Data.m_RequiredPlugins.emplace_back(stream.ReadStringACP(stream.ReadObject<uint32_t>()));

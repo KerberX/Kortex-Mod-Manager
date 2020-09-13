@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "DataType.h"
 #include "ITypeDetector.h"
 #include "ItemOptions.h"
@@ -17,17 +17,17 @@ namespace Kortex::GameConfig
 		private:
 			IConfigManager& m_Manager;
 
-			wxString m_ID;
-			wxString m_FilePath;
+			kxf::String m_ID;
+			kxf::String m_FilePath;
 			std::unordered_map<TypeID, DataType, TypeID::Hash> m_DataTypes;
 			std::vector<std::unique_ptr<ITypeDetector>> m_TypeDetectors;
 
-			std::unordered_map<wxString, std::unique_ptr<ItemGroup>> m_Groups;
+			std::unordered_map<kxf::String, std::unique_ptr<ItemGroup>> m_Groups;
 			ItemOptions m_Options;
 			bool m_IsLoaded = false;
 
 		private:
-			void LoadGroups(const KxXMLNode& groupsNode);
+			void LoadGroups(const kxf::XMLNode& groupsNode);
 			template<class TItems, class TFunctor> static void VectorForEach(TItems&& items, TFunctor&& func)
 			{
 				for (auto& item: items)
@@ -44,7 +44,7 @@ namespace Kortex::GameConfig
 			}
 
 		public:
-			Definition(IConfigManager& manager, const wxString& id, const wxString& filePath)
+			Definition(IConfigManager& manager, const kxf::String& id, const kxf::String& filePath)
 				:m_Manager(manager), m_ID(id), m_FilePath(filePath)
 			{
 			}
@@ -55,11 +55,11 @@ namespace Kortex::GameConfig
 			{
 				return m_Manager;
 			}
-			wxString GetID() const
+			kxf::String GetID() const
 			{
 				return m_ID;
 			}
-			wxString GetFilePath() const
+			kxf::String GetFilePath() const
 			{
 				return m_FilePath;
 			}
@@ -72,7 +72,7 @@ namespace Kortex::GameConfig
 			bool Load();
 			void RemoveInvalidGroups();
 
-			ItemGroup* GetGroupByID(const wxString& id)
+			ItemGroup* GetGroupByID(const kxf::String& id)
 			{
 				auto it = m_Groups.find(id);
 				return it != m_Groups.end() ? it->second.get() : nullptr;

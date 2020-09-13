@@ -1,12 +1,12 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IGamePlugin.h"
 
 namespace Kortex
 {
 	class IBethesdaGamePlugin: public KxRTTI::Interface<IBethesdaGamePlugin>
 	{
-		KxDecalreIID(IBethesdaGamePlugin, {0x5b28e8bc, 0xf6df, 0x4864, {0xae, 0x82, 0xc1, 0x99, 0x12, 0x2a, 0xdb, 0x94}});
+		KxRTTI_DeclareIID(IBethesdaGamePlugin, {0x5b28e8bc, 0xf6df, 0x4864, {0xae, 0x82, 0xc1, 0x99, 0x12, 0x2a, 0xdb, 0x94}});
 
 		public:
 			virtual bool IsLocalized() const = 0;
@@ -28,7 +28,7 @@ namespace Kortex
 			}
 
 			virtual KxStringVector GetRequiredPlugins() const = 0;
-			virtual wxString GetAuthor() const = 0;
-			virtual wxString GetDescription() const = 0;
+			virtual kxf::String GetAuthor() const = 0;
+			virtual kxf::String GetDescription() const = 0;
 	};
 }

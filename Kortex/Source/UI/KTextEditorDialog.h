@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxStdDialog.h>
 #include "WebView.h"
 class KxPanel;

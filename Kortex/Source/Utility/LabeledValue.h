@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 
 // TODO: Revise usage of this class. Remove it if needed
 namespace Kortex::Utility
@@ -11,11 +11,11 @@ namespace Kortex::Utility
 			using RefVector = std::vector<LabeledValue*>;
 
 		private:
-			wxString m_Value;
-			wxString m_Label;
+			kxf::String m_Value;
+			kxf::String m_Label;
 
 		public:
-			LabeledValue(const wxString& value, const wxString& label = wxEmptyString)
+			LabeledValue(const kxf::String& value, const kxf::String& label = wxEmptyString)
 				:m_Value(value), m_Label(label)
 			{
 			}
@@ -26,11 +26,11 @@ namespace Kortex::Utility
 			{
 				return !m_Value.IsEmpty();
 			}
-			const wxString& GetValue() const
+			const kxf::String& GetValue() const
 			{
 				return m_Value;
 			}
-			void SetValue(const wxString& value)
+			void SetValue(const kxf::String& value)
 			{
 				m_Value = value;
 			}
@@ -39,15 +39,15 @@ namespace Kortex::Utility
 			{
 				return !m_Label.IsEmpty();
 			}
-			const wxString& GetRawLabel() const
+			const kxf::String& GetRawLabel() const
 			{
 				return m_Label;
 			}
-			const wxString& GetLabel() const
+			const kxf::String& GetLabel() const
 			{
 				return HasLabel() ? GetRawLabel() : GetValue();
 			}
-			void SetLabel(const wxString& label)
+			void SetLabel(const kxf::String& label)
 			{
 				m_Label = label;
 			}

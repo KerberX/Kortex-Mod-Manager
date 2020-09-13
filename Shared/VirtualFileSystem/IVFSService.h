@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 
 namespace Kortex
 {
@@ -23,7 +23,7 @@ namespace Kortex
 				return static_cast<T*>(GetNativeService());
 			}
 
-			virtual wxString GetServiceName() const = 0;
+			virtual kxf::String GetServiceName() const = 0;
 			virtual bool IsInstalled() const = 0;
 			virtual bool IsStarted() const = 0;
 
@@ -36,13 +36,13 @@ namespace Kortex
 			virtual void EnableLog(bool value = true) = 0;
 
 		public:
-			virtual wxString GetLibraryName() const = 0;
-			virtual wxString GetLibraryURL() const = 0;
-			virtual KxVersion GetLibraryVersion() const = 0;
+			virtual kxf::String GetLibraryName() const = 0;
+			virtual kxf::String GetLibraryURL() const = 0;
+			virtual kxf::Version GetLibraryVersion() const = 0;
 
 			virtual bool HasNativeLibrary() const = 0;
-			virtual wxString GetNativeLibraryName() const = 0;
-			virtual wxString GetNativeLibraryURL() const = 0;
-			virtual KxVersion GetNativeLibraryVersion() const = 0;
+			virtual kxf::String GetNativeLibraryName() const = 0;
+			virtual kxf::String GetNativeLibraryURL() const = 0;
+			virtual kxf::Version GetNativeLibraryVersion() const = 0;
 	};
 }

@@ -177,7 +177,7 @@ namespace Kortex::InstallWizard
 	{
 		auto AddFilesFromList = [this](const KxStringVector& list, bool pushBack = true)
 		{
-			for (const wxString& id: list)
+			for (const kxf::String& id: list)
 			{
 				PackageProject::FileItem* entry = GetPackageConfig().GetFileData().FindItemWithID(id);
 				if (entry)
@@ -295,7 +295,7 @@ namespace Kortex::InstallWizard
 		{
 			if (fileEntry->GetID() != fileEntry->GetSource())
 			{
-				files.push_back(wxString::Format("%s (%s)", fileEntry->GetID(), fileEntry->GetSource()));
+				files.push_back(kxf::String::Format("%s (%s)", fileEntry->GetID(), fileEntry->GetSource()));
 			}
 			else
 			{

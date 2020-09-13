@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 #include <Kx/RTTI.hpp>
 
@@ -7,16 +7,16 @@ namespace Kortex::PackageProject
 {
 	class FileItem: public KxRTTI::Interface<FileItem>
 	{
-		KxDecalreIID(FileItem, {0x88e3075, 0xe7d5, 0x44af, {0x8d, 0xeb, 0xd, 0x71, 0xd7, 0x3c, 0x46, 0x5}});
+		KxRTTI_DeclareIID(FileItem, {0x88e3075, 0xe7d5, 0x44af, {0x8d, 0xeb, 0xd, 0x71, 0xd7, 0x3c, 0x46, 0x5}});
 
 		public:
 			using Vector = std::vector<std::unique_ptr<FileItem>>;
 			using RefVector = std::vector<FileItem*>;
 
 		private:
-			wxString m_ID;
-			wxString m_Source;
-			wxString m_Destination;
+			kxf::String m_ID;
+			kxf::String m_Source;
+			kxf::String m_Destination;
 			int32_t m_Priority = -1;
 			
 		public:
@@ -24,30 +24,30 @@ namespace Kortex::PackageProject
 			virtual ~FileItem() = default;
 
 		public:
-			const wxString& GetID() const
+			const kxf::String& GetID() const
 			{
 				return m_ID.IsEmpty() ? m_Source : m_ID;
 			}
-			void SetID(const wxString& id)
+			void SetID(const kxf::String& id)
 			{
 				m_ID = id;
 			}
 			void MakeUniqueID();
 			
-			const wxString& GetSource() const
+			const kxf::String& GetSource() const
 			{
 				return m_Source;
 			}
-			void SetSource(const wxString& value)
+			void SetSource(const kxf::String& value)
 			{
 				m_Source = value;
 			}
 			
-			const wxString& GetDestination() const
+			const kxf::String& GetDestination() const
 			{
 				return m_Destination;
 			}
-			void SetDestination(const wxString& value)
+			void SetDestination(const kxf::String& value)
 			{
 				m_Destination = value;
 			}
@@ -62,7 +62,7 @@ namespace Kortex::PackageProject
 {
 	class FolderItem: public KxRTTI::ExtendInterface<FolderItem, FileItem>
 	{
-		KxDecalreIID(FolderItem, {0x6c8ec67, 0x9913, 0x404e, {0x97, 0xd4, 0x3c, 0xd3, 0x83, 0xfc, 0xd3, 0xd7}});
+		KxRTTI_DeclareIID(FolderItem, {0x6c8ec67, 0x9913, 0x404e, {0x97, 0xd4, 0x3c, 0xd3, 0x83, 0xfc, 0xd3, 0xd7}});
 
 		private:
 			std::vector<FileItem> m_Files;
@@ -101,7 +101,7 @@ namespace Kortex::PackageProject
 		public:
 			static bool IsPriorityValid(int32_t value);
 			static int32_t CorrectPriority(int32_t value);
-			static bool IsFileIDValid(const wxString& id);
+			static bool IsFileIDValid(const kxf::String& id);
 	
 		private:
 			FileItem::Vector m_Items;
@@ -131,13 +131,13 @@ namespace Kortex::PackageProject
 				return ref;
 			}
 			
-			FileItem* FindItemWithID(const wxString& id, size_t* index = nullptr) const;
-			bool HasItemWithID(const wxString& id, const FileItem* ignoreThis = nullptr) const
+			FileItem* FindItemWithID(const kxf::String& id, size_t* index = nullptr) const;
+			bool HasItemWithID(const kxf::String& id, const FileItem* ignoreThis = nullptr) const
 			{
 				FileItem* entry = FindItemWithID(id);
 				return entry != nullptr && entry != ignoreThis;
 			}
-			bool IsUnusedID(const wxString& id) const
+			bool IsUnusedID(const kxf::String& id) const
 			{
 				return IsFileIDValid(id) && !HasItemWithID(id);
 			}

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "StepStack.h"
 #include "Info/InfoPage.h"
 #include "Requirements/RequirementsPage.h"
@@ -38,7 +38,7 @@ namespace Kortex::InstallWizard
 		friend class InstallOperation;
 
 		public:
-			static void ShowInvalidPackageDialog(wxWindow* window, const wxString& packagePath);
+			static void ShowInvalidPackageDialog(wxWindow* window, const kxf::String& packagePath);
 
 		private:
 			// Pages
@@ -52,9 +52,9 @@ namespace Kortex::InstallWizard
 			WizardPage* m_CurrentPage = nullptr;
 
 			// UI
-			const wxString m_CancelDefaultLabel;
-			const wxString m_BackwardDefaultLabel;
-			const wxString m_ForwardDefaultLabel;
+			const kxf::String m_CancelDefaultLabel;
+			const kxf::String m_BackwardDefaultLabel;
+			const kxf::String m_ForwardDefaultLabel;
 
 			KxButton* m_CancelButton = nullptr;
 			KxButton* m_BackwardButton = nullptr;
@@ -98,7 +98,7 @@ namespace Kortex::InstallWizard
 			bool DoSwitchPage(WizardPage& targetPage);
 
 		public:
-			void OpenPackage(const wxString& packagePath);
+			void OpenPackage(const kxf::String& packagePath);
 			bool LoadPackage();
 			bool ProcessLoadPackage();
 			void FindExistingMod();
@@ -113,13 +113,13 @@ namespace Kortex::InstallWizard
 
 			void SetModData();
 			KxArchive::FileIndexVector GetFilesOfFolder(const PackageProject::FolderItem* folder) const;
-			wxString GetFinalPath(const KxFileItem& fileItem, const wxString& installLocation, const PackageProject::FileItem* fileEntry) const;
+			kxf::String GetFinalPath(const KxFileItem& fileItem, const kxf::String& installLocation, const PackageProject::FileItem* fileEntry) const;
 			void RunInstall();
 
 		public:
 			WizardDialog();
-			WizardDialog(wxWindow* parent, const wxString& packagePath);
-			bool Create(wxWindow* parent, const wxString& packagePath);
+			WizardDialog(wxWindow* parent, const kxf::String& packagePath);
+			bool Create(wxWindow* parent, const kxf::String& packagePath);
 			bool Create(wxWindow* parent, std::unique_ptr<ModPackage> package);
 			~WizardDialog();
 

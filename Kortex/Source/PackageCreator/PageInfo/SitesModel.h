@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/InfoSection.h"
 #include <KxFramework/KxStdDialog.h>
@@ -75,7 +75,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 			}
 	
 		public:
-			SitesDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, bool useInloneEditor = false);
+			SitesDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, bool useInloneEditor = false);
 			~SitesDialog();
 	};
 }

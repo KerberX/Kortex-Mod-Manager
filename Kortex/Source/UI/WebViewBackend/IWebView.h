@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxEvent.h>
 #include <wx/webview.h>
 
@@ -41,8 +41,8 @@ namespace Kortex::UI
 
 		public:
 			virtual void Unload() = 0;
-			virtual bool LoadText(const wxString& text) = 0;
-			virtual bool LoadHTML(const wxString& html) = 0;
-			virtual bool LoadURL(const wxString& url) = 0;
+			virtual bool LoadText(const kxf::String& text) = 0;
+			virtual bool LoadHTML(const kxf::String& html) = 0;
+			virtual bool LoadURL(const kxf::String& url) = 0;
 	};
 }

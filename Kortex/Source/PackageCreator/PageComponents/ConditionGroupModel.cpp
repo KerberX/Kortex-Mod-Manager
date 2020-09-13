@@ -181,7 +181,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			{
 				case ColumnID::Name:
 				{
-					value = KxString::Format(wxS("%1: %2"), KTr(wxS("Generic.Operator")), ModPackageProject::OperatorToSymbolicName(condition->GetOperator()));
+					value = kxf::String::Format(wxS("%1: %2"), KTr(wxS("Generic.Operator")), ModPackageProject::OperatorToSymbolicName(condition->GetOperator()));
 					break;
 				}
 			};
@@ -222,7 +222,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			{
 				case ColumnID::Name:
 				{
-					wxString newName = value.As<wxString>();
+					kxf::String newName = value.As<kxf::String>();
 					TrackChangeID(flag->GetName(), newName);
 					flag->SetName(newName);
 					ChangeNotify();
@@ -230,7 +230,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				case ColumnID::Value:
 				{
-					flag->SetValue(value.As<wxString>());
+					flag->SetValue(value.As<kxf::String>());
 					ChangeNotify();
 					return true;
 				}
@@ -276,22 +276,22 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		KxMenu menu;
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddToCondition, KTr("PackageCreator.Conditions.AddToCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FlagPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FlagPlus));
 			item->Enable(condition);
 		}
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddNewCondition, KTr("PackageCreator.Conditions.AddNewCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
 		}
 		menu.AddSeparator();
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RemoveFromCondition, KTr("PackageCreator.Conditions.RemoveFromCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FlagMinus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FlagMinus));
 			item->Enable(flag);
 		}
 		{
 			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RemoveCondition, KTr("PackageCreator.Conditions.RemoveCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderMinus));
+			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderMinus));
 			item->Enable(condition);
 		}
 		{
@@ -370,8 +370,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			}
 			case RemoveMode::RemoveRename:
 			{
-				wxString name = flag.GetName();
-				wxString newName = flag.GetDeletedName();
+				kxf::String name = flag.GetName();
+				kxf::String newName = flag.GetDeletedName();
 				DoRemoveFlag(condition, flag);
 				TrackChangeID(name, newName);
 	
@@ -406,8 +406,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			{
 				for (PackageProject::FlagItem& flag: condition.GetFlags())
 				{
-					wxString name = flag.GetName();
-					wxString newName = flag.GetDeletedName();
+					kxf::String name = flag.GetName();
+					kxf::String newName = flag.GetDeletedName();
 					DoRemoveFlag(condition, flag);
 					TrackChangeID(name, newName);
 				}
@@ -470,7 +470,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 		return dialog.ShowModal();
 	}
-	bool ConditionGroupModel::DoTrackID(wxString trackedID, const wxString& newID, bool remove) const
+	bool ConditionGroupModel::DoTrackID(kxf::String trackedID, const kxf::String& newID, bool remove) const
 	{
 		// Manual components
 		for (auto& step: m_Project.GetComponents().GetSteps())
@@ -580,7 +580,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		//KProgramOptionSerializer::LoadWindowSize(this, m_WindowOptions);
 	}
 	
-	ConditionGroupDialog::ConditionGroupDialog(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup)
+	ConditionGroupDialog::ConditionGroupDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup)
 		:ConditionGroupModel(controller, conditionGroup)
 		//m_WindowOptions("ConditionGroupDialog", "Window"), m_ViewOptions("ConditionGroupDialog", "View")
 	{
@@ -599,7 +599,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 			// General operator
 			wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-			m_Sizer->Add(sizer, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+			m_Sizer->Add(sizer, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 	
 			m_GlobalOperatorCB = PageBase::AddControlsRow(sizer, KTr("Generic.Operator"), new KxComboBox(m_ViewPane, KxID_NONE), 1);
 			m_GlobalOperatorCB->Bind(wxEVT_COMBOBOX, &ConditionGroupDialogWithTypeDescriptor::OnSelectGlobalOperator, this);
@@ -648,17 +648,17 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		}
 	}
 	
-	ConditionGroupDialogWithTypeDescriptor::ConditionGroupDialogWithTypeDescriptor(wxWindow* parent, const wxString& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup, PackageProject::ComponentItem& entry)
+	ConditionGroupDialogWithTypeDescriptor::ConditionGroupDialogWithTypeDescriptor(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller, PackageProject::ConditionGroup& conditionGroup, PackageProject::ComponentItem& entry)
 		:ConditionGroupDialog(parent, caption, controller, conditionGroup), m_Entry(entry)
 	{
 		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-		m_Sizer->Add(sizer, 0, wxEXPAND|wxTOP, KLC_VERTICAL_SPACING);
+		m_Sizer->Add(sizer, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 	
 		// New type descriptor
 		m_NewTypeDescriptorCB = PageBase::AddControlsRow(sizer, KTr("PackageCreator.PageComponents.TypeDescriptorConditional"), new KxComboBox(m_ViewPane, KxID_NONE), 1);
 		m_NewTypeDescriptorCB->Bind(wxEVT_COMBOBOX, &ConditionGroupDialogWithTypeDescriptor::OnSelectNewTypeDescriptor, this);
 	
-		auto AddItem = [this](const wxString& id, PackageProject::TypeDescriptor value)
+		auto AddItem = [this](const kxf::String& id, PackageProject::TypeDescriptor value)
 		{
 			int index = m_NewTypeDescriptorCB->Append(id, (void*)value);
 			if (value == m_Entry.GetTDConditionalValue())

@@ -64,7 +64,7 @@ namespace Kortex::NetworkManager::NXMHandler
 	}
 	void DisplayModel::RefreshItems()
 	{
-		std::unordered_set<wxString> hash;
+		std::unordered_set<kxf::String> hash;
 		for (const auto& instance: IGameInstance::GetTemplates())
 		{
 			if (hash.insert(instance->GetVariables().GetVariable("NexusDomainName").AsString()).second)

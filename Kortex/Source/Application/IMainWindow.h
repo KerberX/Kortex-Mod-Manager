@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Options/Option.h"
 #include "Resources/IImageProvider.h"
-#include "Resources/ImageResourceID.h"
+#include "Resources/Imagekxf::ResourceID.h"
 #include "IWorkspaceContainer.h"
 #include <KxFramework/KxSingleton.h>
 #include <KxFramework/KxAuiToolBar.h>
@@ -42,7 +42,7 @@ namespace Kortex
 			}
 
 			virtual void ClearStatus(int index = 0) = 0;
-			virtual void SetStatus(const wxString& label, int index = 0, const ResourceID& image = {}) = 0;
+			virtual void SetStatus(const kxf::String& label, int index = 0, const kxf::ResourceID& image = {}) = 0;
 			virtual void SetStatusProgress(int current) = 0;
 			virtual void SetStatusProgress(int64_t current, int64_t total) = 0;
 

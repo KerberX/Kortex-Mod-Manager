@@ -1,6 +1,5 @@
 #pragma once
-#include "stdafx.h"
-#include "ResourceID.h"
+#include <Kortex/Kortex.hpp>
 
 namespace Kortex
 {

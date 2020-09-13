@@ -29,7 +29,7 @@ namespace Kortex::SaveManager::BethesdaSave
 				stream.Skip<uint8_t>();
 				m_BasicInfo.emplace_back(std::to_wstring(stream.ReadObject<uint32_t>()), KTr("SaveManager.Info.SaveIndex")).Order(0).Display().DisplayLabel();
 
-				auto ReadWZString = [this, &stream](const wxString& fieldName)
+				auto ReadWZString = [this, &stream](const kxf::String& fieldName)
 				{
 					stream.Skip<uint8_t>();
 					uint16_t length = stream.ReadObject<uint16_t>();

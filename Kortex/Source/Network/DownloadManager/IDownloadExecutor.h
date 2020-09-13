@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "IDownloadItem.h"
 
 namespace Kortex
@@ -36,7 +36,7 @@ namespace Kortex
 			virtual wxDateTime GetStartDate() const = 0;
 
 			virtual std::optional<int64_t> RequestContentLength() const = 0;
-			virtual wxString GetLocalPath() const = 0;
-			virtual wxString GetLocalTempPath() const = 0;
+			virtual kxf::String GetLocalPath() const = 0;
+			virtual kxf::String GetLocalTempPath() const = 0;
 	};
 }

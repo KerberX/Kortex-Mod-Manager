@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/INetworkManager.h"
 class KxAuiToolBarEvent;
 class KxAuiToolBarItem;
@@ -26,7 +26,7 @@ namespace Kortex::NetworkManager
 		private:
 			virtual void OnInit() override;
 			virtual void OnExit() override;
-			virtual void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			virtual void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 
 			void ValidateAuth();
 			bool AdjustDefaultModNetwork();
@@ -42,11 +42,11 @@ namespace Kortex::NetworkManager
 			void OnToolbarButton(KxAuiToolBarEvent& event) override;
 
 		public:
-			wxString GetCacheDirectory() const override;
+			kxf::String GetCacheDirectory() const override;
 			
 			IModNetwork::RefVector GetModNetworks() override;
 			IModNetwork* GetDefaultModNetwork() const override;
-			IModNetwork* GetModNetworkByName(const wxString& name) const override;
+			IModNetwork* GetModNetworkByName(const kxf::String& name) const override;
 			
 			void OnAuthStateChanged() override;
 	};

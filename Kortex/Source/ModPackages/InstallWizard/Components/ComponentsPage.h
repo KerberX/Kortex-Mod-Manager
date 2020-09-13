@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "../WizardPage.h"
 #include "../StepStack.h"
 #include <KxFramework/KxImageView.h>
@@ -40,7 +40,7 @@ namespace Kortex::InstallWizard
 			KxHTMLWindow* m_Description = nullptr;
 
 			StepStack m_InstallSteps;
-			std::unordered_map<wxString, wxString> m_FlagsStorage;
+			std::unordered_map<kxf::String, kxf::String> m_FlagsStorage;
 			bool m_HasManualComponents = false;
 
 		protected:
@@ -74,11 +74,11 @@ namespace Kortex::InstallWizard
 			{
 				return WizardPageID::Components;
 			}
-			wxString GetCaption() const override
+			kxf::String GetCaption() const override
 			{
 				return KTr("InstallWizard.Page.Components");
 			}
-			wxString GetOptionName() const override
+			kxf::String GetOptionName() const override
 			{
 				return wxS("Page/Components");
 			}

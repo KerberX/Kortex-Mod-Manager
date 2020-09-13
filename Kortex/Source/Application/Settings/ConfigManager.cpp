@@ -32,7 +32,7 @@ namespace Kortex::Application::Settings
 	{
 		IConfigManager::OnExit();
 	}
-	void ConfigManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void ConfigManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		IConfigManager::OnLoadInstance(instance, managerNode);
 	}
@@ -90,7 +90,7 @@ namespace Kortex::Application::Settings
 		return !m_ChangedItems.empty();
 	}
 
-	std::unique_ptr<GameConfig::ISamplingFunction> ConfigManager::QuerySamplingFunction(const wxString& name, GameConfig::SampleValue::Vector& samples)
+	std::unique_ptr<GameConfig::ISamplingFunction> ConfigManager::QuerySamplingFunction(const kxf::String& name, GameConfig::SampleValue::Vector& samples)
 	{
 		using namespace GameConfig;
 

@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "ItemValue.h"
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex::GameConfig
 {
@@ -14,7 +14,7 @@ namespace Kortex::GameConfig
 		Equal = 2,
 		GreaterThan = 3
 	};
-	CompareResult CompareStrings(const wxString& v1, const wxString& v2, SortOptionsValue sortOptions);
+	CompareResult CompareStrings(const kxf::String& v1, const kxf::String& v2, SortOptionsValue sortOptions);
 }
 
 namespace Kortex::GameConfig
@@ -29,7 +29,7 @@ namespace Kortex::GameConfig
 		GetVideoModes,
 		GetVirtualKeys,
 	};
-	struct IntrinsicSamplingFunctionDef: public KxIndexedEnum::Definition<IntrinsicSamplingFunctionDef, IntrinsicSamplingFunctionID, wxString, true>
+	struct IntrinsicSamplingFunctionDef: public KxIndexedEnum::Definition<IntrinsicSamplingFunctionDef, IntrinsicSamplingFunctionID, kxf::String, true>
 	{
 		inline static const TItem ms_Index[] =
 		{
@@ -54,7 +54,7 @@ namespace Kortex::GameConfig
 
 		private:
 			ItemValue m_Value;
-			wxString m_Label;
+			kxf::String m_Label;
 
 		public:
 			SampleValue() = default;
@@ -86,11 +86,11 @@ namespace Kortex::GameConfig
 			{
 				return !m_Label.IsEmpty();
 			}
-			wxString GetLabel() const
+			kxf::String GetLabel() const
 			{
-				return m_Label.IsEmpty() ? m_Value.As<wxString>() : m_Label;
+				return m_Label.IsEmpty() ? m_Value.As<kxf::String>() : m_Label;
 			}
-			void SetLabel(const wxString& label)
+			void SetLabel(const kxf::String& label)
 			{
 				m_Label = label;
 			}
@@ -127,7 +127,7 @@ namespace Kortex::GameConfig
 			SortOrderValue m_SortOrder;
 			SortOptionsValue m_SortOptions;
 			
-			wxString m_SamplingFunctionName;
+			kxf::String m_SamplingFunctionName;
 			IntrinsicSamplingFunctionValue m_IntrinsicSampligFunction;
 
 			SampleValue::Vector m_Values;
@@ -136,7 +136,7 @@ namespace Kortex::GameConfig
 			wxAny m_Step;
 
 		private:
-			size_t LoadImmediateItems(const KxXMLNode& rootNode);
+			size_t LoadImmediateItems(const kxf::XMLNode& rootNode);
 			void SortImmediateItems();
 			void InvokeIntrinsicSamplingFunction(const ItemValue::Vector& arguments);
 			template<class T> SortOrderValue LoadRange(T min, T max, T step)
@@ -171,10 +171,10 @@ namespace Kortex::GameConfig
 			}
 
 		public:
-			ItemSamples(Item& item, const KxXMLNode& samplesNode = {});
+			ItemSamples(Item& item, const kxf::XMLNode& samplesNode = {});
 
 		public:
-			void Load(const KxXMLNode& samplesNode);
+			void Load(const kxf::XMLNode& samplesNode);
 			
 			bool IsEmpty() const
 			{
@@ -202,7 +202,7 @@ namespace Kortex::GameConfig
 				return m_SortOptions;
 			}
 			
-			wxString GetSamplingFunctionName() const
+			kxf::String GetSamplingFunctionName() const
 			{
 				return m_SamplingFunctionName;
 			}
@@ -245,6 +245,6 @@ namespace Kortex::GameConfig
 				return nullptr;
 			}
 			const SampleValue* FindSampleByValue(const ItemValue& value, size_t* index = nullptr) const;
-			const SampleValue* FindSampleByLabel(const wxString& label, size_t* index = nullptr) const;
+			const SampleValue* FindSampleByLabel(const kxf::String& label, size_t* index = nullptr) const;
 	};
 }

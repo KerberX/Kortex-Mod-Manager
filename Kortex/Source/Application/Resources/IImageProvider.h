@@ -1,31 +1,30 @@
 #pragma once
-#include "stdafx.h"
-#include "ResourceID.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxImageList.h>
-#include <KxFramework/KxImageSet.h>
+#include <Kortex/Kortex.hpp>
+#include <kxf/General/Singleton.h>
+#include <kxf/Drawing/ImageList.h>
+#include <kxf/Drawing/ImageSet.h>
 
 namespace Kortex
 {
 	class IImageProvider
 	{
 		public:
-			virtual const KxImageList& GetImageList() const = 0;
-			virtual const KxImageSet& GetImageSet() const = 0;
+			virtual const kxf::ImageList& GetImageList() const = 0;
+			virtual const kxf::ImageSet& GetImageSet() const = 0;
 
 		public:
-			wxBitmap GetBitmap(const ResourceID& resID) const;
-			wxImage GetImage(const ResourceID& resID) const;
-			wxIcon GetIcon(const ResourceID& resID) const;
+			wxBitmap GetBitmap(const kxf::ResourceID& resID) const;
+			wxImage GetImage(const kxf::ResourceID& resID) const;
+			wxIcon GetIcon(const kxf::ResourceID& resID) const;
 	};
 }
 
 namespace Kortex::ImageProvider
 {
-	const KxImageList& GetImageList();
-	const KxImageSet& GetImageSet();
+	const kxf::ImageList& GetImageList();
+	const kxf::ImageSet& GetImageSet();
 
-	wxBitmap GetBitmap(const ResourceID& resID);
-	wxImage GetImage(const ResourceID& resID);
-	wxIcon GetIcon(const ResourceID& resID);
+	wxBitmap GetBitmap(const kxf::ResourceID& resID);
+	wxImage GetImage(const kxf::ResourceID& resID);
+	wxIcon GetIcon(const kxf::ResourceID& resID);
 }

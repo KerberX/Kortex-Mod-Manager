@@ -54,12 +54,12 @@ namespace Kortex::GameConfig
 		return type;
 	}
 
-	DataType::DataType(const KxXMLNode& node)
+	DataType::DataType(const kxf::XMLNode& node)
 	{
 		if (node.IsOK() && m_TypeID.FromString(node.GetAttribute(wxS("Type"))) && !m_TypeID.IsAny())
 		{
 			// Input
-			const KxXMLNode inputNode = node.GetFirstChildElement(wxS("Input"));
+			const kxf::XMLNode inputNode = node.GetFirstChildElement(wxS("Input"));
 			m_InputType.FromOrExpression(inputNode.GetAttribute(wxS("As")), DataTypeID::None);
 			if (m_InputType.IsNone())
 			{
@@ -67,7 +67,7 @@ namespace Kortex::GameConfig
 			}
 			
 			// Output
-			const KxXMLNode outputNode = node.GetFirstChildElement(wxS("Output"));
+			const kxf::XMLNode outputNode = node.GetFirstChildElement(wxS("Output"));
 
 			m_OutputType.FromOrExpression(outputNode.GetAttribute(wxS("As")), DataTypeID::None);
 			if (m_OutputType.IsNone())

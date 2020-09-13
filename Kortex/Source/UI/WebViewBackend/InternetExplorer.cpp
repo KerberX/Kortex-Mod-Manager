@@ -10,7 +10,7 @@
 
 namespace
 {
-	void CopyTextToClipboard(const wxString& value)
+	void CopyTextToClipboard(const kxf::String& value)
 	{
 		if (wxTheClipboard->Open())
 		{
@@ -34,12 +34,12 @@ namespace
 
 namespace Kortex::UI::WebViewBackend
 {
-	void InternetExplorer::DoLoadPage(const wxString& html)
+	void InternetExplorer::DoLoadPage(const kxf::String& html)
 	{
 		m_WebView->Unbind(wxEVT_WEBVIEW_NAVIGATING, &InternetExplorer::OnNavigating, this);
 		m_WebView->SetPage(html, wxWebViewDefaultURLStr);
 	}
-	void InternetExplorer::DoLoadURL(const wxString& url)
+	void InternetExplorer::DoLoadURL(const kxf::String& url)
 	{
 		m_WebView->Unbind(wxEVT_WEBVIEW_NAVIGATING, &InternetExplorer::OnNavigating, this);
 		m_WebView->LoadURL(url);
@@ -47,7 +47,7 @@ namespace Kortex::UI::WebViewBackend
 
 	void InternetExplorer::OnNavigating(wxWebViewEvent& event)
 	{
-		const wxString& url = event.GetURL();
+		const kxf::String& url = event.GetURL();
 		if (!url.IsEmpty() && url != wxWebViewDefaultURLStr)
 		{
 			event.SetEventType(IWebView::EvtNavigating);
@@ -81,7 +81,7 @@ namespace Kortex::UI::WebViewBackend
 	{
 		return GetIHTMLDocument<IHTMLDocument2>(GetWebBrowser());
 	}
-	bool InternetExplorer::ExecCommand(const wxString& command, const wxAny& arg)
+	bool InternetExplorer::ExecCommand(const kxf::String& command, const wxAny& arg)
 	{
 		if (auto document = GetDocument2())
 		{
@@ -113,7 +113,7 @@ namespace Kortex::UI::WebViewBackend
 			{
 				document->execCommand(commandBstr, showUI, _variant_t(value), &ret);
 			}
-			else if (wxString value; arg.GetAs(&value))
+			else if (kxf::String value; arg.GetAs(&value))
 			{
 				document->execCommand(commandBstr, showUI, _variant_t(value.wc_str()), &ret);
 			}
@@ -135,21 +135,21 @@ namespace Kortex::UI::WebViewBackend
 		m_WebView->Bind(wxEVT_WEBVIEW_ERROR, &InternetExplorer::OnError, this);
 	}
 
-	bool InternetExplorer::LoadText(const wxString& text)
+	bool InternetExplorer::LoadText(const kxf::String& text)
 	{
 		const KxColor fgColor = m_WebView->GetForegroundColour();
 		const KxColor bgColor = m_WebView->GetBackgroundColour();
 		const wxFont font = m_WebView->GetFont();
 
-		auto FormatElement = [&](const wxString& html)
+		auto FormatElement = [&](const kxf::String& html)
 		{
-			const wxString css = KxString::Format(wxS("font-family: '%1', sans-serif; font-size: %2pt; color: %3; background-color: %4;"),
+			const kxf::String css = kxf::String::Format(wxS("font-family: '%1', sans-serif; font-size: %2pt; color: %3; background-color: %4;"),
 												  font.GetFaceName(),
 												  font.GetPointSize(),
 												  fgColor.ToString(KxColor::C2S::CSS, KxColor::C2SAlpha::Auto),
 												  bgColor.ToString(KxColor::C2S::CSS, KxColor::C2SAlpha::Auto)
 			);
-			return KxString::Format(wxS("<html><body style=\"%1\">%2</body></html>"), css, html);
+			return kxf::String::Format(wxS("<html><body style=\"%1\">%2</body></html>"), css, html);
 		};
 
 		DoLoadPage(FormatElement(KxHTMLWindow::ProcessPlainText(text)));

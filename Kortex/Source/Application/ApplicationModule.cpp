@@ -2,31 +2,31 @@
 #include "ApplicationModule.h"
 #include "SystemApplication.h"
 #include "INotificationCenter.h"
-#include "Resources/ImageResourceID.h"
+#include "Resources/Imagekxf::ResourceID.h"
 
 namespace Kortex::Application::Internal
 {
-	wxString ApplicationModuleInfo::GetID() const
+	kxf::String ApplicationModuleInfo::GetID() const
 	{
 		return SystemApplication::GetInstance()->GetAppName();
 	}
-	wxString ApplicationModuleInfo::GetName() const
+	kxf::String ApplicationModuleInfo::GetName() const
 	{
 		return SystemApplication::GetInstance()->GetAppDisplayName();
 	}
-	KxVersion ApplicationModuleInfo::GetVersion() const
+	kxf::Version ApplicationModuleInfo::GetVersion() const
 	{
 		return SystemApplication::GetInstance()->GetAppVersion();
 	}
-	ResourceID ApplicationModuleInfo::GetImageID() const
+	kxf::ResourceID ApplicationModuleInfo::GetImageID() const
 	{
-		return ImageResourceID::KortexLogoSmall;
+		return Imagekxf::ResourceID::KortexLogoSmall;
 	}
 }
 
 namespace Kortex::Application
 {
-	void ApplicationModule::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void ApplicationModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 	}
 	void ApplicationModule::OnInit()

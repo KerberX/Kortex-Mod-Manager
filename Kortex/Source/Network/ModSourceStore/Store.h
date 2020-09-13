@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Item.h"
 #include "Network/Common.h"
 #include "Network/NetworkModInfo.h"
@@ -20,7 +20,7 @@ namespace Kortex
 
 				return std::find_if(items.begin(), items.end(), [&value](auto&& item)
 				{
-					if constexpr(std::is_same_v<DValue, wxString>)
+					if constexpr(std::is_same_v<DValue, kxf::String>)
 					{
 						return item.GetName() == value;
 					}
@@ -49,9 +49,9 @@ namespace Kortex
 				TryAdd,
 				Assign
 			};
-			template<LoadMode t_LoadMode> void LoadHelper(ModSourceStore& store, const KxXMLNode& arrayNode)
+			template<LoadMode t_LoadMode> void LoadHelper(ModSourceStore& store, const kxf::XMLNode& arrayNode)
 			{
-				for (KxXMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+				for (kxf::XMLNode node = arrayNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 				{
 					ModSourceItem item;
 					item.Load(node);
@@ -97,8 +97,8 @@ namespace Kortex
 
 		public:
 			// Retrieve item
-			const ModSourceItem* GetItem(const wxString& name) const;
-			ModSourceItem* GetItem(const wxString& name);
+			const ModSourceItem* GetItem(const kxf::String& name) const;
+			ModSourceItem* GetItem(const kxf::String& name);
 			
 			const ModSourceItem* GetItem(const IModNetwork& modNetwork) const;
 			ModSourceItem* GetItem(const IModNetwork& modNetwork);
@@ -112,7 +112,7 @@ namespace Kortex
 				return GetItem(*T::GetInstance());
 			}
 
-			bool HasItem(const wxString& name) const
+			bool HasItem(const kxf::String& name) const
 			{
 				return GetItem(name) != nullptr;
 			}
@@ -135,7 +135,7 @@ namespace Kortex
 				DoTryAddItem(std::move(item));
 			}
 
-			ModSourceItem* TryAddWith(const wxString& name, const wxString& url)
+			ModSourceItem* TryAddWith(const kxf::String& name, const kxf::String& url)
 			{
 				if (!HasItem(name))
 				{
@@ -143,7 +143,7 @@ namespace Kortex
 				}
 				return nullptr;
 			}
-			ModSourceItem* TryAddWith(const wxString& name, NetworkModInfo id)
+			ModSourceItem* TryAddWith(const kxf::String& name, NetworkModInfo id)
 			{
 				if (!HasItem(name))
 				{
@@ -152,7 +152,7 @@ namespace Kortex
 				return nullptr;
 			}
 			
-			ModSourceItem* TryAddWith(IModNetwork& modNetwork, const wxString& url)
+			ModSourceItem* TryAddWith(IModNetwork& modNetwork, const kxf::String& url)
 			{
 				if (!HasItem(modNetwork))
 				{
@@ -169,7 +169,7 @@ namespace Kortex
 				return nullptr;
 			}
 
-			template<class T> ModSourceItem* TryAddWith(const wxString& url)
+			template<class T> ModSourceItem* TryAddWith(const kxf::String& url)
 			{
 				return TryAddWith(*T::GetInstance(), url);
 			}
@@ -188,13 +188,13 @@ namespace Kortex
 				DoAssignItem(std::move(item));
 			}
 
-			ModSourceItem& AssignWith(const wxString& name, const wxString& url);
-			ModSourceItem& AssignWith(const wxString& name, NetworkModInfo modInfo);
+			ModSourceItem& AssignWith(const kxf::String& name, const kxf::String& url);
+			ModSourceItem& AssignWith(const kxf::String& name, NetworkModInfo modInfo);
 			
-			ModSourceItem& AssignWith(IModNetwork& modNetwork, const wxString& url);
+			ModSourceItem& AssignWith(IModNetwork& modNetwork, const kxf::String& url);
 			ModSourceItem& AssignWith(IModNetwork& modNetwork, NetworkModInfo modInfo);
 
-			template<class T> ModSourceItem& AssignWith(const wxString& url)
+			template<class T> ModSourceItem& AssignWith(const kxf::String& url)
 			{
 				return AssignWith(*T::GetInstance(), url);
 			}
@@ -204,7 +204,7 @@ namespace Kortex
 			}
 
 			// Remove items
-			bool RemoveItem(const wxString& name);
+			bool RemoveItem(const kxf::String& name);
 			bool RemoveItem(const IModNetwork& modNetwork);
 			void Clear()
 			{
@@ -246,7 +246,7 @@ namespace Kortex
 			}
 
 			// Conversion to URL list
-			KxURI GetModPageURI(const wxString& name, const GameID& gameID = GameIDs::NullGameID) const;
+			KxURI GetModPageURI(const kxf::String& name, const GameID& gameID = GameIDs::NullGameID) const;
 			KxURI GetModPageURI(const IModNetwork& modNetwork, const GameID& gameID = GameIDs::NullGameID) const;
 			template<class T> KxURI GetModPageURI(const GameID& gameID = GameIDs::NullGameID) const
 			{
@@ -257,8 +257,8 @@ namespace Kortex
 			Utility::LabeledValue::Vector GetLabeledModURIs(const GameID& gameID = GameIDs::NullGameID) const;
 
 			// Serialization
-			void LoadTryAdd(const KxXMLNode& arrayNode);
-			void LoadAssign(const KxXMLNode& arrayNode);
-			void Save(KxXMLNode& arrayNode) const;
+			void LoadTryAdd(const kxf::XMLNode& arrayNode);
+			void LoadAssign(const kxf::XMLNode& arrayNode);
+			void Save(kxf::XMLNode& arrayNode) const;
 	};
 }

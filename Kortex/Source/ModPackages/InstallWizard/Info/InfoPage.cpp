@@ -79,7 +79,7 @@ namespace Kortex::InstallWizard
 			{
 				if (auto documentStream = package.GetDocumentStream(entry))
 				{
-					wxString text = package.ReadString(*documentStream);
+					kxf::String text = package.ReadString(*documentStream);
 					if (text.IsEmpty() && documentStream->IsOk())
 					{
 						// Couldn't load the document, maybe unsupported encoding. Try WebView.
@@ -194,7 +194,7 @@ namespace Kortex::InstallWizard
 		using InfoPageNS::InfoKind;
 		const PackageProject::InfoSection& info = package.GetInfo();
 
-		auto AddString = [this](const wxString& name, const wxString& value, InfoKind type = InfoKind::None, bool isRequired = false, ResourceID image = {})
+		auto AddString = [this](const kxf::String& name, const kxf::String& value, InfoKind type = InfoKind::None, bool isRequired = false, kxf::ResourceID image = {})
 		{
 			if (isRequired || !value.IsEmpty())
 			{
@@ -208,7 +208,7 @@ namespace Kortex::InstallWizard
 				if (item.IsOK())
 				{
 					IModNetwork* modNetwork = nullptr;
-					ResourceID icon = item.TryGetModNetwork(modNetwork) ? modNetwork->GetIcon() : IModNetwork::GetGenericIcon();
+					kxf::ResourceID icon = item.TryGetModNetwork(modNetwork) ? modNetwork->GetIcon() : IModNetwork::GetGenericIcon();
 					m_InfoDisplayModel->AddItem(Utility::LabeledValue(item.GetURI().BuildUnescapedURI(), item.GetName()), icon, InfoKind::ModSource);
 				}
 				return true;
@@ -230,7 +230,7 @@ namespace Kortex::InstallWizard
 		AddString(KTr("PackageCreator.PageInfo.BasicInfo.Author"), info.GetAuthor(), InfoKind::None, true);
 		AddSites();
 		AddUserData();
-		AddString(KTr("PackageCreator.PageInfo.BasicInfo.Tags"), wxEmptyString, InfoKind::Tags, true, ImageResourceID::Tags);
+		AddString(KTr("PackageCreator.PageInfo.BasicInfo.Tags"), wxEmptyString, InfoKind::Tags, true, Imagekxf::ResourceID::Tags);
 
 		m_InfoDisplayModel->ItemsChanged();
 	}

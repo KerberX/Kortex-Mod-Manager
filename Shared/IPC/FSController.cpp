@@ -8,13 +8,13 @@ namespace Kortex::IPC
 	void FSController::OnProcessReady(wxProcessEvent& event)
 	{
 		// Length is x2 just to not match a window that has our name concatenated with something else
-		const wxString searchedName = ProcessingWindow::GetWindowName();
+		const kxf::String searchedName = ProcessingWindow::GetWindowName();
 		const size_t nameLength = searchedName.length() * 2;
 
 		for (HWND hWnd: m_Process.EnumWindows())
 		{
-			wxString name;
-			::GetWindowTextW(hWnd, wxStringBuffer(name, nameLength), static_cast<int>(nameLength));
+			kxf::String name;
+			::GetWindowTextW(hWnd, kxf::StringBuffer(name, nameLength), static_cast<int>(nameLength));
 
 			if (name == searchedName)
 			{
@@ -59,7 +59,7 @@ namespace Kortex::IPC
 		}
 	}
 
-	FSController::FSController(const wxString& executablePath)
+	FSController::FSController(const kxf::String& executablePath)
 		:m_Process(executablePath)
 	{
 		m_Process.Bind(KxEVT_PROCESS_IDLE, &FSController::OnProcessReady, this);
@@ -79,7 +79,7 @@ namespace Kortex::IPC
 	void FSController::SetProcessingWindow(const ProcessingWindow& processingWindow)
 	{
 		const size_t handle = reinterpret_cast<size_t>(processingWindow.GetHandle());
-		m_Process.SetArguments(KxString::Format(wxS("-HWND \"%1\" -PID \"%2\" -Library \"%3\""), handle, KxProcess(0).GetPID(), m_Library));
+		m_Process.SetArguments(kxf::String::Format(wxS("-HWND \"%1\" -PID \"%2\" -Library \"%3\""), handle, KxProcess(0).GetPID(), m_Library));
 	}
 	bool FSController::WaitForTermination(std::function<void()> func)
 	{

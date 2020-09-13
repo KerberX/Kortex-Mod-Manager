@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/ModNetworkUpdateChecker.h"
 #include "Network/NetworkModInfo.h"
@@ -43,7 +43,7 @@ namespace Kortex::NetworkManager
 			bool m_UpdateCheckInProgress = false;
 
 		private:
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode);
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode);
 			std::optional<ActivityMap> GetModsActivityFor(ModActivity interval) const;
 
 		private:
@@ -52,7 +52,7 @@ namespace Kortex::NetworkManager
 			void OnTimer(wxTimerEvent& event);
 			void OnThreadFinished(KxThreadEvent& event);
 
-			wxString GetUpdateInfoFile() const;
+			kxf::String GetUpdateInfoFile() const;
 			bool SaveUpdateInfo();
 			bool LoadUpdateInfo();
 

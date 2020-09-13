@@ -150,7 +150,7 @@ namespace Kortex::PluginManager
 		return false;
 	}
 
-	wxString BethesdaDisplayModel::GetPartOfName(const IGamePlugin& plugin) const
+	kxf::String BethesdaDisplayModel::GetPartOfName(const IGamePlugin& plugin) const
 	{
 		if (const StdContentItem* standardContentEntry = plugin.GetStdContentEntry())
 		{
@@ -160,9 +160,9 @@ namespace Kortex::PluginManager
 		{
 			return modEntry->GetName();
 		}
-		return KxNullWxString;
+		return KxNullkxf::String;
 	}
-	wxString BethesdaDisplayModel::GetPluginAuthor(const IGamePlugin& plugin) const
+	kxf::String BethesdaDisplayModel::GetPluginAuthor(const IGamePlugin& plugin) const
 	{
 		const IBethesdaGamePlugin* bethesdaPlugin = nullptr;
 		if (plugin.QueryInterface(bethesdaPlugin))

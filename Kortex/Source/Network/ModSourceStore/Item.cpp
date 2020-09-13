@@ -22,7 +22,7 @@ namespace Kortex
 		return !HasModInfo() && !HasURI();
 	}
 
-	void ModSourceItem::Load(const KxXMLNode& node)
+	void ModSourceItem::Load(const kxf::XMLNode& node)
 	{
 		// Load name. This function will automatically set IModNetwork instance if it exist
 		SetName(node.GetAttribute(wxS("Name")));
@@ -36,16 +36,16 @@ namespace Kortex
 				m_Data = std::move(modInfo);
 			}
 		}
-		else if (wxString uri = node.GetAttribute(wxS("URI")); !uri.IsEmpty())
+		else if (kxf::String uri = node.GetAttribute(wxS("URI")); !uri.IsEmpty())
 		{
 			m_Data = uri;
 		}
-		else if (wxString url = node.GetAttribute(wxS("URL")); !url.IsEmpty())
+		else if (kxf::String url = node.GetAttribute(wxS("URL")); !url.IsEmpty())
 		{
 			m_Data = url;
 		}
 	}
-	void ModSourceItem::Save(KxXMLNode& node) const
+	void ModSourceItem::Save(kxf::XMLNode& node) const
 	{
 		// Save name
 		node.SetAttribute(wxS("Name"), GetName());
@@ -72,26 +72,26 @@ namespace Kortex
 		{
 			return *modNetwork;
 		}
-		else if (const wxString* name = std::get_if<wxString>(&m_ID))
+		else if (const kxf::String* name = std::get_if<kxf::String>(&m_ID))
 		{
 			return INetworkManager::GetInstance()->GetModNetworkByName(*name);
 		}
 		return nullptr;
 	}
 	
-	wxString ModSourceItem::GetName() const
+	kxf::String ModSourceItem::GetName() const
 	{
 		if (auto modNetwork = std::get_if<IModNetwork*>(&m_ID); modNetwork && *modNetwork)
 		{
 			return (*modNetwork)->GetName();
 		}
-		else if (const wxString* name = std::get_if<wxString>(&m_ID))
+		else if (const kxf::String* name = std::get_if<kxf::String>(&m_ID))
 		{
 			return *name;
 		}
 		return {};
 	}
-	void ModSourceItem::SetName(const wxString& name)
+	void ModSourceItem::SetName(const kxf::String& name)
 	{
 		if (IModNetwork* modNetwork = INetworkManager::GetInstance()->GetModNetworkByName(name))
 		{

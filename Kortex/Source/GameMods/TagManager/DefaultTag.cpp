@@ -4,7 +4,7 @@
 
 namespace Kortex::ModTagManager
 {
-	wxString DefaultTag::GetName() const
+	kxf::String DefaultTag::GetName() const
 	{
 		if (m_Name.IsEmpty())
 		{
@@ -13,7 +13,7 @@ namespace Kortex::ModTagManager
 		}
 		return m_Name;
 	}
-	void DefaultTag::SetName(const wxString& name)
+	void DefaultTag::SetName(const kxf::String& name)
 	{
 		m_Name = name;
 	}

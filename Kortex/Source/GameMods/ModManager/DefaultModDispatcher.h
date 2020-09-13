@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameMods/IModDispatcher.h"
 #include "Application/BroadcastProcessor.h"
 #include <KxFramework/KxFile.h>
@@ -19,7 +19,7 @@ namespace Kortex::ModManager
 			using Vector = std::vector<KDispatcherCollision>;
 
 		public:
-			static wxString GetLocalizedCollisionName(KMMDispatcherCollisionType type);
+			static kxf::String GetLocalizedCollisionName(KMMDispatcherCollisionType type);
 
 		private:
 			const IGameMod* m_Mod = nullptr;
@@ -63,16 +63,16 @@ namespace Kortex::ModManager
 
 			const FileTreeNode& GetVirtualTree() const override;
 
-			const FileTreeNode* ResolveLocation(const wxString& relativePath) const override;
-			wxString ResolveLocationPath(const wxString& relativePath, const IGameMod** owningMod = nullptr) const override;
-			const FileTreeNode* BackTrackFullPath(const wxString& fullPath) const override;
+			const FileTreeNode* ResolveLocation(const kxf::String& relativePath) const override;
+			kxf::String ResolveLocationPath(const kxf::String& relativePath, const IGameMod** owningMod = nullptr) const override;
+			const FileTreeNode* BackTrackFullPath(const kxf::String& fullPath) const override;
 
-			FileTreeNode::CRefVector Find(const wxString& relativePath, const FilterFunctor& filter, bool recurse = false) const override;
+			FileTreeNode::CRefVector Find(const kxf::String& relativePath, const FilterFunctor& filter, bool recurse = false) const override;
 			FileTreeNode::CRefVector Find(const FileTreeNode& rootNode, const FilterFunctor& filter, bool recurse = false) const override;
 			FileTreeNode::CRefVector Find(const IGameMod& mod, const FilterFunctor& filter, bool recurse = false) const override;
 
 			// Searches for collisions of file specified by 'relativePath' for a mod.
-			KDispatcherCollision::Vector FindCollisions(const IGameMod& scannedMod, const wxString& relativePath) const;
+			KDispatcherCollision::Vector FindCollisions(const IGameMod& scannedMod, const kxf::String& relativePath) const;
 
 		public:
 			DefaultModDispatcher();

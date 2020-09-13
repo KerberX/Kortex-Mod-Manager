@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxStdDialog.h>
 #include <KxFramework/KxAuiNotebook.h>
 #include <KxFramework/KxImageView.h>
@@ -51,14 +51,14 @@ namespace Kortex::Application
 
 		private:
 			wxSize GetLogoSize() const;
-			wxString GetCaption() const override;
+			kxf::String GetCaption() const override;
 
 			wxWindow* CreateTab_Info();
 			wxWindow* CreateTab_Components();
 			wxWindow* CreateTab_License();
 
 			KxHTMLWindow* CreateHTMLWindow(wxWindow* parent = nullptr);
-			void CreateTemporaryTab(wxWindow* window, const wxString& label, const wxBitmap& bitmap = wxNullBitmap);
+			void CreateTemporaryTab(wxWindow* window, const kxf::String& label, const wxBitmap& bitmap = wxNullBitmap);
 			void OnTabChanged(wxAuiNotebookEvent& event);
 			void OnLinkClicked(wxHtmlLinkEvent& event);
 

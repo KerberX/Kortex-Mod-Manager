@@ -15,7 +15,7 @@ namespace Kortex::PluginManager
 			m_Data.m_HeaderFlags = (HeaderFlags)stream.ReadObject<uint32_t>();
 			stream.Seek(8 + 18);
 
-			wxString recordName = stream.ReadStringASCII(4);
+			kxf::String recordName = stream.ReadStringASCII(4);
 			if (recordName == "CNAM")
 			{
 				m_Data.m_Author = stream.ReadStringACP(stream.ReadObject<uint16_t>());

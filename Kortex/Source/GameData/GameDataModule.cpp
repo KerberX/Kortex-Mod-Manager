@@ -8,10 +8,10 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo GameDataTypeInfo("GameData", "GameDataModule.Name", "1.3", ImageResourceID::PlugDisconnect);
+		const SimpleModuleInfo GameDataTypeInfo("GameData", "GameDataModule.Name", "1.3", Imagekxf::ResourceID::PlugDisconnect);
 	}
 
-	void GameDataModule::OnLoadInstance(IGameInstance& instance, const KxXMLNode& node)
+	void GameDataModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)
 	{
 		m_PluginManager = CreatePluginManager(GetManagerNode<IPluginManager>(node));
 		m_SaveManager = CreateManagerIfEnabled<SaveManager::DefaultSaveManager>(node);
@@ -24,14 +24,14 @@ namespace Kortex
 	{
 	}
 
-	std::unique_ptr<IPluginManager> GameDataModule::CreatePluginManager(const KxXMLNode& node) const
+	std::unique_ptr<IPluginManager> GameDataModule::CreatePluginManager(const kxf::XMLNode& node) const
 	{
 		using namespace PluginManager;
 		using namespace PluginManager::Internal;
 
 		if (IsEnabledInTemplate(node))
 		{
-			const wxString name = node.GetAttribute("Implementation");
+			const kxf::String name = node.GetAttribute("Implementation");
 			if (name == ManagerImplementation::Bethesda)
 			{
 				return std::make_unique<BethesdaPluginManager>();

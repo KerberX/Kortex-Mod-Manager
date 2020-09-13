@@ -37,11 +37,11 @@ namespace Kortex
 		return m_DynamicVariables.empty() && StaticVariableTable::IsEmpty();
 	}
 
-	bool DynamicVariableTable::HasVariable(const wxString& id) const
+	bool DynamicVariableTable::HasVariable(const kxf::String& id) const
 	{
 		return m_DynamicVariables.count(id) || StaticVariableTable::HasVariable(id);
 	}
-	VariableValue DynamicVariableTable::GetVariable(const wxString& id) const
+	VariableValue DynamicVariableTable::GetVariable(const kxf::String& id) const
 	{
 		// Do not use our 'DynamicVariableTable::HasVariable' here. It's only for user
 		// not for internal use.
@@ -53,7 +53,7 @@ namespace Kortex
 		}
 		return StaticVariableTable::GetVariable(id);
 	}
-	void DynamicVariableTable::SetVariable(const wxString& id, const VariableValue& value)
+	void DynamicVariableTable::SetVariable(const kxf::String& id, const VariableValue& value)
 	{
 		// Add new static variable only if this is not one of dynamic variables
 		if (m_DynamicVariables.count(id) == 0)

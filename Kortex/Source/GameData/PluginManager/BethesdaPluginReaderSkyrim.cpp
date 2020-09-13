@@ -21,7 +21,7 @@ namespace Kortex::PluginManager
 			// Skip HEDR struct
 			stream.Seek(18);
 
-			wxString recordName = stream.ReadStringASCII(4);
+			kxf::String recordName = stream.ReadStringASCII(4);
 			if (recordName == "CNAM")
 			{
 				m_Data.m_Author = stream.ReadStringACP(stream.ReadObject<uint16_t>());

@@ -43,18 +43,18 @@ namespace Kortex::ModTagManager
 		}
 	}
 
-	void DefaultTagManager::LoadTagsFrom(IModTag::Vector& items, const KxXMLNode& tagsNode)
+	void DefaultTagManager::LoadTagsFrom(IModTag::Vector& items, const kxf::XMLNode& tagsNode)
 	{
 		const bool hasSE = IPackageManager::GetInstance()->HasComponent<PackageDesigner::IWithScriptExtender>();
 
-		for (KxXMLNode node = tagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+		for (kxf::XMLNode node = tagsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
 		{
 			if (!hasSE && node.GetAttributeBool(wxS("RequiresScriptExtender")))
 			{
 				continue;
 			}
 
-			wxString id = node.GetAttribute(wxS("ID"));
+			kxf::String id = node.GetAttribute(wxS("ID"));
 			if (!id.IsEmpty())
 			{
 				// If tag exist, it's probably from mod, remove it,
@@ -83,7 +83,7 @@ namespace Kortex::ModTagManager
 				}
 
 				// Color
-				KxXMLNode colorNode = node.GetFirstChildElement("Color");
+				kxf::XMLNode colorNode = node.GetFirstChildElement("Color");
 				if (colorNode.IsOK())
 				{
 					auto CheckColorValue = [](int value)
@@ -107,24 +107,24 @@ namespace Kortex::ModTagManager
 			}
 		}
 	}
-	void DefaultTagManager::SaveTagsTo(const IModTag::Vector& items, KxXMLNode& tagsNode) const
+	void DefaultTagManager::SaveTagsTo(const IModTag::Vector& items, kxf::XMLNode& tagsNode) const
 	{
 		tagsNode.ClearNode();
 		for (const auto& tag: items)
 		{
 			if (tag->IsOK())
 			{
-				KxXMLNode node = tagsNode.NewElement(wxS("Item"));
+				kxf::XMLNode node = tagsNode.NewElement(wxS("Item"));
 
 				// ID
-				const wxString id = tag->GetID();
+				const kxf::String id = tag->GetID();
 				node.SetAttribute(wxS("ID"), id);
 
 				// Expanded
 				node.NewElement(wxS("Expanded")).SetValue(tag->IsExpanded());
 
 				// Name
-				const wxString name = tag->GetName();
+				const kxf::String name = tag->GetName();
 				if (!tag->IsDefaultTag() && !name.IsEmpty() && name != id)
 				{
 					node.NewElement(wxS("Name")).SetValue(name);
@@ -141,7 +141,7 @@ namespace Kortex::ModTagManager
 				KxColor color = tag->GetColor();
 				if (color.IsOk())
 				{
-					KxXMLNode colorNode = node.NewElement(wxS("Color"));
+					kxf::XMLNode colorNode = node.NewElement(wxS("Color"));
 					colorNode.SetAttribute(wxS("R"), color.GetR());
 					colorNode.SetAttribute(wxS("G"), color.GetG());
 					colorNode.SetAttribute(wxS("B"), color.GetB());
@@ -163,7 +163,7 @@ namespace Kortex::ModTagManager
 		m_UserTags.clear();
 	}
 
-	void DefaultTagManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultTagManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		LoadTagsFrom(m_DefaultTags, managerNode.GetFirstChildElement(Application::OName::DefaultTags));
 	}

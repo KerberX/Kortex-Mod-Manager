@@ -70,7 +70,7 @@ namespace Kortex::DownloadManager
 		m_BroadcastReciever.UnbindAll();
 		IDownloadManager::OnExit();
 	}
-	void DefaultDownloadManager::OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode)
+	void DefaultDownloadManager::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode)
 	{
 		IDownloadManager::OnLoadInstance(instance, managerNode);
 	}
@@ -94,7 +94,7 @@ namespace Kortex::DownloadManager
 
 	std::unique_ptr<IDownloadExecutor> DefaultDownloadManager::NewDownloadExecutor(DownloadItem& item,
 																				   const KxURI& uri,
-																				   const wxString& localPath
+																				   const kxf::String& localPath
 	)
 	{
 		return std::make_unique<DownloadExecutor>(item, uri, localPath);
@@ -125,11 +125,11 @@ namespace Kortex::DownloadManager
 		}
 		return false;
 	}
-	bool DefaultDownloadManager::QueueSimpleDownload(const KxURI& uri, const wxString& localPath)
+	bool DefaultDownloadManager::QueueSimpleDownload(const KxURI& uri, const kxf::String& localPath)
 	{
 		if (uri)
 		{
-			wxString name;
+			kxf::String name;
 			if (!localPath.IsEmpty())
 			{
 				// Get file name from destination path

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "INotification.h"
 #include "IManager.h"
 #include <KxFramework/KxSingleton.h>
@@ -38,7 +38,7 @@ namespace Kortex
 		protected:
 			void OnInit() override;
 			void OnExit() override;
-			void OnLoadInstance(IGameInstance& instance, const KxXMLNode& managerNode) override;
+			void OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& managerNode) override;
 
 			virtual void QueueNotification(std::unique_ptr<INotification> notification) = 0;
 			virtual void OnNotificationAdded(INotification& notification) { }
@@ -72,17 +72,17 @@ namespace Kortex
 				QueueNotification(std::move(notification));
 			}
 			
-			static void Notify(const wxString& caption, const wxString& message, KxIconType iconID = KxICON_INFORMATION);
-			static void Notify(const wxString& caption, const wxString& message, const wxBitmap& bitmap = wxNullBitmap);
+			static void Notify(const kxf::String& caption, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const kxf::String& caption, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
-			static void Notify(const IModule& module, const wxString& message, KxIconType iconID = KxICON_INFORMATION);
-			static void Notify(const IModule& module, const wxString& message, const wxBitmap& bitmap = wxNullBitmap);
+			static void Notify(const IModule& module, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const IModule& module, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
-			static void Notify(const IManager& manager, const wxString& message, KxIconType iconID = KxICON_INFORMATION);
-			static void Notify(const IManager& manager, const wxString& message, const wxBitmap& bitmap = wxNullBitmap);
+			static void Notify(const IManager& manager, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const IManager& manager, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
-			static void Notify(const IModNetwork& modNetwork, const wxString& message, KxIconType iconID = KxICON_INFORMATION);
-			static void Notify(const IModNetwork& modNetwork, const wxString& message, const wxBitmap& bitmap = wxNullBitmap);
+			static void Notify(const IModNetwork& modNetwork, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const IModNetwork& modNetwork, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 			
 			template<class T, class... Args> static void Notify(Args&&... arg)
 			{

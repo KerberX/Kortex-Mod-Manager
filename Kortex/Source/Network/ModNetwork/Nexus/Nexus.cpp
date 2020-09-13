@@ -32,7 +32,7 @@ namespace Kortex::NetworkManager
 		}
 	}
 
-	std::unique_ptr<KxCURLSession> NexusModNetwork::NewCURLSession(const wxString& address, const wxString& apiKey) const
+	std::unique_ptr<KxCURLSession> NexusModNetwork::NewCURLSession(const kxf::String& address, const kxf::String& apiKey) const
 	{
 		auto session = INetworkManager::GetInstance()->NewCURLSession(address);
 
@@ -46,11 +46,11 @@ namespace Kortex::NetworkManager
 
 		return session;
 	}
-	wxString NexusModNetwork::GetAPIURL() const
+	kxf::String NexusModNetwork::GetAPIURL() const
 	{
 		return wxS("https://api.nexusmods.com/v1");
 	}
-	wxString NexusModNetwork::GetAPIKey() const
+	kxf::String NexusModNetwork::GetAPIKey() const
 	{
 		if (const NexusValidationReply* info = m_Auth.GetLastValidationReply())
 		{
@@ -65,7 +65,7 @@ namespace Kortex::NetworkManager
 	void NexusModNetwork::OnExit()
 	{
 	}
-	void NexusModNetwork::OnLoadInstance(IGameInstance& instance, const KxXMLNode& networkNode)
+	void NexusModNetwork::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& networkNode)
 	{
 		m_UpdateChecker.OnLoadInstance(instance, networkNode.GetFirstChildElement(wxS("UpdateChecker")));
 	}
@@ -82,18 +82,18 @@ namespace Kortex::NetworkManager
 		AddComponent<ModNetworkUpdateChecker>(m_UpdateChecker);
 	}
 
-	ResourceID NexusModNetwork::GetIcon() const
+	kxf::ResourceID NexusModNetwork::GetIcon() const
 	{
-		return ImageResourceID::ModNetwork_Nexus;
+		return Imagekxf::ResourceID::ModNetwork_Nexus;
 	}
-	wxString NexusModNetwork::GetName() const
+	kxf::String NexusModNetwork::GetName() const
 	{
 		return wxS("NexusMods");
 	}
 	
-	wxString NexusModNetwork::TranslateGameIDToNetwork(const GameID& id) const
+	kxf::String NexusModNetwork::TranslateGameIDToNetwork(const GameID& id) const
 	{
-		wxString networkID;
+		kxf::String networkID;
 		if (id.IsOK())
 		{
 			for (const auto& instance: IGameInstance::GetShallowInstances())
@@ -114,14 +114,14 @@ namespace Kortex::NetworkManager
 		KxString::MakeLower(networkID);
 		return networkID;
 	}
-	GameID NexusModNetwork::TranslateGameIDFromNetwork(const wxString& id) const
+	GameID NexusModNetwork::TranslateGameIDFromNetwork(const kxf::String& id) const
 	{
 		if (!id.IsEmpty())
 		{
 			for (const auto& instance: IGameInstance::GetShallowInstances())
 			{
 				const IVariableTable& table = instance->GetVariables();
-				wxString value = table.GetVariable(Variables::NexusDomainName).AsString();
+				kxf::String value = table.GetVariable(Variables::NexusDomainName).AsString();
 				if (KxComparator::IsEqual(id, value, true))
 				{
 					return instance->GetGameID();
@@ -129,7 +129,7 @@ namespace Kortex::NetworkManager
 			}
 
 			// Try names that doesn't match domain names
-			auto GetInstanceGameID = [&](const wxString& id)
+			auto GetInstanceGameID = [&](const kxf::String& id)
 			{
 				if (IGameInstance* instance = IGameInstance::GetShallowInstance(id))
 				{
@@ -150,11 +150,11 @@ namespace Kortex::NetworkManager
 		}
 		return {};
 	}
-	void NexusModNetwork::ConvertDescriptionText(wxString& description) const
+	void NexusModNetwork::ConvertDescriptionText(kxf::String& description) const
 	{
 		auto RAW = [](const auto& s)
 		{
-			return wxString::FromUTF8Unchecked(s);
+			return kxf::String::FromUTF8Unchecked(s);
 		};
 
 		// Trimming
@@ -182,7 +182,7 @@ namespace Kortex::NetworkManager
 		{
 			wxRegEx regEx(RAW(u8R"(\[NEXUS\s?ID\:\s?(\d+)\])"), wxRE_DEFAULT|wxRE_ADVANCED|wxRE_ICASE|wxRE_NEWLINE);
 			regEx.Matches(description, wxRE_DEFAULT|wxRE_ADVANCED|wxRE_ICASE|wxRE_NEWLINE);
-			regEx.ReplaceAll(&description, KxString::Format(RAW(u8R"(<a href="%1\/\1">\0</a>)"), GetModPageBaseURI().BuildUnescapedURI()));
+			regEx.ReplaceAll(&description, kxf::String::Format(RAW(u8R"(<a href="%1\/\1">\0</a>)"), GetModPageBaseURI().BuildUnescapedURI()));
 		}
 
 		// Image: [img]address[/img]
@@ -228,10 +228,10 @@ namespace Kortex::NetworkManager
 		}
 
 		// Simple container tags: [b]text[/b]
-		auto ExpSimple = [&description, &RAW](const wxString& tagName, const wxString& sTagNameRepl = wxEmptyString)
+		auto ExpSimple = [&description, &RAW](const kxf::String& tagName, const kxf::String& sTagNameRepl = wxEmptyString)
 		{
-			wxString regExQuery = wxString::Format(RAW(u8R"((?s)\[%s\](.*?)\[\/%s\])"), tagName, tagName);
-			wxString repl = wxString::Format(RAW(u8R"(<%s>\1</%s>)"), sTagNameRepl, sTagNameRepl);
+			kxf::String regExQuery = kxf::String::Format(RAW(u8R"((?s)\[%s\](.*?)\[\/%s\])"), tagName, tagName);
+			kxf::String repl = kxf::String::Format(RAW(u8R"(<%s>\1</%s>)"), sTagNameRepl, sTagNameRepl);
 
 			wxRegEx regEx(regExQuery, wxRE_DEFAULT|wxRE_ADVANCED|wxRE_ICASE|wxRE_NEWLINE);
 			if (regEx.Matches(description, wxRE_DEFAULT|wxRE_ADVANCED|wxRE_ICASE|wxRE_NEWLINE))
@@ -260,11 +260,11 @@ namespace Kortex::NetworkManager
 	
 	KxURI NexusModNetwork::GetModPageBaseURI(const GameID& id) const
 	{
-		return KxString::Format(wxS("https://www.nexusmods.com/%1/mods"), TranslateGameIDToNetwork(id)).MakeLower();
+		return kxf::String::Format(wxS("https://www.nexusmods.com/%1/mods"), TranslateGameIDToNetwork(id)).MakeLower();
 	}
 	KxURI NexusModNetwork::GetModPageURI(const ModRepositoryRequest& request) const
 	{
-		return KxString::Format(wxS("%1/%2"),
+		return kxf::String::Format(wxS("%1/%2"),
 								GetModPageBaseURI(request.GetGameID()).BuildUnescapedURI(),
 								request.GetModID().GetValue()
 		);
@@ -272,7 +272,7 @@ namespace Kortex::NetworkManager
 
 	std::optional<NexusGameReply> NexusModNetwork::GetGameInfo(const GameID& id) const
 	{
-		auto connection = NewCURLSession(KxString::Format("%1/games/%2",
+		auto connection = NewCURLSession(kxf::String::Format("%1/games/%2",
 										 GetAPIURL(), 
 										 TranslateGameIDToNetwork(id))
 		);
@@ -296,7 +296,7 @@ namespace Kortex::NetworkManager
 	}
 	std::vector<NexusGameReply> NexusModNetwork::GetGamesList() const
 	{
-		auto connection = NewCURLSession(KxString::Format("%1/games",
+		auto connection = NewCURLSession(kxf::String::Format("%1/games",
 										 GetAPIURL())
 		);
 		KxCURLReply reply = connection->Send();

@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include <KxFramework/KxHTMLWindow.h>
 #include "WebViewBackend/IWebView.h"
 
@@ -68,15 +68,15 @@ namespace Kortex::UI
 			{
 				m_Backend->Unload();
 			}
-			bool LoadText(const wxString& text) override
+			bool LoadText(const kxf::String& text) override
 			{
 				return m_Backend->LoadText(text);
 			}
-			bool LoadHTML(const wxString& html) override
+			bool LoadHTML(const kxf::String& html) override
 			{
 				return m_Backend->LoadHTML(html);
 			}
-			bool LoadURL(const wxString& url) override
+			bool LoadURL(const kxf::String& url) override
 			{
 				return m_Backend->LoadURL(url);
 			}

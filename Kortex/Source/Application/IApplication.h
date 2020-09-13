@@ -1,15 +1,15 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameInstance/GameID.h"
 #include "Resources/IImageProvider.h"
 #include "Options/Option.h"
 #include <KxFramework/KxXML.h>
 #include <KxFramework/KxSingleton.h>
 #include <KxFramework/KxTranslation.h>
-#include <KxFramework/KxVersion.h>
+#include <KxFramework/kxf::Version.h>
 #include <KxFramework/KxURI.h>
-class KxImageList;
-class KxImageSet;
+class kxf::ImageList;
+class kxf::ImageSet;
 
 namespace Kortex
 {
@@ -58,23 +58,23 @@ namespace Kortex
 
 			virtual void OnError(LogEvent& event) = 0;
 			virtual bool OnException() = 0;
-			wxString RethrowCatchAndGetExceptionInfo() const;
+			kxf::String RethrowCatchAndGetExceptionInfo() const;
 
 			virtual void OnGlobalConfigChanged(AppOption& option) = 0;
 			virtual void OnInstanceConfigChanged(AppOption& option, IGameInstance& instance) = 0;
 			virtual void OnProfileConfigChanged(AppOption& option, IGameProfile& profile) = 0;
 
 		public:
-			wxString GetRootFolder() const;
-			wxString GetExecutablePath() const;
-			wxString GetExecutableName() const;
+			kxf::String GetRootFolder() const;
+			kxf::String GetExecutablePath() const;
+			kxf::String GetExecutableName() const;
 
-			virtual wxString GetDataFolder() const = 0;
-			virtual wxString GetLogsFolder() const = 0;
-			virtual wxString GetUserSettingsFolder() const = 0;
-			virtual wxString GetUserSettingsFile() const = 0;
-			virtual wxString GetInstancesFolder() const = 0;
-			virtual wxString GetStartupInstanceID() const = 0;
+			virtual kxf::String GetDataFolder() const = 0;
+			virtual kxf::String GetLogsFolder() const = 0;
+			virtual kxf::String GetUserSettingsFolder() const = 0;
+			virtual kxf::String GetUserSettingsFile() const = 0;
+			virtual kxf::String GetInstancesFolder() const = 0;
+			virtual kxf::String GetStartupInstanceID() const = 0;
 
 			virtual bool IsTranslationLoaded() const = 0;
 			virtual const KxTranslation& GetTranslation() const = 0;
@@ -84,8 +84,8 @@ namespace Kortex
 			virtual const IImageProvider& GetImageProvider() const = 0;
 
 			virtual IVariableTable& GetVariables() = 0;
-			virtual wxString ExpandVariablesLocally(const wxString& variables) const = 0;
-			virtual wxString ExpandVariables(const wxString& variables) const = 0;
+			virtual kxf::String ExpandVariablesLocally(const kxf::String& variables) const = 0;
+			virtual kxf::String ExpandVariables(const kxf::String& variables) const = 0;
 			
 			virtual bool OpenInstanceSelectionDialog() = 0;
 			virtual bool Uninstall() = 0;
@@ -95,23 +95,23 @@ namespace Kortex
 			bool IsSystem64Bit() const;
 			bool IsAnotherRunning() const;
 
-			bool QueueDownloadToMainProcess(const wxString& link);
-			std::optional<wxString> GetLinkFromCommandLine() const;
+			bool QueueDownloadToMainProcess(const kxf::String& link);
+			std::optional<kxf::String> GetLinkFromCommandLine() const;
 
 			wxCmdLineParser& GetCmdLineParser() const;
-			wxString FormatCommandLine(const CmdLineParameters& parameters);
-			bool ScheduleRestart(const wxString& commandLine = {}, std::optional<wxTimeSpan> timeout = {});
+			kxf::String FormatCommandLine(const CmdLineParameters& parameters);
+			bool ScheduleRestart(const kxf::String& commandLine = {}, std::optional<wxTimeSpan> timeout = {});
 
 			void EnableIE10Support();
 			void DisableIE10Support();
 
-			wxString GetID() const;
-			wxString GetName() const;
-			wxString GetShortName() const;
-			wxString GetDeveloper() const;
-			KxVersion GetVersion() const;
-			KxVersion GetWxWidgetsVersion() const;
-			KxXMLDocument& GetGlobalConfig() const;
+			kxf::String GetID() const;
+			kxf::String GetName() const;
+			kxf::String GetShortName() const;
+			kxf::String GetDeveloper() const;
+			kxf::Version GetVersion() const;
+			kxf::Version GetWxWidgetsVersion() const;
+			kxf::XMLDocument& GetGlobalConfig() const;
 			IModule& GetModule() const;
 
 			wxWindow* GetActiveWindow() const;
@@ -125,8 +125,8 @@ namespace Kortex
 			BroadcastProcessor& GetBroadcastProcessor();
 			LoadTranslationStatus TryLoadTranslation(KxTranslation& translation,
 													 const KxTranslation::AvailableMap& availableTranslations,
-													 const wxString& component,
-													 const wxString& desiredLocale = wxEmptyString
+													 const kxf::String& component,
+													 const kxf::String& desiredLocale = wxEmptyString
 			) const;
 	};
 }

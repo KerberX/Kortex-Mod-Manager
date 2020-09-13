@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "GameData/IGameSave.h"
 #include "Application/IManager.h"
 #include <KxFramework/KxSingleton.h>

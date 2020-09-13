@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
 #include "GameMods/IGameMod.h"
 #include "VirtualFileSystem/IVirtualFileSystem.h"
@@ -28,7 +28,7 @@ namespace Kortex
 		public KxRTTI::ExtendInterface<IModManager, ManagerWithTypeInfo<IManager, ModManager::Internal::TypeInfo>>,
 		public KxSingletonPtr<IModManager>
 	{
-		KxDecalreIID(IModManager, {0xec61c172, 0xa750, 0x4be9, {0xb0, 0x9d, 0x27, 0xe8, 0x8c, 0x49, 0x36, 0xb2}});
+		KxRTTI_DeclareIID(IModManager, {0xec61c172, 0xa750, 0x4be9, {0xb0, 0x9d, 0x27, 0xe8, 0x8c, 0x49, 0x36, 0xb2}});
 
 		public:
 			using GetModsFlags = ModManager::GetModsFlags;
@@ -74,19 +74,19 @@ namespace Kortex
 			bool MoveModsAfter(const IGameMod::RefVector& movedMods, const IGameMod& anchor);
 			bool ChangeModPriority(IGameMod& movedMod, intptr_t targetPriority);
 
-			virtual IGameMod* FindModByID(const wxString& modID) const = 0;
-			virtual IGameMod* FindModByName(const wxString& modName) const = 0;
-			virtual IGameMod* FindModBySignature(const wxString& signature) const = 0;
-			virtual IGameMod* FindModByModNetwork(const wxString& sourceName, NetworkModInfo modInfo) const = 0;
+			virtual IGameMod* FindModByID(const kxf::String& modID) const = 0;
+			virtual IGameMod* FindModByName(const kxf::String& modName) const = 0;
+			virtual IGameMod* FindModBySignature(const kxf::String& signature) const = 0;
+			virtual IGameMod* FindModByModNetwork(const kxf::String& sourceName, NetworkModInfo modInfo) const = 0;
 			virtual IGameMod* FindModByModNetwork(const IModNetwork& modNetwork, NetworkModInfo modInfo) const = 0;
 			
-			virtual bool IsModActive(const wxString& modID) const = 0;
-			virtual bool ChangeModID(IGameMod& mod, const wxString& newID) = 0;
-			virtual void ExportModList(const wxString& outputFilePath) const = 0;
+			virtual bool IsModActive(const kxf::String& modID) const = 0;
+			virtual bool ChangeModID(IGameMod& mod, const kxf::String& newID) = 0;
+			virtual void ExportModList(const kxf::String& outputFilePath) const = 0;
 
-			virtual void InstallEmptyMod(const wxString& name) = 0;
-			virtual void InstallModFromFolder(const wxString& sourcePath, const wxString& name, bool linkLocation = false) = 0;
-			virtual void InstallModFromPackage(const wxString& packagePath) = 0;
+			virtual void InstallEmptyMod(const kxf::String& name) = 0;
+			virtual void InstallModFromFolder(const kxf::String& sourcePath, const kxf::String& name, bool linkLocation = false) = 0;
+			virtual void InstallModFromPackage(const kxf::String& packagePath) = 0;
 			virtual void UninstallMod(IGameMod& mod) = 0;
 			virtual void EraseMod(IGameMod& mod) = 0;
 

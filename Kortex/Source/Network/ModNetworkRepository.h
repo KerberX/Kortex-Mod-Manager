@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "IModNetwork.h"
 #include "ModRepositoryRequest.h"
@@ -24,8 +24,8 @@ namespace Kortex
 			virtual void OnDownloadMenu(KxMenu& menu, DownloadItem* download = nullptr) = 0;
 			virtual bool QueryDownload(const KxFileItem& fileItem, const DownloadItem& download, ModFileReply& fileReply) = 0;
 			
-			virtual bool QueueDownload(const wxString& link) = 0;
-			virtual wxAny GetDownloadTarget(const wxString& link) = 0;
+			virtual bool QueueDownload(const kxf::String& link) = 0;
+			virtual wxAny GetDownloadTarget(const kxf::String& link) = 0;
 
 			virtual std::optional<ModInfoReply> GetModInfo(const ModRepositoryRequest& request) const = 0;
 			virtual std::optional<ModEndorsementReply> EndorseMod(const ModRepositoryRequest& request, ModEndorsement state) = 0;

@@ -1,8 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include <KxFramework/KxIndexedEnum.h>
-class KxXMLNode;
+class kxf::XMLNode;
 
 namespace Kortex::GameConfig
 {
@@ -66,7 +66,7 @@ namespace Kortex::GameConfig
 				{
 					return DataTypeID::Bool;
 				}
-				if constexpr(std::is_same_v<T, wxString> || std::is_same_v<T, const char*> || std::is_same_v<T, const wchar_t*>)
+				if constexpr(std::is_same_v<T, kxf::String> || std::is_same_v<T, const char*> || std::is_same_v<T, const wchar_t*>)
 				{
 					return DataTypeID::String;
 				}
@@ -89,7 +89,7 @@ namespace Kortex::GameConfig
 				:DataTypeValue(value)
 			{
 			}
-			TypeID(const wxString& value)
+			TypeID(const kxf::String& value)
 			{
 				FromString(value);
 			}
@@ -142,7 +142,7 @@ namespace Kortex::GameConfig
 
 		public:
 			DataType() = default;
-			DataType(const KxXMLNode& node);
+			DataType(const kxf::XMLNode& node);
 
 		public:
 			bool IsOK() const;

@@ -25,7 +25,7 @@ namespace Kortex::Notifications
 		{
 			case ColumnRef::ActionRemove:
 			{
-				return ImageProvider::GetBitmap(ImageResourceID::BellMinus);
+				return ImageProvider::GetBitmap(Imagekxf::ResourceID::BellMinus);
 			}
 			case ColumnRef::Icon:
 			{
@@ -118,9 +118,9 @@ namespace Kortex::Notifications
 		}
 	}
 
-	wxString DisplayModel::FormatText(const INotification& notification) const
+	kxf::String DisplayModel::FormatText(const INotification& notification) const
 	{
-		return KxString::Format(wxS("<font color='%1'>%2</font>\r\n%3"),
+		return kxf::String::Format(wxS("<font color='%1'>%2</font>\r\n%3"),
 								KxUxTheme::GetDialogMainInstructionColor(*GetView()).ToString(KxColor::C2S::HTML),
 								notification.GetCaption(),
 								notification.GetMessage()
