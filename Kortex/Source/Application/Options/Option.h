@@ -42,7 +42,8 @@ namespace Kortex::Application
 			kxf::XMLDocument& GetXML() const;
 
 		public:
-			template<class... Args> GlobalOption(Args&&... arg)
+			template<class... Args>
+			GlobalOption(Args&&... arg)
 			{
 				Create(Disposition::Global, GetXML(), std::forward<Args>(arg)...);
 			}
@@ -55,7 +56,8 @@ namespace Kortex::Application
 			kxf::XMLDocument& GetXML(IConfigurableGameInstance* instance) const;
 
 		public:
-			template<class... Args> InstanceOption(IGameInstance* instance, Args&&... arg)
+			template<class... Args>
+			InstanceOption(IGameInstance* instance, Args&&... arg)
 			{
 				if (IConfigurableGameInstance* configurableInstance = GetConfigurableInstance(instance))
 				{
@@ -71,7 +73,8 @@ namespace Kortex::Application
 			IGameInstance* GetActiveInstance() const;
 
 		public:
-			template<class... Args> ActiveInstanceOption(Args&&... arg)
+			template<class... Args>
+			ActiveInstanceOption(Args&&... arg)
 				:InstanceOption(GetActiveInstance(), std::forward<Args>(arg)...)
 			{
 			}
@@ -83,7 +86,8 @@ namespace Kortex::Application
 			kxf::XMLDocument& GetXML(IGameProfile& profile) const;
 
 		public:
-			template<class... Args> ProfileOption(IGameProfile* profile, Args&&... arg)
+			template<class... Args>
+			ProfileOption(IGameProfile* profile, Args&&... arg)
 			{
 				Create(Disposition::Profile, GetXML(*profile), std::forward<Args>(arg)...);
 				AssignProfile(profile);
@@ -105,7 +109,8 @@ namespace Kortex::Application
 
 namespace Kortex::Application
 {
-	template<class T> class WithOptions
+	template<class T>
+	class WithOptions
 	{
 		protected:
 			const T& CSelf() const
@@ -118,33 +123,42 @@ namespace Kortex::Application
 			}
 
 		public:
-			template<class... Args> GlobalOption GetGlobalOption(Args&&... arg) const
+			template<class... Args>
+			GlobalOption GetGlobalOption(Args&&... arg) const
 			{
 				return GlobalOption(NCSelf(), AppOption::MakeXPath(std::forward<Args>(arg)...));
 			}
-			template<class... Args> ActiveInstanceOption GetAInstanceOption(Args&&... arg) const
+			
+			template<class... Args>
+			ActiveInstanceOption GetAInstanceOption(Args&&... arg) const
 			{
 				return ActiveInstanceOption(NCSelf(), AppOption::MakeXPath(std::forward<Args>(arg)...));
 			}
-			template<class... Args> ActiveProfileOption GetAProfileOption(Args&&... arg) const
+			
+			template<class... Args>
+			ActiveProfileOption GetAProfileOption(Args&&... arg) const
 			{
 				return ActiveProfileOption(NCSelf(), AppOption::MakeXPath(std::forward<Args>(arg)...));
 			}
 	};
 
-	template<class T> class WithInstanceOptions: public WithOptions<T>
+	template<class T>
+	class WithInstanceOptions: public WithOptions<T>
 	{
 		public:
-			template<class... Args> InstanceOption GetInstanceOption(Args&&... arg) const
+			template<class... Args>
+			InstanceOption GetInstanceOption(Args&&... arg) const
 			{
 				return InstanceOption(&NCSelf(), NCSelf(), AppOption::MakeXPath(std::forward<Args>(arg)...));
 			}
 	};
 
-	template<class T> class WithProfileOptions: public WithOptions<T>
+	template<class T>
+	class WithProfileOptions: public WithOptions<T>
 	{
 		public:
-			template<class... Args> ProfileOption GetProfileOption(Args&&... arg) const
+			template<class... Args>
+			ProfileOption GetProfileOption(Args&&... arg) const
 			{
 				return ProfileOption(&NCSelf(), NCSelf(), AppOption::MakeXPath(std::forward<Args>(arg)...));
 			}
@@ -153,24 +167,32 @@ namespace Kortex::Application
 
 namespace Kortex::Application
 {
-	template<class T, class... Args> GlobalOption GetGlobalOptionOf(Args&&... arg)
+	template<class T, class... Args>
+	GlobalOption GetGlobalOptionOf(Args&&... arg)
 	{
 		return T::GetInstance()->GetGlobalOption(std::forward<Args>(arg)...);
 	}
-	template<class T, class... Args> ActiveInstanceOption GetAInstanceOptionOf(Args&&... arg)
+	
+	template<class T, class... Args>
+	ActiveInstanceOption GetAInstanceOptionOf(Args&&... arg)
 	{
 		return T::GetInstance()->GetAInstanceOption(std::forward<Args>(arg)...);
 	}
-	template<class T, class... Args> ActiveProfileOption GetAProfileOptionOf(Args&&... arg)
+	
+	template<class T, class... Args>
+	ActiveProfileOption GetAProfileOptionOf(Args&&... arg)
 	{
 		return T::GetInstance()->GetAProfileOption(std::forward<Args>(arg)...);
 	}
 
-	template<class T, class... Args> InstanceOption GetInstanceOptionOf(Args&&... arg)
+	template<class T, class... Args>
+	InstanceOption GetInstanceOptionOf(Args&&... arg)
 	{
 		return T::GetInstance()->GetInstanceOption(std::forward<Args>(arg)...);
 	}
-	template<class T, class... Args> ProfileOption GetProfileOptionOf(Args&&... arg)
+	
+	template<class T, class... Args>
+	ProfileOption GetProfileOptionOf(Args&&... arg)
 	{
 		return T::GetInstance()->GetProfileOption(std::forward<Args>(arg)...);
 	}

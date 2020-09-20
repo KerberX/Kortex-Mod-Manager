@@ -3,8 +3,8 @@
 #include "VirtualFileSystem/IVFSService.h"
 #include "VirtualFileSystem/IVirtualFileSystem.h"
 #include "IPC/FSController.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxProcess.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxProcess.h>
 
 namespace Kortex::VirtualFileSystem
 {

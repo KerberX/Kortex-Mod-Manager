@@ -5,7 +5,7 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/GameConfig.hpp>
 #include <Kortex/Utility.hpp>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace Kortex::GameConfig
 {
@@ -27,14 +27,14 @@ namespace Kortex::GameConfig
 		m_DisplayModel.LoadView();
 
 		// Buttons
-		m_SaveButton = new KxButton(this, KxID_NONE, KTr("Controller.SaveChanges.Save"));
+		m_SaveButton = new KxButton(this, wxID_NONE, KTr("Controller.SaveChanges.Save"));
 		m_SaveButton->Bind(wxEVT_BUTTON, &Workspace::OnSaveButton, this);
-		m_SaveButton->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Disk));
+		m_SaveButton->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Disk));
 		m_SaveButton->Disable();
 
-		m_DiscardButton = new KxButton(this, KxID_NONE, KTr("Controller.SaveChanges.Discard"));
+		m_DiscardButton = new KxButton(this, wxID_NONE, KTr("Controller.SaveChanges.Discard"));
 		m_DiscardButton->Bind(wxEVT_BUTTON, &Workspace::OnDiscardButton, this);
-		m_DiscardButton->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossWhite));
+		m_DiscardButton->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::CrossWhite));
 		m_DiscardButton->Disable();
 
 		wxBoxSizer* buttonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -42,7 +42,7 @@ namespace Kortex::GameConfig
 
 		buttonSizer->AddStretchSpacer();
 		buttonSizer->Add(m_SaveButton);
-		buttonSizer->Add(m_DiscardButton, 0, wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		buttonSizer->Add(m_DiscardButton, 0, wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 		return true;
 	}
 	bool Workspace::OnOpenWorkspace()
@@ -53,7 +53,7 @@ namespace Kortex::GameConfig
 	{
 		// Workspace controller
 		/*
-		if (GetWorkspaceController()->AskForSave() == KxID_OK)
+		if (GetWorkspaceController()->AskForSave() == wxID_OK)
 		{
 			IMainWindow::GetInstance()->ClearStatus(1);
 			return true;

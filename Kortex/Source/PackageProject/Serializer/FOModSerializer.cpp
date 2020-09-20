@@ -21,7 +21,7 @@
 #include "Network/ModNetwork/LoversLab.h"
 #include "Network/ModNetwork/TESALL.h"
 #include "Utility/UnsortedUnique.h"
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::PackageProject
 {
@@ -473,7 +473,7 @@ namespace Kortex::PackageProject
 				entry.SetPath(MakeProjectPath(headerImageNode.GetAttribute("path")));
 				entry.SetVisible(headerImageNode.GetAttributeBool("showImage", true));
 				entry.SetFadeEnabled(headerImageNode.GetAttributeBool("showFade", entry.IsVisible()));
-				entry.SetSize(wxSize(wxDefaultCoord, headerImageNode.GetAttributeInt("height", wxDefaultCoord)));
+				entry.SetSize(kxf::Size(wxDefaultCoord, headerImageNode.GetAttributeInt("height", wxDefaultCoord)));
 	
 				interfaceConfig.SetHeaderImage(entry.GetPath());
 			}

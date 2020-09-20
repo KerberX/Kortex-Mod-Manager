@@ -3,7 +3,7 @@
 #include "GameData/IPluginManager.h"
 #include "Application/AppOption.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace
 {

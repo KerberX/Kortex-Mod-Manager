@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Common.h"
-#include <KxFramework/KxURI.h>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxURI.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 #include <wx/clipbrd.h>
 
 namespace
@@ -31,7 +31,7 @@ namespace Kortex::Utility
 		return false;
 	}
 
-	kxf::String GetResolutionRatio(const wxSize& resolution)
+	kxf::String GetResolutionRatio(const kxf::Size& resolution)
 	{
 		auto MakeRatio = [](double x, double y) constexpr -> int
 		{

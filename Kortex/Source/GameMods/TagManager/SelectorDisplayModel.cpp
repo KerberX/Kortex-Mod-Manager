@@ -85,7 +85,7 @@ namespace Kortex::ModTagManager
 			{
 				case ColumnID::Name:
 				{
-					wxBitmap icon = !tag->IsDefaultTag() ? ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall) : wxNullBitmap;
+					wxBitmap icon = !tag->IsDefaultTag() ? ImageProvider::GetBitmap(ImageResourceID::PlusSmall) : wxNullBitmap;
 					value = KxDataViewBitmapTextToggleValue(m_TagStore->HasTag(*tag), tag->GetName(), icon, KxDataViewBitmapTextToggleValue::CheckBox);
 					break;
 				}

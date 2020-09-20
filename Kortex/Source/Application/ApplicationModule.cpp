@@ -2,7 +2,7 @@
 #include "ApplicationModule.h"
 #include "SystemApplication.h"
 #include "INotificationCenter.h"
-#include "Resources/Imagekxf::ResourceID.h"
+#include "Resources/ImageResourceID.h"
 
 namespace Kortex::Application::Internal
 {
@@ -20,7 +20,7 @@ namespace Kortex::Application::Internal
 	}
 	kxf::ResourceID ApplicationModuleInfo::GetImageID() const
 	{
-		return Imagekxf::ResourceID::KortexLogoSmall;
+		return ImageResourceID::KortexLogoSmall;
 	}
 }
 

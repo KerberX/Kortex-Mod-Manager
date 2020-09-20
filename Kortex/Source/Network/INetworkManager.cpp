@@ -4,9 +4,9 @@
 #include "ModNetworkRepository.h"
 #include <Kortex/NetworkManager.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxWebSocket.h>
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxSystem.h>
+#include <kxf::UI::Framework/KxWebSocket.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxSystem.h>
 
 namespace
 {

@@ -4,8 +4,8 @@
 #include "Network/ModNetworkRepository.h"
 #include "DownloadEvent.h"
 #include "IDownloadExecutor.h"
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex
 {

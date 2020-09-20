@@ -3,7 +3,7 @@
 #include "Programs/IProgramItem.h"
 #include "Programs/IProgramManager.h"
 #include "Application/IWorkspace.h"
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::ProgramManager
 {

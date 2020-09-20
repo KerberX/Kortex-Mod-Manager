@@ -4,8 +4,8 @@
 #include "WebViewBackend/Sciter.h"
 #include "WebViewBackend/InternetExplorer.h"
 #include "Utility/UI.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex::UI
 {

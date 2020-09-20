@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "GameMods/IModDispatcher.h"
 #include "Application/BroadcastProcessor.h"
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 namespace Kortex::ModManager
 {

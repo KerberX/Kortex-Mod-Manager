@@ -4,17 +4,17 @@
 #include "PageBase.h"
 #include "PackageProject/ModPackageProject.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::PackageDesigner
 {
-	KxMenu* ListModel::CreateAllItemsMenu(KxMenu& menu)
+	kxf::UI::Menu* ListModel::CreateAllItemsMenu(kxf::UI::Menu& menu)
 	{
-		KxMenu* subMenu = new KxMenu();
-		KxMenuItem* item = menu.Add(subMenu, KTr("Generic.All"));
+		kxf::UI::Menu* subMenu = new kxf::UI::Menu();
+		kxf::UI::MenuItem* item = menu.Add(subMenu, KTr("Generic.All"));
 		item->Enable(!IsEmpty());
 
-		subMenu->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+		subMenu->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 		{
 			if (void* clientData = event.GetItem()->GetClientData())
 			{
@@ -24,10 +24,10 @@ namespace Kortex::PackageDesigner
 		});
 		return subMenu;
 	}
-	KxMenuItem* ListModel::CreateAllItemsMenuEntry(KxMenu* menu, int columnID)
+	kxf::UI::MenuItem* ListModel::CreateAllItemsMenuEntry(kxf::UI::Menu* menu, int columnID)
 	{
 		KxDataViewColumn* column = GetView()->GetColumn(columnID);
-		KxMenuItem* item = menu->Add(new KxMenuItem(column->GetTitle()));
+		kxf::UI::MenuItem* item = menu->Add(new kxf::UI::MenuItem(column->GetTitle()));
 		item->SetClientData(column);
 
 		return item;

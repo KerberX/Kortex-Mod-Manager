@@ -11,7 +11,8 @@ namespace
 	using namespace Kortex::Application;
 	using Disposition = BasicOption::Disposition;
 
-	template<class... Args> kxf::XMLNode InitNode(Disposition disposition, kxf::XMLDocument& xml, Args&&... arg)
+	template<class... Args>
+	kxf::XMLNode InitNode(Disposition disposition, kxf::XMLDocument& xml, Args&&... arg)
 	{
 		const wxChar* root = wxS("");
 		switch (disposition)
@@ -37,11 +38,15 @@ namespace
 		xPath.Replace(wxS("::"), wxS("-"));
 		return xml.ConstructElement(xPath);
 	}
-	template<class... Args> kxf::XMLNode InitNodeUsingModule(Disposition disposition, kxf::XMLDocument& xml, const  IModule& module, Args&&... arg)
+	
+	template<class... Args>
+	kxf::XMLNode InitNodeUsingModule(Disposition disposition, kxf::XMLDocument& xml, const  IModule& module, Args&&... arg)
 	{
 		return InitNode(disposition, xml, module.GetModuleInfo().GetID(), std::forward<Args>(arg)...);
 	}
-	template<class... Args> kxf::XMLNode InitNodeUsingManager(Disposition disposition, kxf::XMLDocument& xml, const IManager& manager, Args&&... arg)
+	
+	template<class... Args>
+	kxf::XMLNode InitNodeUsingManager(Disposition disposition, kxf::XMLDocument& xml, const IManager& manager, Args&&... arg)
 	{
 		return InitNodeUsingModule(disposition, xml, manager.GetModule(), manager.GetManagerInfo().GetID(), std::forward<Args>(arg)...);
 	}

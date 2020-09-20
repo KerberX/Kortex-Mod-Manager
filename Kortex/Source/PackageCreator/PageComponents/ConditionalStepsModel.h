@@ -3,7 +3,7 @@
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/ComponentsSection.h"
 #include "PackageProject/FileDataSection.h"
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 
 namespace Kortex::PackageDesigner::PageComponentsNS
 {

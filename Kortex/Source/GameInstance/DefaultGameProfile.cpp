@@ -5,7 +5,7 @@
 #include <Kortex/ModManager.hpp>
 #include <Kortex/PluginManager.hpp>
 #include "Utility/Log.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::GameInstance
 {

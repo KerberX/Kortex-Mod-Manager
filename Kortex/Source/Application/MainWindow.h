@@ -70,31 +70,31 @@ namespace Kortex::Application
 			wxBoxSizer* m_ToolBarSizer = nullptr;
 
 			// StatusBar
-			KxStatusBarEx* m_StatusBar = nullptr;
+			kxf::UI::StatusBarEx* m_StatusBar = nullptr;
 		
 			// ToolBar
-			KxAuiToolBar* m_ToolBar = nullptr;
-			KxAuiToolBarItem* m_ToolBar_MainMenu = nullptr;
-			size_t m_ToolBar_InsertionIndex = KxAuiToolBarItem::npos;
+			kxf::UI::AuiToolBar* m_ToolBar = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_MainMenu = nullptr;
+			size_t m_ToolBar_InsertionIndex = std::numeric_limits<size_t>::max();
 
-			KxAuiToolBar* m_QuickToolBar = nullptr;
-			KxAuiToolBarItem* m_QuickToolBar_QuickSettingsMenu = nullptr;
-			KxAuiToolBarItem* m_QuickToolBar_Help = nullptr;
+			kxf::UI::AuiToolBar* m_QuickToolBar = nullptr;
+			kxf::UI::AuiToolBarItem* m_QuickToolBar_QuickSettingsMenu = nullptr;
+			kxf::UI::AuiToolBarItem* m_QuickToolBar_Help = nullptr;
 
 		private:
 			void CreateToolBar();
 			void CreateStatusBar();
 			void CreateBaseLayout();
-			virtual WXLRESULT MSWWindowProc(WXUINT msg, WXWPARAM wParam, WXLPARAM lParam) override;
+			WXLRESULT MSWWindowProc(WXUINT msg, WXWPARAM wParam, WXLPARAM lParam) override;
 
 		private:
 			void CreateWorkspaces();
-			void CreateMainMenu(KxMenu& mainMenu);
-			void AddLocationsMenu(KxMenu& mainMenu);
+			void CreateMainMenu(kxf::UI::Menu& mainMenu);
+			void AddLocationsMenu(kxf::UI::Menu& mainMenu);
 
-			void OnQSMButton(KxAuiToolBarEvent& event);
+			void OnQSMButton(kxf::UI::AuiToolBarEvent& event);
 			void OnWindowClose(wxCloseEvent& event);
-			void OnChangeInstance(KxMenuEvent& event);
+			void OnChangeInstance(kxf::UI::MenuEvent& event);
 
 			void OnMainFSToggled(bool isActive);
 			void OnMainFSToggled(VirtualFSEvent& event);
@@ -107,23 +107,23 @@ namespace Kortex::Application
 			bool Create(wxWindow* parent = nullptr);
 
 		public:
-			KxFrame& GetFrame() override
+			kxf::UI::Frame& GetFrame() override
 			{
 				return *this;
 			}
-			KxAuiToolBar& GetMainToolBar() override
+			kxf::UI::AuiToolBar& GetMainToolBar() override
 			{
 				return *m_ToolBar;
 			}
-			KxAuiToolBar& GetQuickToolBar() override
+			kxf::UI::AuiToolBar& GetQuickToolBar() override
 			{
 				return *m_QuickToolBar;
 			}
-			KxStatusBarEx& GetStatusBar() override
+			kxf::UI::StatusBarEx& GetStatusBar() override
 			{
 				return *m_StatusBar;
 			}
-			KxMenu& GetWorkspacesMenu() override
+			kxf::UI::Menu& GetWorkspacesMenu() override
 			{
 				return m_WorkspacesMenu;
 			}
@@ -137,7 +137,7 @@ namespace Kortex::Application
 			void SetStatusProgress(int current) override;
 			void SetStatusProgress(int64_t current, int64_t total) override;
 
-			KxAuiToolBarItem* AddToolBarItem(IWorkspace& workspace) override;
-			KxMenuItem* AddToolBarMenuItem(IWorkspace& workspace) override;
+			kxf::UI::AuiToolBarItem* AddToolBarItem(IWorkspace& workspace) override;
+			kxf::UI::MenuItem* AddToolBarMenuItem(IWorkspace& workspace) override;
 	};
 }

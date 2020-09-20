@@ -49,6 +49,6 @@ namespace Kortex::PackageDesigner
 				return m_StandardRequirements.FindItem(id);
 			}
 
-			void OnModListMenu(KxMenu& menu, const std::vector<IGameMod*>& selectedMods, IGameMod* focusedMod) override;
+			void OnModListMenu(kxf::UI::Menu& menu, const std::vector<IGameMod*>& selectedMods, IGameMod* focusedMod) override;
 	};
 }

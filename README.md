@@ -82,11 +82,11 @@ Close the program, delete the VFS service by typing the command `sc delete Korte
 **This paragraph is under construction**
 
 ### Dependencies
-- [KxFramework](https://github.com/KerberX/KxFramework)
+- [kxf::UI::Framework](https://github.com/KerberX/kxf::UI::Framework)
 - [KxVirtualFileSystem](https://github.com/KerberX/KxVirtualFileSystem)
 - [LOOT API](https://github.com/loot/loot-api) (prebuild binaries included)
 
 ### MSVC2019+
-- Install **KxFramework** (using [VCPkg](https://github.com/microsoft/vcpkg)) following its building instructions.
+- Install **kxf::UI::Framework** (using [VCPkg](https://github.com/microsoft/vcpkg)) following its building instructions.
 - Install additional packages with VCPkg: `kxvfs`, ~~`libloot`~~ (not available yet, manual installation is required for now).
 - Build **Release** configuration for x86 and x64.

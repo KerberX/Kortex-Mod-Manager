@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "String.h"
-#include <KxFramework/KxUtility.h>
+#include <kxf::UI::Framework/KxUtility.h>
 
 namespace Kortex::Utility::String
 {

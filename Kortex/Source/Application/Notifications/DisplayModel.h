@@ -1,13 +1,22 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/DataView2/DataView2.h>
+#include <kxf/UI/Controls/DataView.h>
 #include "BaseNotification.h"
 #include "Utility/BitmapSize.h"
 
 namespace Kortex::Notifications
 {
-	class DisplayModel: public KxDataView2::VirtualListModel, public KxDataView2::TypeAliases
+	class DisplayModel: public kxf::UI::DataView::VirtualListModel
 	{
+		private:
+			using Node = kxf::UI::DataView::Node;
+			using Column = kxf::UI::DataView::Column;
+			using CellState = kxf::UI::DataView::CellState;
+			using CellAttribute = kxf::UI::DataView::CellAttribute;
+
+			using ToolTip = kxf::UI::DataView::ToolTip;
+			using ItemEvent = kxf::UI::DataView::ItemEvent;
+
 		private:
 			Utility::BitmapSize m_BitmapSize;
 			INotification::Vector& m_Notifications;
@@ -15,10 +24,10 @@ namespace Kortex::Notifications
 		private:
 			wxAny GetValue(const Node& node, const Column& column) const override;
 			ToolTip GetToolTip(const Node& node, const Column& column) const override;
-			bool GetAttributes(const Node& node, const Column& column, const CellState& cellState, CellAttributes& attributes) const override;
+			bool GetAttributes(const Node& node, const Column& column, const CellState& cellState, CellAttribute& attributes) const override;
 
-			void OnSelectItem(Event& event);
-			void OnActivateItem(Event& event);
+			void OnSelectItem(ItemEvent& event);
+			void OnActivateItem(ItemEvent& event);
 
 			const INotification& GetItem(const Node& node) const
 			{

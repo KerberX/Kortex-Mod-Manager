@@ -3,7 +3,7 @@
 #include "PackageProject/Serializer.h"
 #include "PackageProject/Common.h"
 #include "PackageProject/ComponentsSection.h"
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex
 {

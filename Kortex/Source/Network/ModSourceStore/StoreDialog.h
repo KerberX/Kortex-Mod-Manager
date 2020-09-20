@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "StoreDisplayModel.h"
-#include <KxFramework/KxStdDialog.h>
-#include <KxFramework/KxMenu.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
 class KxButton;
 
 namespace Kortex::ModSource
@@ -13,7 +13,7 @@ namespace Kortex::ModSource
 			wxWindow* m_ViewPane = nullptr;
 			KxButton* m_AddButton = nullptr;
 			KxButton* m_RemoveButton = nullptr;
-			KxMenu m_AddButtonMenu;
+			kxf::UI::Menu m_AddButtonMenu;
 
 		private:
 			wxWindow* GetDialogMainCtrl() const override

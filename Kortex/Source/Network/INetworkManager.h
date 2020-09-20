@@ -3,12 +3,12 @@
 #include "Application/IManager.h"
 #include "Common.h"
 #include "IModNetwork.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxURI.h>
 class IMainWindow;
-class KxAuiToolBarItem;
-class KxAuiToolBarEvent;
+class kxf::UI::AuiToolBarItem;
+class kxf::UI::AuiToolBarEvent;
 class KxCURLSession;
 class KxIWebSocketClient;
 
@@ -31,7 +31,7 @@ namespace Kortex
 	class INetworkManager:
 		public ManagerWithTypeInfo<IManager, NetworkManager::Internal::TypeInfo>,
 		public Application::ManagerWithToolbarButton,
-		public KxSingletonPtr<INetworkManager>
+		public kxf::SingletonPtr<INetworkManager>
 	{
 		friend class IMainWindow;
 

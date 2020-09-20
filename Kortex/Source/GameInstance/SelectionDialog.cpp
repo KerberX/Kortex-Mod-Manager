@@ -3,48 +3,48 @@
 #include "CreationDialog.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/GameInstance.hpp>
-#include "Application/Resources/Imagekxf::ResourceID.h"
+#include "Application/Resources/ImageResourceID.h"
 #include "Application/Options/CmdLineDatabase.h"
 #include "Utility/Common.h"
 #include "Utility/BitmapSize.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxBitmapComboBox.h>
-#include <KxFramework/KxListBox.h>
-#include <KxFramework/KxTextBox.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxShellLink.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxSystem.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
+#include <kxf::UI::Framework/KxBitmapComboBox.h>
+#include <kxf::UI::Framework/KxListBox.h>
+#include <kxf::UI::Framework/KxTextBox.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxShellLink.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxSystem.h>
 
 namespace Kortex::GameInstance
 {
 	bool SelectionDialog::Create(wxWindow* parent)
 	{
-		if (KxComboBoxDialog::Create(parent, KxID_NONE, KTr("InstanceSelection.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL, DefaultStyle|KxCBD_READONLY|KxCBD_BITMAP))
+		if (KxComboBoxDialog::Create(parent, wxID_NONE, KTr("InstanceSelection.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL, DefaultStyle|KxCBD_READONLY|KxCBD_BITMAP))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 
 			// Bottom panel
-			m_OKButton = GetButton(KxID_OK).As<KxButton>();
-			m_CreateShortcutButton = AddButton(KxID_NONE, KTr("InstanceSelection.CreateShortcut"), true).As<KxButton>();
-			m_RemoveButton = AddButton(KxID_REMOVE, KTr("InstanceSelection.RemoveInstance"), true).As<KxButton>();
-			m_CreateButton = AddButton(KxID_ADD, KTr("InstanceSelection.CreateInstance"), true).As<KxButton>();
+			m_OKButton = GetButton(wxID_OK).As<KxButton>();
+			m_CreateShortcutButton = AddButton(wxID_NONE, KTr("InstanceSelection.CreateShortcut"), true).As<KxButton>();
+			m_RemoveButton = AddButton(wxID_REMOVE, KTr("InstanceSelection.RemoveInstance"), true).As<KxButton>();
+			m_CreateButton = AddButton(wxID_ADD, KTr("InstanceSelection.CreateInstance"), true).As<KxButton>();
 
 			m_CreateShortcutButton->Bind(wxEVT_BUTTON, &SelectionDialog::OnCreateShortcut, this);
 
 			// Splitter
 			wxSizer* mainSizer = GetContentWindowSizer();
-			m_Splitter = new KxSplitterWindow(GetContentWindow(), KxID_NONE);
+			m_Splitter = new kxf::UI::SplitterWindow(GetContentWindow(), wxID_NONE);
 			IThemeManager::GetActive().Apply(m_Splitter);
 			m_Splitter->SetMinimumPaneSize(FromDIP(200));
 
 			// Left pane
-			m_LeftPane = new KxPanel(m_Splitter, KxID_NONE);
+			m_LeftPane = new KxPanel(m_Splitter, wxID_NONE);
 			m_LeftSizer = new wxBoxSizer(wxVERTICAL);
 			m_LeftPane->SetSizer(m_LeftSizer);
 
@@ -53,18 +53,18 @@ namespace Kortex::GameInstance
 			m_LeftSizer->Add(GetDialogMainCtrl(), 0, wxEXPAND);
 			m_GameFilter = static_cast<KxBitmapComboBox*>(GetDialogMainCtrl());
 
-			m_InstancesList = new KxListBox(m_LeftPane, KxID_NONE);
+			m_InstancesList = new KxListBox(m_LeftPane, wxID_NONE);
 			m_InstancesList->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()), wxIMAGE_LIST_NORMAL);
 			m_InstancesList->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()), wxIMAGE_LIST_SMALL);
 			m_LeftSizer->Add(m_InstancesList, 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 			AddUserWindow(m_InstancesList);
 
 			// Right pane
-			m_RightPane = new KxPanel(m_Splitter, KxID_NONE);
+			m_RightPane = new KxPanel(m_Splitter, wxID_NONE);
 			m_RightSizer = new wxBoxSizer(wxVERTICAL);
 			m_RightPane->SetSizer(m_RightSizer);
 
-			m_TextBox = new KxTextBox(m_RightPane, KxID_NONE, wxEmptyString, KxTextBox::DefaultStyle|wxTE_MULTILINE);
+			m_TextBox = new KxTextBox(m_RightPane, wxID_NONE, wxEmptyString, KxTextBox::DefaultStyle|wxTE_MULTILINE);
 			m_TextBox->SetEditable(false);
 			m_RightSizer->Add(m_TextBox, 1, wxEXPAND);
 			AddUserWindow(m_TextBox);
@@ -121,7 +121,7 @@ namespace Kortex::GameInstance
 		kxf::String instanceID = active ? active->GetInstanceID() : IApplication::GetInstance()->GetStartupInstanceID();
 		OnInstanceSelected(IGameInstance::GetShallowInstance(instanceID));
 
-		AdjustWindow(wxDefaultPosition, FromDIP(wxSize(650, 400)));
+		AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(650, 400)));
 	}
 	void SelectionDialog::LoadGameFilter(const GameID& gameID)
 	{
@@ -166,12 +166,12 @@ namespace Kortex::GameInstance
 			}
 
 			kxf::String name;
-			Imagekxf::ResourceID imageID = Imagekxf::ResourceID::None;
+			ImageResourceID imageID = ImageResourceID::None;
 			if (instnace->IsOK())
 			{
 				if (instnace->IsActiveInstance())
 				{
-					imageID = Imagekxf::ResourceID::TickCircleFrame;
+					imageID = ImageResourceID::TickCircleFrame;
 				}
 
 				if (gameID)
@@ -185,7 +185,7 @@ namespace Kortex::GameInstance
 			}
 			else
 			{
-				imageID = Imagekxf::ResourceID::CrossCircleFrame;
+				imageID = ImageResourceID::CrossCircleFrame;
 				name = kxf::String::Format("%1 (%2)", instnace->GetInstanceID(), KTr("InstanceSelection.InvalidInstance"));
 			}
 
@@ -205,11 +205,11 @@ namespace Kortex::GameInstance
 	}
 	bool SelectionDialog::AskForGameFolder(const IGameInstance* instance, const kxf::String& currentGamePath)
 	{
-		KxTaskDialog messageDialog(this, KxID_NONE, KTrf("InstanceSelection.GameNotFound.Caption", instance->GetGameName()), KTrf("InstanceSelection.GameNotFound.Message", instance->GetGameName()), KxBTN_CANCEL, KxICON_WARNING);
-		messageDialog.AddButton(KxID_SELECT_FOLDER);
-		if (messageDialog.ShowModal() == KxID_SELECT_FOLDER)
+		KxTaskDialog messageDialog(this, wxID_NONE, KTrf("InstanceSelection.GameNotFound.Caption", instance->GetGameName()), KTrf("InstanceSelection.GameNotFound.Message", instance->GetGameName()), KxBTN_CANCEL, KxICON_WARNING);
+		messageDialog.AddButton(wxID_SELECT_FOLDER);
+		if (messageDialog.ShowModal() == wxID_SELECT_FOLDER)
 		{
-			KxFileBrowseDialog browseDialog(this, KxID_NONE, KxFBD_OPEN_FOLDER);
+			KxFileBrowseDialog browseDialog(this, wxID_NONE, KxFBD_OPEN_FOLDER);
 			browseDialog.SetFolder(currentGamePath);
 			if (browseDialog.ShowModal())
 			{
@@ -250,7 +250,7 @@ namespace Kortex::GameInstance
 	void SelectionDialog::OnCreateInstance(const GameID& gameID)
 	{
 		CreationDialog dialog(this, gameID);
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			LoadInstancesList(gameID, IGameInstance::GetShallowInstance(dialog.GetName()));
 		}
@@ -258,12 +258,12 @@ namespace Kortex::GameInstance
 	void SelectionDialog::OnRemoveInstance(IGameInstance* instance)
 	{
 		KxTaskDialog dialog(this,
-							KxID_NONE,
+							wxID_NONE,
 							KTrf("InstanceSelection.ConfirmRemoving.Caption", instance->GetInstanceID()),
 							KTrf("InstanceSelection.ConfirmRemoving.Message", instance->GetInstanceDir(), instance->GetInstanceID()),
 							KxBTN_YES|KxBTN_NO, KxICON_WARNING
 		);
-		if (dialog.ShowModal() == KxID_YES)
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			const GameID gameID = instance->GetGameID();
 			if (instance->WithdrawDeploy())
@@ -317,7 +317,7 @@ namespace Kortex::GameInstance
 		IGameInstance* instance = GetCurrentInstance();
 		if (instance)
 		{
-			KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
+			KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_SAVE);
 			dialog.SetDefaultExtension("lnk");
 			dialog.SetFileName(kxf::String::Format("%s - %s", instance->GetGameShortName(), instance->GetInstanceID()));
 			dialog.SetOptionEnabled(KxFBD_NO_DEREFERENCE_LINKS);
@@ -325,7 +325,7 @@ namespace Kortex::GameInstance
 			dialog.AddFilter("*.lnk", KTr("FileFilter.Shortcuts"));
 			dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				KxShellLink link;
 				link.SetTarget(IApplication::GetInstance()->GetExecutablePath());
@@ -346,20 +346,20 @@ namespace Kortex::GameInstance
 		GameID selectedGame = GetCurrentFilter();
 		IGameInstance* instance = GetCurrentInstance();
 
-		if (id == KxID_ADD || id == KxID_REMOVE)
+		if (id == wxID_ADD || id == wxID_REMOVE)
 		{
 			event.Veto();
 
-			if (selectedGame && id == KxID_ADD)
+			if (selectedGame && id == wxID_ADD)
 			{
 				OnCreateInstance(selectedGame);
 			}
-			if (instance && id == KxID_REMOVE)
+			if (instance && id == wxID_REMOVE)
 			{
 				OnRemoveInstance(instance);
 			}
 		}
-		else if (id == KxID_OK)
+		else if (id == wxID_OK)
 		{
 			OnSelectInstance(instance);
 			event.Skip();

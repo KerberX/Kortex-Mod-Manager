@@ -6,7 +6,7 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo GameConfigModuleTypeInfo("GameConfigModule", "GameConfigModule.Name", "2.0", Imagekxf::ResourceID::GearPencil);
+		const SimpleModuleInfo GameConfigModuleTypeInfo("GameConfigModule", "GameConfigModule.Name", "2.0", ImageResourceID::GearPencil);
 	}
 
 	void GameConfigModule::OnInit()

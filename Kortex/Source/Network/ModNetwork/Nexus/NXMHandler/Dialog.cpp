@@ -5,37 +5,37 @@
 #include "Utility/Common.h"
 #include "Network/ModNetwork/Nexus.h"
 #include "Network/INetworkManager.h"
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace Kortex::NetworkManager::NXMHandler
 {
 	bool Dialog::CreateUI(wxWindow* parent)
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, KTr("NetworkManager.NXMHandler.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_CLOSE))
+		if (KxStdDialog::Create(parent, wxID_NONE, KTr("NetworkManager.NXMHandler.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_CLOSE))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
-			SetInitialSize(FromDIP(wxSize(840, 470)));
-			SetDefaultButton(KxID_CLOSE);
+			SetInitialSize(FromDIP(kxf::Size(840, 470)));
+			SetDefaultButton(wxID_CLOSE);
 
 			// Buttons
-			m_UnregisterButton = AddButton(KxID_REMOVE, KTr("NetworkManager.NXMHandler.UnregisterAssociations"), true).GetControl();
+			m_UnregisterButton = AddButton(wxID_REMOVE, KTr("NetworkManager.NXMHandler.UnregisterAssociations"), true).GetControl();
 			m_UnregisterButton->Bind(wxEVT_BUTTON, &Dialog::OnUnregisterAssociations, this);
 
-			m_RegisterButton = AddButton(KxID_ADD, KTr("NetworkManager.NXMHandler.RegisterAssociations"), true).GetControl();
+			m_RegisterButton = AddButton(wxID_ADD, KTr("NetworkManager.NXMHandler.RegisterAssociations"), true).GetControl();
 			m_RegisterButton->Bind(wxEVT_BUTTON, &Dialog::OnRegisterAssociations, this);
 
 			// View
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_Panel = new KxPanel(m_ContentPanel, KxID_NONE);
+			m_Panel = new KxPanel(m_ContentPanel, wxID_NONE);
 			m_Panel->SetSizer(sizer);
 
 			m_DisplayModel = new DisplayModel(m_Options);
 			m_DisplayModel->CreateView(m_Panel);
 			sizer->Add(m_DisplayModel->GetView(), 1, wxEXPAND);
 
-			m_RegisteredToLabel = new KxLabel(m_Panel, KxID_NONE, wxEmptyString);
-			sizer->Add(m_RegisteredToLabel, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
+			m_RegisteredToLabel = new KxLabel(m_Panel, wxID_NONE, wxEmptyString);
+			sizer->Add(m_RegisteredToLabel, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacingSmall);
 
 			PostCreate(wxDefaultPosition);
 			return true;
@@ -118,16 +118,16 @@ namespace Kortex::NetworkManager::NXMHandler
 		m_NXMFileType = m_FileTypeManager.FileTypeFromExtension("nxm");
 		if (!m_NXMFileType)
 		{
-			KxTaskDialog dialog(this, KxID_NONE);
+			KxTaskDialog dialog(this, wxID_NONE);
 			dialog.SetCaption(KTr("NetworkManager.NXMHandler.PrimaryHandler.Caption"));
 			dialog.SetMessage(KTrf("NetworkManager.NXMHandler.PrimaryHandler.Message", IApplication::GetInstance()->GetName()));
 			dialog.SetMainIcon(KxICON_WARNING);
 
 			dialog.SetStandardButtons(KxBTN_NONE);
-			dialog.AddButton(KxID_OK, KTr("Generic.Install"));
-			dialog.AddButton(KxID_CANCEL, KTr("Generic.DoNotInstall"));
+			dialog.AddButton(wxID_OK, KTr("Generic.Install"));
+			dialog.AddButton(wxID_CANCEL, KTr("Generic.DoNotInstall"));
 
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				if (RegisterAssociations())
 				{

@@ -10,8 +10,8 @@
 #include "ModPackages/ModPackage.h"
 #include "Utility/OperationWithProgress.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxTextFile.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTextFile.h>
 
 namespace Kortex::PackageDesigner
 {

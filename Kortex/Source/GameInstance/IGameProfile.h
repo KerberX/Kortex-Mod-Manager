@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/AppOption.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 class kxf::XMLDocument;
 
 namespace Kortex

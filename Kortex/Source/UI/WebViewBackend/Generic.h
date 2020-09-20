@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxHTMLWindow.h>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 #include "IWebView.h"
 
 namespace Kortex::UI::WebViewBackend

@@ -3,11 +3,11 @@
 #include "Application/IManager.h"
 #include "Application/IModule.h"
 #include "IProgramItem.h"
-#include <KxFramework/KxMenu.h>
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxProcess.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxProcess.h>
 class kxf::XMLNode;
-class KxMenu;
+class kxf::UI::Menu;
 
 namespace Kortex
 {
@@ -18,7 +18,7 @@ namespace Kortex
 
 	class IProgramManager:
 		public ManagerWithTypeInfo<IManager, ProgramManager::Internal::TypeInfo>,
-		public KxSingletonPtr<IProgramManager>
+		public kxf::SingletonPtr<IProgramManager>
 	{
 		public:
 			enum class BitmapVariant
@@ -28,7 +28,7 @@ namespace Kortex
 			};
 
 		private:
-			void OnAddMainMenuItems(KxMenu& menu);
+			void OnAddMainMenuItems(kxf::UI::Menu& menu);
 
 			std::unique_ptr<KxProcess> DoCreateProcess(const IProgramItem& entry) const;
 			int DoRunProcess(std::unique_ptr<KxProcess> process) const;

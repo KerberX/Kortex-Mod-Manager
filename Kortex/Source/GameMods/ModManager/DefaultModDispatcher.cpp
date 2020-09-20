@@ -4,8 +4,8 @@
 #include <Kortex/ModManager.hpp>
 #include "Utility/Log.h"
 #include "UI/ProgressOverlay.h"
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
 #include <chrono>
 #include <execution>
 
@@ -141,7 +141,7 @@ namespace Kortex::ModManager
 		{
 			case KMM_DCT_NONE:
 			{
-				return KTr(KxID_NONE);
+				return KTr(wxID_NONE);
 			}
 			case KMM_DCT_UNKNOWN:
 			{

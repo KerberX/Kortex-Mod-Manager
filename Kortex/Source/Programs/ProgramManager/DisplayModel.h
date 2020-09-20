@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include "KxFramework/KxDataViewListModelEx.h"
+#include "kxf::UI::Framework/KxDataViewListModelEx.h"
 #include "Programs/IProgramItem.h"
 #include "Programs/IProgramManager.h"
 #include "Utility/BitmapSize.h"

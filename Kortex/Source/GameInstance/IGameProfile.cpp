@@ -5,7 +5,7 @@
 #include "IGameInstance.h"
 #include "IGameProfile.h"
 #include "Utility/Common.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace
 {

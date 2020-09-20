@@ -8,12 +8,12 @@
 #include "UI/ImageViewerDialog.h"
 #include "UI/TextEditDialog.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxArchiveFileFinder.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxImageView.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxArchiveFileFinder.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxString.h>
 
 using namespace Kortex::PackageDesigner;
 namespace Kortex::InstallWizard
@@ -32,36 +32,36 @@ namespace Kortex::InstallWizard
 {
 	void WizardDialog::ShowInvalidPackageDialog(wxWindow* window, const kxf::String& packagePath)
 	{
-		KxTaskDialog dialog(window, KxID_NONE, KTrf("InstallWizard.LoadFailed.Caption", packagePath), KTr("InstallWizard.LoadFailed.Message"), KxBTN_OK, KxICON_ERROR);
+		KxTaskDialog dialog(window, wxID_NONE, KTrf("InstallWizard.LoadFailed.Caption", packagePath), KTr("InstallWizard.LoadFailed.Message"), KxBTN_OK, KxICON_ERROR);
 		dialog.ShowModal();
 	}
 
 	bool WizardDialog::CreateUI(wxWindow* parent)
 	{
 		SetDefaultBackgroundColor();
-		if (KxStdDialog::Create(parent, KxID_NONE, "Install Wizard", wxDefaultPosition, IMainWindow::GetInstance()->GetFrame().GetMinSize(), KxBTN_NONE, KxStdDialog::DefaultStyle))
+		if (KxStdDialog::Create(parent, wxID_NONE, "Install Wizard", wxDefaultPosition, IMainWindow::GetInstance()->GetFrame().GetMinSize(), KxBTN_NONE, KxStdDialog::DefaultStyle))
 		{
 			GetContentWindow()->SetBackgroundColour(GetBackgroundColour());
 
-			m_BackwardButton = AddButton(KxID_BACKWARD, m_BackwardDefaultLabel).As<KxButton>();
+			m_BackwardButton = AddButton(wxID_BACKWARD, m_BackwardDefaultLabel).As<KxButton>();
 			m_BackwardButton->Bind(wxEVT_BUTTON, &WizardDialog::OnGoBackward, this);
 			m_BackwardButton->Bind(wxEVT_BUTTON, &ComponentsPage::OnGoStepBackward, &m_PageComponents);
 
-			m_ForwardButton = AddButton(KxID_FORWARD, m_ForwardDefaultLabel).As<KxButton>();
+			m_ForwardButton = AddButton(wxID_FORWARD, m_ForwardDefaultLabel).As<KxButton>();
 			m_ForwardButton->Bind(wxEVT_BUTTON, &WizardDialog::OnGoForward, this);
 			m_ForwardButton->Bind(wxEVT_BUTTON, &ComponentsPage::OnGoStepForward, &m_PageComponents);
 
-			m_CancelButton = AddButton(KxID_CANCEL, m_CancelDefaultLabel).As<KxButton>();
+			m_CancelButton = AddButton(wxID_CANCEL, m_CancelDefaultLabel).As<KxButton>();
 			m_CancelButton->Bind(wxEVT_BUTTON, &WizardDialog::OnCancelButton, this);
 			Bind(wxEVT_CLOSE_WINDOW, &WizardDialog::OnClose, this);
 			SetCloseIDs({});
 
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 			EnableMinimizeButton();
 			EnableMaximizeButton();
 
-			m_PageContainer = new wxSimplebook(m_ContentPanel, KxID_NONE, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
+			m_PageContainer = new wxSimplebook(m_ContentPanel, wxID_NONE, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
 			for (WizardPage* page: GetPages())
 			{
 				m_PageContainer->AddPage(page->Create(), page->GetCaption());
@@ -212,10 +212,10 @@ namespace Kortex::InstallWizard
 		{
 			if (pHeaderImage->HasBitmap())
 			{
-				KxImageView* pHeaderView = new KxImageView(this, KxID_NONE, KxImageView::DefaultStyle|wxBORDER_NONE);
-				wxSize tSize = pHeaderImage->GetSize();
+				KxImageView* pHeaderView = new KxImageView(this, wxID_NONE, KxImageView::DefaultStyle|wxBORDER_NONE);
+				kxf::Size tSize = pHeaderImage->GetSize();
 				tSize.SetHeight(pHeaderImage->GetBitmap().GetHeight());
-				tSize.DecToIfSpecified(wxSize(wxDefaultCoord, 45));
+				tSize.DecToIfSpecified(kxf::Size(wxDefaultCoord, 45));
 
 				pHeaderView->SetMinSize(tSize);
 				pHeaderView->SetMaxSize(tSize);
@@ -237,8 +237,8 @@ namespace Kortex::InstallWizard
 				return true;
 			}
 
-			KxTaskDialog dialog(this, KxID_NONE, KTr("InstallWizard.CancelMessage"), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-			return dialog.ShowModal() == KxID_YES;
+			KxTaskDialog dialog(this, wxID_NONE, KTr("InstallWizard.CancelMessage"), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+			return dialog.ShowModal() == wxID_YES;
 		}
 		return true;
 	}
@@ -473,7 +473,7 @@ namespace Kortex::InstallWizard
 
 	WizardDialog::WizardDialog()
 		:m_PageInfo(*this), m_PageRequirements(*this), m_PageComponents(*this), m_PageInstallation(*this), m_PageCompleted(*this),
-		m_CancelDefaultLabel(KTr(KxID_CANCEL)),
+		m_CancelDefaultLabel(KTr(wxID_CANCEL)),
 		m_BackwardDefaultLabel(wxS("< ") + KTr("InstallWizard.BackwardButton")),
 		m_ForwardDefaultLabel(KTr("InstallWizard.ForwardButton") + wxS(" >"))
 	{

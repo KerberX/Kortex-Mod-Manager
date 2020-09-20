@@ -2,7 +2,7 @@
 #include "ItemValue.h"
 #include "ItemOptions.h"
 #include "Item.h"
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace
 {

@@ -5,14 +5,14 @@
 #include <Kortex/Application.hpp>
 #include "Utility/Common.h"
 #include "Utility/String.h"
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxJSON.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxWebSocket.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxJSON.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxWebSocket.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
 
 namespace
 {
@@ -28,7 +28,7 @@ namespace
 	};
 	void AddMessage(kxf::String& message, const kxf::String& label, bool value)
 	{
-		AddMessage(message, label, value ? KTr(KxID_YES) : KTr(KxID_NO));
+		AddMessage(message, label, value ? KTr(wxID_YES) : KTr(wxID_NO));
 	};
 }
 
@@ -61,15 +61,15 @@ namespace Kortex::NetworkManager
 		m_LastValidationReply.reset();
 	}
 	
-	void NexusAuth::OnToolBarMenu(KxMenu& menu)
+	void NexusAuth::OnToolBarMenu(kxf::UI::Menu& menu)
 	{
 		// Show account info
 		if (m_LastValidationReply)
 		{
-			KxMenuItem* item = menu.AddItem(KTr("NetworkManager.ModNetwork.ShowAccountInfo"));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = menu.AddItem(KTr("NetworkManager.ModNetwork.ShowAccountInfo"));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
-				KxTaskDialog dialog(GetInvokingWindow(), KxID_NONE, KTr("NetworkManager.ModNetwork.AccountInfo"), {}, KxBTN_OK, KxICON_INFORMATION);
+				KxTaskDialog dialog(GetInvokingWindow(), wxID_NONE, KTr("NetworkManager.ModNetwork.AccountInfo"), {}, KxBTN_OK, kxf::StdIcon::Information);
 				dialog.SetOptionEnabled(KxTD_SIZE_TO_CONTENT);
 
 				// Create message
@@ -94,16 +94,16 @@ namespace Kortex::NetworkManager
 				KxStdDialogControl copyButton = dialog.AddButton(wxID_COPY);
 				dialog.Bind(KxEVT_STDDIALOG_BUTTON, [this, &dialog, copyButton](wxNotifyEvent& event)
 				{
-					KxMenu menu;
-					menu.AddItem(KTr("Generic.UserName"))->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+					kxf::UI::Menu menu;
+					menu.AddItem(KTr("Generic.UserName"))->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 					{
 						Utility::CopyTextToClipboard(m_LastValidationReply->UserName);
 					});
-					menu.AddItem(KTr("Generic.EMailAddress"))->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+					menu.AddItem(KTr("Generic.EMailAddress"))->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 					{
 						Utility::CopyTextToClipboard(m_LastValidationReply->EMailAddress);
 					});
-					menu.AddItem(KTr("NetworkManager.Nexus.APIKey"))->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+					menu.AddItem(KTr("NetworkManager.Nexus.APIKey"))->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 					{
 						Utility::CopyTextToClipboard(m_LastValidationReply->APIKey);
 					});
@@ -118,17 +118,17 @@ namespace Kortex::NetworkManager
 		}
 
 		// Manual API key input
-		KxMenuItem* item = menu.AddItem(KTr("NetworkManager.Nexus.EnterAPIKey"));
+		kxf::UI::MenuItem* item = menu.AddItem(KTr("NetworkManager.Nexus.EnterAPIKey"));
 		if (IsAuthenticated())
 		{
 			item->Enable(false);
 		}
 		else
 		{
-			item->Bind(KxEVT_MENU_SELECT, [this, item](KxMenuEvent& event)
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, item](kxf::UI::MenuEvent& event)
 			{
 				KxTextBoxDialog dialog(GetInvokingWindow(),
-									   KxID_NONE,
+									   wxID_NONE,
 									   item->GetItemLabelText(),
 									   wxDefaultPosition,
 									   wxDefaultSize,
@@ -137,17 +137,17 @@ namespace Kortex::NetworkManager
 
 				kxf::String apiKey;
 				wxRegEx apiKeyRegEx(wxS("[A-Za-z0-9-]"), wxRE_ADVANCED);
-				wxButton* buttonOK = dialog.GetButton(KxID_OK).As<wxButton>();
+				wxButton* buttonOK = dialog.GetButton(wxID_OK).As<wxButton>();
 
 				buttonOK->Disable();
-				dialog.SetMainIcon(KxICON_INFORMATION);
+				dialog.SetMainIcon(kxf::StdIcon::Information);
 				dialog.GetTextBox()->Bind(wxEVT_TEXT, [&dialog, &apiKey, &apiKeyRegEx, buttonOK](wxCommandEvent& event)
 				{
 					apiKey = event.GetString();
 					if (!apiKey.IsEmpty() && apiKeyRegEx.Matches(apiKey))
 					{
 						buttonOK->Enable();
-						dialog.SetMainIcon(KxICON_INFORMATION);
+						dialog.SetMainIcon(kxf::StdIcon::Information);
 					}
 					else
 					{
@@ -157,7 +157,7 @@ namespace Kortex::NetworkManager
 					dialog.Layout();
 				});
 
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					BroadcastProcessor::Get().CallAfter([this, apiKey = std::move(apiKey)]()
 					{

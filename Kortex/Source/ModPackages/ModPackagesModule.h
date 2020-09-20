@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -17,7 +17,7 @@ namespace Kortex
 
 	class ModPackagesModule:
 		public ModuleWithTypeInfo<IModule, Internal::ModPackagesModuleTypeInfo>,
-		public KxSingletonPtr<ModPackagesModule>
+		public kxf::SingletonPtr<ModPackagesModule>
 	{
 		private:
 			std::unique_ptr<IPackageManager> m_PackageManager;

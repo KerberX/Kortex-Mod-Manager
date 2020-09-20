@@ -4,7 +4,7 @@
 #include "IModNetwork.h"
 #include "ModSourceStore.h"
 #include "NetworkModUpdateInfo.h"
-#include <KxFramework/KxComponentSystem.h>
+#include <kxf::UI::Framework/KxComponentSystem.h>
 
 namespace Kortex
 {

@@ -3,7 +3,7 @@
 #include "PackageCreator/PageBase.h"
 #include <Kortex/InstallWizard.hpp>
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 using namespace Kortex::PackageDesigner;
 namespace Kortex::InstallWizard
@@ -66,7 +66,7 @@ namespace Kortex::InstallWizard
 		}
 		else
 		{
-			KxTaskDialog dialog(&GetWizard(), KxID_NONE, KTr("InstallWizard.NoFiles.Caption"), KTr("InstallWizard.NoFiles.Message"), KxBTN_OK, KxICON_ERROR);
+			KxTaskDialog dialog(&GetWizard(), wxID_NONE, KTr("InstallWizard.NoFiles.Caption"), KTr("InstallWizard.NoFiles.Message"), KxBTN_OK, KxICON_ERROR);
 			dialog.SetOptionEnabled(KxTD_HYPERLINKS_ENABLED);
 			dialog.ShowModal();
 			return false;
@@ -155,11 +155,11 @@ namespace Kortex::InstallWizard
 	wxWindow* InstallationPage::Create()
 	{
 		wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-		m_PagePanel = new KxPanel(GetPageContainer(), KxID_NONE);
+		m_PagePanel = new KxPanel(GetPageContainer(), wxID_NONE);
 		m_PagePanel->SetSizer(sizer);
 
-		m_MinorProgress = new KxProgressBar(m_PagePanel, KxID_NONE, 100);
-		m_MajorProgress = new KxProgressBar(m_PagePanel, KxID_NONE, 100);
+		m_MinorProgress = new KxProgressBar(m_PagePanel, wxID_NONE, 100);
+		m_MajorProgress = new KxProgressBar(m_PagePanel, wxID_NONE, 100);
 		m_MinorStatus = PageBase::CreateNormalLabel(m_PagePanel, wxEmptyString, false);
 		m_MajorStatus = PageBase::CreateNormalLabel(m_PagePanel, wxEmptyString, false);
 
@@ -303,7 +303,7 @@ namespace Kortex::InstallWizard
 			}
 		}
 
-		KxTaskDialog dialog(&GetWizard(), KxID_NONE, KTr("InstallWizard.CollectedFiles.Caption"), KxString::Join(files, "\r\n"), KxBTN_OK, KxICON_INFORMATION);
+		KxTaskDialog dialog(&GetWizard(), wxID_NONE, KTr("InstallWizard.CollectedFiles.Caption"), KxString::Join(files, "\r\n"), KxBTN_OK, kxf::StdIcon::Information);
 		dialog.ShowModal();
 	}
 }

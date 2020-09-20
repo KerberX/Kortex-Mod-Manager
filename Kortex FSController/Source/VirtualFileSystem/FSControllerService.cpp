@@ -7,9 +7,9 @@
 #include <VirtualFileSystem/Mirror.h>
 #include <VirtualFileSystem/MultiMirror.h>
 #include <VirtualFileSystem/Convergence.h>
-#include <KxFramework/KxSystem.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxSystem.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 namespace
 {

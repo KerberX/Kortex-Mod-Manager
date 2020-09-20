@@ -4,8 +4,8 @@
 #include "Application/VariablesTable/VariablesDatabase.h"
 #include "Application/VariablesTable/StaticVariableTable.h"
 #include "GameID.h"
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 class KActiveGameInstance;
 class IVariableTable;
 class IGameProfile;
@@ -119,7 +119,7 @@ namespace Kortex::GameInstance
 			}
 			
 			kxf::String GetIconLocation() const override;
-			wxBitmap GetIcon(const wxSize& iconSize = wxDefaultSize) const override;
+			wxBitmap GetIcon(const kxf::Size& iconSize = wxDefaultSize) const override;
 
 			kxf::String GetInstanceTemplateDir() const override;
 			kxf::String GetInstanceDir() const override;

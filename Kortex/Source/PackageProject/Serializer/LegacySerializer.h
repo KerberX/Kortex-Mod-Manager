@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "PackageProject/Serializer.h"
-#include <KxFramework/KxXML.h>
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 
 namespace Kortex
 {

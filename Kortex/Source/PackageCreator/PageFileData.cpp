@@ -8,7 +8,7 @@
 #include "PackageProject/ModPackageProject.h"
 #include "PackageProject/FileDataSection.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxLabel.h>
+#include <kxf::UI::Framework/KxLabel.h>
 
 namespace Kortex::PackageDesigner
 {
@@ -30,7 +30,7 @@ namespace Kortex::PackageDesigner
 	void PageFileData::CreateMainListControls()
 	{
 		wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
-		m_MainListPane = new KxPanel(m_Pane, KxID_NONE);
+		m_MainListPane = new KxPanel(m_Pane, wxID_NONE);
 		m_MainListPane->SetSizer(mainSizer);
 		IThemeManager::GetActive().Apply(m_MainListPane);
 
@@ -49,7 +49,7 @@ namespace Kortex::PackageDesigner
 	void PageFileData::CreateFolderContentControls()
 	{
 		wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
-		m_FolderContentPane = new KxPanel(m_Pane, KxID_NONE);
+		m_FolderContentPane = new KxPanel(m_Pane, wxID_NONE);
 		m_FolderContentPane->SetSizer(mainSizer);
 		IThemeManager::GetActive().Apply(m_FolderContentPane);
 
@@ -67,10 +67,10 @@ namespace Kortex::PackageDesigner
 
 	bool PageFileData::OnCreateWorkspace()
 	{
-		m_Pane = new KxSplitterWindow(this, KxID_NONE);
+		m_Pane = new kxf::UI::SplitterWindow(this, wxID_NONE);
 		m_Pane->SetName("FolderListViewSize");
 		m_Pane->SetMinimumPaneSize(150);
-		m_Pane->SetSashColor(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Window, Theme::ColorFlags::Background));
+		m_Pane->SetSashColor(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Window, Theme::ColorFlag::Background));
 
 		CreateMainListControls();
 		CreateFolderContentControls();

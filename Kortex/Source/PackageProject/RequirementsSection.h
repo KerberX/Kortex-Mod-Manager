@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "ProjectSection.h"
 #include "Utility/WithNameAndID.h"
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 
 namespace Kortex::PackageProject
 {

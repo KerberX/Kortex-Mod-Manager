@@ -14,10 +14,10 @@
 #include "PackageProject/Serializer/FOModSerializer.h"
 #include "ModPackages/ModPackage.h"
 #include "GameMods/ModManager/Workspace.h"
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxProgressDialog.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::Application::OName
 {
@@ -41,7 +41,7 @@ namespace Kortex::PackageDesigner
 	void WorkspaceContainer::Create(wxWindow* listParent, wxWindow* viewParent)
 	{
 		// List
-		m_PagesList = new KxTreeList(listParent, KxID_NONE, KxTreeList::DefaultStyle|wxTL_NO_HEADER);
+		m_PagesList = new KxTreeList(listParent, wxID_NONE, KxTreeList::DefaultStyle|wxTL_NO_HEADER);
 		m_PagesList->GetDataView()->ToggleWindowStyle(wxBORDER_NONE);
 		m_PagesList->SetImageList(&ImageProvider::GetImageList());
 		m_PagesList->SetRowHeight(m_PagesList->FromDIP(36));
@@ -51,7 +51,7 @@ namespace Kortex::PackageDesigner
 		IThemeManager::GetActive().Apply(m_PagesList);
 
 		// View
-		m_BookCtrl = new KxSimplebook(viewParent, KxID_NONE);
+		m_BookCtrl = new kxf::UI::Simplebook(viewParent, wxID_NONE);
 		IThemeManager::GetActive().Apply(m_BookCtrl);
 	}
 	void WorkspaceContainer::OnPageSelected(wxTreeListEvent& event)
@@ -126,12 +126,12 @@ namespace Kortex::PackageDesigner
 {
 	bool Workspace::OnCreateWorkspace()
 	{
-		m_SplitterLeftRight = new KxSplitterWindow(this, KxID_NONE);
+		m_SplitterLeftRight = new kxf::UI::SplitterWindow(this, wxID_NONE);
 		m_SplitterLeftRight->SetMinimumPaneSize(ImageProvider::GetImageList().GetSize().GetWidth() * 1.5);
 
 		// Right pane
 		wxBoxSizer* rightPaneSizer = new wxBoxSizer(wxVERTICAL);
-		m_RightPane = new KxPanel(m_SplitterLeftRight, KxID_NONE);
+		m_RightPane = new KxPanel(m_SplitterLeftRight, wxID_NONE);
 		m_RightPane->SetSizer(rightPaneSizer);
 		IThemeManager::GetActive().Apply(m_RightPane);
 
@@ -168,7 +168,7 @@ namespace Kortex::PackageDesigner
 	}
 	bool Workspace::OnCloseWorkspace()
 	{
-		return m_WorkspaceDocument.AskForSave() == KxID_OK;
+		return m_WorkspaceDocument.AskForSave() == wxID_OK;
 	}
 	void Workspace::OnReloadWorkspace()
 	{
@@ -191,9 +191,9 @@ namespace Kortex::PackageDesigner
 
 	void Workspace::CreateMenuBar(wxSizer* sizer)
 	{
-		m_MenuBar = new KxAuiToolBar(m_RightPane, KxID_NONE, KxAuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND|wxAUI_TB_TEXT);
+		m_MenuBar = new kxf::UI::AuiToolBar(m_RightPane, wxID_NONE, kxf::UI::AuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND|wxAUI_TB_TEXT);
 		m_MenuBar->SetBackgroundColour(GetBackgroundColour());
-		m_MenuBar->SetBorderColor(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Border, Theme::ColorFlags::Background));
+		m_MenuBar->SetBorderColor(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Border, Theme::ColorFlag::Background));
 		m_MenuBar->SetToolPacking(0);
 		m_MenuBar->SetToolSeparation(0);
 		m_MenuBar->SetMargins(0, 0, 0, 2);
@@ -210,63 +210,63 @@ namespace Kortex::PackageDesigner
 	}
 	void Workspace::CreateProjectMenu()
 	{
-		KxMenu* menu = new KxMenu();
+		kxf::UI::Menu* menu = new kxf::UI::Menu();
 		m_MenuBar_Project->AssignDropdownMenu(menu);
 		m_MenuBar_Project->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
-		KxMenuItem* item = nullptr;
+		kxf::UI::MenuItem* item = nullptr;
 
-		item = menu->Add(new KxMenuItem(KxID_NEW, KTr("PackageCreator.MenuProject.New")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentNew));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnNewProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_NEW, KTr("PackageCreator.MenuProject.New")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentNew));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnNewProject, this);
 
-		item = menu->Add(new KxMenuItem(KxID_OPEN, KTr("PackageCreator.MenuProject.Open")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Document));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnOpenProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_OPEN, KTr("PackageCreator.MenuProject.Open")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Document));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnOpenProject, this);
 		menu->AddSeparator();
 
-		item = menu->Add(new KxMenuItem(KxID_SAVE, KTr("PackageCreator.MenuProject.Save")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Disk));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnSaveProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_SAVE, KTr("PackageCreator.MenuProject.Save")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Disk));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnSaveProject, this);
 
-		item = menu->Add(new KxMenuItem(KxID_SAVEAS, KTr("PackageCreator.MenuProject.SaveAs")));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnSaveProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_SAVEAS, KTr("PackageCreator.MenuProject.SaveAs")));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnSaveProject, this);
 
-		item = menu->Add(new KxMenuItem(KxID_HIGHEST + ToInt(PackageProject::PackageType::FOModXML), KTr("PackageCreator.MenuProject.SaveAsFOMod")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentExport));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnExportProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_HIGHEST + ToInt(PackageProject::PackageType::FOModXML), KTr("PackageCreator.MenuProject.SaveAsFOMod")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentExport));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnExportProject, this);
 
-		item = menu->Add(new KxMenuItem(KxID_HIGHEST + ToInt(PackageProject::PackageType::Native), KTr("PackageCreator.MenuProject.SaveAsKMP")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentExport));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnExportProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_HIGHEST + ToInt(PackageProject::PackageType::Native), KTr("PackageCreator.MenuProject.SaveAsKMP")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentExport));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnExportProject, this);
 	}
 	void Workspace::CreateImportMenu()
 	{
-		KxMenu* menu = new KxMenu();
+		kxf::UI::Menu* menu = new kxf::UI::Menu();
 		m_MenuBar_Import->AssignDropdownMenu(menu);
 		m_MenuBar_Import->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
-		KxMenuItem* item = nullptr;
+		kxf::UI::MenuItem* item = nullptr;
 
-		item = menu->Add(new KxMenuItem(KxID_HIGHEST + 0, KTr("PackageCreator.MenuImport.FOModXML")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentImport));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnImportProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_HIGHEST + 0, KTr("PackageCreator.MenuImport.FOModXML")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentImport));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnImportProject, this);
 
-		item = menu->Add(new KxMenuItem(KxID_HIGHEST + 1, KTr("PackageCreator.MenuImport.Package")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentImport));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnImportProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(wxID_HIGHEST + 1, KTr("PackageCreator.MenuImport.Package")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentImport));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnImportProject, this);
 	}
 	void Workspace::CreateBuildMenu()
 	{
-		KxMenu* menu = new KxMenu();
+		kxf::UI::Menu* menu = new kxf::UI::Menu();
 		m_MenuBar_Build->AssignDropdownMenu(menu);
 		m_MenuBar_Build->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
-		KxMenuItem* item = nullptr;
+		kxf::UI::MenuItem* item = nullptr;
 
-		item = menu->Add(new KxMenuItem(KTr("PackageCreator.MenuBuild.Build")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Compile));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnBuildProject, this);
+		item = menu->Add(new kxf::UI::MenuItem(KTr("PackageCreator.MenuBuild.Build")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Compile));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnBuildProject, this);
 
-		item = menu->Add(new KxMenuItem(KTr("PackageCreator.MenuBuild.Preview")));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnBuildProjectPreview, this);
+		item = menu->Add(new kxf::UI::MenuItem(KTr("PackageCreator.MenuBuild.Preview")));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnBuildProjectPreview, this);
 	}
 
 	void Workspace::DoLoadAllPages()
@@ -283,42 +283,42 @@ namespace Kortex::PackageDesigner
 		m_PageRequirements->OnLoadProject(m_WorkspaceDocument.GetProject()->GetRequirements());
 		m_PageComponents->OnLoadProject(m_WorkspaceDocument.GetProject()->GetComponents());
 	}
-	void Workspace::OnNewProject(KxMenuEvent& event)
+	void Workspace::OnNewProject(kxf::UI::MenuEvent& event)
 	{
-		if (m_WorkspaceDocument.AskForSave() == KxID_OK)
+		if (m_WorkspaceDocument.AskForSave() == wxID_OK)
 		{
 			m_WorkspaceDocument.NewProject();
 			DoLoadAllPages();
 		}
 	}
-	void Workspace::OnOpenProject(KxMenuEvent& event)
+	void Workspace::OnOpenProject(kxf::UI::MenuEvent& event)
 	{
 		wxWindowUpdateLocker lock(this);
 
-		if (m_WorkspaceDocument.AskForSave() == KxID_OK)
+		if (m_WorkspaceDocument.AskForSave() == wxID_OK)
 		{
-			KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_OPEN);
+			KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_OPEN);
 			dialog.AddFilter("*.kmpproj", KTr("FileFilter.ModProject"));
 			dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				m_WorkspaceDocument.OpenProject(dialog.GetResult());
 				DoLoadAllPages();
 			}
 		}
 	}
-	void Workspace::OnSaveProject(KxMenuEvent& event)
+	void Workspace::OnSaveProject(kxf::UI::MenuEvent& event)
 	{
-		if (event.GetItem()->GetId() == KxID_SAVEAS || !m_WorkspaceDocument.HasProjectFilePath() || !wxFileName(m_WorkspaceDocument.GetProjectFilePath()).Exists(wxFILE_EXISTS_REGULAR))
+		if (event.GetItem()->GetId() == wxID_SAVEAS || !m_WorkspaceDocument.HasProjectFilePath() || !wxFileName(m_WorkspaceDocument.GetProjectFilePath()).Exists(wxFILE_EXISTS_REGULAR))
 		{
-			KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
+			KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_SAVE);
 			dialog.SetDefaultExtension("kmpproj");
 			dialog.SetFileName(m_WorkspaceDocument.GetProjectName());
 			dialog.AddFilter("*.kmpproj", KTr("FileFilter.ModProject"));
 			dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				m_WorkspaceDocument.SaveProject(dialog.GetResult());
 			}
@@ -328,18 +328,18 @@ namespace Kortex::PackageDesigner
 			m_WorkspaceDocument.SaveProject();
 		}
 	}
-	void Workspace::OnImportProject(KxMenuEvent& event)
+	void Workspace::OnImportProject(kxf::UI::MenuEvent& event)
 	{
 		wxWindowUpdateLocker lock(this);
-		if (m_WorkspaceDocument.AskForSave() == KxID_OK)
+		if (m_WorkspaceDocument.AskForSave() == wxID_OK)
 		{
-			KxMenuItem* item = event.GetItem();
-			switch (item->GetId() - KxID_HIGHEST)
+			kxf::UI::MenuItem* item = event.GetItem();
+			switch (item->GetId() - wxID_HIGHEST)
 			{
 				case 0:
 				{
 					FOModImportExportDialog dialog(this, false);
-					if (dialog.ShowModal() == KxID_OK)
+					if (dialog.ShowModal() == wxID_OK)
 					{
 						kxf::String info = KxTextFile::ReadToString(dialog.GetInfoFile());
 						kxf::String sModuleConfig = KxTextFile::ReadToString(dialog.GetModuleConfigFile());
@@ -351,10 +351,10 @@ namespace Kortex::PackageDesigner
 				}
 				case 1:
 				{
-					KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_OPEN);
+					KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_OPEN);
 					dialog.AddFilter("*.kmp;*.smi;*.7z;*.zip;*.fomod", KTr("FileFilter.AllSupportedFormats"));
 					dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
-					if (dialog.ShowModal() == KxID_OK)
+					if (dialog.ShowModal() == wxID_OK)
 					{
 						ImportProjectFromPackage(dialog.GetResult());
 					}
@@ -363,20 +363,20 @@ namespace Kortex::PackageDesigner
 			};
 		}
 	}
-	void Workspace::OnExportProject(KxMenuEvent& event)
+	void Workspace::OnExportProject(kxf::UI::MenuEvent& event)
 	{
-		PackageProject::PackageType type = (PackageProject::PackageType)(event.GetItem()->GetId() - KxID_HIGHEST);
+		PackageProject::PackageType type = (PackageProject::PackageType)(event.GetItem()->GetId() - wxID_HIGHEST);
 		switch (type)
 		{
 			case PackageProject::PackageType::Native:
 			{
-				KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
+				KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_SAVE);
 				dialog.SetDefaultExtension("xml");
 				dialog.SetFileName(m_WorkspaceDocument.GetProjectName());
 				dialog.AddFilter("*.xml", KTr("FileFilter.XML"));
 				dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					PackageProject::NativeSerializer serializer(false);
 					m_WorkspaceDocument.ExportProject(serializer);
@@ -387,7 +387,7 @@ namespace Kortex::PackageDesigner
 			case PackageProject::PackageType::FOModXML:
 			{
 				FOModImportExportDialog dialog(this, true);
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					PackageProject::FOModSerializer serializer(dialog.GetProjectFolder());
 					serializer.ExportToNativeFormat(true);
@@ -406,11 +406,11 @@ namespace Kortex::PackageDesigner
 			}
 		};
 	}
-	void Workspace::OnBuildProject(KxMenuEvent& event)
+	void Workspace::OnBuildProject(kxf::UI::MenuEvent& event)
 	{
 		m_WorkspaceDocument.BuildProject();
 	}
-	void Workspace::OnBuildProjectPreview(KxMenuEvent& event)
+	void Workspace::OnBuildProjectPreview(kxf::UI::MenuEvent& event)
 	{
 		m_WorkspaceDocument.BuildProject(true);
 	}

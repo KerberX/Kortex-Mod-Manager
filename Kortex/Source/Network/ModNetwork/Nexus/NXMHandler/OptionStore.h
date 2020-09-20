@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/AppOption.h"
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::NetworkManager::NXMHandler
 {

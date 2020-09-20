@@ -2,29 +2,28 @@
 #include "OptionSerializer.h"
 #include <Kortex/Application.hpp>
 #include "Application/Options/OptionDatabase.h"
-#include <KxFramework/KxDataView.h>
-#include <KxFramework/DataView2/DataView2.h>
-#include <KxFramework/DataView/KxDataViewMainWindow.h>
-#include <KxFramework/KxSplitterWindow.h>
+#include <kxf/UI/Windows/SplitterWindow.h>
+#include <kxf/UI/Controls/DataView.h>
+#include <kxf/UI/Controls/DataView/MainWindow.h>
 
 namespace
 {
 	int FromDIPX(const wxWindow* window, int value)
 	{
-		return window->FromDIP(wxSize(value, wxDefaultCoord)).GetWidth();
+		return window->FromDIP(kxf::Size(value, wxDefaultCoord)).GetWidth();
 	}
 	int FromDIPY(const wxWindow* window, int value)
 	{
-		return window->FromDIP(wxSize(wxDefaultCoord, value)).GetHeight();
+		return window->FromDIP(kxf::Size(wxDefaultCoord, value)).GetHeight();
 	}
 
 	int ToDIPX(const wxWindow* window, int value)
 	{
-		return window->ToDIP(wxSize(value, wxDefaultCoord)).GetWidth();
+		return window->ToDIP(kxf::Size(value, wxDefaultCoord)).GetWidth();
 	}
 	int ToDIPY(const wxWindow* window, int value)
 	{
-		return window->ToDIP(wxSize(wxDefaultCoord, value)).GetHeight();
+		return window->ToDIP(kxf::Size(wxDefaultCoord, value)).GetHeight();
 	}
 }
 
@@ -46,69 +45,9 @@ namespace Kortex::Application::OName
 
 namespace Kortex::Application::OptionSerializer
 {
-	void UILayout::DataViewLayout(AppOption& option, SerializationMode mode, KxDataViewCtrl* dataView)
+	void UILayout::DataViewLayout(AppOption& option, SerializationMode mode, kxf::UI::DataView::View* dataView)
 	{
-		const int screenWidth = wxSystemSettings::GetMetric(wxSYS_SCREEN_X);
-		kxf::XMLNode columnsNode = option.GetNode().ConstructElement(OName::Columns);
-
-		if (mode == SerializationMode::Save)
-		{
-			columnsNode.ClearNode();
-			columnsNode.SetAttribute(OName::UIOption, true);
-
-			for (size_t i = 0; i < dataView->GetColumnCount(); i++)
-			{
-				kxf::XMLNode node = columnsNode.NewElement(OName::Item);
-				const KxDataViewColumn* column = dataView->GetColumn(i);
-
-				node.SetAttribute(OName::DisplayAt, (int64_t)dataView->GetColumnPosition(column));
-				node.SetAttribute(OName::Visible, column->IsVisible());
-				node.SetAttribute(OName::Width, ToDIPX(dataView, column->GetWidth()));
-			}
-		}
-		else
-		{
-			wxArrayInt indexes;
-			indexes.resize(dataView->GetColumnCount());
-
-			kxf::XMLNode node = columnsNode.GetFirstChildElement();
-			for (size_t i = 0; i < dataView->GetColumnCount(); i++)
-			{
-				indexes[i] = i;
-
-				if (node.IsOK())
-				{
-					KxDataViewColumn* column = dataView->GetColumn(i);
-
-					if (column->IsResizeable())
-					{
-						int width = FromDIPX(dataView, node.GetAttributeInt(OName::Width, wxDefaultCoord));
-						if (width > 0)
-						{
-							column->SetWidth(std::clamp(width, column->GetMinWidth(), screenWidth));
-						}
-					}
-					column->SetVisible(node.GetAttributeBool(OName::Visible, true));
-					indexes[i] = node.GetAttributeInt(OName::DisplayAt, i);
-
-					node = node.GetNextSiblingElement();
-				}
-			}
-
-			if (wxHeaderCtrl* header = dataView->GetHeaderCtrl())
-			{
-				header->SetColumnsOrder(indexes);
-			}
-
-			dataView->UpdateWindowUI();
-			dataView->SendSizeEventToParent();
-			dataView->SendSizeEvent();
-			dataView->Update();
-		}
-	}
-	void UILayout::DataView2Layout(AppOption& option, SerializationMode mode, KxDataView2::View* dataView)
-	{
-		using namespace KxDataView2;
+		using namespace kxf::UI::DataView;
 
 		kxf::XMLNode columnsNode = option.GetNode().ConstructElement(OName::Columns);
 		if (mode == SerializationMode::Save)
@@ -135,7 +74,7 @@ namespace Kortex::Application::OptionSerializer
 		else
 		{
 			size_t i = 0;
-			for (kxf::XMLNode node = columnsNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+			for (kxf::XMLNode node = columnsNode.GetFirstChildElement(); node; node = node.GetNextSiblingElement())
 			{
 				if (Column* column = dataView->GetColumn(i))
 				{
@@ -157,7 +96,7 @@ namespace Kortex::Application::OptionSerializer
 			dataView->Update();
 		}
 	}
-	void UILayout::SplitterLayout(AppOption& option, SerializationMode mode, KxSplitterWindow* window)
+	void UILayout::SplitterLayout(AppOption& option, SerializationMode mode, kxf::UI::SplitterWindow* window)
 	{
 		const bool isVertical = window->GetSplitMode() == wxSPLIT_VERTICAL;
 
@@ -189,27 +128,28 @@ namespace Kortex::Application::OptionSerializer
 			pagesNode.ClearNode();
 			pagesNode.SetAttribute(OName::UIOption, true);
 
-			for (const IWorkspace* workspace: container.EnumWorkspaces())
+			container.EnumWorkspaces([&](const IWorkspace& workspace)
 			{
-				if (auto index = container.GetWorkspaceIndex(*workspace))
+				if (auto index = container.GetWorkspaceIndex(workspace))
 				{
 					kxf::XMLNode node = pagesNode.NewElement(OName::Item);
-					node.SetAttribute(OName::ID, workspace->GetID());
-					if (workspace->IsCurrent())
+					node.SetAttribute(OName::ID, workspace.GetID());
+					if (workspace.IsCurrent())
 					{
 						node.SetAttribute(OName::Current, true);
 					}
 				}
-			}
+				return true;
+			});
 		}
 		else
 		{
 			if (pagesNode.GetChildrenCount() == container.GetWorkspaceCount())
 			{
 				IWorkspace* currentWorkspace = nullptr;
-
 				size_t index = 0;
-				for (kxf::XMLNode node = pagesNode.GetFirstChildElement(); node.IsOK(); node = node.GetNextSiblingElement())
+
+				pagesNode.EnumChildElements([&](kxf::XMLNode node)
 				{
 					if (IWorkspace* workspace = container.GetWorkspaceByID(node.GetAttribute(OName::ID)))
 					{
@@ -220,8 +160,9 @@ namespace Kortex::Application::OptionSerializer
 						}
 					}
 					index++;
-				}
 
+					return true;
+				});
 				if (currentWorkspace)
 				{
 					container.SwitchWorkspace(*currentWorkspace);
@@ -242,7 +183,7 @@ namespace Kortex::Application::OptionSerializer
 			geometryNode.NewElement(wxS("Maximized")).SetValue(isMaximized);
 			if (!isMaximized)
 			{
-				wxSize size = window->GetSize();
+				kxf::Size size = window->GetSize();
 
 				kxf::XMLNode sizeNode = geometryNode.NewElement(wxS("Size"));
 				sizeNode.SetAttribute(wxS("Width"), ToDIPX(window, size.GetWidth()));
@@ -253,7 +194,7 @@ namespace Kortex::Application::OptionSerializer
 		{
 			kxf::XMLNode sizeNode = geometryNode.GetFirstChildElement(wxS("Size"));
 
-			wxSize size;
+			kxf::Size size;
 			size.SetWidth(FromDIPX(window, sizeNode.GetAttributeInt(wxS("Width"), wxDefaultCoord)));
 			size.SetHeight(FromDIPY(window, sizeNode.GetAttributeInt(wxS("Height"), wxDefaultCoord)));
 			size.DecToIfSpecified(window->GetMaxSize());

@@ -5,7 +5,7 @@
 #include "GameMods/ModTagStore.h"
 #include "Network/Common.h"
 #include "Network/ModSourceStore.h"
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 
 namespace Kortex
 {

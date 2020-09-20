@@ -103,13 +103,13 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 {
 	RequirementsSelectorDialog::RequirementsSelectorDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 	
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 	
@@ -117,7 +117,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			SetDataViewFlags(KxDV_NO_HEADER);
 			RequirementsSelectorModel::Create(controller, m_ViewPane, sizer);
 			
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(400, 320)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(400, 320)));
 		}
 	}
 	RequirementsSelectorDialog::~RequirementsSelectorDialog()

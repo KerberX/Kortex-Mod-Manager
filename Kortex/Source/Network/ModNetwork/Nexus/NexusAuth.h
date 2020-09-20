@@ -4,7 +4,7 @@
 #include "Network/IModNetwork.h"
 #include "Network/ModNetworkAuth.h"
 #include "NexusNetworkReply.h"
-#include <KxFramework/KxUUID.h>
+#include <kxf::UI::Framework/KxUUID.h>
 class KxIWebSocketClient;
 
 namespace Kortex::NetworkManager
@@ -40,7 +40,7 @@ namespace Kortex::NetworkManager
 			}
 
 		private:
-			void OnToolBarMenu(KxMenu& menu);
+			void OnToolBarMenu(kxf::UI::Menu& menu);
 			void RequestUserPicture(const NexusValidationReply& info);
 			
 			const NexusValidationReply* GetLastValidationReply() const

@@ -15,9 +15,9 @@
 #include "PackageProject/Serializer.h"
 #include "Utility/String.h"
 #include "Utility/OperationWithProgress.h"
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxINI.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxINI.h>
 
 namespace Kortex::ModManager
 {

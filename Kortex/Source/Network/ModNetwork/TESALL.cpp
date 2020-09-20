@@ -10,7 +10,7 @@ namespace Kortex::NetworkManager
 
 	kxf::ResourceID TESALLModNetwork::GetIcon() const
 	{
-		return Imagekxf::ResourceID::ModNetwork_TESALL;
+		return ImageResourceID::ModNetwork_TESALL;
 	}
 	kxf::String TESALLModNetwork::GetName() const
 	{

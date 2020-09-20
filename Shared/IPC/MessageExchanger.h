@@ -1,7 +1,7 @@
 #pragma once
 #include <WinUser.h>
 #include "Message.h"
-#include <KxFramework/KxSharedMemory.h>
+#include <kxf::UI::Framework/KxSharedMemory.h>
 
 namespace Kortex::IPC
 {

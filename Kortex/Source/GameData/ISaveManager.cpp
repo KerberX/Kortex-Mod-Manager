@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ISaveManager.h"
 #include "GameData/GameDataModule.h"
-#include "KxFramework/KxUtility.h"
+#include "kxf::UI::Framework/KxUtility.h"
 
 namespace Kortex
 {

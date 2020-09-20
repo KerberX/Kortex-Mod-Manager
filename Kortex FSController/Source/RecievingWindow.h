@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "IPC/ProcessingWindow.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex::VirtualFileSystem
 {
@@ -10,7 +10,7 @@ namespace Kortex::VirtualFileSystem
 
 namespace Kortex::FSController
 {
-	class RecievingWindow: public IPC::ProcessingWindow, public KxSingletonPtr<RecievingWindow>
+	class RecievingWindow: public IPC::ProcessingWindow, public kxf::SingletonPtr<RecievingWindow>
 	{
 		private:
 			VirtualFileSystem::FSControllerService& m_Service;

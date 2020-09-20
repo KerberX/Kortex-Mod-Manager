@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <Kortex/ModManager.hpp>
 #include "Utility/String.h"
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace
 {

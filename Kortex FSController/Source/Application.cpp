@@ -3,10 +3,10 @@
 #include "RecievingWindow.h"
 #include "MainApplicationLink.h"
 #include "VirtualFileSystem/FSControllerService.h"
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 #if defined _WIN64
 #pragma comment(lib, "KxVirtualFileSystem x64.lib")

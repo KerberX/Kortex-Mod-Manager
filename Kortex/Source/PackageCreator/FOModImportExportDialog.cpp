@@ -2,7 +2,7 @@
 #include "FOModImportExportDialog.h"
 #include "PackageCreator/PageBase.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
 
 namespace Kortex::PackageDesigner
 {
@@ -18,7 +18,7 @@ namespace Kortex::PackageDesigner
 			mode = KxFBD_SAVE;
 		}
 
-		KxFileBrowseDialog dialog(this, KxID_NONE, mode);
+		KxFileBrowseDialog dialog(this, wxID_NONE, mode);
 		if ((Type)event.GetId() != Type::ProjectFolder)
 		{
 			kxf::StringClientData* data = static_cast<kxf::StringClientData*>(static_cast<wxEvtHandler*>(event.GetEventObject())->GetClientObject());
@@ -55,12 +55,12 @@ namespace Kortex::PackageDesigner
 
 		if (input)
 		{
-			input->SetValueEvent(id == KxID_OK ? dialog.GetResult() : wxEmptyString);
+			input->SetValueEvent(id == wxID_OK ? dialog.GetResult() : wxEmptyString);
 		}
 	}
 	void FOModImportExportDialog::OnOK(wxNotifyEvent& event)
 	{
-		if (event.GetId() == KxID_OK)
+		if (event.GetId() == wxID_OK)
 		{
 			m_InfoFile = m_InfoInput->GetValue();
 			m_ModuleConfigFile = m_ModuleConfigInput->GetValue();
@@ -71,50 +71,50 @@ namespace Kortex::PackageDesigner
 	FOModImportExportDialog::FOModImportExportDialog(wxWindow* parent, bool isExport)
 		:m_IsExport(isExport)
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, isExport ? KTr("PackageCreator.ExportFOMod") : KTr("PackageCreator.ImportFOMod"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
+		if (KxStdDialog::Create(parent, wxID_NONE, isExport ? KTr("PackageCreator.ExportFOMod") : KTr("PackageCreator.ImportFOMod"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxHORIZONTAL);
 
 			wxFlexGridSizer* mainSizer = new wxFlexGridSizer(3, LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing);
 			mainSizer->AddGrowableCol(1, 1);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(mainSizer);
 			PostCreate();
 
 			// Info.xml
-			m_InfoInput = PageBase::AddControlsRow(mainSizer, "Info.xml", new KxTextBox(m_ViewPane, KxID_NONE));
+			m_InfoInput = PageBase::AddControlsRow(mainSizer, "Info.xml", new KxTextBox(m_ViewPane, wxID_NONE));
 			m_InfoInput->Bind(wxEVT_TEXT, &FOModImportExportDialog::OnText, this);
 
-			KxButton* infoButton = new KxButton(m_ViewPane, (wxWindowID)Type::InfoXML, KTr(KxID_SELECT_FILE));
+			KxButton* infoButton = new KxButton(m_ViewPane, (wxWindowID)Type::InfoXML, KTr(wxID_SELECT_FILE));
 			infoButton->Bind(wxEVT_BUTTON, &FOModImportExportDialog::OnBrowseFile, this);
 			infoButton->SetClientObject(new kxf::StringClientData("Info"));
 			mainSizer->Add(infoButton, 0, wxEXPAND);
 
 			// ModuleConfig.xml
-			m_ModuleConfigInput = PageBase::AddControlsRow(mainSizer, "ModuleConfig.xml", new KxTextBox(m_ViewPane, KxID_NONE));
+			m_ModuleConfigInput = PageBase::AddControlsRow(mainSizer, "ModuleConfig.xml", new KxTextBox(m_ViewPane, wxID_NONE));
 			m_ModuleConfigInput->Bind(wxEVT_TEXT, &FOModImportExportDialog::OnText, this);
 
-			KxButton* moduleConfigButton = new KxButton(m_ViewPane, (wxWindowID)Type::ModuleConfigXML, KTr(KxID_SELECT_FILE));
+			KxButton* moduleConfigButton = new KxButton(m_ViewPane, (wxWindowID)Type::ModuleConfigXML, KTr(wxID_SELECT_FILE));
 			moduleConfigButton->Bind(wxEVT_BUTTON, &FOModImportExportDialog::OnBrowseFile, this);
 			moduleConfigButton->SetClientObject(new kxf::StringClientData("ModuleConfig"));
 			mainSizer->Add(moduleConfigButton, 0, wxEXPAND);
 
 			// Project folder path
-			m_ProjectFolderInput = PageBase::AddControlsRow(mainSizer, KTr("PackageCreator.ProjectFolder"), new KxTextBox(m_ViewPane, KxID_NONE));
+			m_ProjectFolderInput = PageBase::AddControlsRow(mainSizer, KTr("PackageCreator.ProjectFolder"), new KxTextBox(m_ViewPane, wxID_NONE));
 			m_ProjectFolderInput->Bind(wxEVT_TEXT, &FOModImportExportDialog::OnText, this);
 
-			KxButton* projectFolderButton = new KxButton(m_ViewPane, (wxWindowID)Type::ProjectFolder, KTr(KxID_SELECT_FOLDER));
+			KxButton* projectFolderButton = new KxButton(m_ViewPane, (wxWindowID)Type::ProjectFolder, KTr(wxID_SELECT_FOLDER));
 			projectFolderButton->Bind(wxEVT_BUTTON, &FOModImportExportDialog::OnBrowseFile, this);
 			mainSizer->Add(projectFolderButton, 0, wxEXPAND);
 
 			// OK button
-			m_OKButton = GetButton(KxID_OK).GetControl();
+			m_OKButton = GetButton(wxID_OK).GetControl();
 			m_OKButton->Enable(false);
 
 			Bind(KxEVT_STDDIALOG_BUTTON, &FOModImportExportDialog::OnOK, this);
 			AdjustWindow(wxDefaultPosition);
-			SetInitialSize(FromDIP(wxSize(600, wxDefaultCoord)));
+			SetInitialSize(FromDIP(kxf::Size(600, wxDefaultCoord)));
 			Center();
 		}
 	}

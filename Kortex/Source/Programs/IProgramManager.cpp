@@ -4,12 +4,12 @@
 #include <Kortex/Common/Programs.hpp>
 #include "Utility/BitmapSize.h"
 #include "Utility/Common.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxFileItem.h>
-#include <KxFramework/KxMenu.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxFileItem.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxProcess.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace
 {
@@ -34,15 +34,15 @@ namespace Kortex
 		const SimpleManagerInfo TypeInfo("ProgramManager", "ProgramManager.Name");
 	}
 
-	void IProgramManager::OnAddMainMenuItems(KxMenu& menu)
+	void IProgramManager::OnAddMainMenuItems(kxf::UI::Menu& menu)
 	{
 		for (auto& entry: GetProgramList())
 		{
 			if (entry->ShouldShowInMainMenu())
 			{
-				KxMenuItem* item = menu.Add(new KxMenuItem(kxf::String::Format("%1 %2", KTr("Generic.Run"), entry->GetName())));
+				kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(kxf::String::Format("%1 %2", KTr("Generic.Run"), entry->GetName())));
 				item->Enable(entry->CanRunNow());
-				item->Bind(KxEVT_MENU_SELECT, [this, &entry](KxMenuEvent& event)
+				item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, &entry](kxf::UI::MenuEvent& event)
 				{
 					RunEntry(*entry);
 				});

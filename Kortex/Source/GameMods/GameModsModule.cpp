@@ -10,7 +10,7 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo GameModsTypeInfo("GameMods", "GameModsModule.Name", "1.3", Imagekxf::ResourceID::Puzzle);
+		const SimpleModuleInfo GameModsTypeInfo("GameMods", "GameModsModule.Name", "1.3", ImageResourceID::Puzzle);
 	}
 
 	void GameModsModule::OnLoadInstance(IGameInstance& instance, const kxf::XMLNode& node)

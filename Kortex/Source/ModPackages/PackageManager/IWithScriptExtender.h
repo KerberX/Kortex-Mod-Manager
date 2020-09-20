@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "ModPackages/IPackageManager.h"
-#include <KxFramework/KxComponentSystem.h>
+#include <kxf::UI::Framework/KxComponentSystem.h>
 
 namespace Kortex::PackageProject
 {

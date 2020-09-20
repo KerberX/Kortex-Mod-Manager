@@ -2,7 +2,7 @@
 #include <WinUser.h>
 #include "Common.h"
 #include "IPC/Serialization.h"
-#include <KxFramework/KxSharedMemory.h>
+#include <kxf::UI::Framework/KxSharedMemory.h>
 
 namespace Kortex::IPC
 {

@@ -12,7 +12,7 @@ namespace Kortex
 			wxBitmap m_Bitmap;
 
 		public:
-			SimpleNotification(const kxf::String& caption, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			SimpleNotification(const kxf::String& caption, const kxf::String& message, kxf::StdIcon iconID = kxf::StdIcon::Information);
 			SimpleNotification(const kxf::String& caption, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
 		public:

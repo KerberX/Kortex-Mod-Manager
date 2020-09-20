@@ -21,7 +21,7 @@ namespace Kortex
 		public:
 			template<class T> static void ScheduleReloadOf()
 			{
-				static_assert(std::is_base_of_v<KxSingletonPtr<T>, T>, "T is not a singleton class");
+				static_assert(std::is_base_of_v<kxf::SingletonPtr<T>, T>, "T is not a singleton class");
 
 				if (T* workspace = T::GetInstance())
 				{
@@ -33,7 +33,7 @@ namespace Kortex
 			template<class TWorkspace, class TFunc>
 			static bool CallIfCreated(TFunc&& func)
 			{
-				static_assert(std::is_base_of_v<KxSingletonPtr<TWorkspace>, TWorkspace>, "Must be a 'KxSingletonPtr'");
+				static_assert(std::is_base_of_v<kxf::SingletonPtr<TWorkspace>, TWorkspace>, "Must be a 'kxf::SingletonPtr'");
 
 				TWorkspace* workspace = TWorkspace::GetInstance();
 				if (workspace && workspace->IsCreated())

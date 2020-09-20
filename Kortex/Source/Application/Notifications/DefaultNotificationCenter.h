@@ -17,22 +17,22 @@ namespace Kortex::Notifications
 		private:
 			wxCriticalSection m_NotificationsCS;
 			INotification::Vector m_Notifications;
-			KxAuiToolBarItem* m_Button = nullptr;
+			kxf::UI::AuiToolBarItem* m_Button = nullptr;
 
 			wxPopupTransientWindow* m_PopupWindow = nullptr;
-			KxAuiToolBar* m_PpoupToolbar = nullptr;
-			KxAuiToolBarItem* m_PpoupToolbar_Label = nullptr;
-			KxAuiToolBarItem* m_PpoupToolbar_ClearNotifications = nullptr;
+			kxf::UI::AuiToolBar* m_PpoupToolbar = nullptr;
+			kxf::UI::AuiToolBarItem* m_PpoupToolbar_Label = nullptr;
+			kxf::UI::AuiToolBarItem* m_PpoupToolbar_ClearNotifications = nullptr;
 			DisplayModel* m_PopupDisplayModel = nullptr;
 
 		private:
 			void UpdateLabel();
-			void OnClearNotifications(KxAuiToolBarEvent& event);
+			void OnClearNotifications(kxf::UI::AuiToolBarEvent& event);
 			void OnNotificationsCountChanged();
 
 		protected:
-			void OnSetToolbarButton(KxAuiToolBarItem& button) override;
-			void OnToolbarButton(KxAuiToolBarEvent& event) override;
+			void OnSetToolbarButton(kxf::UI::AuiToolBarItem& button) override;
+			void OnToolbarButton(kxf::UI::AuiToolBarEvent& event) override;
 			void UpdateToolbarButton() override;
 
 			void QueueNotification(std::unique_ptr<INotification> notification) override;

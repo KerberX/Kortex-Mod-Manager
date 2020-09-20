@@ -5,9 +5,9 @@
 #include "Utility/Common.h"
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxDualInputDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxDualInputDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::NetworkManager::NXMHandler
 {
@@ -117,13 +117,13 @@ namespace Kortex::NetworkManager::NXMHandler
 	void DisplayModelNode::OpenExecutableDialog()
 	{
 		KxDualInputDialog dialog(GetView(),
-								  KxID_NONE,
+								  wxID_NONE,
 								  KTr("NetworkManager.NXMHandler.ConfigureExecutable"),
 								  wxDefaultPosition,
 								  wxDefaultSize,
 								  KxBTN_OK|KxBTN_CANCEL
 		);
-		dialog.SetInitialSize(wxSize(640, wxDefaultCoord));
+		dialog.SetInitialSize(kxf::Size(640, wxDefaultCoord));
 
 		dialog.SetHint1(KTr("Generic.FileLocation"));
 		dialog.SetHint2(KTr("Generic.Arguments"));
@@ -137,21 +137,21 @@ namespace Kortex::NetworkManager::NXMHandler
 			dialog.SetValue2(wxS("\"%1\""));
 		}
 
-		dialog.AddButton(KxID_SELECT_FILE, {}, true).GetControl()->Bind(wxEVT_BUTTON, [&dialog](wxCommandEvent& event)
+		dialog.AddButton(wxID_SELECT_FILE, {}, true).GetControl()->Bind(wxEVT_BUTTON, [&dialog](wxCommandEvent& event)
 		{
-			KxFileBrowseDialog fileDialog(&dialog, KxID_NONE, KxFBD_OPEN);
+			KxFileBrowseDialog fileDialog(&dialog, wxID_NONE, KxFBD_OPEN);
 			fileDialog.AddFilter("*.exe", KTr("FileFilter.Programs"));
 			fileDialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 			fileDialog.SetFolder(dialog.GetValue1());
 
-			if (fileDialog.ShowModal() == KxID_OK)
+			if (fileDialog.ShowModal() == wxID_OK)
 			{
 				dialog.SetValue1(fileDialog.GetResult());
 			}
 		});
 		dialog.Bind(KxEVT_STDDIALOG_BUTTON, [this, &dialog](wxNotifyEvent& event)
 		{
-			if (event.GetId() == KxID_OK)
+			if (event.GetId() == wxID_OK)
 			{
 				const IApplication* app = IApplication::GetInstance();
 				if (kxf::String path = dialog.GetValue1(); path != app->GetExecutablePath())

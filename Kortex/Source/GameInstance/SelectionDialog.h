@@ -2,14 +2,14 @@
 #include <Kortex/Kortex.hpp>
 #include "GameInstance/GameID.h"
 #include "Application/BroadcastProcessor.h"
-#include <KxFramework/KxComboBoxDialog.h>
+#include <kxf::UI::Framework/KxComboBoxDialog.h>
 class KxPanel;
 class KxButton;
 class KxTextBox;
 class KxListBox;
 class kxf::ImageList;
 class KxBitmapComboBox;
-class KxSplitterWindow;
+class kxf::UI::SplitterWindow;
 
 namespace Kortex
 {
@@ -23,7 +23,7 @@ namespace Kortex::GameInstance
 		private:
 			BroadcastReciever m_BroadcastReciever;
 
-			KxSplitterWindow* m_Splitter = nullptr;
+			kxf::UI::SplitterWindow* m_Splitter = nullptr;
 
 			KxPanel* m_LeftPane = nullptr;
 			wxBoxSizer* m_LeftSizer = nullptr;

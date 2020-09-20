@@ -9,11 +9,11 @@
 #include "ModPackages/ModPackage.h"
 #include "GameMods/ModManager/BasicGameMod.h"
 #include "Utility/TempFolderKeeper.h"
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxStdDialog.h>
-#include <KxFramework/KxNotebook.h>
-#include <KxFramework/KxAuiNotebook.h>
-#include <KxFramework/KxWithOptions.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxNotebook.h>
+#include <kxf::UI::Framework/KxAuiNotebook.h>
+#include <kxf::UI::Framework/KxWithOptions.h>
 
 namespace Kortex::InstallWizard
 {

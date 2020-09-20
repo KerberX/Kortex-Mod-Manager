@@ -20,11 +20,11 @@ namespace Kortex::IPC
 				return true;
 			}
 		}
-		return KxFrame::MSWWindowProc(msg, wParam, lParam);
+		return kxf::UI::Frame::MSWWindowProc(msg, wParam, lParam);
 	}
 
 	ProcessingWindow::ProcessingWindow(wxWindow* parent)
-		:KxFrame(parent, wxID_NONE, wxS("Kortex::IPC::ProcessingWindow"))
+		:kxf::UI::Frame(parent, wxID_NONE, wxS("Kortex::IPC::ProcessingWindow"))
 	{
 	}
 }

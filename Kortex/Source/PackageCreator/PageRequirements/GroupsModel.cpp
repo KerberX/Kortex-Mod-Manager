@@ -6,10 +6,10 @@
 #include "PackageCreator/WorkspaceDocument.h"
 #include <Kortex/Application.hpp>
 #include "Utility/Common.h"
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxDataViewComboBox.h>
-#include <KxFramework/KxTextBoxDialog.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace Kortex::PackageDesigner
 {
@@ -33,7 +33,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_HORIZONTAL_SIZER);
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_DISMISS_ON_SELECT, false);
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_FORCE_GET_STRING_VALUE_ON_DISMISS);
-		m_ComboView->Create(window, KxID_NONE);
+		m_ComboView->Create(window, wxID_NONE);
 		m_ComboView->ComboSetMaxVisibleItems(16);
 		m_ComboView->Bind(KxEVT_DVCB_GET_STRING_VALUE, &GroupsModel::OnGetStringValue, this);
 	
@@ -166,18 +166,18 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		KxDataViewItem item = event.GetItem();
 		const PackageProject::RequirementGroup* entry = GetDataEntry(item);
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddGroup, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddGroup, KTr(wxID_ADD)));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(entry != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 	
@@ -188,12 +188,12 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				OnAddGroup(true);
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveGroup(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -255,10 +255,10 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		kxf::String name;
 		if (useDialog)
 		{
-			KxTextBoxDialog dialog(GetView(), KxID_NONE, KTr("PackageCreator.NewGroupDialog"));
+			KxTextBoxDialog dialog(GetView(), wxID_NONE, KTr("PackageCreator.NewGroupDialog"));
 			dialog.Bind(KxEVT_STDDIALOG_BUTTON, [this, &dialog](wxNotifyEvent& event)
 			{
-				if (event.GetId() == KxID_OK)
+				if (event.GetId() == wxID_OK)
 				{
 					if (m_Requirements->HasSetWithID(dialog.GetValue()))
 					{
@@ -268,7 +268,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				}
 			});
 	
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				name = dialog.GetValue();
 			}
@@ -288,8 +288,8 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 	{
 		if (PackageProject::RequirementGroup* group = GetDataEntry(item))
 		{
-			KxTaskDialog dialog(GetView(), KxID_NONE, KTrf("PackageCreator.RemoveGroupDialog", group->GetID()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-			if (dialog.ShowModal() == KxID_YES)
+			KxTaskDialog dialog(GetView(), wxID_NONE, KTrf("PackageCreator.RemoveGroupDialog", group->GetID()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+			if (dialog.ShowModal() == wxID_YES)
 			{
 				if (IsEmpty())
 				{
@@ -318,21 +318,21 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 	{
 		VectorModel::Create(controller, window, sizer);
 	
-		m_AddButton = new KxButton(window, KxID_NONE, KTr(KxID_ADD));
+		m_AddButton = new KxButton(window, wxID_NONE, KTr(wxID_ADD));
 		m_AddButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 		{
 			OnAddGroup(true);
 		});
-		sizer->Add(m_AddButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		sizer->Add(m_AddButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 	
 		// Remove button
-		m_RemoveButton = new KxButton(window, KxID_NONE, KTr(KxID_REMOVE));
+		m_RemoveButton = new KxButton(window, wxID_NONE, KTr(wxID_REMOVE));
 		m_RemoveButton->Enable(false);
 		m_RemoveButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 		{
 			OnRemoveGroup(GetView()->GetSelection());
 		});
-		sizer->Add(m_RemoveButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		sizer->Add(m_RemoveButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 	}
 	void GroupsModel::ChangeNotify()
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Utility/WithBitmap.h"
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex
 {

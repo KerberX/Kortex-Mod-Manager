@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "GameData/IGameSave.h"
 #include "Application/IManager.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -17,7 +17,7 @@ namespace Kortex
 
 	class ISaveManager:
 		public ManagerWithTypeInfo<IManager, SaveManager::Internal::TypeInfo>,
-		public KxSingletonPtr<ISaveManager>
+		public kxf::SingletonPtr<ISaveManager>
 	{
 		protected:
 			IGameSave::Vector m_Saves;

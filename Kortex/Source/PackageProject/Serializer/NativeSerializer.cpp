@@ -216,7 +216,7 @@ namespace Kortex::PackageProject
 				{
 					item.SetPath(node.GetAttribute("Path"));
 					item.SetVisible(node.GetAttributeBool("Visible", true));
-					item.SetSize(wxSize(node.GetAttributeInt("Width", wxDefaultCoord), node.GetAttributeInt("Height", wxDefaultCoord)));
+					item.SetSize(kxf::Size(node.GetAttributeInt("Width", wxDefaultCoord), node.GetAttributeInt("Height", wxDefaultCoord)));
 					item.SetDescription(node.GetFirstChildElement("Description").GetValue());
 				}
 				return item;

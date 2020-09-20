@@ -7,7 +7,7 @@
 #include "GameInstance/GameID.h"
 #include "Utility/Collection.h"
 #include "Utility/LabeledValue.h"
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 class KxTextBox;
 
 namespace Kortex::PackageDesigner

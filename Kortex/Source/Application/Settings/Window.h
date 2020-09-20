@@ -3,7 +3,7 @@
 #include "GameConfig/IConfigManager.h"
 #include "GameConfig/ConfigManger/DisplayModel.h"
 #include "ConfigManager.h"
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 
 namespace Kortex::Application::Settings
 {

@@ -8,10 +8,10 @@
 #include "UI/ImageViewerDialog.h"
 #include "Utility/Common.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
 
 namespace
 {
@@ -333,15 +333,15 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				{
 					if (entry)
 					{
-						KxMenu menu;
+						kxf::UI::Menu menu;
 						for (int i = ToInt(PackageProject::Operator::MIN); i < ToInt(PackageProject::Operator::MAX_COMPARISON); i++)
 						{
-							KxMenuItem* item = menu.Add(new KxMenuItem(i, ModPackageProject::OperatorToSymbolicName((PackageProject::Operator)i), wxEmptyString, wxITEM_CHECK));
+							kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(i, ModPackageProject::OperatorToSymbolicName((PackageProject::Operator)i), wxEmptyString, wxITEM_CHECK));
 							item->Check(i == ToInt(entry->GetRequiredVersionOperator()));
 						}
 	
-						wxWindowID id = menu.Show(GetView(), GetView()->GetDropdownMenuPosition(item, column) + wxPoint(0, 1));
-						if (id != KxID_NONE)
+						wxWindowID id = menu.Show(GetView(), GetView()->GetDropdownMenuPosition(item, column) + kxf::Point(0, 1));
+						if (id != wxID_NONE)
 						{
 							entry->SetRequiredVersionOperator((PackageProject::Operator)id);
 							NotifyChangedItem(item);
@@ -370,7 +370,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 					{
 						UI::TextEditDialog dialog(GetView());
 						dialog.SetText(entry->GetDescription());
-						if (dialog.ShowModal() == KxID_OK && dialog.IsModified())
+						if (dialog.ShowModal() == wxID_OK && dialog.IsModified())
 						{
 							entry->SetDescription(dialog.GetText());
 							NotifyChangedItem(item);
@@ -405,9 +405,9 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		KxDataViewItem item = event.GetItem();
 		const PackageProject::RequirementItem* entry = GetDataEntry(GetRow(item));
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenu* allItems = CreateAllItemsMenu(menu);
+			kxf::UI::Menu* allItems = CreateAllItemsMenu(menu);
 			CreateAllItemsMenuEntry(allItems, ColumnID::Name);
 			CreateAllItemsMenuEntry(allItems, ColumnID::RequiredVersion);
 			CreateAllItemsMenuEntry(allItems, ColumnID::Object);
@@ -416,16 +416,16 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 		}
 	
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddEntry, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ChequePlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddEntry, KTr(wxID_ADD)));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ChequePlus));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(entry != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 	
@@ -436,12 +436,12 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 				OnAddEntry();
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveEntry(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -456,8 +456,8 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 			case ColumnID::RequiredVersion:
 			case ColumnID::Object:
 			{
-				KxTextBoxDialog dialog(GetView(), KxID_NONE, column->GetTitle());
-				if (dialog.ShowModal() == KxID_OK)
+				KxTextBoxDialog dialog(GetView(), wxID_NONE, column->GetTitle());
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					for (auto& entry: *GetDataVector())
 					{
@@ -487,7 +487,7 @@ namespace Kortex::PackageDesigner::PageRequirementsNS
 			case ColumnID::Description:
 			{
 				UI::TextEditDialog dialog(GetView());
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					for (auto& entry: *GetDataVector())
 					{

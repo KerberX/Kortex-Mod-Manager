@@ -23,7 +23,7 @@ namespace Kortex::PackageDesigner
 		friend class Workspace;
 
 		private:
-			KxSplitterWindow* m_Pane = nullptr;
+			kxf::UI::SplitterWindow* m_Pane = nullptr;
 			//KProgramOptionAI m_MainOptions;
 
 			// Folders
@@ -55,7 +55,7 @@ namespace Kortex::PackageDesigner
 		public:
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Folder;
+				return ImageResourceID::Folder;
 			}
 			kxf::String GetID() const override;
 			kxf::String GetPageName() const override;

@@ -6,8 +6,8 @@
 #include "IDownloadItem.h"
 #include "IDownloadExecutor.h"
 #include "GameInstance/GameID.h"
-#include <KxFramework/KxFileItem.h>
-#include <KxFramework/KxOptionSet.h>
+#include <kxf::UI::Framework/KxFileItem.h>
+#include <kxf::UI::Framework/KxOptionSet.h>
 
 namespace Kortex
 {

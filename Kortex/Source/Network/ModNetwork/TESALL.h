@@ -2,14 +2,14 @@
 #include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 class KxCURLSession;
 
 namespace Kortex::NetworkManager
 {
 	class TESALLModNetwork:
 		public KxRTTI::ExtendInterface<TESALLModNetwork, IModNetwork>,
-		public KxSingletonPtr<TESALLModNetwork>
+		public kxf::SingletonPtr<TESALLModNetwork>
 	{
 		KxRTTI_DeclareIID(TESALLModNetwork, {0xc4255aa9, 0x9087, 0x49e5, {0xb3, 0xf5, 0x36, 0x67, 0x21, 0x60, 0x6f, 0xbc}});
 

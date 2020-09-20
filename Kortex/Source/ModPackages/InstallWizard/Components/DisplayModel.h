@@ -2,8 +2,8 @@
 #include <Kortex/Kortex.hpp>
 #include "../Common.h"
 #include "DisplayModelNode.h"
-#include <KxFramework/KxDataView.h>
-#include "KxFramework/KxDataViewTreeModelEx.h"
+#include <kxf::UI::Framework/KxDataView.h>
+#include "kxf::UI::Framework/KxDataViewTreeModelEx.h"
 
 namespace Kortex::InstallWizard::ComponentsPageNS
 {

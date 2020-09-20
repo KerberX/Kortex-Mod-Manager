@@ -9,8 +9,8 @@
 #include "ISource.h"
 #include "IAction.h"
 #include "GameConfig/IConfigManager.h"
-#include <KxFramework/DataView2/Node.h>
-#include <KxFramework/DataView2/DataView2Fwd.h>
+#include <kxf::UI::Framework/DataView2/Node.h>
+#include <kxf::UI::Framework/DataView2/DataView2Fwd.h>
 
 namespace Kortex
 {

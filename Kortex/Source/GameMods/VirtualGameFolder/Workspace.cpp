@@ -3,7 +3,7 @@
 #include "DisplayModel.h"
 #include "GameMods/ModManager/Workspace.h"
 #include <Kortex/ApplicationOptions.hpp>
-#include <KxFramework/KxSearchBox.h>
+#include <kxf::UI::Framework/KxSearchBox.h>
 
 namespace Kortex::Application::OName
 {

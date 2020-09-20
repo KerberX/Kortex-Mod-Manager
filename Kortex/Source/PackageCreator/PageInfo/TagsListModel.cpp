@@ -2,8 +2,8 @@
 #include "TagsListModel.h"
 #include "PackageCreator/WorkspaceDocument.h"
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxDataViewComboBox.h>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::PackageDesigner::PageInfoNS
 {

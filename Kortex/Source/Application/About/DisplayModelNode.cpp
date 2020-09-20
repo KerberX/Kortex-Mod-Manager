@@ -2,7 +2,7 @@
 #include "DisplayModelNode.h"
 #include "Utility/String.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxTextFile.h>
+#include <kxf::UI::Framework/KxTextFile.h>
 
 using namespace Kortex::Utility;
 
@@ -71,7 +71,7 @@ namespace Kortex::Application::About
 	}
 	kxf::ResourceID AppNode::GetIconID() const
 	{
-		return Imagekxf::ResourceID::KortexLogoSmall;
+		return ImageResourceID::KortexLogoSmall;
 	}
 	KxURI AppNode::GetURI() const
 	{

@@ -2,8 +2,8 @@
 #include <Kortex/Kortex.hpp>
 #include "../WizardPage.h"
 #include "Utility/OperationWithProgress.h"
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxLabel.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/KxLabel.h>
 
 namespace Kortex::InstallWizard
 {
@@ -30,7 +30,7 @@ namespace Kortex::InstallWizard
 			}
 			WizardButton GetForwardButton() override
 			{
-				return WizardButton(KTr(KxID_CLOSE), true);
+				return WizardButton(KTr(wxID_CLOSE), true);
 			}
 
 		public:

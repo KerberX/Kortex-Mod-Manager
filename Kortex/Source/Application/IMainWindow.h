@@ -2,13 +2,13 @@
 #include <Kortex/Kortex.hpp>
 #include "Options/Option.h"
 #include "Resources/IImageProvider.h"
-#include "Resources/Imagekxf::ResourceID.h"
+#include "Resources/ImageResourceID.h"
 #include "IWorkspaceContainer.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxStatusBarEx.h>
-#include <KxFramework/KxFrame.h>
-#include <KxFramework/KxMenu.h>
+#include <kxf/General/Singleton.h>
+#include <kxf/UI/Controls/AUI/AuiToolBar.h>
+#include <kxf/UI/Controls/StatusBarEx.h>
+#include <kxf/UI/Windows/Frame.h>
+#include <kxf/UI/Menus/Menu.h>
 
 namespace Kortex
 {
@@ -18,22 +18,22 @@ namespace Kortex
 
 namespace Kortex
 {
-	class IMainWindow: public KxSingletonPtr<IMainWindow>, public Application::WithOptions<IMainWindow>
+	class IMainWindow: public kxf::SingletonPtr<IMainWindow>, public Application::WithOptions<IMainWindow>
 	{
 		public:
-			static wxSize GetDialogBestSize(const wxWindow* dialog);
+			static kxf::Size GetDialogBestSize(const wxWindow* dialog);
 
 		public:
-			virtual KxFrame& GetFrame() = 0;
-			const KxFrame& GetFrame() const
+			virtual kxf::UI::Frame& GetFrame() = 0;
+			const kxf::UI::Frame& GetFrame() const
 			{
 				return const_cast<IMainWindow&>(*this).GetFrame();
 			}
 
-			virtual KxAuiToolBar& GetMainToolBar() = 0;
-			virtual KxAuiToolBar& GetQuickToolBar() = 0;
-			virtual KxStatusBarEx& GetStatusBar() = 0;
-			virtual KxMenu& GetWorkspacesMenu() = 0;
+			virtual kxf::UI::AuiToolBar& GetMainToolBar() = 0;
+			virtual kxf::UI::AuiToolBar& GetQuickToolBar() = 0;
+			virtual kxf::UI::StatusBarEx& GetStatusBar() = 0;
+			virtual kxf::UI::Menu& GetWorkspacesMenu() = 0;
 
 			virtual IWorkspaceContainer& GetWorkspaceContainer() = 0;
 			const IWorkspaceContainer& GetWorkspaceContainer() const
@@ -46,8 +46,8 @@ namespace Kortex
 			virtual void SetStatusProgress(int current) = 0;
 			virtual void SetStatusProgress(int64_t current, int64_t total) = 0;
 
-			virtual KxAuiToolBarItem* AddToolBarItem(IWorkspace& workspace) = 0;
-			virtual KxMenuItem* AddToolBarMenuItem(IWorkspace& workspace) = 0;
+			virtual kxf::UI::AuiToolBarItem* AddToolBarItem(IWorkspace& workspace) = 0;
+			virtual kxf::UI::MenuItem* AddToolBarMenuItem(IWorkspace& workspace) = 0;
 
 			void InitializeWorkspaces();
 	};

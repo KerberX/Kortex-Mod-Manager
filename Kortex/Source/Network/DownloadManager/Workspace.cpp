@@ -5,10 +5,10 @@
 #include <Kortex/Notification.hpp>
 #include <Kortex/DownloadManager.hpp>
 #include "GameMods/ModManager/Workspace.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxComboBox.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxComboBox.h>
 
 namespace
 {
@@ -45,14 +45,14 @@ namespace Kortex::DownloadManager
 		GetDisplayModelOptions().LoadDataViewLayout(m_DisplayModel->GetView());
 
 		// Toolbar
-		m_ToolBar = new KxAuiToolBar(this, KxID_NONE, KxAuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND);
-		m_ToolBar->SetBackgroundColour(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Window, Theme::ColorFlags::Background));
+		m_ToolBar = new kxf::UI::AuiToolBar(this, wxID_NONE, kxf::UI::AuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND);
+		m_ToolBar->SetBackgroundColour(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Window, Theme::ColorFlag::Background));
 		m_ToolBar->AddStretchSpacer();
 
 		{
 			m_ToolBar->AddLabel(KTr("DownloadManager.ConcurrentDownloads.Label") + ':');
 
-			KxComboBox* comboBox = new KxComboBox(m_ToolBar, KxID_NONE);
+			KxComboBox* comboBox = new KxComboBox(m_ToolBar, wxID_NONE);
 			comboBox->Bind(wxEVT_COMBOBOX, &Workspace::OnSelectConcurrentDownloadsCount, this);
 
 			comboBox->AddItem(KTr("DownloadManager.ConcurrentDownloads.Unlimited"));

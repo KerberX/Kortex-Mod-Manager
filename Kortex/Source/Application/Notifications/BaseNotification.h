@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/INotification.h"
-#include "KxFramework/KxUUID.h"
+#include "kxf/General/UniversallyUniqueID.h"
 
 namespace Kortex::Notifications
 {
@@ -16,7 +16,7 @@ namespace Kortex::Notifications
 			int m_NotifyIconID = -1;
 
 			NOTIFYICONDATAW m_NotifyInfo = {};
-			KxUUID m_NotifyGUID;
+			kxf::UniversallyUniqueID m_NotifyGUID;
 			wxIcon m_NotifyIcon;
 			wxIcon m_TrayIcon;
 
@@ -24,7 +24,7 @@ namespace Kortex::Notifications
 			bool m_SuppressDismiss = false;
 
 		private:
-			void OnNotificationEvent(int eventID, int iconID, const wxPoint& pos);
+			void OnNotificationEvent(int eventID, int iconID, const kxf::Point& pos);
 			void InitNotifyInfo();
 
 			void InitMessages();
@@ -39,11 +39,11 @@ namespace Kortex::Notifications
 			}
 
 		public:
-			HWND GetHandle() const
+			void* GetHandle() const
 			{
 				return m_Handle;
 			}
-			KxUUID GetGUID() const
+			kxf::UniversallyUniqueID GetGUID() const
 			{
 				return m_NotifyGUID;
 			}

@@ -5,7 +5,7 @@
 #include "ConfigManger/ItemValue.h"
 #include "ConfigManger/IAction.h"
 #include "ConfigManger/ISamplingFunction.h"
-#include <KxFramework/KxTranslation.h>
+#include <kxf::UI::Framework/KxTranslation.h>
 class kxf::XMLNode;
 
 namespace Kortex

@@ -12,8 +12,8 @@
 #include "Network/ModNetwork/TESALL.h"
 #include "PackageProject/Serializer.h"
 #include "Utility/OperationWithProgress.h"
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxTextFile.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxTextFile.h>
 
 namespace Kortex::ModManager
 {

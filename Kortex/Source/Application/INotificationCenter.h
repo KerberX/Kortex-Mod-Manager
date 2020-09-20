@@ -2,11 +2,11 @@
 #include <Kortex/Kortex.hpp>
 #include "INotification.h"
 #include "IManager.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 class IMainWindow;
-class KxAuiToolBar;
-class KxAuiToolBarItem;
-class KxAuiToolBarEvent;
+class kxf::UI::AuiToolBar;
+class kxf::UI::AuiToolBarItem;
+class kxf::UI::AuiToolBarEvent;
 
 namespace Kortex
 {
@@ -30,7 +30,7 @@ namespace Kortex
 	class INotificationCenter:
 		public ManagerWithTypeInfo<IManager, Notifications::Internal::TypeInfo>,
 		public Application::ManagerWithToolbarButton,
-		public KxSingletonPtr<INotificationCenter>
+		public kxf::SingletonPtr<INotificationCenter>
 	{
 		friend class IMainWindow;
 		friend class Notifications::DisplayModel;
@@ -72,16 +72,16 @@ namespace Kortex
 				QueueNotification(std::move(notification));
 			}
 			
-			static void Notify(const kxf::String& caption, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const kxf::String& caption, const kxf::String& message, kxf::StdIcon iconID = kxf::StdIcon::Information);
 			static void Notify(const kxf::String& caption, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
-			static void Notify(const IModule& module, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const IModule& module, const kxf::String& message, kxf::StdIcon iconID = kxf::StdIcon::Information);
 			static void Notify(const IModule& module, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
-			static void Notify(const IManager& manager, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const IManager& manager, const kxf::String& message, kxf::StdIcon iconID = kxf::StdIcon::Information);
 			static void Notify(const IManager& manager, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 
-			static void Notify(const IModNetwork& modNetwork, const kxf::String& message, KxIconType iconID = KxICON_INFORMATION);
+			static void Notify(const IModNetwork& modNetwork, const kxf::String& message, kxf::StdIcon iconID = kxf::StdIcon::Information);
 			static void Notify(const IModNetwork& modNetwork, const kxf::String& message, const wxBitmap& bitmap = wxNullBitmap);
 			
 			template<class T, class... Args> static void Notify(Args&&... arg)

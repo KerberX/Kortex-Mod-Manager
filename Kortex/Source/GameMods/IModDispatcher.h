@@ -3,13 +3,13 @@
 #include "FileTreeNode.h"
 #include "IGameMod.h"
 #include "ModManager/Common.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
 	class IGameMod;
 
-	class IModDispatcher: public KxSingletonPtr<IModDispatcher>
+	class IModDispatcher: public kxf::SingletonPtr<IModDispatcher>
 	{
 		public:
 			enum class IterationOrder

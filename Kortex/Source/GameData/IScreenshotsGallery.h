@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/IManager.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -17,7 +17,7 @@ namespace Kortex
 
 	class IScreenshotsGallery:
 		public ManagerWithTypeInfo<IManager, ScreenshotsGallery::Internal::TypeInfo>,
-		public KxSingletonPtr<IScreenshotsGallery>
+		public kxf::SingletonPtr<IScreenshotsGallery>
 	{
 		public:
 			static const KxStringVector& GetSupportedExtensions();

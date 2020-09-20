@@ -4,13 +4,13 @@
 #include "ModRepositoryReply.h"
 #include "ModRepositoryRequest.h"
 #include "GameInstance/GameID.h"
-#include "Application/Resources/Imagekxf::ResourceID.h"
-#include <KxFramework/KxComponentSystem.h>
-#include <KxFramework/KxSecretStore.h>
-#include <KxFramework/kxf::Version.h>
-#include <KxFramework/KxURI.h>
+#include "Application/Resources/ImageResourceID.h"
+#include <kxf::UI::Framework/KxComponentSystem.h>
+#include <kxf::UI::Framework/KxSecretStore.h>
+#include <kxf::UI::Framework/kxf::Version.h>
+#include <kxf::UI::Framework/KxURI.h>
 #include <Kx/RTTI.hpp>
-class KxMenu;
+class kxf::UI::Menu;
 class kxf::XMLNode;
 
 namespace Kortex
@@ -68,10 +68,10 @@ namespace Kortex
 			KxURI GetModPageURI(const DownloadItem& download) const;
 
 		public:
-			virtual void OnToolBarMenu(KxMenu& menu)
+			virtual void OnToolBarMenu(kxf::UI::Menu& menu)
 			{
 			}
-			virtual void OnModListMenu(KxMenu& menu, const ModsRefVector& selectedMods, IGameMod* focusedMod)
+			virtual void OnModListMenu(kxf::UI::Menu& menu, const ModsRefVector& selectedMods, IGameMod* focusedMod)
 			{
 			}
 	};

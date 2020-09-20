@@ -6,7 +6,7 @@
 #include "Utility/UI.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/InstallWizard.hpp>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace
 {
@@ -78,19 +78,19 @@ namespace Kortex::InstallWizard
 				{
 					m_Description->SetValue(Utility::UI::MakeHTMLWindowPlaceholder(KTr("InstallWizard.NoDescriptionHint"), m_Description));
 				}
-				m_TabView->SetPageImage((size_t)TabIndex::Description, (int)(!isDescriptionEmpty ? Imagekxf::ResourceID::InformationFrame : Imagekxf::ResourceID::InformationFrameEmpty));
+				m_TabView->SetPageImage((size_t)TabIndex::Description, (int)(!isDescriptionEmpty ? ImageResourceID::InformationFrame : ImageResourceID::InformationFrameEmpty));
 
 				bool bRequirementsEmpty = entry->GetRequirements().empty();
 				if (!bRequirementsEmpty)
 				{
 					const bool isOK = GetPackageConfig().GetRequirements().CalcOverallStatus(entry->GetRequirements());
 
-					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)(isOK ? Imagekxf::ResourceID::TickCircleFrame : Imagekxf::ResourceID::CrossCircleFrame));
+					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)(isOK ? ImageResourceID::TickCircleFrame : ImageResourceID::CrossCircleFrame));
 					//m_Components_Requirements->SetDataVector(&GetConfig().GetRequirements(), entry->GetRequirements());
 				}
 				else
 				{
-					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)Imagekxf::ResourceID::InformationFrameEmpty);
+					m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)ImageResourceID::InformationFrameEmpty);
 				}
 
 				const PackageProject::ImageItem* imageEntry = GetPackageConfig().GetInterface().FindImageByPath(entry->GetImage());
@@ -116,8 +116,8 @@ namespace Kortex::InstallWizard
 	}
 	void ComponentsPage::ClearComponentsViewInfo()
 	{
-		m_TabView->SetPageImage((size_t)TabIndex::Description, (int)Imagekxf::ResourceID::InformationFrameEmpty);
-		m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)Imagekxf::ResourceID::InformationFrameEmpty);
+		m_TabView->SetPageImage((size_t)TabIndex::Description, (int)ImageResourceID::InformationFrameEmpty);
+		m_TabView->SetPageImage((size_t)TabIndex::Requirements, (int)ImageResourceID::InformationFrameEmpty);
 
 		m_Description->SetValue(Utility::UI::MakeHTMLWindowPlaceholder(KTr("InstallWizard.SelectComponentHint"), m_Description));
 		m_Description->Disable();
@@ -178,12 +178,12 @@ namespace Kortex::InstallWizard
 	wxWindow* ComponentsPage::Create()
 	{
 		/* Create splitters */
-		m_SplitterV = new KxSplitterWindow(GetPageContainer(), KxID_NONE);
+		m_SplitterV = new kxf::UI::SplitterWindow(GetPageContainer(), wxID_NONE);
 		m_SplitterV->SetMinimumPaneSize(150);
 		m_SplitterV->SetName("VSplitter");
 		IThemeManager::GetActive().Apply(m_SplitterV);
 
-		m_SplitterHRight = new KxSplitterWindow(m_SplitterV, KxID_NONE);
+		m_SplitterHRight = new kxf::UI::SplitterWindow(m_SplitterV, wxID_NONE);
 		m_SplitterHRight->SetName("HSplitterRight");
 		m_SplitterHRight->SetMinimumPaneSize(150);
 		IThemeManager::GetActive().Apply(m_SplitterHRight);
@@ -197,7 +197,7 @@ namespace Kortex::InstallWizard
 		m_ComponentsModel->GetView()->Bind(KxEVT_DATAVIEW_ITEM_HOVERED, &ComponentsPage::OnSelectComponent, this);
 
 		// Image view
-		m_ImageView = new KxImageView(m_SplitterHRight, KxID_NONE, wxBORDER_THEME);
+		m_ImageView = new KxImageView(m_SplitterHRight, wxID_NONE, wxBORDER_THEME);
 		m_ImageView->SetScaleMode(KxIV_SCALE_ASPECT_FIT);
 		m_ImageView->Bind(wxEVT_LEFT_DCLICK, [this](wxMouseEvent& event)
 		{
@@ -219,11 +219,11 @@ namespace Kortex::InstallWizard
 		});
 
 		// Tabs
-		m_TabView = new KxAuiNotebook(m_SplitterHRight, KxID_NONE);
+		m_TabView = new KxAuiNotebook(m_SplitterHRight, wxID_NONE);
 		m_TabView->SetImageList(&ImageProvider::GetImageList());
 
 		// Description
-		m_Description = new KxHTMLWindow(m_TabView, KxID_NONE, wxEmptyString, KxHTMLWindow::DefaultStyle|wxBORDER_NONE);
+		m_Description = new KxHTMLWindow(m_TabView, wxID_NONE, wxEmptyString, KxHTMLWindow::DefaultStyle|wxBORDER_NONE);
 		m_Description->Bind(wxEVT_HTML_LINK_CLICKED, [this](wxHtmlLinkEvent& event)
 		{
 			Utility::UI::AskOpenURL(event.GetLinkInfo().GetHref(), &GetWizard());
@@ -284,7 +284,7 @@ namespace Kortex::InstallWizard
 		}
 		else
 		{
-			KxTaskDialog(&GetWizard(), KxID_NONE, KTr("InstallWizard.InvalidStepsConfig.Caption"), KTr("InstallWizard.InvalidStepsConfig.Message"), KxBTN_OK, KxICON_ERROR).ShowModal();
+			KxTaskDialog(&GetWizard(), wxID_NONE, KTr("InstallWizard.InvalidStepsConfig.Caption"), KTr("InstallWizard.InvalidStepsConfig.Message"), KxBTN_OK, KxICON_ERROR).ShowModal();
 			return false;
 		}
 	}

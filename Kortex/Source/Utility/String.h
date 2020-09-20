@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxFormat.h>
-#include <KxFramework/KxStringUtility.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxFormat.h>
+#include <kxf::UI::Framework/KxStringUtility.h>
 
 namespace Kortex::Utility
 {

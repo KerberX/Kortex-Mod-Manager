@@ -1,14 +1,14 @@
 #pragma once
 #pragma comment(lib, "delayimp")
 
-/* KxFramework */
-#include <KxFramework/KxFramework.h>
-#include <KxFramework/KxWinUndef.h>
+/* kxf::UI::Framework */
+#include <kxf::UI::Framework/kxf::UI::Framework.h>
+#include <kxf::UI::Framework/KxWinUndef.h>
 
 #if _WIN64
-#pragma comment(lib, "Bin/KxFramework x64.lib")
+#pragma comment(lib, "Bin/kxf::UI::Framework x64.lib")
 #else
-#pragma comment(lib, "Bin/KxFramework.lib")
+#pragma comment(lib, "Bin/kxf::UI::Framework.lib")
 #endif
 
 // C++

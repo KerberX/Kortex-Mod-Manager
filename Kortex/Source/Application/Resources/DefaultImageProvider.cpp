@@ -6,7 +6,7 @@
 
 namespace
 {
-	wxSize GetIconSIze()
+	kxf::Size GetIconSIze()
 	{
 		return Kortex::Utility::BitmapSize().FromSystemSmallIcon();
 	}
@@ -15,7 +15,7 @@ namespace
 		return static_cast<int>(Kortex::ImageResourceID::MAX_ELEMENT);
 	}
 
-	bool operator<(const wxSize& left, const wxSize& right)
+	bool operator<(const kxf::Size& left, const kxf::Size& right)
 	{
 		return left.GetWidth() < right.GetWidth() || left.GetHeight() < right.GetHeight();
 	}
@@ -27,7 +27,7 @@ namespace Kortex::Application
 	{
 		if (bitmap.GetSize() < m_ImageList.GetSize())
 		{
-			wxSize targetSize = m_ImageList.GetSize();
+			kxf::Size targetSize = m_ImageList.GetSize();
 			wxImage image = bitmap.ConvertToImage();
 			image.Rescale(targetSize.GetWidth(), targetSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_NORMAL);
 			bitmap = wxBitmap(image, 32);
@@ -38,7 +38,7 @@ namespace Kortex::Application
 		// Initialize image list with dummy images
 		{
 			wxIcon tempIcon = wxICON(IDS_ICON_APP);
-			for (size_t i = 0; i < static_cast<int>(Imagekxf::ResourceID::MAX_ELEMENT); i++)
+			for (size_t i = 0; i < static_cast<int>(ImageResourceID::MAX_ELEMENT); i++)
 			{
 				m_ImageList.Add(tempIcon);
 			}
@@ -50,7 +50,7 @@ namespace Kortex::Application
 			nullIcon.InitAlpha();
 			memset(nullIcon.GetAlpha(), 0, (size_t)nullIcon.GetWidth() * (size_t)nullIcon.GetHeight());
 
-			AddSingleItem(Imagekxf::ResourceID::Null, wxS("Null"), nullIcon);
+			AddSingleItem(ImageResourceID::Null, wxS("Null"), nullIcon);
 		}
 
 		// Unknown icon
@@ -59,220 +59,220 @@ namespace Kortex::Application
 			item.SetNormalAttributes();
 			item.SetName(wxS(".url"));
 
-			AddSingleItem(Imagekxf::ResourceID::ModNetwork_Unknown, wxS("UnknownSite"), KxShell::GetFileIcon(item, true));
+			AddSingleItem(ImageResourceID::ModNetwork_Unknown, wxS("UnknownSite"), KxShell::GetFileIcon(item, true));
 		}
 
 		// App logos
-		LoadItem(Imagekxf::ResourceID::KortexLogo, wxS("kortex-logo"));
-		LoadItem(Imagekxf::ResourceID::KortexLogoIco, wxS("kortex-logo-icon"), Type::Icon);
-		LoadItem(Imagekxf::ResourceID::KortexLogoSmall, wxS("kortex-logo-small"));
+		LoadItem(ImageResourceID::KortexLogo, wxS("kortex-logo"));
+		LoadItem(ImageResourceID::KortexLogoIco, wxS("kortex-logo-icon"), Type::Icon);
+		LoadItem(ImageResourceID::KortexLogoSmall, wxS("kortex-logo-small"));
 
-		LoadItem(Imagekxf::ResourceID::SKSMLogo, wxS("sksm-logo"));
-		LoadItem(Imagekxf::ResourceID::SKSMLogoIco, wxS("sksm-logo-icon"), Type::Icon);
-		LoadItem(Imagekxf::ResourceID::SKSMLogoSmall, wxS("sksm-logo-small"));
+		LoadItem(ImageResourceID::SKSMLogo, wxS("sksm-logo"));
+		LoadItem(ImageResourceID::SKSMLogoIco, wxS("sksm-logo-icon"), Type::Icon);
+		LoadItem(ImageResourceID::SKSMLogoSmall, wxS("sksm-logo-small"));
 
 		// Mod networks icons
-		LoadItem(Imagekxf::ResourceID::ModNetwork_TESALL, wxS("TESALL.RU"));
-		LoadItem(Imagekxf::ResourceID::ModNetwork_Nexus, wxS("NexusMods"));
-		LoadItem(Imagekxf::ResourceID::ModNetwork_LoversLab, wxS("LoverLab"));
+		LoadItem(ImageResourceID::ModNetwork_TESALL, wxS("TESALL.RU"));
+		LoadItem(ImageResourceID::ModNetwork_Nexus, wxS("NexusMods"));
+		LoadItem(ImageResourceID::ModNetwork_LoversLab, wxS("LoverLab"));
 
 		// Normal icons
-		LoadItem(Imagekxf::ResourceID::SevenZip, wxS("7zip"));
-		LoadItem(Imagekxf::ResourceID::SevenZipIco, wxS("7zip-icon"), Type::Icon);
+		LoadItem(ImageResourceID::SevenZip, wxS("7zip"));
+		LoadItem(ImageResourceID::SevenZipIco, wxS("7zip-icon"), Type::Icon);
 
-		LoadItem(Imagekxf::ResourceID::MO2, wxS("MO2"));
-		LoadItem(Imagekxf::ResourceID::MO2Ico, wxS("MO2-icon"), Type::Icon);
+		LoadItem(ImageResourceID::MO2, wxS("MO2"));
+		LoadItem(ImageResourceID::MO2Ico, wxS("MO2-icon"), Type::Icon);
 
-		LoadItem(Imagekxf::ResourceID::LOOT, wxS("LOOT"));
-		LoadItem(Imagekxf::ResourceID::JSON, wxS("JSON"));
-		LoadItem(Imagekxf::ResourceID::Dokany, wxS("Dokany"));
-		LoadItem(Imagekxf::ResourceID::LibCURL, wxS("curl"));
-		LoadItem(Imagekxf::ResourceID::WebSocket, wxS("websocket"));
+		LoadItem(ImageResourceID::LOOT, wxS("LOOT"));
+		LoadItem(ImageResourceID::JSON, wxS("JSON"));
+		LoadItem(ImageResourceID::Dokany, wxS("Dokany"));
+		LoadItem(ImageResourceID::LibCURL, wxS("curl"));
+		LoadItem(ImageResourceID::WebSocket, wxS("websocket"));
 
-		LoadItem(Imagekxf::ResourceID::Application, wxS("application"));
-		LoadItem(Imagekxf::ResourceID::ApplicationDetail, wxS("application-detail"));
-		LoadItem(Imagekxf::ResourceID::ApplicationProhibition, wxS("application-prohibition"));
-		LoadItem(Imagekxf::ResourceID::ApplicationRun, wxS("application-run"));
-		LoadItem(Imagekxf::ResourceID::ApplicationTask, wxS("application-task"));
-		LoadItem(Imagekxf::ResourceID::ApplicationDockDown, wxS("application-dock-down"));
-		LoadItem(Imagekxf::ResourceID::ApplicationSidebarCollapse, wxS("application-sidebar-collapse"));
-		LoadItem(Imagekxf::ResourceID::ApplicationSidebarExpand, wxS("application-sidebar-expand"));
+		LoadItem(ImageResourceID::Application, wxS("application"));
+		LoadItem(ImageResourceID::ApplicationDetail, wxS("application-detail"));
+		LoadItem(ImageResourceID::ApplicationProhibition, wxS("application-prohibition"));
+		LoadItem(ImageResourceID::ApplicationRun, wxS("application-run"));
+		LoadItem(ImageResourceID::ApplicationTask, wxS("application-task"));
+		LoadItem(ImageResourceID::ApplicationDockDown, wxS("application-dock-down"));
+		LoadItem(ImageResourceID::ApplicationSidebarCollapse, wxS("application-sidebar-collapse"));
+		LoadItem(ImageResourceID::ApplicationSidebarExpand, wxS("application-sidebar-expand"));
 
-		LoadItem(Imagekxf::ResourceID::Home, wxS("home"));
-		LoadItem(Imagekxf::ResourceID::Disk, wxS("disk"));
-		LoadItem(Imagekxf::ResourceID::Tags, wxS("tags"));
-		LoadItem(Imagekxf::ResourceID::Chart, wxS("chart"));
-		LoadItem(Imagekxf::ResourceID::Image, wxS("image"));
-		LoadItem(Imagekxf::ResourceID::Puzzle, wxS("puzzle"));
-		LoadItem(Imagekxf::ResourceID::Eraser, wxS("eraser"));
-		LoadItem(Imagekxf::ResourceID::Pictures, wxS("pictures"));
-		LoadItem(Imagekxf::ResourceID::Briefcase, wxS("briefcase"));
-		LoadItem(Imagekxf::ResourceID::PencilSmall, wxS("pencil-small"));
-		LoadItem(Imagekxf::ResourceID::PlugDisconnect, wxS("plug-disconnect"));
-		LoadItem(Imagekxf::ResourceID::LocaleAlternate, wxS("locale-alternate"));
-		LoadItem(Imagekxf::ResourceID::ProjectionScreen, wxS("projection-screen"));
-		LoadItem(Imagekxf::ResourceID::WrenchScrewdriver, wxS("wrench-screwdriver"));
+		LoadItem(ImageResourceID::Home, wxS("home"));
+		LoadItem(ImageResourceID::Disk, wxS("disk"));
+		LoadItem(ImageResourceID::Tags, wxS("tags"));
+		LoadItem(ImageResourceID::Chart, wxS("chart"));
+		LoadItem(ImageResourceID::Image, wxS("image"));
+		LoadItem(ImageResourceID::Puzzle, wxS("puzzle"));
+		LoadItem(ImageResourceID::Eraser, wxS("eraser"));
+		LoadItem(ImageResourceID::Pictures, wxS("pictures"));
+		LoadItem(ImageResourceID::Briefcase, wxS("briefcase"));
+		LoadItem(ImageResourceID::PencilSmall, wxS("pencil-small"));
+		LoadItem(ImageResourceID::PlugDisconnect, wxS("plug-disconnect"));
+		LoadItem(ImageResourceID::LocaleAlternate, wxS("locale-alternate"));
+		LoadItem(ImageResourceID::ProjectionScreen, wxS("projection-screen"));
+		LoadItem(ImageResourceID::WrenchScrewdriver, wxS("wrench-screwdriver"));
 
-		LoadItem(Imagekxf::ResourceID::Plus, wxS("plus"));
-		LoadItem(Imagekxf::ResourceID::PlusSmall, wxS("plus-small"));
+		LoadItem(ImageResourceID::Plus, wxS("plus"));
+		LoadItem(ImageResourceID::PlusSmall, wxS("plus-small"));
 
-		LoadItem(Imagekxf::ResourceID::Minus, wxS("minus"));
-		LoadItem(Imagekxf::ResourceID::MinusSmall, wxS("minus-small"));
+		LoadItem(ImageResourceID::Minus, wxS("minus"));
+		LoadItem(ImageResourceID::MinusSmall, wxS("minus-small"));
 
-		LoadItem(Imagekxf::ResourceID::QuestionFrame, wxS("question-frame"));
+		LoadItem(ImageResourceID::QuestionFrame, wxS("question-frame"));
 
-		LoadItem(Imagekxf::ResourceID::InformationFrame, wxS("information-frame"));
-		LoadItem(Imagekxf::ResourceID::InformationFrameEmpty, wxS("information-frame-empty"));
+		LoadItem(ImageResourceID::InformationFrame, wxS("information-frame"));
+		LoadItem(ImageResourceID::InformationFrameEmpty, wxS("information-frame-empty"));
 
-		LoadItem(Imagekxf::ResourceID::CrossCircleFrame, wxS("cross-circle-frame"));
-		LoadItem(Imagekxf::ResourceID::CrossCircleEmpty, wxS("cross-circle-frame-empty"));
-		LoadItem(Imagekxf::ResourceID::CrossWhite, wxS("cross-white"));
+		LoadItem(ImageResourceID::CrossCircleFrame, wxS("cross-circle-frame"));
+		LoadItem(ImageResourceID::CrossCircleEmpty, wxS("cross-circle-frame-empty"));
+		LoadItem(ImageResourceID::CrossWhite, wxS("cross-white"));
 
-		LoadItem(Imagekxf::ResourceID::TickCircleFrame, wxS("tick-circle-frame"));
-		LoadItem(Imagekxf::ResourceID::TickCircleFrameEmpty, wxS("tick-circle-frame-empty"));
+		LoadItem(ImageResourceID::TickCircleFrame, wxS("tick-circle-frame"));
+		LoadItem(ImageResourceID::TickCircleFrameEmpty, wxS("tick-circle-frame-empty"));
 
-		LoadItem(Imagekxf::ResourceID::Exclamation, wxS("exclamation"));
-		LoadItem(Imagekxf::ResourceID::ExclamationCircleFrame, wxS("exclamation-circle-frame"));
-		LoadItem(Imagekxf::ResourceID::ExclamationCircleFrameEmpty, wxS("exclamation-circle-frame-empty"));
+		LoadItem(ImageResourceID::Exclamation, wxS("exclamation"));
+		LoadItem(ImageResourceID::ExclamationCircleFrame, wxS("exclamation-circle-frame"));
+		LoadItem(ImageResourceID::ExclamationCircleFrameEmpty, wxS("exclamation-circle-frame-empty"));
 
-		LoadItem(Imagekxf::ResourceID::Direction, wxS("direction"));
-		LoadItem(Imagekxf::ResourceID::DirectionPlus, wxS("direction--plus"));
-		LoadItem(Imagekxf::ResourceID::DirectionMinus, wxS("direction--minus"));
+		LoadItem(ImageResourceID::Direction, wxS("direction"));
+		LoadItem(ImageResourceID::DirectionPlus, wxS("direction--plus"));
+		LoadItem(ImageResourceID::DirectionMinus, wxS("direction--minus"));
 
-		LoadItem(Imagekxf::ResourceID::Block, wxS("block"));
-		LoadItem(Imagekxf::ResourceID::BlockPlus, wxS("block--plus"));
-		LoadItem(Imagekxf::ResourceID::BlockMinus, wxS("block--minus"));
+		LoadItem(ImageResourceID::Block, wxS("block"));
+		LoadItem(ImageResourceID::BlockPlus, wxS("block--plus"));
+		LoadItem(ImageResourceID::BlockMinus, wxS("block--minus"));
 
-		LoadItem(Imagekxf::ResourceID::ControlCursor, wxS("control-cursor"));
-		LoadItem(Imagekxf::ResourceID::ControlPause, wxS("control-pause"));
-		LoadItem(Imagekxf::ResourceID::ControlStop, wxS("control-stop"));
-		LoadItem(Imagekxf::ResourceID::ControlStopSquare, wxS("control-stop-square"));
-		LoadItem(Imagekxf::ResourceID::ControlDown, wxS("control-down"));
-		LoadItem(Imagekxf::ResourceID::ControlLeft, wxS("control-left"));
-		LoadItem(Imagekxf::ResourceID::ControlRight, wxS("control-right"));
-		LoadItem(Imagekxf::ResourceID::ControlUp, wxS("control-up"));
+		LoadItem(ImageResourceID::ControlCursor, wxS("control-cursor"));
+		LoadItem(ImageResourceID::ControlPause, wxS("control-pause"));
+		LoadItem(ImageResourceID::ControlStop, wxS("control-stop"));
+		LoadItem(ImageResourceID::ControlStopSquare, wxS("control-stop-square"));
+		LoadItem(ImageResourceID::ControlDown, wxS("control-down"));
+		LoadItem(ImageResourceID::ControlLeft, wxS("control-left"));
+		LoadItem(ImageResourceID::ControlRight, wxS("control-right"));
+		LoadItem(ImageResourceID::ControlUp, wxS("control-up"));
 
-		LoadItem(Imagekxf::ResourceID::Cheque, wxS("cheque"));
-		LoadItem(Imagekxf::ResourceID::ChequePlus, wxS("cheque--plus"));
-		LoadItem(Imagekxf::ResourceID::ChequeMinus, wxS("cheque--minus"));
+		LoadItem(ImageResourceID::Cheque, wxS("cheque"));
+		LoadItem(ImageResourceID::ChequePlus, wxS("cheque--plus"));
+		LoadItem(ImageResourceID::ChequeMinus, wxS("cheque--minus"));
 
-		LoadItem(Imagekxf::ResourceID::Flag, wxS("flag"));
-		LoadItem(Imagekxf::ResourceID::FlagPlus, wxS("flag--plus"));
-		LoadItem(Imagekxf::ResourceID::FlagMinus, wxS("flag--minus"));
+		LoadItem(ImageResourceID::Flag, wxS("flag"));
+		LoadItem(ImageResourceID::FlagPlus, wxS("flag--plus"));
+		LoadItem(ImageResourceID::FlagMinus, wxS("flag--minus"));
 
-		LoadItem(Imagekxf::ResourceID::Folder, wxS("folder"));
-		LoadItem(Imagekxf::ResourceID::FolderOpen, wxS("folder-open"));
-		LoadItem(Imagekxf::ResourceID::FolderPlus, wxS("folder--plus"));
-		LoadItem(Imagekxf::ResourceID::FolderMinus, wxS("folder--minus"));
-		LoadItem(Imagekxf::ResourceID::FolderSearchResult, wxS("folder-search-result"));
-		LoadItem(Imagekxf::ResourceID::FolderZipper, wxS("folder-zipper"));
-		LoadItem(Imagekxf::ResourceID::FolderArrow, wxS("folder--arrow"));
+		LoadItem(ImageResourceID::Folder, wxS("folder"));
+		LoadItem(ImageResourceID::FolderOpen, wxS("folder-open"));
+		LoadItem(ImageResourceID::FolderPlus, wxS("folder--plus"));
+		LoadItem(ImageResourceID::FolderMinus, wxS("folder--minus"));
+		LoadItem(ImageResourceID::FolderSearchResult, wxS("folder-search-result"));
+		LoadItem(ImageResourceID::FolderZipper, wxS("folder-zipper"));
+		LoadItem(ImageResourceID::FolderArrow, wxS("folder--arrow"));
 
-		LoadItem(Imagekxf::ResourceID::Folders, wxS("folders"));
-		LoadItem(Imagekxf::ResourceID::FoldersPlus, wxS("folders--plus"));
+		LoadItem(ImageResourceID::Folders, wxS("folders"));
+		LoadItem(ImageResourceID::FoldersPlus, wxS("folders--plus"));
 		
-		LoadItem(Imagekxf::ResourceID::Document, wxS("document"));
-		LoadItem(Imagekxf::ResourceID::DocumentNew, wxS("document-new"));
-		LoadItem(Imagekxf::ResourceID::DocumentImport, wxS("document-import"));
-		LoadItem(Imagekxf::ResourceID::DocumentExport, wxS("document-export"));
-		LoadItem(Imagekxf::ResourceID::DocumentPencil, wxS("document--pencil"));
-		LoadItem(Imagekxf::ResourceID::DocumentPlus, wxS("document--plus"));
-		LoadItem(Imagekxf::ResourceID::DocumentMinus, wxS("document--minus"));
+		LoadItem(ImageResourceID::Document, wxS("document"));
+		LoadItem(ImageResourceID::DocumentNew, wxS("document-new"));
+		LoadItem(ImageResourceID::DocumentImport, wxS("document-import"));
+		LoadItem(ImageResourceID::DocumentExport, wxS("document-export"));
+		LoadItem(ImageResourceID::DocumentPencil, wxS("document--pencil"));
+		LoadItem(ImageResourceID::DocumentPlus, wxS("document--plus"));
+		LoadItem(ImageResourceID::DocumentMinus, wxS("document--minus"));
 
-		LoadItem(Imagekxf::ResourceID::Documents, wxS("documents"));
-		LoadItem(Imagekxf::ResourceID::DocumentsPlus, wxS("documents--plus"));
+		LoadItem(ImageResourceID::Documents, wxS("documents"));
+		LoadItem(ImageResourceID::DocumentsPlus, wxS("documents--plus"));
 
-		LoadItem(Imagekxf::ResourceID::Calendar, wxS("calendar"));
-		LoadItem(Imagekxf::ResourceID::CalendarDay, wxS("calendar-day"));
+		LoadItem(ImageResourceID::Calendar, wxS("calendar"));
+		LoadItem(ImageResourceID::CalendarDay, wxS("calendar-day"));
 
-		LoadItem(Imagekxf::ResourceID::NotificationCounter, wxS("notification-counter"));
-		LoadItem(Imagekxf::ResourceID::NotificationCounter42, wxS("notification-counter-42"));
+		LoadItem(ImageResourceID::NotificationCounter, wxS("notification-counter"));
+		LoadItem(ImageResourceID::NotificationCounter42, wxS("notification-counter-42"));
 
-		LoadItem(Imagekxf::ResourceID::Gear, wxS("gear"));
-		LoadItem(Imagekxf::ResourceID::GearMinus, wxS("gear--minus"));
-		LoadItem(Imagekxf::ResourceID::GearPencil, wxS("gear--pencil"));
-		LoadItem(Imagekxf::ResourceID::GearPlus, wxS("gear--plus"));
+		LoadItem(ImageResourceID::Gear, wxS("gear"));
+		LoadItem(ImageResourceID::GearMinus, wxS("gear--minus"));
+		LoadItem(ImageResourceID::GearPencil, wxS("gear--pencil"));
+		LoadItem(ImageResourceID::GearPlus, wxS("gear--plus"));
 		
-		LoadItem(Imagekxf::ResourceID::Jar, wxS("jar"));
-		LoadItem(Imagekxf::ResourceID::JarEmpty, wxS("jar-empty"));
+		LoadItem(ImageResourceID::Jar, wxS("jar"));
+		LoadItem(ImageResourceID::JarEmpty, wxS("jar-empty"));
 		
-		LoadItem(Imagekxf::ResourceID::Arrow270, wxS("arrow-270"));
-		LoadItem(Imagekxf::ResourceID::ArrowCircleDouble, wxS("arrow-circle-double"));
-		LoadItem(Imagekxf::ResourceID::ArrowCircle135Left, wxS("arrow-circle-135-left"));
-		LoadItem(Imagekxf::ResourceID::ArrowCurve180Left, wxS("arrow-curve-180-left"));
+		LoadItem(ImageResourceID::Arrow270, wxS("arrow-270"));
+		LoadItem(ImageResourceID::ArrowCircleDouble, wxS("arrow-circle-double"));
+		LoadItem(ImageResourceID::ArrowCircle135Left, wxS("arrow-circle-135-left"));
+		LoadItem(ImageResourceID::ArrowCurve180Left, wxS("arrow-curve-180-left"));
 		
-		LoadItem(Imagekxf::ResourceID::Categories, wxS("categories"));
-		LoadItem(Imagekxf::ResourceID::Category, wxS("category"));
-		LoadItem(Imagekxf::ResourceID::CategoryGroup, wxS("category-group"));
-		LoadItem(Imagekxf::ResourceID::CategoryGroupSelect, wxS("category-group-select"));
-		LoadItem(Imagekxf::ResourceID::CategoryItem, wxS("category-item"));
-		LoadItem(Imagekxf::ResourceID::CategoryMinus, wxS("category-item-minus"));
-		LoadItem(Imagekxf::ResourceID::CategoryItemSelect, wxS("category-item-select"));
+		LoadItem(ImageResourceID::Categories, wxS("categories"));
+		LoadItem(ImageResourceID::Category, wxS("category"));
+		LoadItem(ImageResourceID::CategoryGroup, wxS("category-group"));
+		LoadItem(ImageResourceID::CategoryGroupSelect, wxS("category-group-select"));
+		LoadItem(ImageResourceID::CategoryItem, wxS("category-item"));
+		LoadItem(ImageResourceID::CategoryMinus, wxS("category-item-minus"));
+		LoadItem(ImageResourceID::CategoryItemSelect, wxS("category-item-select"));
 
-		LoadItem(Imagekxf::ResourceID::Box, wxS("box"));
-		LoadItem(Imagekxf::ResourceID::BoxMinus, wxS("box--minus"));
-		LoadItem(Imagekxf::ResourceID::BoxPlus, wxS("box--plus"));
-		LoadItem(Imagekxf::ResourceID::BoxSearchResult, wxS("box-search-result"));
+		LoadItem(ImageResourceID::Box, wxS("box"));
+		LoadItem(ImageResourceID::BoxMinus, wxS("box--minus"));
+		LoadItem(ImageResourceID::BoxPlus, wxS("box--plus"));
+		LoadItem(ImageResourceID::BoxSearchResult, wxS("box-search-result"));
 		
-		LoadItem(Imagekxf::ResourceID::Compile, wxS("compile"));
-		LoadItem(Imagekxf::ResourceID::CompileError, wxS("compile-error"));
-		LoadItem(Imagekxf::ResourceID::CompileWarning, wxS("compile-warning"));
+		LoadItem(ImageResourceID::Compile, wxS("compile"));
+		LoadItem(ImageResourceID::CompileError, wxS("compile-error"));
+		LoadItem(ImageResourceID::CompileWarning, wxS("compile-warning"));
 
-		LoadItem(Imagekxf::ResourceID::Key, wxS("key"));
-		LoadItem(Imagekxf::ResourceID::Lock, wxS("lock"));
-		LoadItem(Imagekxf::ResourceID::LockSSL, wxS("lock-ssl"));
+		LoadItem(ImageResourceID::Key, wxS("key"));
+		LoadItem(ImageResourceID::Lock, wxS("lock"));
+		LoadItem(ImageResourceID::LockSSL, wxS("lock-ssl"));
 		
-		LoadItem(Imagekxf::ResourceID::Magnifier, wxS("magnifier"));
-		LoadItem(Imagekxf::ResourceID::MagnifierPlus, wxS("magnifier--plus"));
-		LoadItem(Imagekxf::ResourceID::MagnifierMinus, wxS("magnifier--minus"));
-		LoadItem(Imagekxf::ResourceID::MagnifierPencil, wxS("magnifier--pencil"));
-		LoadItem(Imagekxf::ResourceID::MagnifierLeft, wxS("magnifier-left"));
-		LoadItem(Imagekxf::ResourceID::MagnifierZoom, wxS("magnifier-zoom"));
-		LoadItem(Imagekxf::ResourceID::MagnifierZoomIn, wxS("magnifier-zoom-in"));
-		LoadItem(Imagekxf::ResourceID::MagnifierZoomOut, wxS("magnifier-zoom-out"));
+		LoadItem(ImageResourceID::Magnifier, wxS("magnifier"));
+		LoadItem(ImageResourceID::MagnifierPlus, wxS("magnifier--plus"));
+		LoadItem(ImageResourceID::MagnifierMinus, wxS("magnifier--minus"));
+		LoadItem(ImageResourceID::MagnifierPencil, wxS("magnifier--pencil"));
+		LoadItem(ImageResourceID::MagnifierLeft, wxS("magnifier-left"));
+		LoadItem(ImageResourceID::MagnifierZoom, wxS("magnifier-zoom"));
+		LoadItem(ImageResourceID::MagnifierZoomIn, wxS("magnifier-zoom-in"));
+		LoadItem(ImageResourceID::MagnifierZoomOut, wxS("magnifier-zoom-out"));
 		
-		LoadItem(Imagekxf::ResourceID::SortAlphabet, wxS("sort-alphabet"));
-		LoadItem(Imagekxf::ResourceID::SortAlphabetDescending, wxS("sort-alphabet-descending"));
-		LoadItem(Imagekxf::ResourceID::SorNumber, wxS("sort-number"));
-		LoadItem(Imagekxf::ResourceID::SorNumberDescending, wxS("sort-number-descending"));
+		LoadItem(ImageResourceID::SortAlphabet, wxS("sort-alphabet"));
+		LoadItem(ImageResourceID::SortAlphabetDescending, wxS("sort-alphabet-descending"));
+		LoadItem(ImageResourceID::SorNumber, wxS("sort-number"));
+		LoadItem(ImageResourceID::SorNumberDescending, wxS("sort-number-descending"));
 
-		LoadItem(Imagekxf::ResourceID::Edit, wxS("edit"));
-		LoadItem(Imagekxf::ResourceID::EditBold, wxS("edit-bold"));
-		LoadItem(Imagekxf::ResourceID::EditItalic, wxS("edit-italic"));
-		LoadItem(Imagekxf::ResourceID::EditStrike, wxS("edit-strike"));
-		LoadItem(Imagekxf::ResourceID::EditUnderline, wxS("edit-underline"));
+		LoadItem(ImageResourceID::Edit, wxS("edit"));
+		LoadItem(ImageResourceID::EditBold, wxS("edit-bold"));
+		LoadItem(ImageResourceID::EditItalic, wxS("edit-italic"));
+		LoadItem(ImageResourceID::EditStrike, wxS("edit-strike"));
+		LoadItem(ImageResourceID::EditUnderline, wxS("edit-underline"));
 
-		LoadItem(Imagekxf::ResourceID::EditCode, wxS("edit-code"));
-		LoadItem(Imagekxf::ResourceID::EditCodeDivision, wxS("edit-code-division"));
+		LoadItem(ImageResourceID::EditCode, wxS("edit-code"));
+		LoadItem(ImageResourceID::EditCodeDivision, wxS("edit-code-division"));
 
-		LoadItem(Imagekxf::ResourceID::EditHeading, wxS("edit-heading"));
-		LoadItem(Imagekxf::ResourceID::EditHeading1, wxS("edit-heading-1"));
-		LoadItem(Imagekxf::ResourceID::EditHeading2, wxS("edit-heading-2"));
-		LoadItem(Imagekxf::ResourceID::EditHeading3, wxS("edit-heading-3"));
-		LoadItem(Imagekxf::ResourceID::EditHeading4, wxS("edit-heading-4"));
-		LoadItem(Imagekxf::ResourceID::EditHeading5, wxS("edit-heading-5"));
-		LoadItem(Imagekxf::ResourceID::EditHeading6, wxS("edit-heading-6"));
+		LoadItem(ImageResourceID::EditHeading, wxS("edit-heading"));
+		LoadItem(ImageResourceID::EditHeading1, wxS("edit-heading-1"));
+		LoadItem(ImageResourceID::EditHeading2, wxS("edit-heading-2"));
+		LoadItem(ImageResourceID::EditHeading3, wxS("edit-heading-3"));
+		LoadItem(ImageResourceID::EditHeading4, wxS("edit-heading-4"));
+		LoadItem(ImageResourceID::EditHeading5, wxS("edit-heading-5"));
+		LoadItem(ImageResourceID::EditHeading6, wxS("edit-heading-6"));
 
-		LoadItem(Imagekxf::ResourceID::EditAlignmentLeft, wxS("edit-alignment-left"));
-		LoadItem(Imagekxf::ResourceID::EditAlignmentRight, wxS("edit-alignment-right"));
-		LoadItem(Imagekxf::ResourceID::EditAlignmentCenter, wxS("edit-alignment-center"));
-		LoadItem(Imagekxf::ResourceID::EditAlignmentJustify, wxS("edit-alignment-justify"));
+		LoadItem(ImageResourceID::EditAlignmentLeft, wxS("edit-alignment-left"));
+		LoadItem(ImageResourceID::EditAlignmentRight, wxS("edit-alignment-right"));
+		LoadItem(ImageResourceID::EditAlignmentCenter, wxS("edit-alignment-center"));
+		LoadItem(ImageResourceID::EditAlignmentJustify, wxS("edit-alignment-justify"));
 
-		LoadItem(Imagekxf::ResourceID::EditList, wxS("edit-list"));
-		LoadItem(Imagekxf::ResourceID::EditListOrder, wxS("edit-list-order"));
+		LoadItem(ImageResourceID::EditList, wxS("edit-list"));
+		LoadItem(ImageResourceID::EditListOrder, wxS("edit-list-order"));
 
-		LoadItem(Imagekxf::ResourceID::Bell, wxS("bell"));
-		LoadItem(Imagekxf::ResourceID::BellExclamation, wxS("bell--exclamation"));
-		LoadItem(Imagekxf::ResourceID::BellRedCircle, wxS("bell--red-circle"));
-		LoadItem(Imagekxf::ResourceID::BellPencil, wxS("bell--pencil"));
-		LoadItem(Imagekxf::ResourceID::BellPlus, wxS("bell--plus"));
-		LoadItem(Imagekxf::ResourceID::BellMinus, wxS("bell--minus"));
+		LoadItem(ImageResourceID::Bell, wxS("bell"));
+		LoadItem(ImageResourceID::BellExclamation, wxS("bell--exclamation"));
+		LoadItem(ImageResourceID::BellRedCircle, wxS("bell--red-circle"));
+		LoadItem(ImageResourceID::BellPencil, wxS("bell--pencil"));
+		LoadItem(ImageResourceID::BellPlus, wxS("bell--plus"));
+		LoadItem(ImageResourceID::BellMinus, wxS("bell--minus"));
 
-		LoadItem(Imagekxf::ResourceID::Bin, wxS("bin"));
-		LoadItem(Imagekxf::ResourceID::BinArrow, wxS("bin--arrow"));
-		LoadItem(Imagekxf::ResourceID::BinFull, wxS("bin-full"));
+		LoadItem(ImageResourceID::Bin, wxS("bin"));
+		LoadItem(ImageResourceID::BinArrow, wxS("bin--arrow"));
+		LoadItem(ImageResourceID::BinFull, wxS("bin-full"));
 
-		LoadItem(Imagekxf::ResourceID::Broom, wxS("broom"));
+		LoadItem(ImageResourceID::Broom, wxS("broom"));
 	}
 
 	DefaultImageProvider::DefaultImageProvider()

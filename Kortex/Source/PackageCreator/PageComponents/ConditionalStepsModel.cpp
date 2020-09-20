@@ -7,8 +7,8 @@
 #include "PackageCreator/PageComponents.h"
 #include "PackageCreator/WorkspaceDocument.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
 
 namespace
 {
@@ -84,7 +84,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					{
 						FileDataSelectorDialog dialog(GetView(), column->GetTitle(), m_Controller);
 						dialog.SetDataVector(step->GetItems(), &m_Controller->GetProject()->GetFileData());
-						if (dialog.ShowModal() == KxID_OK)
+						if (dialog.ShowModal() == wxID_OK)
 						{
 							step->GetItems() = dialog.GetSelectedItems();
 							NotifyChangedItem(event.GetItem());
@@ -100,18 +100,18 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		KxDataViewItem item = event.GetItem();
 		const PackageProject::ConditionalComponentStep* entry = GetDataEntry(GetRow(item));
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddStep, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DirectionPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddStep, KTr(wxID_ADD)));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DirectionPlus));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(entry != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 	
@@ -122,12 +122,12 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				OnAddStep();
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveStep(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -169,20 +169,20 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		:ConditionalStepsModel(controller)
 		//m_WindowOptions("ConditionalStepsDialog", "Window"), m_ViewOptions("ConditionalStepsDialog", "View")
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 	
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 	
 			// List
 			ConditionalStepsModel::Create(controller, m_ViewPane, sizer);
 	
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(900, 500)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(900, 500)));
 			//KProgramOptionSerializer::LoadDataViewLayout(GetView(), m_ViewOptions);
 			//KProgramOptionSerializer::LoadWindowSize(this, m_WindowOptions);
 		}

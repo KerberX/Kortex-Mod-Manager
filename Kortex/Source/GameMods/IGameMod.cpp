@@ -3,8 +3,8 @@
 #include "IModManager.h"
 #include <Kortex/GameInstance.hpp>
 #include "Utility/Common.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxCrypto.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxCrypto.h>
 
 namespace
 {

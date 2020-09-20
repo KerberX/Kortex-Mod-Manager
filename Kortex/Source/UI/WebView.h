@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
 #include "WebViewBackend/IWebView.h"
 
 namespace Kortex::UI

@@ -2,8 +2,8 @@
 #include "DocumentsModel.h"
 #include "PackageCreator/PageBase.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
 
 namespace
 {
@@ -26,7 +26,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 		GetView()->Bind(KxEVT_DATAVIEW_ITEM_CONTEXT_MENU, &DocumentsModel::OnContextMenu, this);
 	
 		GetView()->AppendColumn<KxDataViewTextRenderer, KxDataViewTextEditor>(KTr("Generic.Name"), ColumnID::Name, KxDATAVIEW_CELL_EDITABLE, 200);
-		GetView()->AppendColumn<KxDataViewTextRenderer>(KTr(KxID_FILE), ColumnID::Value, KxDATAVIEW_CELL_INERT, 200);
+		GetView()->AppendColumn<KxDataViewTextRenderer>(KTr(wxID_FILE), ColumnID::Value, KxDATAVIEW_CELL_INERT, 200);
 	}
 	
 	void DocumentsModel::GetValueByRow(wxAny& value, size_t row, const KxDataViewColumn* column) const
@@ -107,18 +107,18 @@ namespace Kortex::PackageDesigner::PageInfoNS
 		KxDataViewItem item = event.GetItem();
 		const Utility::LabeledValue* entry = GetDataEntry(GetRow(item));
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddEntry, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddEntry, KTr(wxID_ADD)));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(entry != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 	
@@ -129,12 +129,12 @@ namespace Kortex::PackageDesigner::PageInfoNS
 				OnAddEntry();
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveEntry(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -173,7 +173,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 	}
 	KxStringVector DocumentsModel::OpenFileDialog(bool isMultiple) const
 	{
-		KxFileBrowseDialog dialog(GetViewTLW(), KxID_NONE, KxFBD_OPEN);
+		KxFileBrowseDialog dialog(GetViewTLW(), wxID_NONE, KxFBD_OPEN);
 		dialog.AddFilter("*.txt;*.ini;*.xml;*.htm;*.html;*.mht;*.mhtml;*.pdf", KTr("FileFilter.AllSupportedFormats"));
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 		dialog.SetOptionEnabled(KxFBD_ALLOW_MULTISELECT, isMultiple);
@@ -199,20 +199,20 @@ namespace Kortex::PackageDesigner::PageInfoNS
 	DocumentsDialog::DocumentsDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 		//:m_WindowOptions("DocumentsDialog", "Window"), m_ViewOptions("DocumentsDialog", "View")
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 	
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 	
 			// List
 			DocumentsModel::Create(controller, m_ViewPane, sizer);
 	
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(700, 400)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(700, 400)));
 			//KProgramOptionSerializer::LoadDataViewLayout(GetView(), m_ViewOptions);
 			//KProgramOptionSerializer::LoadWindowSize(this, m_WindowOptions);
 		}

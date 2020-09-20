@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxDataViewListModelEx.h>
-class KxMenu;
-class KxMenuItem;
+#include <kxf::UI::Framework/KxDataViewListModelEx.h>
+class kxf::UI::Menu;
+class kxf::UI::MenuItem;
 
 namespace Kortex
 {
@@ -31,8 +31,8 @@ namespace Kortex::PackageDesigner
 			}
 
 			/* All items menu */
-			KxMenu* CreateAllItemsMenu(KxMenu& menu);
-			KxMenuItem* CreateAllItemsMenuEntry(KxMenu* menu, int columnID);
+			kxf::UI::Menu* CreateAllItemsMenu(kxf::UI::Menu& menu);
+			kxf::UI::MenuItem* CreateAllItemsMenuEntry(kxf::UI::Menu* menu, int columnID);
 			virtual void OnAllItemsMenuSelect(KxDataViewColumn* column) {};
 
 		protected:

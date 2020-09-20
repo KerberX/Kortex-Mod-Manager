@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "OperationWithProgress.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::Utility
 {
@@ -121,7 +121,7 @@ namespace Kortex::Utility
 	void OperationWithProgressDialogBase::OnDialogButton(wxNotifyEvent& event)
 	{
 		event.Veto();
-		if (IsCancelAllowed() && event.GetId() == KxID_CANCEL)
+		if (IsCancelAllowed() && event.GetId() == wxID_CANCEL)
 		{
 			Stop();
 			RunOnCancel();
@@ -159,7 +159,7 @@ namespace Kortex::Utility
 	void OperationWithProgressDialogBase::Create()
 	{
 		int buttons = IsCancelAllowed() ? KxBTN_CANCEL : KxBTN_NONE;
-		m_ProgressDialog = new KxDualProgressDialog(m_Parent, KxID_NONE, m_Caption, wxDefaultPosition, wxDefaultSize, buttons);
+		m_ProgressDialog = new KxDualProgressDialog(m_Parent, wxID_NONE, m_Caption, wxDefaultPosition, wxDefaultSize, buttons);
 		m_ProgressDialog->SetLabel(" ");
 		m_ProgressDialog->GetPB1()->Pulse();
 		m_ProgressDialog->GetPB2()->Pulse();

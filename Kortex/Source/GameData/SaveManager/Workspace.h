@@ -1,14 +1,14 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxTextBox.h>
-#include <KxFramework/KxTreeList.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxMenu.h>
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/KxTextBox.h>
+#include <kxf::UI::Framework/KxTreeList.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -21,14 +21,14 @@ namespace Kortex::SaveManager
 	class IBethesdaGameSave;
 	class DisplayModel;
 
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		private:
 			std::unordered_set<kxf::String> m_ActiveFilters;
 
 			wxBoxSizer* m_MainSizer = nullptr;
 			wxBoxSizer* m_ViewSizer = nullptr;
-			KxSplitterWindow* m_Splitter = nullptr;
+			kxf::UI::SplitterWindow* m_Splitter = nullptr;
 			DisplayModel* m_DisplayModel = nullptr;
 
 		protected:
@@ -49,8 +49,8 @@ namespace Kortex::SaveManager
 			{
 				return m_ActiveFilters.count(filter);
 			}
-			void FiltersMenu_AllFiles(KxMenuEvent& event);
-			void FiltersMenu_SpecificFilter(KxMenuEvent& event);
+			void FiltersMenu_AllFiles(kxf::UI::MenuEvent& event);
+			void FiltersMenu_SpecificFilter(kxf::UI::MenuEvent& event);
 
 			void OnSyncPluginsList(const IBethesdaGameSave& save);
 			void OnSavePluginsList(const IBethesdaGameSave& save);
@@ -61,7 +61,7 @@ namespace Kortex::SaveManager
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Jar;
+				return ImageResourceID::Jar;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

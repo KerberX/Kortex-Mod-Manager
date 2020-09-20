@@ -2,28 +2,28 @@
 #include "Default.h"
 #include <Kortex/Theme.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxSystem.h>
-#include <KxFramework/KxTopLevelWindow.h>
-#include <KxFramework/KxSystemSettings.h>
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxStatusBarEx.h>
+#include <kxf::UI::Framework/KxSystem.h>
+#include <kxf::UI::Framework/KxTopLevelWindow.h>
+#include <kxf::UI::Framework/KxSystemSettings.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/kxf::UI::StatusBarEx.h>
 
 namespace Kortex::Theme
 {
 	void Default::AsWindow(wxWindow* window)
 	{
 		window->SetBackgroundColour(GetColor(ColorIndex::Window));
-		window->SetForegroundColour(GetColor(ColorIndex::Window, ColorFlags::Foreground));
+		window->SetForegroundColour(GetColor(ColorIndex::Window, ColorFlag::Foreground));
 	}
 
-	KxColor Default::GetColor(ColorIndex index, ColorFlags flags) const
+	KxColor Default::GetColor(ColorIndex index, ColorFlag flags) const
 	{
 		switch (index)
 		{
 			case ColorIndex::MainWindow:
 			{
-				if (flags & ColorFlags::Foreground)
+				if (flags & ColorFlag::Foreground)
 				{
 					return KxSystemSettings::GetColor(wxSYS_COLOUR_WINDOWTEXT);
 				}
@@ -34,7 +34,7 @@ namespace Kortex::Theme
 			}
 			case ColorIndex::Window:
 			{
-				if (flags & ColorFlags::Foreground)
+				if (flags & ColorFlag::Foreground)
 				{
 					return KxSystemSettings::GetColor(wxSYS_COLOUR_WINDOWTEXT);
 				}
@@ -50,9 +50,9 @@ namespace Kortex::Theme
 			case ColorIndex::ToolBar:
 			case ColorIndex::StatusBar:
 			{
-				if (flags & ColorFlags::Foreground)
+				if (flags & ColorFlag::Foreground)
 				{
-					if (flags & ColorFlags::Active)
+					if (flags & ColorFlag::Active)
 					{
 						return KxSystemSettings::GetColor(wxSYS_COLOUR_HIGHLIGHTTEXT);
 					}
@@ -63,7 +63,7 @@ namespace Kortex::Theme
 				}
 				else
 				{
-					if (flags & ColorFlags::Active)
+					if (flags & ColorFlag::Active)
 					{
 						if (IsWin8OrGreater())
 						{
@@ -89,9 +89,9 @@ namespace Kortex::Theme
 			}
 			case ColorIndex::Caption:
 			{
-				if (flags & ColorFlags::Foreground)
+				if (flags & ColorFlag::Foreground)
 				{
-					if (flags & ColorFlags::Active)
+					if (flags & ColorFlag::Active)
 					{
 						return KxSystemSettings::GetColor(wxSYS_COLOUR_CAPTIONTEXT);
 					}
@@ -102,7 +102,7 @@ namespace Kortex::Theme
 				}
 				else
 				{
-					if (flags & ColorFlags::Active)
+					if (flags & ColorFlag::Active)
 					{
 						return KxSystemSettings::GetColor(wxSYS_COLOUR_ACTIVECAPTION);
 					}
@@ -114,7 +114,7 @@ namespace Kortex::Theme
 			}
 			case ColorIndex::Border:
 			{
-				if (flags & ColorFlags::Active)
+				if (flags & ColorFlag::Active)
 				{
 					return KxSystemSettings::GetColor(wxSYS_COLOUR_ACTIVEBORDER);
 				}
@@ -144,32 +144,32 @@ namespace Kortex::Theme
 		wxWindow* window = &mainWindow->GetFrame();
 		wxWindowUpdateLocker redrawLock(window);
 
-		window->SetBackgroundColour(GetColor(ColorIndex::MainWindow, ColorFlags::Background));
-		window->SetForegroundColour(GetColor(ColorIndex::MainWindow, ColorFlags::Foreground));
+		window->SetBackgroundColour(GetColor(ColorIndex::MainWindow, ColorFlag::Background));
+		window->SetForegroundColour(GetColor(ColorIndex::MainWindow, ColorFlag::Foreground));
 	}
-	void Default::Apply(KxSplitterWindow* window)
+	void Default::Apply(kxf::UI::SplitterWindow* window)
 	{
 		wxWindowUpdateLocker redrawLock(window);
 		InheritColors(window, window->GetParent());
 
 		window->SetSashColor(window->GetParent()->GetBackgroundColour());
 	}
-	void Default::Apply(KxAuiToolBar* window)
+	void Default::Apply(kxf::UI::AuiToolBar* window)
 	{
 		wxWindowUpdateLocker redrawLock(window);
 
 		window->SetBorderColor(GetColor(ColorIndex::Border));
-		window->SetForegroundColour(GetColor(ColorIndex::ToolBar, ColorFlags::Foreground));
-		window->SetBackgroundColour(GetColor(ColorIndex::ToolBar, ColorFlags::Background));
+		window->SetForegroundColour(GetColor(ColorIndex::ToolBar, ColorFlag::Foreground));
+		window->SetBackgroundColour(GetColor(ColorIndex::ToolBar, ColorFlag::Background));
 	}
-	void Default::Apply(KxStatusBarEx* window, bool isActive)
+	void Default::Apply(kxf::UI::StatusBarEx* window, bool isActive)
 	{
 		wxWindowUpdateLocker redrawLock(window);
 
-		const ColorFlags flags = isActive ? ColorFlags::Active : ColorFlags::None;
+		const ColorFlag flags = isActive ? ColorFlag::Active : ColorFlag::None;
 		window->SetSeparatorsVisible(false);
 		window->SetBorderColor(wxNullColour);
-		window->SetBackgroundColour(GetColor(ColorIndex::StatusBar, ColorFlags::Background|flags));
-		window->SetForegroundColour(GetColor(ColorIndex::StatusBar, ColorFlags::Foreground|flags));
+		window->SetBackgroundColour(GetColor(ColorIndex::StatusBar, ColorFlag::Background|flags));
+		window->SetForegroundColour(GetColor(ColorIndex::StatusBar, ColorFlag::Foreground|flags));
 	}
 }

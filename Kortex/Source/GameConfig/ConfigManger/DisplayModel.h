@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "Item.h"
 #include "Items/CategoryItem.h"
-#include <KxFramework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
 
 namespace Kortex
 {

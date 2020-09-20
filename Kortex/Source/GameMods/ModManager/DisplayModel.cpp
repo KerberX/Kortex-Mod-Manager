@@ -12,8 +12,8 @@
 #include "Utility/Common.h"
 #include "Utility/UI.h"
 #include "UI/ImageViewerDialog.h"
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxUxTheme.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxUxTheme.h>
 
 namespace Kortex::ModManager
 {
@@ -28,7 +28,7 @@ namespace Kortex::ModManager
 
 		// View
 		const CtrlStyle ctrlStyle = CtrlStyle::MultipleSelection|CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn;
-		KxDataView2::View* view = new KxDataView2::View(parent, KxID_NONE, ctrlStyle);
+		KxDataView2::View* view = new KxDataView2::View(parent, wxID_NONE, ctrlStyle);
 		view->SetEmptyControlLabel(KTr("Generic.NoItemsToDisplay"));
 		view->AssignModel(this);
 		if (sizer)
@@ -382,7 +382,7 @@ namespace Kortex::ModManager
 	}
 	void DisplayModel::OnHeaderContextMenu(KxDataView2::Event& event)
 	{
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		if (GetView()->CreateColumnSelectionMenu(menu))
 		{
 			GetView()->OnColumnSelectionMenu(menu);
@@ -572,9 +572,9 @@ namespace Kortex::ModManager
 		};
 	}
 
-	void DisplayModel::CreateSearchColumnsMenu(KxMenu& menu)
+	void DisplayModel::CreateSearchColumnsMenu(kxf::UI::Menu& menu)
 	{
-		auto AddItem = [this, &menu](ColumnID id, bool enable = false) -> KxMenuItem*
+		auto AddItem = [this, &menu](ColumnID id, bool enable = false) -> kxf::UI::MenuItem*
 		{
 			KxDataView2::Column* column = GetView()->GetColumnByID(id);
 			if (column)
@@ -587,7 +587,7 @@ namespace Kortex::ModManager
 
 				//enable = enable || m_SearchFilterOptions.GetAttributeBool(std::to_string(id));
 
-				KxMenuItem* menuItem = menu.Add(new KxMenuItem(title, wxEmptyString, wxITEM_CHECK));
+				kxf::UI::MenuItem* menuItem = menu.Add(new kxf::UI::MenuItem(title, wxEmptyString, wxITEM_CHECK));
 				menuItem->Check(enable);
 				menuItem->SetClientData(column);
 				if (enable)

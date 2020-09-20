@@ -1,11 +1,11 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "IConfigManager.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
-	class IGameConfigManager: public IConfigManager, public KxSingletonPtr<IGameConfigManager>
+	class IGameConfigManager: public IConfigManager, public kxf::SingletonPtr<IGameConfigManager>
 	{
 		public:
 			IGameConfigManager();

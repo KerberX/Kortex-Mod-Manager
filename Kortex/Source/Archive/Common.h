@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxArchive.h>
-#include <KxFramework/KxArchiveEvent.h>
-#include <KxFramework/KxFileItem.h>
+#include <kxf::UI::Framework/KxArchive.h>
+#include <kxf::UI::Framework/KxArchiveEvent.h>
+#include <kxf::UI::Framework/KxFileItem.h>
 
 namespace Kortex::Archive
 {

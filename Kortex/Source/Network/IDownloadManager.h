@@ -3,9 +3,9 @@
 #include "GameInstance/GameID.h"
 #include "DownloadManager/DownloadItem.h"
 #include "DownloadManager/DownloadEvent.h"
-#include <KxFramework/KxURI.h>
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxComponentSystem.h>
+#include <kxf::UI::Framework/KxURI.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxComponentSystem.h>
 
 namespace Kortex
 {
@@ -22,7 +22,7 @@ namespace Kortex
 
 	class IDownloadManager:
 		public ManagerWithTypeInfo<IManager, DownloadManager::Internal::TypeInfo>,
-		public KxSingletonPtr<IDownloadManager>,
+		public kxf::SingletonPtr<IDownloadManager>,
 		public KxComponentContainer
 	{
 		public:

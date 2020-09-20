@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "ITypeDetector.h"
 #include "Common.h"
-#include <KxFramework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
 class kxf::XMLNode;
 
 namespace Kortex::GameConfig

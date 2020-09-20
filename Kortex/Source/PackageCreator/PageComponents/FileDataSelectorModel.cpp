@@ -3,8 +3,8 @@
 #include "PackageCreator/PageBase.h"
 #include <Kortex/Application.hpp>
 #include "Utility/Common.h"
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
 
 namespace
 {
@@ -39,7 +39,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				case ColumnID::ID:
 				{
-					value = KxDataViewBitmapTextValue(entry->first->GetID(), ImageProvider::GetBitmap(entry->first->QueryInterface<PackageProject::FolderItem>() ? Imagekxf::ResourceID::Folder : Imagekxf::ResourceID::Document));
+					value = KxDataViewBitmapTextValue(entry->first->GetID(), ImageProvider::GetBitmap(entry->first->QueryInterface<PackageProject::FolderItem>() ? ImageResourceID::Folder : ImageResourceID::Document));
 					break;
 				}
 				case ColumnID::Source:
@@ -118,7 +118,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_ALT_POPUP_WINDOW);
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_HORIZONTAL_SIZER);
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_FORCE_GET_STRING_VALUE_ON_DISMISS);
-		m_ComboView->Create(window, KxID_NONE);
+		m_ComboView->Create(window, wxID_NONE);
 		m_ComboView->ComboSetMaxVisibleItems(16);
 	
 		m_ComboView->Bind(KxEVT_DVCB_GET_STRING_VALUE, &FileDataSelectorComboBox::OnGetStringValue, this);
@@ -165,20 +165,20 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	FileDataSelectorDialog::FileDataSelectorDialog(wxWindow* parent, const kxf::String& caption, WorkspaceDocument* controller)
 		//:m_WindowOptions("FileDataSelectorDialog", "Window"), m_ViewOptions("FileDataSelectorDialog", "View")
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 	
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 	
 			// List
 			FileDataSelectorModel::Create(controller, m_ViewPane, sizer);
 	
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(700, 500)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(700, 500)));
 			//KProgramOptionSerializer::LoadDataViewLayout(GetView(), m_ViewOptions);
 			//KProgramOptionSerializer::LoadWindowSize(this, m_WindowOptions);
 		}

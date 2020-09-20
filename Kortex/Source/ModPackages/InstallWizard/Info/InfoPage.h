@@ -2,13 +2,13 @@
 #include <Kortex/Kortex.hpp>
 #include "ModPackages/InstallWizard/WizardPage.h"
 #include "UI/WebView.h"
-#include <KxFramework/KxNotebook.h>
-#include <KxFramework/KxAuiNotebook.h>
-#include <KxFramework/KxTreeList.h>
-#include <KxFramework/KxListBox.h>
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxThumbView.h>
-#include <KxFramework/KxSplitterWindow.h>
+#include <kxf::UI::Framework/KxNotebook.h>
+#include <kxf::UI::Framework/KxAuiNotebook.h>
+#include <kxf::UI::Framework/KxTreeList.h>
+#include <kxf::UI::Framework/KxListBox.h>
+#include <kxf::UI::Framework/KxImageView.h>
+#include <kxf::UI::Framework/KxThumbView.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
 
 namespace Kortex::UI
 {
@@ -29,7 +29,7 @@ namespace Kortex::InstallWizard
 			InfoPageNS::InfoDisplayModel* m_InfoDisplayModel = nullptr;
 			UI::WebView m_DescriptionView;
 
-			KxSplitterWindow* m_DocumentsContainer = nullptr;
+			kxf::UI::SplitterWindow* m_DocumentsContainer = nullptr;
 			KxListBox* m_DocumentsList = nullptr;
 			UI::WebView m_DocumentSimple;
 			UI::WebView m_DocumentAdvanced;

@@ -2,8 +2,8 @@
 #include <Kortex/Kortex.hpp>
 #include "Common.h"
 #include "IModNetwork.h"
-#include <KxFramework/KxComponentSystem.h>
-#include <KxFramework/KxSecretStore.h>
+#include <kxf::UI::Framework/KxComponentSystem.h>
+#include <kxf::UI::Framework/KxSecretStore.h>
 #include <optional>
 
 namespace Kortex

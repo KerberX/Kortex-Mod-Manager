@@ -1,17 +1,22 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxColor.h>
 #include "Utility/EnumClassOperations.h"
-class KxSplitterWindow;
-class KxStatusBarEx;
-class KxAuiToolBar;
-class IMainWindow;
-class IWorkspace;
-class KApp;
 
+namespace kxf::UI
+{
+	class SplitterWindow;
+	class StatusBarEx;
+	class AuiToolBar;
+}
+
+namespace Kortex
+{
+	class IMainWindow;
+	class IWorkspace;
+}
 namespace Kortex::Theme
 {
-	enum class ColorIndex: uint32_t
+	enum class ColorIndex
 	{
 		MainWindow,
 		Window,
@@ -21,7 +26,7 @@ namespace Kortex::Theme
 		Border,
 		Caption
 	};
-	enum class ColorFlags: uint32_t
+	enum class ColorFlag: uint32_t
 	{
 		None = 0,
 
@@ -32,10 +37,9 @@ namespace Kortex::Theme
 		Active = 1 << 1
 	};
 }
-namespace KxEnumClassOperations
+namespace kxf
 {
-	KxImplementEnum(Kortex::Theme::ColorIndex);
-	KxImplementEnum(Kortex::Theme::ColorFlags);
+	KxFlagSet_Declare(Kortex::Theme::ColorFlag);
 }
 
 namespace Kortex
@@ -44,7 +48,7 @@ namespace Kortex
 	{
 		public:
 			using ColorIndex = Theme::ColorIndex;
-			using ColorFlags = Theme::ColorFlags;
+			using ColorFlag = Theme::ColorFlag;
 
 		public:
 			static IThemeManager& GetActive();
@@ -57,13 +61,13 @@ namespace Kortex
 			virtual ~IThemeManager() = default;
 
 		public:
-			virtual KxColor GetColor(ColorIndex index, ColorFlags flags = ColorFlags::None) const = 0;
+			virtual kxf::Color GetColor(ColorIndex index, ColorFlag flags = ColorFlag::None) const = 0;
 
 			virtual void Apply(wxWindow* window) = 0;
 			virtual void Apply(IMainWindow* window) = 0;
 			virtual void Apply(IWorkspace* window) = 0;
-			virtual void Apply(KxSplitterWindow* window) = 0;
-			virtual void Apply(KxAuiToolBar* window) = 0;
-			virtual void Apply(KxStatusBarEx* window, bool isActive) = 0;
+			virtual void Apply(kxf::UI::SplitterWindow* window) = 0;
+			virtual void Apply(kxf::UI::AuiToolBar* window) = 0;
+			virtual void Apply(kxf::UI::StatusBarEx* window, bool isActive) = 0;
 	};
 }

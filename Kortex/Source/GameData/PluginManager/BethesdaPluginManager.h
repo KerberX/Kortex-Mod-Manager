@@ -4,7 +4,7 @@
 #include "BasePluginManager.h"
 #include "BethesdaPlugin.h"
 #include "Application/IWorkspace.h"
-#include <KxFramework/KxLibrary.h>
+#include <kxf::UI::Framework/KxLibrary.h>
 
 namespace Kortex::PluginManager
 {

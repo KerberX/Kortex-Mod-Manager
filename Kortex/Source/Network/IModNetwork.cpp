@@ -3,15 +3,15 @@
 #include <Kortex/NetworkManager.hpp>
 #include "GameMods/IGameMod.h"
 #include "Utility/Common.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxCredentialsDialog.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxCredentialsDialog.h>
 
 namespace Kortex
 {
 	kxf::ResourceID IModNetwork::GetGenericIcon()
 	{
-		return Imagekxf::ResourceID::ModNetwork_Unknown;
+		return ImageResourceID::ModNetwork_Unknown;
 	}
 
 	void IModNetwork::DoOnInit()

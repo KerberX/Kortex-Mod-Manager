@@ -4,7 +4,7 @@
 #include "Network/IModNetwork.h"
 #include "Network/NetworkModInfo.h"
 #include "GameInstance/GameID.h"
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex
 {

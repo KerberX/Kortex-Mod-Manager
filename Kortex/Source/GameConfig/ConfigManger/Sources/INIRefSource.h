@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/ISource.h"
-#include <KxFramework/KxINI.h>
+#include <kxf::UI::Framework/KxINI.h>
 
 namespace Kortex::GameConfig
 {

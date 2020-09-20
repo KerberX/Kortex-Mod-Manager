@@ -39,7 +39,7 @@ namespace Kortex::ModManager
 
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Folders;
+				return ImageResourceID::Folders;
 			}
 			intptr_t GetDisplayOrder() const override
 			{

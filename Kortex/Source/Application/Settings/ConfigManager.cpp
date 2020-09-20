@@ -4,7 +4,7 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/GameInstance.hpp>
 #include "Application/SystemApplication.h"
-#include <KxFramework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
 
 namespace Kortex::Application::Settings
 {

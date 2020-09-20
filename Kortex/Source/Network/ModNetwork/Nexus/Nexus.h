@@ -7,8 +7,8 @@
 #include "NexusUtility.h"
 #include "NexusAuth.h"
 #include "NexusNetworkReply.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxUUID.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxUUID.h>
 class KxCURLEvent;
 class KxCURLSession;
 class KxCURLReplyBase;
@@ -17,7 +17,7 @@ namespace Kortex::NetworkManager
 {
 	class NexusModNetwork:
 		public KxRTTI::ExtendInterface<NexusModNetwork, IModNetwork>,
-		public KxSingletonPtr<NexusModNetwork>
+		public kxf::SingletonPtr<NexusModNetwork>
 	{
 		KxRTTI_DeclareIID(NexusModNetwork, {0x8da1cedb, 0x3c16, 0x4ca8, {0x8b, 0x4f, 0xf6, 0x4b, 0x19, 0xf, 0xcb, 0xe3}});
 
@@ -66,6 +66,6 @@ namespace Kortex::NetworkManager
 			std::vector<NexusGameReply> GetGamesList() const;
 			
 		public:
-			void OnToolBarMenu(KxMenu& menu) override;
+			void OnToolBarMenu(kxf::UI::Menu& menu) override;
 	};
 }

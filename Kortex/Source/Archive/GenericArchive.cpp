@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "GenericArchive.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace
 {

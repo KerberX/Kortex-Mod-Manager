@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "DisplayModelNode.h"
 #include "Utility/BitmapSize.h"
-#include <KxFramework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
 
 namespace Kortex
 {
@@ -124,7 +124,7 @@ namespace Kortex::ModManager
 			PriorityGroupLabelAlignment GetPriorityGroupLabelAlignment() const;
 			void SetPriorityGroupLabelAlignment(PriorityGroupLabelAlignment value);
 
-			void CreateSearchColumnsMenu(KxMenu& menu);
+			void CreateSearchColumnsMenu(kxf::UI::Menu& menu);
 			bool SetSearchMask(const kxf::String& mask);
 			void SetSearchColumns(const std::vector<KxDataView2::Column*>& columns);
 			bool FilterMod(const IGameMod& mod) const;

@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-class KxMenu;
+class kxf::UI::Menu;
 
 namespace Kortex::Utility
 {
@@ -14,12 +14,12 @@ namespace Kortex::Utility
 			};
 
 		private:
-			KxMenu& m_Menu;
+			kxf::UI::Menu& m_Menu;
 			const size_t m_ItemCount = 0;
 			const Where m_Where = Where::After;
 
 		public:
-			MenuSeparator(KxMenu& menu, Where insertWhere);
+			MenuSeparator(kxf::UI::Menu& menu, Where insertWhere);
 			MenuSeparator(const MenuSeparator&) = delete;
 			~MenuSeparator();
 
@@ -33,7 +33,7 @@ namespace Kortex::Utility
 	class MenuSeparatorBefore: public MenuSeparator
 	{
 		public:
-			MenuSeparatorBefore(KxMenu& menu)
+			MenuSeparatorBefore(kxf::UI::Menu& menu)
 				:MenuSeparator(menu, Where::Before)
 			{
 			}
@@ -42,7 +42,7 @@ namespace Kortex::Utility
 	class MenuSeparatorAfter: public MenuSeparator
 	{
 		public:
-			MenuSeparatorAfter(KxMenu& menu)
+			MenuSeparatorAfter(kxf::UI::Menu& menu)
 				:MenuSeparator(menu, Where::After)
 			{
 			}

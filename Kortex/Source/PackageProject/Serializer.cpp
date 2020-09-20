@@ -5,8 +5,8 @@
 #include "Network/ModNetwork/Nexus.h"
 #include "Network/ModNetwork/LoversLab.h"
 #include "Network/ModNetwork/TESALL.h"
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex::PackageProject
 {

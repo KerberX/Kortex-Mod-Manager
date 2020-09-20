@@ -6,11 +6,11 @@
 #include <Kortex/Application.hpp>
 #include "Utility/Common.h"
 #include "Utility/BitmapSize.h"
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxDataViewComboBox.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxUxTheme.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxUxTheme.h>
 
 namespace
 {
@@ -30,7 +30,7 @@ namespace
 	};
 	enum RemoveMode
 	{
-		FIRST = KxID_HIGHEST,
+		FIRST = wxID_HIGHEST,
 	
 		Remove,
 		RemoveTrack,
@@ -273,29 +273,29 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			condition = GetConditionEntry(GetParent(item));
 		}
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddToCondition, KTr("PackageCreator.Conditions.AddToCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FlagPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddToCondition, KTr("PackageCreator.Conditions.AddToCondition")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FlagPlus));
 			item->Enable(condition);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddNewCondition, KTr("PackageCreator.Conditions.AddNewCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddNewCondition, KTr("PackageCreator.Conditions.AddNewCondition")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RemoveFromCondition, KTr("PackageCreator.Conditions.RemoveFromCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FlagMinus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::RemoveFromCondition, KTr("PackageCreator.Conditions.RemoveFromCondition")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FlagMinus));
 			item->Enable(flag);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RemoveCondition, KTr("PackageCreator.Conditions.RemoveCondition")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderMinus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::RemoveCondition, KTr("PackageCreator.Conditions.RemoveCondition")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderMinus));
 			item->Enable(condition);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::RemoveAll, KTr("PackageCreator.Conditions.RemoveAll")));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::RemoveAll, KTr("PackageCreator.Conditions.RemoveAll")));
 			item->Enable(m_ConditionGroup.HasConditions());
 		}
 	
@@ -463,7 +463,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 	int ConditionGroupModel::AskRemoveOption() const
 	{
-		KxTaskDialog dialog(GetViewTLW(), KxID_NONE, KTr("PackageCreator.Conditions.RemoveFlagDialog.Caption"), KTrf("PackageCreator.Conditions.RemoveFlagDialog.Message", PackageProject::FlagItem::GetDeletedFlagPrefix()), KxBTN_CANCEL, KxICON_WARNING);
+		KxTaskDialog dialog(GetViewTLW(), wxID_NONE, KTr("PackageCreator.Conditions.RemoveFlagDialog.Caption"), KTrf("PackageCreator.Conditions.RemoveFlagDialog.Message", PackageProject::FlagItem::GetDeletedFlagPrefix()), KxBTN_CANCEL, KxICON_WARNING);
 		dialog.AddButton(RemoveMode::Remove, KTr("PackageCreator.Conditions.RemoveFlagDialog.Remove"));
 		dialog.AddButton(RemoveMode::RemoveTrack, KTr("PackageCreator.Conditions.RemoveFlagDialog.RemoveTrack"));
 		dialog.AddButton(RemoveMode::RemoveRename, KTr("PackageCreator.Conditions.RemoveFlagDialog.RemoveRename"));
@@ -584,13 +584,13 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		:ConditionGroupModel(controller, conditionGroup)
 		//m_WindowOptions("ConditionGroupDialog", "Window"), m_ViewOptions("ConditionGroupDialog", "View")
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 	
 			m_Sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(m_Sizer);
 			PostCreate();
 	
@@ -601,7 +601,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 			m_Sizer->Add(sizer, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 	
-			m_GlobalOperatorCB = PageBase::AddControlsRow(sizer, KTr("Generic.Operator"), new KxComboBox(m_ViewPane, KxID_NONE), 1);
+			m_GlobalOperatorCB = PageBase::AddControlsRow(sizer, KTr("Generic.Operator"), new KxComboBox(m_ViewPane, wxID_NONE), 1);
 			m_GlobalOperatorCB->Bind(wxEVT_COMBOBOX, &ConditionGroupDialogWithTypeDescriptor::OnSelectGlobalOperator, this);
 	
 			auto AddItem = [this](PackageProject::Operator value)
@@ -616,7 +616,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			AddItem(PackageProject::Operator::Or);
 	
 			// Prepare
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(700, 400)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(700, 400)));
 			LoadWindowSizes();
 		}
 	}
@@ -655,7 +655,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		m_Sizer->Add(sizer, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 	
 		// New type descriptor
-		m_NewTypeDescriptorCB = PageBase::AddControlsRow(sizer, KTr("PackageCreator.PageComponents.TypeDescriptorConditional"), new KxComboBox(m_ViewPane, KxID_NONE), 1);
+		m_NewTypeDescriptorCB = PageBase::AddControlsRow(sizer, KTr("PackageCreator.PageComponents.TypeDescriptorConditional"), new KxComboBox(m_ViewPane, wxID_NONE), 1);
 		m_NewTypeDescriptorCB->Bind(wxEVT_COMBOBOX, &ConditionGroupDialogWithTypeDescriptor::OnSelectNewTypeDescriptor, this);
 	
 		auto AddItem = [this](const kxf::String& id, PackageProject::TypeDescriptor value)
@@ -674,7 +674,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		AddItem(KTr("PackageCreator.PageComponents.TypeDescriptor.NotUsable"), PackageProject::TypeDescriptor::NotUsable);
 	
 		// Prepare
-		AdjustWindow(wxDefaultPosition, FromDIP(wxSize(700, 400)));
+		AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(700, 400)));
 		LoadWindowSizes();
 	}
 	ConditionGroupDialogWithTypeDescriptor::~ConditionGroupDialogWithTypeDescriptor()

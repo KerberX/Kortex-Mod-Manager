@@ -3,7 +3,7 @@
 #include "Network/Common.h"
 #include "Network/ModNetworkRepository.h"
 #include "NexusNetworkReply.h"
-#include <KxFramework/KxJSON.h>
+#include <kxf::UI::Framework/KxJSON.h>
 class KxCURLEvent;
 
 namespace Kortex::NetworkManager::NXMHandler
@@ -58,8 +58,8 @@ namespace Kortex::NetworkManager
 			bool ParseDownloadName(const kxf::String& name, ModFileReply& result);
 
 			bool QueryDownload(const KxFileItem& fileItem, const DownloadItem& download, ModFileReply& fileReply) override;
-			void OnToolBarMenu(KxMenu& menu);
-			void OnDownloadMenu(KxMenu& menu, DownloadItem* download = nullptr) override;
+			void OnToolBarMenu(kxf::UI::Menu& menu);
+			void OnDownloadMenu(kxf::UI::Menu& menu, DownloadItem* download = nullptr) override;
 
 			bool QueueDownload(const kxf::String& link) override;
 			wxAny GetDownloadTarget(const kxf::String& link) override;

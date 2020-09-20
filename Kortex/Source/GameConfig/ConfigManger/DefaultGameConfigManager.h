@@ -3,7 +3,7 @@
 #include "GameConfig/IGameConfigManager.h"
 #include "Definition.h"
 #include "Application/IWorkspace.h"
-#include <KxFramework/KxTranslation.h>
+#include <kxf::UI::Framework/KxTranslation.h>
 
 namespace Kortex
 {

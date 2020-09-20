@@ -4,7 +4,7 @@
 #include "PackageProject/ComponentsSection.h"
 #include "PackageProject/RequirementsSection.h"
 #include "PackageCreator/IDTracker.h"
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 class KxComboBox;
 
 namespace Kortex::PackageDesigner::PageComponentsNS

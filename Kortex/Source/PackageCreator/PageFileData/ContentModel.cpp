@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "ContentModel.h"
 #include "PackageProject/ModPackageProject.h"
-#include "Application/Resources/Imagekxf::ResourceID.h"
+#include "Application/Resources/ImageResourceID.h"
 #include "Application/Resources/IImageProvider.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
 
 namespace
 {
@@ -112,10 +112,10 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			{	
 				if (PackageProject::FileItem* item = GetDataEntry(GetRow(event.GetItem())))
 				{
-					KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN);
+					KxFileBrowseDialog dialog(GetView(), wxID_NONE, KxFBD_OPEN);
 					dialog.SetFolder(item->GetSource().BeforeLast('\\'));
 					dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
-					if (dialog.ShowModal() == KxID_OK)
+					if (dialog.ShowModal() == wxID_OK)
 					{
 						item->SetSource(dialog.GetResult());
 						NotifyChangedItem(event.GetItem());
@@ -133,18 +133,18 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		KxDataViewItem item = event.GetItem();
 		const PackageProject::FileItem* fileItem = GetDataEntry(GetRow(item));
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddMultipleFiles, KTr("PackageCreator.AddMultipleFiles")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentsPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddMultipleFiles, KTr("PackageCreator.AddMultipleFiles")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentsPlus));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(fileItem != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 	
@@ -155,12 +155,12 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 				OnAddMultipleFiles();
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveElement(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -170,10 +170,10 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	
 	void ContentModel::OnAddMultipleFiles()
 	{
-		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN);
+		KxFileBrowseDialog dialog(GetView(), wxID_NONE, KxFBD_OPEN);
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 		dialog.SetOptionEnabled(KxFBD_ALLOW_MULTISELECT);
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			wxWindowUpdateLocker lock(GetView());
 			for (const kxf::String& source: dialog.GetResults())

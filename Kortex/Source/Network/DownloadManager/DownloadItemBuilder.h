@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Network/Common.h"
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex
 {

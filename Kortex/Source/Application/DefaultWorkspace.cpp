@@ -3,7 +3,7 @@
 #include "BroadcastProcessor.h"
 #include "IWorkspaceContainer.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 
 namespace Kortex::Application
 {

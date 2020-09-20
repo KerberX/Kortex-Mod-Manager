@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "DisplayModel.h"
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 class KxButton;
 
 namespace Kortex::ModStatistics

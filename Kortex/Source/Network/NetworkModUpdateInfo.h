@@ -1,7 +1,7 @@
 #pragma once
 #include "Common.h"
-#include <KxFramework/KxIndexedEnum.h>
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 class kxf::XMLNode;
 
 namespace Kortex::NetworkManager

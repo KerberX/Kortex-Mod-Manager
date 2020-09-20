@@ -99,20 +99,20 @@ namespace Kortex::InstallWizard::RequirementsPageNS
 		{
 			case PackageProject::ReqState::False:
 			{
-				return ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossCircleFrame);
+				return ImageProvider::GetBitmap(ImageResourceID::CrossCircleFrame);
 			}
 			case PackageProject::ReqState::Unknown:
 			{
-				return ImageProvider::GetBitmap(Imagekxf::ResourceID::Exclamation);
+				return ImageProvider::GetBitmap(ImageResourceID::Exclamation);
 			}
 		};
-		return ImageProvider::GetBitmap(Imagekxf::ResourceID::TickCircleFrame);
+		return ImageProvider::GetBitmap(ImageResourceID::TickCircleFrame);
 	}
 
 	void DisplayModel::CreateView(wxWindow* parent, bool noBorder)
 	{
 		// View
-		View* view = new View(parent, KxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
+		View* view = new View(parent, wxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
 		view->AssignModel(this);
 		if (noBorder)
 		{

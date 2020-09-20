@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "ListModel.h"
-#include "KxFramework/KxDataViewModelExBase.h"
+#include "kxf::UI::Framework/KxDataViewModelExBase.h"
 
 namespace Kortex::PackageDesigner
 {

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "DataType.h"
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::GameConfig
 {

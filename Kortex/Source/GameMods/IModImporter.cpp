@@ -9,8 +9,8 @@
 #include <Kortex/VirtualGameFolder.hpp>
 #include <Kortex/DownloadManager.hpp>
 #include <Kortex/ProgramManager.hpp>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace Kortex
 {
@@ -31,21 +31,21 @@ namespace Kortex
 	}
 	void IModImporter::PerformImport(Type type, wxWindow* window)
 	{
-		KxTaskDialog warningDialog(window, KxID_NONE, KTr("ModManager.Import.Caption"), KTr("ModManager.Import.OverwriteWarning"), KxBTN_OK|KxBTN_CANCEL, KxICON_WARNING);
-		if (warningDialog.ShowModal() != KxID_OK)
+		KxTaskDialog warningDialog(window, wxID_NONE, KTr("ModManager.Import.Caption"), KTr("ModManager.Import.OverwriteWarning"), KxBTN_OK|KxBTN_CANCEL, KxICON_WARNING);
+		if (warningDialog.ShowModal() != wxID_OK)
 		{
 			return;
 		}
 
-		KxFileBrowseDialog fileDialog(window, KxID_NONE, KxFBD_OPEN_FOLDER);
-		if (fileDialog.ShowModal() == KxID_OK)
+		KxFileBrowseDialog fileDialog(window, wxID_NONE, KxFBD_OPEN_FOLDER);
+		if (fileDialog.ShowModal() == wxID_OK)
 		{
 			if (auto importer = IModImporter::CreateImporter(type))
 			{
 				importer->SetDirectory(fileDialog.GetResult());
 				if (importer->CanImport())
 				{
-					KxTaskDialog profileSelectDialog(window, KxID_NONE, KTr("ModManager.Import.Caption"), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_INFO);
+					KxTaskDialog profileSelectDialog(window, wxID_NONE, KTr("ModManager.Import.Caption"), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_INFO);
 
 					profileSelectDialog.SetMessage(KTrf("ModManager.Import.InfoFound", importer->GetModManagerName()));
 					profileSelectDialog.SetExMessage(importer->GetAdditionalInfo());
@@ -55,7 +55,7 @@ namespace Kortex
 					profileSelectDialog.SetOptionEnabled(KxTD_CHB_ENABLED);
 					profileSelectDialog.SetOptionEnabled(KxTD_CHB_CHECKED);
 
-					KxIconType footerIcon = KxICON_NONE;
+					kxf::StdIcon footerIcon = kxf::StdIcon::None;
 					profileSelectDialog.SetFooter(importer->GetProfileMatchingMessage(&footerIcon));
 					profileSelectDialog.SetFooterIcon(footerIcon);
 
@@ -70,13 +70,13 @@ namespace Kortex
 						profileSelectDialog.SetDefaultRadioButton(0);
 					}
 
-					if (profileSelectDialog.ShowModal() == KxID_YES)
+					if (profileSelectDialog.ShowModal() == wxID_YES)
 					{
 						// Skip mods
 						importer->SkipExistingMods(profileSelectDialog.IsCheckBoxChecked());
 
 						wxWindowID selectedProfileIndex = profileSelectDialog.GetSelectedRadioButton();
-						if (!profilesList.empty() && selectedProfileIndex != KxID_NONE)
+						if (!profilesList.empty() && selectedProfileIndex != wxID_NONE)
 						{
 							importer->m_SelectedProfile = profilesList[selectedProfileIndex];
 						}
@@ -107,15 +107,15 @@ namespace Kortex
 				Utility::Log::LogError("Invalid foreign mod-manager importer interface is requested: %1", type);
 			}
 
-			KxTaskDialog errorDialog(window, KxID_NONE, KTr(KxID_ERROR), KTr("ModManager.Import.CanNotImport"), KxBTN_OK, KxICON_ERROR);
-			if (errorDialog.ShowModal() != KxID_OK)
+			KxTaskDialog errorDialog(window, wxID_NONE, KTr(wxID_ERROR), KTr("ModManager.Import.CanNotImport"), KxBTN_OK, KxICON_ERROR);
+			if (errorDialog.ShowModal() != wxID_OK)
 			{
 				return;
 			}
 		}
 	}
 
-	kxf::String IModImporter::GetProfileMatchingMessage(KxIconType* pIcon) const
+	kxf::String IModImporter::GetProfileMatchingMessage(kxf::StdIcon* pIcon) const
 	{
 		GameID targetID = GetTargetGameID();
 		if (!targetID.IsOK())
@@ -129,7 +129,7 @@ namespace Kortex
 			return KTr("ModManager.Import.TargetProfileMismatch");
 		}
 
-		KxUtility::SetIfNotNull(pIcon, KxICON_NONE);
+		KxUtility::SetIfNotNull(pIcon, kxf::StdIcon::None);
 		return wxEmptyString;
 	}
 

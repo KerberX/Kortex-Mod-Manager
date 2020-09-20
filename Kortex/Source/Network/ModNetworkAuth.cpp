@@ -6,9 +6,9 @@
 #include "Application/INotificationCenter.h"
 #include "Utility/BitmapSize.h"
 #include "Utility/Drawing.h"
-#include <KxFramework/KxCredentialsDialog.h>
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxCredentialsDialog.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 namespace Kortex
 {
@@ -20,7 +20,7 @@ namespace Kortex
 		{
 			const IApplication* app = IApplication::GetInstance();
 			const IModNetwork& modNetwork = GetContainer();
-			INotificationCenter::Notify(app->GetName(), KTrf("NetworkManager.AuthSuccess", modNetwork.GetName()), KxICON_INFORMATION);
+			INotificationCenter::Notify(app->GetName(), KTrf("NetworkManager.AuthSuccess", modNetwork.GetName()), kxf::StdIcon::Information);
 		}
 		m_AuthSuccessCount++;
 	}
@@ -49,14 +49,14 @@ namespace Kortex
 		KxCURLBinaryReply reply = connection->Download();
 		wxMemoryInputStream stream(reply.GetData(), reply.GetSize());
 
-		wxSize size = Utility::BitmapSize().FromSystemSmallIcon().GetSize();
+		kxf::Size size = Utility::BitmapSize().FromSystemSmallIcon().GetSize();
 		return wxBitmap(Utility::Drawing::ScaleImageAspect(wxImage(stream), -1, size.GetHeight()), 32);
 	}
 
 	auto ModNetworkAuth::ShowCredentialsDialog(wxWindow* parent) const -> std::optional<Credentials>
 	{
-		KxCredentialsDialog dialog(parent, KxID_NONE, KTrf("NetworkManager.AuthCaption", GetContainer().GetName()), KTr("NetworkManager.AuthMessage"));
-		if (dialog.ShowModal() == KxID_OK)
+		KxCredentialsDialog dialog(parent, wxID_NONE, KTrf("NetworkManager.AuthCaption", GetContainer().GetName()), KTr("NetworkManager.AuthMessage"));
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			kxf::String userName = dialog.GetUserName();
 			KxSecretValue password;

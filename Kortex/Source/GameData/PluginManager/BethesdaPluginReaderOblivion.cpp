@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BethesdaPluginReaderOblivion.h"
 #include "GameData/IGamePlugin.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::PluginManager
 {

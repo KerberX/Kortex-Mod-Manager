@@ -1,10 +1,10 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Network/INetworkManager.h"
-class KxAuiToolBarEvent;
-class KxAuiToolBarItem;
-class KxMenuEvent;
-class KxMenu;
+class kxf::UI::AuiToolBarEvent;
+class kxf::UI::AuiToolBarItem;
+class kxf::UI::MenuEvent;
+class kxf::UI::Menu;
 
 namespace Kortex
 {
@@ -20,8 +20,8 @@ namespace Kortex::NetworkManager
 			IModNetwork::Vector m_ModNetworks;
 			IModNetwork* m_DefaultModNetwork = nullptr;
 
-			KxAuiToolBarItem* m_LoginButton = nullptr;
-			KxMenu* m_Menu = nullptr;
+			kxf::UI::AuiToolBarItem* m_LoginButton = nullptr;
+			kxf::UI::Menu* m_Menu = nullptr;
 
 		private:
 			virtual void OnInit() override;
@@ -32,14 +32,14 @@ namespace Kortex::NetworkManager
 			bool AdjustDefaultModNetwork();
 
 		private:
-			void OnSetToolbarButton(KxAuiToolBarItem& button) override;
+			void OnSetToolbarButton(kxf::UI::AuiToolBarItem& button) override;
 			void UpdateButton();
 			void CreateMenu();
 			void QueueUIUpdate();
 
-			void OnSignInOut(KxMenuEvent& event);
-			void OnSelectDefaultModSource(KxMenuEvent& event);
-			void OnToolbarButton(KxAuiToolBarEvent& event) override;
+			void OnSignInOut(kxf::UI::MenuEvent& event);
+			void OnSelectDefaultModSource(kxf::UI::MenuEvent& event);
+			void OnToolbarButton(kxf::UI::AuiToolBarEvent& event) override;
 
 		public:
 			kxf::String GetCacheDirectory() const override;

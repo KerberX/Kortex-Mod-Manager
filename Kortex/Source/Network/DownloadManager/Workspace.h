@@ -1,20 +1,20 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxPanel.h>
 
 namespace Kortex::DownloadManager
 {
 	class DisplayModel;
 
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		private:
 			wxBoxSizer* m_MainSizer = nullptr;
 			DisplayModel* m_DisplayModel = nullptr;
-			KxAuiToolBar* m_ToolBar = nullptr;
+			kxf::UI::AuiToolBar* m_ToolBar = nullptr;
 
 		private:
 			void OnSelectConcurrentDownloadsCount(wxCommandEvent& event);
@@ -34,7 +34,7 @@ namespace Kortex::DownloadManager
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Arrow270;
+				return ImageResourceID::Arrow270;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

@@ -20,7 +20,7 @@ namespace Kortex::Utility
 				:m_Width(width), m_Height(height)
 			{
 			}
-			BitmapSize(const wxSize& size)
+			BitmapSize(const kxf::Size& size)
 				:m_Width(size.GetWidth()), m_Height(size.GetHeight())
 			{
 			}
@@ -83,11 +83,11 @@ namespace Kortex::Utility
 				return *this;
 			}
 
-			wxSize GetSize() const
+			kxf::Size GetSize() const
 			{
-				return wxSize(m_Width, m_Height);
+				return kxf::Size(m_Width, m_Height);
 			}
-			operator wxSize() const
+			operator kxf::Size() const
 			{
 				return GetSize();
 			}

@@ -1,9 +1,9 @@
 #pragma once 
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxIArchive.h>
-#include <KxFramework/KxArchiveEvent.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxFileItem.h>
+#include <kxf::UI::Framework/KxIArchive.h>
+#include <kxf::UI::Framework/KxArchiveEvent.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileItem.h>
 
 namespace Kortex::BethesdaArchiveNS
 {

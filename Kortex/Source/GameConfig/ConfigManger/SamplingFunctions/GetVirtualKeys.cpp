@@ -2,8 +2,8 @@
 #include "GetVirtualKeys.h"
 #include "GameConfig/IConfigManager.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::GameConfig::SamplingFunction
 {

@@ -15,7 +15,7 @@ namespace Kortex::NetworkManager
 
 	kxf::ResourceID LoversLabModNetwork::GetIcon() const
 	{
-		return Imagekxf::ResourceID::ModNetwork_LoversLab;
+		return ImageResourceID::ModNetwork_LoversLab;
 	}
 	kxf::String LoversLabModNetwork::GetName() const
 	{

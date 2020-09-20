@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "Utility/OperationWithProgress.h"
 #include "Utility/TempFolderKeeper.h"
-#include <KxFramework/KxArchiveEvent.h>
+#include <kxf::UI::Framework/KxArchiveEvent.h>
 
 namespace Kortex
 {

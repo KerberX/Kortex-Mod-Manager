@@ -2,8 +2,8 @@
 #include "Window.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxButton.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxButton.h>
 
 namespace Kortex::Application::Settings
 {
@@ -11,7 +11,7 @@ namespace Kortex::Application::Settings
 	{
 		if (m_Manager.HasUnsavedChanges())
 		{
-			KxTaskDialog dialog(this, KxID_NONE, KTrf("Settings.SaveMessage"), {}, KxBTN_OK, KxICON_INFORMATION);
+			KxTaskDialog dialog(this, wxID_NONE, KTrf("Settings.SaveMessage"), {}, KxBTN_OK, kxf::StdIcon::Information);
 			dialog.ShowModal();
 
 			m_Manager.SaveChanges();
@@ -20,15 +20,15 @@ namespace Kortex::Application::Settings
 	}
 	void Window::OnPrepareUninstall(wxCommandEvent& event)
 	{
-		KxTaskDialog askDialog(this, KxID_NONE, KTrf("Settings.PrepareUninstall.Caption", IApplication::GetInstance()->GetName()), KTr("Settings.PrepareUninstall.Message"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-		if (askDialog.ShowModal() == KxID_YES)
+		KxTaskDialog askDialog(this, wxID_NONE, KTrf("Settings.PrepareUninstall.Caption", IApplication::GetInstance()->GetName()), KTr("Settings.PrepareUninstall.Message"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+		if (askDialog.ShowModal() == wxID_YES)
 		{
 			if (IApplication::GetInstance()->Uninstall())
 			{
-				KxTaskDialog dialog(this, KxID_NONE, KTr("Settings.PrepareUninstall.Success"), wxEmptyString, KxBTN_NONE, KxICON_INFORMATION);
-				dialog.AddButton(KxID_OK, KTr("Settings.PrepareUninstall.RebootNow"));
-				dialog.AddButton(KxID_CANCEL, KTr("Settings.PrepareUninstall.RebootLater"));
-				if (dialog.ShowModal() == KxID_OK)
+				KxTaskDialog dialog(this, wxID_NONE, KTr("Settings.PrepareUninstall.Success"), wxEmptyString, KxBTN_NONE, kxf::StdIcon::Information);
+				dialog.AddButton(wxID_OK, KTr("Settings.PrepareUninstall.RebootNow"));
+				dialog.AddButton(wxID_CANCEL, KTr("Settings.PrepareUninstall.RebootLater"));
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					if (IMainWindow* mainWindow = IMainWindow::GetInstance())
 					{
@@ -39,7 +39,7 @@ namespace Kortex::Application::Settings
 			}
 			else
 			{
-				KxTaskDialog(this, KxID_NONE, KTr("Settings.PrepareUninstall.Error"), wxEmptyString, KxBTN_OK, KxICON_ERROR).ShowModal();
+				KxTaskDialog(this, wxID_NONE, KTr("Settings.PrepareUninstall.Error"), wxEmptyString, KxBTN_OK, KxICON_ERROR).ShowModal();
 			}
 		}
 	}
@@ -51,14 +51,14 @@ namespace Kortex::Application::Settings
 		m_Manager.Load();
 
 		parent = parent ? parent : &IMainWindow::GetInstance()->GetFrame();
-		if (Create(parent, KxID_NONE, KTr("Settings.Caption"), wxDefaultPosition, FromDIP(wxSize(800, 600)), KxBTN_OK|KxBTN_CANCEL))
+		if (Create(parent, wxID_NONE, KTr("Settings.Caption"), wxDefaultPosition, FromDIP(kxf::Size(800, 600)), KxBTN_OK|KxBTN_CANCEL))
 		{
 			Bind(wxEVT_CLOSE_WINDOW, &Window::OnCloseWindow, this);
 
-			wxWindow* removeButton = AddButton(KxID_REMOVE, KTr("Settings.PrepareUninstall.Button"), true).GetControl();
+			wxWindow* removeButton = AddButton(wxID_REMOVE, KTr("Settings.PrepareUninstall.Button"), true).GetControl();
 			removeButton->Bind(wxEVT_BUTTON, &Window::OnPrepareUninstall, this);
 
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			PostCreate();
 			IThemeManager::GetActive().Apply(GetContentWindow());
 

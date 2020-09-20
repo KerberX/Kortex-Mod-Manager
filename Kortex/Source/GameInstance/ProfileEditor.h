@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "IGameProfile.h"
-#include "KxFramework/KxDataViewListModelEx.h"
-#include <KxFramework/KxStdDialog.h>
+#include "kxf::UI::Framework/KxDataViewListModelEx.h"
+#include <kxf::UI::Framework/KxStdDialog.h>
 class KxButton;
 class KxCheckBox;
 

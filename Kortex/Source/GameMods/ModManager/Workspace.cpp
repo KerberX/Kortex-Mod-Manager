@@ -21,15 +21,15 @@
 #include "Utility/OperationWithProgress.h"
 #include "Utility/UI.h"
 #include "Utility/MenuSeparator.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxSearchBox.h>
-#include <KxFramework/KxBitmapComboBox.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxDualProgressDialog.h>
-#include <KxFramework/KxFileOperationEvent.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxSearchBox.h>
+#include <kxf::UI::Framework/KxBitmapComboBox.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxDualProgressDialog.h>
+#include <kxf::UI::Framework/KxFileOperationEvent.h>
 #include <Kx/Async.hpp>
 #include <wx/colordlg.h>
 
@@ -66,12 +66,12 @@ namespace
 	};
 	enum class ToolsMenuID
 	{
-		Statistics = KxID_HIGHEST + 1,
+		Statistics = wxID_HIGHEST + 1,
 		ExportModList,
 	};
 	enum class ContextMenuID
 	{
-		BeginIndex = KxID_HIGHEST,
+		BeginIndex = wxID_HIGHEST,
 
 		ModOpenLocation,
 		ModChangeLocation,
@@ -128,7 +128,7 @@ namespace Kortex::ModManager
 {
 	void VFSProgramItem::OnRequestBitmap()
 	{
-		m_Bitmap = ImageProvider::GetBitmap(m_FileSystem.IsEnabled() ? Imagekxf::ResourceID::ControlStopSquare : Imagekxf::ResourceID::ControlRight);
+		m_Bitmap = ImageProvider::GetBitmap(m_FileSystem.IsEnabled() ? ImageResourceID::ControlStopSquare : ImageResourceID::ControlRight);
 	}
 
 	VFSProgramItem::VFSProgramItem()
@@ -162,7 +162,7 @@ namespace Kortex::ModManager
 {
 	void WorkspaceContainer::Create(wxWindow* parent)
 	{
-		m_BookCtrl = new KxAuiNotebook(parent, KxID_NONE, KxAuiNotebook::DefaultStyle|wxAUI_NB_TAB_MOVE);
+		m_BookCtrl = new KxAuiNotebook(parent, wxID_NONE, KxAuiNotebook::DefaultStyle|wxAUI_NB_TAB_MOVE);
 		m_BookCtrl->SetImageList(&ImageProvider::GetImageList());
 		IThemeManager::GetActive().Apply(m_BookCtrl);
 
@@ -207,7 +207,7 @@ namespace Kortex::ModManager
 	void Workspace::CreateLeftPane()
 	{
 		m_LeftPaneSizer = new wxBoxSizer(wxVERTICAL);
-		m_LeftPaneWindow = new KxPanel(m_SplitterLeftRight, KxID_NONE);
+		m_LeftPaneWindow = new KxPanel(m_SplitterLeftRight, wxID_NONE);
 		m_LeftPaneWindow->SetSizer(m_LeftPaneSizer);
 		m_LeftPaneWindow->SetBackgroundColour(GetBackgroundColour());
 
@@ -231,37 +231,37 @@ namespace Kortex::ModManager
 	}
 	void Workspace::CreateLeftPaneToolbar()
 	{
-		m_ModsToolBar = new KxAuiToolBar(m_LeftPaneWindow, KxID_NONE, wxAUI_TB_HORZ_TEXT|wxAUI_TB_PLAIN_BACKGROUND);
+		m_ModsToolBar = new kxf::UI::AuiToolBar(m_LeftPaneWindow, wxID_NONE, wxAUI_TB_HORZ_TEXT|wxAUI_TB_PLAIN_BACKGROUND);
 		m_ModsToolBar->SetBackgroundColour(GetBackgroundColour());
 		m_ModsToolBar->SetMargins(0, 1, 0, 0);
 
-		m_ToolBar_Profiles = new KxComboBox(m_ModsToolBar, KxID_NONE);
+		m_ToolBar_Profiles = new KxComboBox(m_ModsToolBar, wxID_NONE);
 		m_ToolBar_Profiles->Bind(wxEVT_COMBOBOX, &Workspace::OnSelectProfile, this);
 
 		m_ModsToolBar->AddLabel(KTr("ModManager.Profile") + ':');
 		m_ModsToolBar->AddControl(m_ToolBar_Profiles)->SetProportion(1);
 
-		m_ToolBar_EditProfiles = Utility::UI::CreateToolBarButton(m_ModsToolBar, wxEmptyString, Imagekxf::ResourceID::Gear);
+		m_ToolBar_EditProfiles = Utility::UI::CreateToolBarButton(m_ModsToolBar, wxEmptyString, ImageResourceID::Gear);
 		m_ToolBar_EditProfiles->SetShortHelp(KTr("ModManager.Profile.Configure"));
-		m_ToolBar_EditProfiles->Bind(KxEVT_AUI_TOOLBAR_CLICK, &Workspace::OnShowProfileEditor, this);
+		m_ToolBar_EditProfiles->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &Workspace::OnShowProfileEditor, this);
 		m_ModsToolBar->AddSeparator();
 
-		m_ToolBar_AddMod = Utility::UI::CreateToolBarButton(m_ModsToolBar, KTr(KxID_ADD), Imagekxf::ResourceID::PlusSmall);
+		m_ToolBar_AddMod = Utility::UI::CreateToolBarButton(m_ModsToolBar, KTr(wxID_ADD), ImageResourceID::PlusSmall);
 
-		m_ToolBar_ChangeDisplayMode = Utility::UI::CreateToolBarButton(m_ModsToolBar, KTr("ModManager.DisplayMode.Caption"), Imagekxf::ResourceID::ProjectionScreen);
-		m_ToolBar_ChangeDisplayMode->Bind(KxEVT_AUI_TOOLBAR_CLICK, &Workspace::OnDisplayModeMenu, this);
+		m_ToolBar_ChangeDisplayMode = Utility::UI::CreateToolBarButton(m_ModsToolBar, KTr("ModManager.DisplayMode.Caption"), ImageResourceID::ProjectionScreen);
+		m_ToolBar_ChangeDisplayMode->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &Workspace::OnDisplayModeMenu, this);
 
-		m_ToolBar_Tools = Utility::UI::CreateToolBarButton(m_ModsToolBar, wxEmptyString, Imagekxf::ResourceID::WrenchScrewdriver);
+		m_ToolBar_Tools = Utility::UI::CreateToolBarButton(m_ModsToolBar, wxEmptyString, ImageResourceID::WrenchScrewdriver);
 		m_ToolBar_Tools->SetShortHelp(KTr("ModManager.Tools"));
-		m_ToolBar_Tools->Bind(KxEVT_AUI_TOOLBAR_CLICK, &Workspace::OnToolsMenu, this);
+		m_ToolBar_Tools->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &Workspace::OnToolsMenu, this);
 
-		m_SearchBox = new KxSearchBox(m_ModsToolBar, KxID_NONE);
+		m_SearchBox = new KxSearchBox(m_ModsToolBar, wxID_NONE);
 		m_SearchBox->SetName("Workspace search box");
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_SEARCH_BTN, &Workspace::OnModSerach, this);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_CANCEL_BTN, &Workspace::OnModSerach, this);
 
-		KxMenu* searchMenu = new KxMenu();
-		searchMenu->Bind(KxEVT_MENU_SELECT, &Workspace::OnModSearchColumnsChanged, this);
+		kxf::UI::Menu* searchMenu = new kxf::UI::Menu();
+		searchMenu->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnModSearchColumnsChanged, this);
 		m_DisplayModel->CreateSearchColumnsMenu(*searchMenu);
 		m_SearchBox->SetMenu(searchMenu);
 
@@ -275,106 +275,106 @@ namespace Kortex::ModManager
 	}
 	void Workspace::CreateLeftPaneToolbar_DisplayMode()
 	{
-		m_ToolBar_DisplayModeMenu = new KxMenu();
+		m_ToolBar_DisplayModeMenu = new kxf::UI::Menu();
 		m_ToolBar_ChangeDisplayMode->AssignDropdownMenu(m_ToolBar_DisplayModeMenu);
 		m_ToolBar_ChangeDisplayMode->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
 
 		{
-			KxMenuItem* item = m_ToolBar_DisplayModeMenu->Add(new KxMenuItem((int)DisplayModeMenuID::Connector, KTr("ModManager.DisplayMode.Connector"), wxEmptyString, wxITEM_RADIO));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlugDisconnect));
+			kxf::UI::MenuItem* item = m_ToolBar_DisplayModeMenu->Add(new kxf::UI::MenuItem((int)DisplayModeMenuID::Connector, KTr("ModManager.DisplayMode.Connector"), wxEmptyString, wxITEM_RADIO));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlugDisconnect));
 			item->Check(m_DisplayModel->GetDisplayMode() == DisplayModelType::Connector);
 		}
 		{
-			KxMenuItem* item = m_ToolBar_DisplayModeMenu->Add(new KxMenuItem((int)DisplayModeMenuID::Manager, KTr("ModManager.DisplayMode.Log"), wxEmptyString, wxITEM_RADIO));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Category));
+			kxf::UI::MenuItem* item = m_ToolBar_DisplayModeMenu->Add(new kxf::UI::MenuItem((int)DisplayModeMenuID::Manager, KTr("ModManager.DisplayMode.Log"), wxEmptyString, wxITEM_RADIO));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Category));
 			item->Check(m_DisplayModel->GetDisplayMode() == DisplayModelType::Manager);
 		}
 		m_ToolBar_DisplayModeMenu->AddSeparator();
 
 		{
-			KxMenuItem* item = m_ToolBar_DisplayModeMenu->Add(new KxMenuItem((int)DisplayModeMenuID::ShowPriorityGroups, KTr("ModManager.DisplayMode.ShowPriorityGroups"), wxEmptyString, wxITEM_CHECK));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Folders));
+			kxf::UI::MenuItem* item = m_ToolBar_DisplayModeMenu->Add(new kxf::UI::MenuItem((int)DisplayModeMenuID::ShowPriorityGroups, KTr("ModManager.DisplayMode.ShowPriorityGroups"), wxEmptyString, wxITEM_CHECK));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Folders));
 			item->Check(m_DisplayModel->ShouldShowPriorityGroups());
 		}
 		{
-			KxMenuItem* item = m_ToolBar_DisplayModeMenu->Add(new KxMenuItem((int)DisplayModeMenuID::ShowNotInstalledMods, KTr("ModManager.DisplayMode.ShowNotInstalledMods"), wxEmptyString, wxITEM_CHECK));
+			kxf::UI::MenuItem* item = m_ToolBar_DisplayModeMenu->Add(new kxf::UI::MenuItem((int)DisplayModeMenuID::ShowNotInstalledMods, KTr("ModManager.DisplayMode.ShowNotInstalledMods"), wxEmptyString, wxITEM_CHECK));
 			item->Check(m_DisplayModel->ShouldShowNotInstalledMods());
 		}
 		{
-			KxMenuItem* item = m_ToolBar_DisplayModeMenu->Add(new KxMenuItem((int)DisplayModeMenuID::BoldPriorityGroupLabels, KTr("ModManager.DisplayMode.BoldPriorityGroupLabels"), wxEmptyString, wxITEM_CHECK));
+			kxf::UI::MenuItem* item = m_ToolBar_DisplayModeMenu->Add(new kxf::UI::MenuItem((int)DisplayModeMenuID::BoldPriorityGroupLabels, KTr("ModManager.DisplayMode.BoldPriorityGroupLabels"), wxEmptyString, wxITEM_CHECK));
 			item->Check(m_DisplayModel->IsBoldPriorityGroupLabels());
 		}
 		m_ToolBar_DisplayModeMenu->AddSeparator();
 
 		{
-			KxMenu* alignmnetMenu = new KxMenu();
+			kxf::UI::Menu* alignmnetMenu = new kxf::UI::Menu();
 			m_ToolBar_DisplayModeMenu->Add(alignmnetMenu, KTr("ModManager.DisplayMode.PriorityGroupLabelsAlignment"));
 
 			using PriorityGroupLabelAlignment = DisplayModel::PriorityGroupLabelAlignment;
 			auto AddOption = [this, alignmnetMenu](DisplayModeMenuID id, PriorityGroupLabelAlignment type, KxStandardID trId)
 			{
-				KxMenuItem* item = alignmnetMenu->Add(new KxMenuItem((int)id, KTr(trId), wxEmptyString, wxITEM_RADIO));
+				kxf::UI::MenuItem* item = alignmnetMenu->Add(new kxf::UI::MenuItem((int)id, KTr(trId), wxEmptyString, wxITEM_RADIO));
 				item->Check(m_DisplayModel->GetPriorityGroupLabelAlignment() == type);
 				return item;
 			};
-			AddOption(DisplayModeMenuID::PriorityGroupLabelAlignment_Left, PriorityGroupLabelAlignment::Left, KxID_JUSTIFY_LEFT);
-			AddOption(DisplayModeMenuID::PriorityGroupLabelAlignment_Center, PriorityGroupLabelAlignment::Center, KxID_JUSTIFY_CENTER);
-			AddOption(DisplayModeMenuID::PriorityGroupLabelAlignment_Right, PriorityGroupLabelAlignment::Right, KxID_JUSTIFY_RIGHT);
+			AddOption(DisplayModeMenuID::PriorityGroupLabelAlignment_Left, PriorityGroupLabelAlignment::Left, wxID_JUSTIFY_LEFT);
+			AddOption(DisplayModeMenuID::PriorityGroupLabelAlignment_Center, PriorityGroupLabelAlignment::Center, wxID_JUSTIFY_CENTER);
+			AddOption(DisplayModeMenuID::PriorityGroupLabelAlignment_Right, PriorityGroupLabelAlignment::Right, wxID_JUSTIFY_RIGHT);
 		}
 	}
 	void Workspace::CreateLeftPaneToolbar_AddMod()
 	{
-		m_ToolBar_AddModMenu = new KxMenu();
+		m_ToolBar_AddModMenu = new kxf::UI::Menu();
 		m_ToolBar_AddMod->AssignDropdownMenu(m_ToolBar_AddModMenu);
 		m_ToolBar_AddMod->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
-		KxMenuItem* item = nullptr;
+		kxf::UI::MenuItem* item = nullptr;
 
-		item = m_ToolBar_AddModMenu->Add(new KxMenuItem(KTr("ModManager.NewMod.NewEmptyMod")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnAddMod_Empty, this);
+		item = m_ToolBar_AddModMenu->Add(new kxf::UI::MenuItem(KTr("ModManager.NewMod.NewEmptyMod")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnAddMod_Empty, this);
 
-		item = m_ToolBar_AddModMenu->Add(new KxMenuItem(KTr("ModManager.NewMod.NewModFromFolder")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderArrow));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnAddMod_FromFolder, this);
+		item = m_ToolBar_AddModMenu->Add(new kxf::UI::MenuItem(KTr("ModManager.NewMod.NewModFromFolder")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderArrow));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnAddMod_FromFolder, this);
 
-		item = m_ToolBar_AddModMenu->Add(new KxMenuItem(KTr("ModManager.NewMod.InstallPackage")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BoxSearchResult));
-		item->Bind(KxEVT_MENU_SELECT, &Workspace::OnAddMod_InstallPackage, this);
+		item = m_ToolBar_AddModMenu->Add(new kxf::UI::MenuItem(KTr("ModManager.NewMod.InstallPackage")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BoxSearchResult));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnAddMod_InstallPackage, this);
 
 		m_ToolBar_AddModMenu->AddSeparator();
 
-		item = m_ToolBar_AddModMenu->Add(new KxMenuItem(KTrf("ModManager.NewMod.ImportFrom", "Mod Organizer")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::MO2));
-		item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+		item = m_ToolBar_AddModMenu->Add(new kxf::UI::MenuItem(KTrf("ModManager.NewMod.ImportFrom", "Mod Organizer")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::MO2));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 		{
 			IModImporter::PerformImport(IModImporter::Type::ModOrganizer, this);
 		});
 
-		item = m_ToolBar_AddModMenu->Add(new KxMenuItem(KTrf("ModManager.NewMod.ImportFrom", "Nexus Mod Manager")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ModNetwork_Nexus));
-		item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+		item = m_ToolBar_AddModMenu->Add(new kxf::UI::MenuItem(KTrf("ModManager.NewMod.ImportFrom", "Nexus Mod Manager")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ModNetwork_Nexus));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 		{
 			IModImporter::PerformImport(IModImporter::Type::NexusModManager, this);
 		});
 	}
 	void Workspace::CreateLeftPaneToolbar_Tools()
 	{
-		KxMenu* menu = new KxMenu();
+		kxf::UI::Menu* menu = new kxf::UI::Menu();
 		m_ToolBar_Tools->AssignDropdownMenu(menu);
 		m_ToolBar_Tools->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
-		KxMenuItem* item = nullptr;
+		kxf::UI::MenuItem* item = nullptr;
 
-		item = menu->Add(new KxMenuItem((int)ToolsMenuID::Statistics, KTr("ModManager.Statistics")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Chart));
+		item = menu->Add(new kxf::UI::MenuItem((int)ToolsMenuID::Statistics, KTr("ModManager.Statistics")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Chart));
 
-		item = menu->Add(new KxMenuItem((int)ToolsMenuID::ExportModList, KTr("Generic.Export")));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Disk));
+		item = menu->Add(new kxf::UI::MenuItem((int)ToolsMenuID::ExportModList, KTr("Generic.Export")));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Disk));
 	}
 	
 	void Workspace::CreateRightPane()
 	{
 		wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
-		m_RightPaneWindow = new KxPanel(m_SplitterLeftRight, KxID_NONE);
+		m_RightPaneWindow = new KxPanel(m_SplitterLeftRight, wxID_NONE);
 		m_RightPaneWindow->SetSizer(mainSizer);
 
 		// Controls
@@ -388,16 +388,16 @@ namespace Kortex::ModManager
 	}
 	void Workspace::CreateRightPaneProgramList()
 	{
-		m_RightPane_Programs = new KxBitmapComboBox(m_RightPaneWindow, KxID_NONE);
+		m_RightPane_Programs = new KxBitmapComboBox(m_RightPaneWindow, wxID_NONE);
 		m_RightPane_Programs->SetImageList(&ImageProvider::GetImageList());
 		m_RightPane_Programs->SetDefaultBitmapSize(Utility::BitmapSize().FromSystemIcon().GetSize());
 		m_RightPane_Programs->Bind(wxEVT_COMBOBOX, &Workspace::OnSelectProgram, this);
 		m_RightPaneSizer->Add(m_RightPane_Programs, 1, wxEXPAND);
 
-		m_RightPane_RunProgram = new KxButton(m_RightPaneWindow, KxID_NONE, KTr("Generic.Run"));
-		m_RightPane_RunProgram->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ControlRight));
+		m_RightPane_RunProgram = new KxButton(m_RightPaneWindow, wxID_NONE, KTr("Generic.Run"));
+		m_RightPane_RunProgram->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ControlRight));
 		m_RightPane_RunProgram->Bind(KxEVT_BUTTON, &Workspace::OnRunButton, this);
-		m_RightPaneSizer->Add(m_RightPane_RunProgram, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		m_RightPaneSizer->Add(m_RightPane_RunProgram, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 	}
 
 	bool Workspace::ShowChangeModIDDialog(IGameMod& mod)
@@ -405,30 +405,30 @@ namespace Kortex::ModManager
 		kxf::String newID;
 		const kxf::String oldID = mod.GetID();
 
-		KxTextBoxDialog dialog(this, KxID_NONE, KTr("ModManager.Menu.ChangeID"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL);
+		KxTextBoxDialog dialog(this, wxID_NONE, KTr("ModManager.Menu.ChangeID"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL);
 		dialog.SetValue(oldID);
 		dialog.Bind(KxEVT_STDDIALOG_BUTTON, [this, &mod, &dialog, &newID](wxNotifyEvent& event)
 		{
-			if (event.GetId() == KxID_OK)
+			if (event.GetId() == wxID_OK)
 			{
 				newID = dialog.GetValue();
 				if (newID.IsEmpty())
 				{
-					KxTaskDialog(&dialog, KxID_NONE, KTr("InstallWizard.ChangeID.Invalid"), wxEmptyString, KxBTN_OK, KxICON_WARNING).ShowModal();
+					KxTaskDialog(&dialog, wxID_NONE, KTr("InstallWizard.ChangeID.Invalid"), wxEmptyString, KxBTN_OK, KxICON_WARNING).ShowModal();
 					event.Veto();
 				}
 				else if (const IGameMod* existingMod = IModManager::GetInstance()->FindModByID(newID))
 				{
 					if (existingMod != &mod)
 					{
-						KxTaskDialog(&dialog, KxID_NONE, KTrf("InstallWizard.ChangeID.Used", existingMod->GetName()), wxEmptyString, KxBTN_OK, KxICON_WARNING).ShowModal();
+						KxTaskDialog(&dialog, wxID_NONE, KTrf("InstallWizard.ChangeID.Used", existingMod->GetName()), wxEmptyString, KxBTN_OK, KxICON_WARNING).ShowModal();
 						event.Veto();
 					}
 				}
 			}
 		});
 
-		if (dialog.ShowModal() == KxID_OK && newID != oldID)
+		if (dialog.ShowModal() == wxID_OK && newID != oldID)
 		{
 			const bool nameIsSame = mod.GetName() == oldID;
 			if (IModManager::GetInstance()->ChangeModID(mod, newID))
@@ -467,7 +467,7 @@ namespace Kortex::ModManager
 		ProcessSelectProfile(m_ToolBar_Profiles->GetString(event.GetSelection()));
 		m_DisplayModel->GetView()->SetFocus();
 	}
-	void Workspace::OnShowProfileEditor(KxAuiToolBarEvent& event)
+	void Workspace::OnShowProfileEditor(kxf::UI::AuiToolBarEvent& event)
 	{
 		// Save current
 		IGameProfile* profile = IGameInstance::GetActiveProfile();
@@ -506,10 +506,10 @@ namespace Kortex::ModManager
 		}
 	}
 
-	void Workspace::OnDisplayModeMenu(KxAuiToolBarEvent& event)
+	void Workspace::OnDisplayModeMenu(kxf::UI::AuiToolBarEvent& event)
 	{
 		wxWindowID id = m_ToolBar_ChangeDisplayMode->ShowDropdownMenu();
-		if (id != KxID_NONE)
+		if (id != wxID_NONE)
 		{
 			switch ((DisplayModeMenuID)id)
 			{
@@ -570,7 +570,7 @@ namespace Kortex::ModManager
 			};
 		}
 	}
-	void Workspace::OnToolsMenu(KxAuiToolBarEvent& event)
+	void Workspace::OnToolsMenu(kxf::UI::AuiToolBarEvent& event)
 	{
 		switch ((ToolsMenuID)m_ToolBar_Tools->ShowDropdownMenu())
 		{
@@ -582,12 +582,12 @@ namespace Kortex::ModManager
 			}
 			case ToolsMenuID::ExportModList:
 			{
-				KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
+				KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_SAVE);
 				dialog.AddFilter("*.html", KTr("FileFilter.HTML"));
 				dialog.SetDefaultExtension("html");
 				dialog.SetFileName(IGameInstance::GetActive()->GetGameID() + wxS(" - ") + IGameInstance::GetActive()->GetInstanceID());
 
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					IModManager::GetInstance()->ExportModList(dialog.GetResult());
 				}
@@ -628,7 +628,7 @@ namespace Kortex::ModManager
 		{
 			case VirtualFSEvent::Error::NonEmptyMountPoint:
 			{
-				KxTaskDialog dialog(this, KxID_NONE, KTr("VFS.MountPointNotEmpty.Caption"), KTr("VFS.MountPointNotEmpty.Message"), KxBTN_OK, KxICON_ERROR);
+				KxTaskDialog dialog(this, wxID_NONE, KTr("VFS.MountPointNotEmpty.Caption"), KTr("VFS.MountPointNotEmpty.Message"), KxBTN_OK, KxICON_ERROR);
 				dialog.SetOptionEnabled(KxTD_HYPERLINKS_ENABLED);
 				dialog.SetOptionEnabled(KxTD_EXMESSAGE_EXPANDED);
 
@@ -718,7 +718,7 @@ namespace Kortex::ModManager
 		m_RightPane_Programs->ProcessWindowEvent(selectEvent);
 
 		// Layout controls and make button height the same as combobox
-		const wxSize size = wxSize(wxDefaultCoord, m_RightPane_Programs->GetSize().GetHeight());
+		const kxf::Size size = kxf::Size(wxDefaultCoord, m_RightPane_Programs->GetSize().GetHeight());
 		m_RightPane_RunProgram->SetMinSize(size);
 		m_RightPane_RunProgram->SetMaxSize(size);
 	}
@@ -746,29 +746,29 @@ namespace Kortex::ModManager
 		}
 	}
 
-	void Workspace::OnAddMod_Empty(KxMenuEvent& event)
+	void Workspace::OnAddMod_Empty(kxf::UI::MenuEvent& event)
 	{
 		NewModDialog dialog(this);
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			IModManager::GetInstance()->InstallEmptyMod(dialog.GetFolderName());
 		}
 	}
-	void Workspace::OnAddMod_FromFolder(KxMenuEvent& event)
+	void Workspace::OnAddMod_FromFolder(kxf::UI::MenuEvent& event)
 	{
 		NewModFromFolderDialog dialog(this);
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			IModManager::GetInstance()->InstallModFromFolder(dialog.GetFolderPath(), dialog.GetFolderName(), dialog.ShouldCreateAsLinkedMod());
 		}
 	}
-	void Workspace::OnAddMod_InstallPackage(KxMenuEvent& event)
+	void Workspace::OnAddMod_InstallPackage(kxf::UI::MenuEvent& event)
 	{
-		KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_OPEN);
+		KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_OPEN);
 		dialog.AddFilter("*.kmp;*.smi;*.7z;*.zip;*.fomod", KTr("FileFilter.AllSupportedFormats"));
 		dialog.AddFilter("*.kmp", KTr("FileFilter.ModPackage"));
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			IModManager::GetInstance()->InstallModFromPackage(dialog.GetResult());
 		}
@@ -780,7 +780,7 @@ namespace Kortex::ModManager
 	}
 	void Workspace::UninstallMod(IGameMod& mod, bool eraseLog)
 	{
-		KxTaskDialog dialog(this, KxID_NONE, wxEmptyString, KTr("ModManager.RemoveMod.Message"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+		KxTaskDialog dialog(this, wxID_NONE, wxEmptyString, KTr("ModManager.RemoveMod.Message"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
 		if (mod.IsInstalled())
 		{
 			dialog.SetCaption(eraseLog ? KTrf("ModManager.RemoveMod.CaptionUninstallAndErase", mod.GetName()) : KTrf("ModManager.RemoveMod.CaptionUninstall", mod.GetName()));
@@ -791,7 +791,7 @@ namespace Kortex::ModManager
 			eraseLog = true;
 		}
 
-		if (dialog.ShowModal() == KxID_YES)
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			if (eraseLog)
 			{
@@ -810,9 +810,9 @@ namespace Kortex::ModManager
 			m_DisplayModel->LoadView();
 		}
 	}
-	void Workspace::OnModSearchColumnsChanged(KxMenuEvent& event)
+	void Workspace::OnModSearchColumnsChanged(kxf::UI::MenuEvent& event)
 	{
-		KxMenuItem* item = event.GetItem();
+		kxf::UI::MenuItem* item = event.GetItem();
 		item->Check(!item->IsChecked());
 
 		KxDataView2::Column::RefVector columns;
@@ -820,7 +820,7 @@ namespace Kortex::ModManager
 		{
 			if (item->IsChecked())
 			{
-				columns.push_back(static_cast<KxDataView2::Column*>(static_cast<KxMenuItem*>(item)->GetClientData()));
+				columns.push_back(static_cast<KxDataView2::Column*>(static_cast<kxf::UI::MenuItem*>(item)->GetClientData()));
 			}
 		}
 		m_DisplayModel->SetSearchColumns(columns);
@@ -841,7 +841,7 @@ namespace Kortex::ModManager
 			IMainWindow::GetInstance()->SetStatus(mod->GetName());
 		}
 	}
-	void Workspace::CreateViewContextMenu(KxMenu& contextMenu, const IGameMod::RefVector& selectedMods, IGameMod* focusedMod)
+	void Workspace::CreateViewContextMenu(kxf::UI::Menu& contextMenu, const IGameMod::RefVector& selectedMods, IGameMod* focusedMod)
 	{
 		const bool isVFSActive = IModManager::GetInstance()->GetFileSystem().IsEnabled();
 		const bool isMultipleSelection = selectedMods.size() > 1;
@@ -861,42 +861,42 @@ namespace Kortex::ModManager
 			// Install and uninstall
 			if (isInstalled)
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModUninstall, KTr("ModManager.Menu.UninstallMod"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BoxMinus));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModUninstall, KTr("ModManager.Menu.UninstallMod"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BoxMinus));
 				item->Enable(!isMultipleSelection && !isVFSActive && isNormalMod);
 			}
 			else
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModInstall, KTr("ModManager.Menu.InstallMod"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Box));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModInstall, KTr("ModManager.Menu.InstallMod"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Box));
 				item->Enable(!isMultipleSelection && isPackageExist && isNormalMod);
 			}
 			{
 				// Linked mods can't be uninstalled on erase
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModErase);
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModErase);
 				item->SetItemLabel(isInstalled && !isLinkedMod ? KTr("ModManager.Menu.UninstallAndErase") : KTr("ModManager.Menu.Erase"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Eraser));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Eraser));
 				item->Enable(!isMultipleSelection && !isVFSActive && isNormalMod);
 			}
 			contextMenu.AddSeparator();
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModEditDescription, KTr("ModManager.Menu.EditDescription"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentPencil));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModEditDescription, KTr("ModManager.Menu.EditDescription"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentPencil));
 				item->Enable(!isMultipleSelection && isNormalMod);
 			}
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModEditTags, KTr("ModManager.Menu.EditTags"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Tags));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModEditTags, KTr("ModManager.Menu.EditTags"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Tags));
 				item->Enable(!isFixedMod);
 			}
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModEditSources, KTr("ModManager.Menu.EditSites"));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModEditSources, KTr("ModManager.Menu.EditSites"));
 				item->SetBitmap(ImageProvider::GetBitmap(IModNetwork::GetGenericIcon()));
 				item->Enable(!isMultipleSelection && isNormalMod);
 			}
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModChangeID, KTr("ModManager.Menu.ChangeID"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Key));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModChangeID, KTr("ModManager.Menu.ChangeID"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Key));
 				item->Enable(!isMultipleSelection && !isVFSActive && isNormalMod);
 			}
 
@@ -908,15 +908,15 @@ namespace Kortex::ModManager
 			}
 
 			// Color menu
-			if (KxMenu* colorMenu = new KxMenu(); true)
+			if (kxf::UI::Menu* colorMenu = new kxf::UI::Menu(); true)
 			{
 				contextMenu.Add(colorMenu, KTr("Generic.Color"));
 				{
-					KxMenuItem* item = colorMenu->AddItem(ContextMenuID::ColorAssign, KTr("Generic.Assign"));
+					kxf::UI::MenuItem* item = colorMenu->AddItem(ContextMenuID::ColorAssign, KTr("Generic.Assign"));
 					item->SetDefault();
 				}
 				{
-					KxMenuItem* item = colorMenu->AddItem(ContextMenuID::ColorReset, KTr("Generic.Reset"));
+					kxf::UI::MenuItem* item = colorMenu->AddItem(ContextMenuID::ColorReset, KTr("Generic.Reset"));
 					item->Enable(focusedMod->HasColor() || isMultipleSelection);
 				}
 			}
@@ -924,33 +924,33 @@ namespace Kortex::ModManager
 
 			// Other items
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModOpenLocation, KTr("ModManager.Menu.OpenModFilesLocation"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModOpenLocation, KTr("ModManager.Menu.OpenModFilesLocation"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
 				item->Enable(!isMultipleSelection && !isPriorityGroup);
 			}
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModChangeLocation, KTr("ModManager.Menu.ChangeModFilesLocation"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderArrow));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModChangeLocation, KTr("ModManager.Menu.ChangeModFilesLocation"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderArrow));
 				item->Enable(!isMultipleSelection && isNormalMod && !isVFSActive);
 			}
 			if (!isMultipleSelection && isLinkedMod && isNormalMod)
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModRevertLocation, KTr("ModManager.Menu.RevertModFilesLocation"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderArrow));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModRevertLocation, KTr("ModManager.Menu.RevertModFilesLocation"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderArrow));
 			}
 			{
-				KxMenuItem* item = contextMenu.AddItem(ContextMenuID::ModProperties, KTr("ModManager.Menu.Properties"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::InformationFrame));
+				kxf::UI::MenuItem* item = contextMenu.AddItem(ContextMenuID::ModProperties, KTr("ModManager.Menu.Properties"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::InformationFrame));
 				item->Enable(!isMultipleSelection && isNormalMod);
 			}
 		}
 
 		// Refresh
 		{
-			KxMenuItem* item = contextMenu.AddItem(KTr(KxID_REFRESH));
+			kxf::UI::MenuItem* item = contextMenu.AddItem(KTr(wxID_REFRESH));
 			item->Enable(!isVFSActive);
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ArrowCircleDouble));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ArrowCircleDouble));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
 				IModManager::GetInstance()->Load();
 			});
@@ -963,7 +963,7 @@ namespace Kortex::ModManager
 		SetSizer(m_MainSizer);
 
 		// Main view
-		m_SplitterLeftRight = new KxSplitterWindow(this, KxID_NONE);
+		m_SplitterLeftRight = new kxf::UI::SplitterWindow(this, wxID_NONE);
 		m_SplitterLeftRight->SetName("Horizontal");
 		m_SplitterLeftRight->SetMinimumPaneSize(250);
 		m_SplitterLeftRight->Enable(!m_InitiallyDisabled);
@@ -1087,10 +1087,10 @@ namespace Kortex::ModManager
 	{
 		// Get mouse position before doing anything else,
 		// as mouse pointer can move before displaying showing the menu.
-		wxPoint mousePos = wxGetMousePosition();
+		kxf::Point mousePos = wxGetMousePosition();
 
 		// Create menu
-		KxMenu contextMenu;
+		kxf::UI::Menu contextMenu;
 		CreateViewContextMenu(contextMenu, selectedMods, focusedMod);
 
 		// Mod network menu for these mods
@@ -1115,8 +1115,8 @@ namespace Kortex::ModManager
 			}
 			case ContextMenuID::ModChangeLocation:
 			{
-				KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_OPEN_FOLDER);
-				if (dialog.ShowModal() == KxID_OK)
+				KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_OPEN_FOLDER);
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					if (!focusedMod->IsInstalled() || KxShell::FileOperationEx(KxFOF_MOVE, focusedMod->GetModFilesDir() + "\\*", dialog.GetResult(), this, true, false, false, true))
 					{
@@ -1162,7 +1162,7 @@ namespace Kortex::ModManager
 				UI::TextEditDialog dialog(this);
 				dialog.SetText(oldDescription);
 
-				if (dialog.ShowModal() == KxID_OK && dialog.IsModified())
+				if (dialog.ShowModal() == wxID_OK && dialog.IsModified())
 				{
 					focusedMod->SetDescription(dialog.GetText());
 					focusedMod->Save();

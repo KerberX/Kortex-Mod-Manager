@@ -9,10 +9,10 @@
 #include "PageComponents/ComponentsModel.h"
 #include "UI/ImageViewerDialog.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
 
 namespace Kortex::PackageDesigner
 {
@@ -101,8 +101,8 @@ namespace Kortex::PackageDesigner
 		leftSizer->Add(label, 0, wxEXPAND|wxBOTTOM, LayoutConstants::VerticalSpacing);
 
 		// Entry image
-		m_EntryImage = new KxImageView(this, KxID_NONE, wxBORDER_THEME);
-		m_EntryImage->SetMinSize(wxSize(192, 108));
+		m_EntryImage = new KxImageView(this, wxID_NONE, wxBORDER_THEME);
+		m_EntryImage->SetMinSize(kxf::Size(192, 108));
 		m_EntryImage->SetScaleMode(KxIV_SCALE_ASPECT_FIT);
 		m_EntryImage->Bind(wxEVT_LEFT_DCLICK, [this](wxMouseEvent& event)
 		{
@@ -132,7 +132,7 @@ namespace Kortex::PackageDesigner
 		m_RequiredFilesModel->Create(m_Controller, this, sizer);
 		m_RequiredFilesModel->SetDataVector();
 
-		KxButton* conditionalSteps = AddControlsRow(leftTableSizer, KTr("PackageCreator.PageComponents.ConditionalInstall"), new KxButton(this, KxID_NONE, KTr(KxID_EDIT)), 0);
+		KxButton* conditionalSteps = AddControlsRow(leftTableSizer, KTr("PackageCreator.PageComponents.ConditionalInstall"), new KxButton(this, wxID_NONE, KTr(wxID_EDIT)), 0);
 		conditionalSteps->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 		{
 			PageComponentsNS::ConditionalStepsDialog dialog(this, KTr("PackageCreator.PageComponents.ConditionalInstall"), m_Controller, true);

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InternetExplorer.h"
-#include <KxFramework/KxHTMLWindow.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 #include <wx/clipbrd.h>
 #include <mshtml.h>
 #include <mshtmcid.h>
@@ -125,7 +125,7 @@ namespace Kortex::UI::WebViewBackend
 	InternetExplorer::InternetExplorer(wxWindow* parent, wxEvtHandler& evthandler, long style)
 		:m_EvtHandler(evthandler)
 	{
-		m_WebView = wxWebView::New(parent, KxID_NONE, wxWebViewDefaultURLStr, wxDefaultPosition, wxDefaultSize, wxWebViewBackendDefault, style);
+		m_WebView = wxWebView::New(parent, wxID_NONE, wxWebViewDefaultURLStr, wxDefaultPosition, wxDefaultSize, wxWebViewBackendDefault, style);
 		m_WebView->EnableContextMenu(false);
 		m_WebView->EnableHistory(false);
 		m_WebView->SetEditable(false);

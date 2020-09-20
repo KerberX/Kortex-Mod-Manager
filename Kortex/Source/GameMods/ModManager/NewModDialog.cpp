@@ -2,14 +2,14 @@
 #include "NewModDialog.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 namespace Kortex::ModManager
 {
 	void NewModDialog::OnOK(wxNotifyEvent& event)
 	{
-		if (event.GetId() == KxID_OK)
+		if (event.GetId() == wxID_OK)
 		{
 			kxf::String name = GetValue();
 			if (!name.IsEmpty())
@@ -40,7 +40,7 @@ namespace Kortex::ModManager
 
 	NewModDialog::NewModDialog(wxWindow* parent)
 	{
-		if (Create(parent, KxID_NONE, KTr("ModManager.NewMod.DialogCaption"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
+		if (Create(parent, wxID_NONE, KTr("ModManager.NewMod.DialogCaption"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
 		{
 			SetLabel(KTr("ModManager.NewMod.DialogMessage"));
 			GetDialogMainCtrl()->SetFocus();
@@ -58,11 +58,11 @@ namespace Kortex::ModManager
 {
 	void NewModFromFolderDialog::OnSelectFolder(wxNotifyEvent& event)
 	{
-		if (event.GetId() == KxID_SELECT_FOLDER)
+		if (event.GetId() == wxID_SELECT_FOLDER)
 		{
-			KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_OPEN_FOLDER);
+			KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_OPEN_FOLDER);
 			dialog.SetOptionEnabled(KxFBD_FORCE_FILE_SYSTEM, true);
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				m_FolderPath = dialog.GetResult();
 				if (GetFolderName().IsEmpty())
@@ -74,7 +74,7 @@ namespace Kortex::ModManager
 			UpdateLabelText();
 			event.Veto();
 		}
-		else if (event.GetId() == KxID_OK)
+		else if (event.GetId() == wxID_OK)
 		{
 			if (m_FolderPath.IsEmpty())
 			{
@@ -125,10 +125,10 @@ namespace Kortex::ModManager
 	{
 		SetCaption(KTr("ModManager.NewMod.DialogCaption"));
 		SetLabel(GetMethodString(false));
-		AddButton(KxID_SELECT_FOLDER, wxEmptyString, true);
+		AddButton(wxID_SELECT_FOLDER, wxEmptyString, true);
 
 		// Method checkbox
-		m_AsLinkedModCB = new wxCheckBox(GetContentWindow(), KxID_NONE, KTr("ModManager.NewMod.CreateAsLinkedMod"));
+		m_AsLinkedModCB = new wxCheckBox(GetContentWindow(), wxID_NONE, KTr("ModManager.NewMod.CreateAsLinkedMod"));
 		GetContentWindowSizer()->Add(m_AsLinkedModCB, 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 
 		Bind(KxEVT_STDDIALOG_BUTTON, &NewModFromFolderDialog::OnSelectFolder, this);

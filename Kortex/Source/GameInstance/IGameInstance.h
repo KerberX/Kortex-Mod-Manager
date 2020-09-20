@@ -3,8 +3,8 @@
 #include "GameID.h"
 #include "Application/AppOption.h"
 #include "Application/Options/Option.h"
-#include <KxFramework/KxINI.h>
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxINI.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 #include <Kx/RTTI.hpp>
 
 namespace Kortex
@@ -108,7 +108,7 @@ namespace Kortex
 			virtual int GetSortOrder() const = 0;
 			virtual bool IsSystemTemplate() const = 0;
 			virtual kxf::String GetIconLocation() const = 0;
-			virtual wxBitmap GetIcon(const wxSize& iconSize = wxDefaultSize) const = 0;
+			virtual wxBitmap GetIcon(const kxf::Size& iconSize = wxDefaultSize) const = 0;
 			bool IsActiveInstance() const;
 
 			virtual kxf::String GetInstanceTemplateDir() const = 0;

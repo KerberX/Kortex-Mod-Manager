@@ -4,7 +4,7 @@
 #include "PackageProject/ModPackageProject.h"
 #include "Archive/GenericArchive.h"
 #include "Utility/LabeledValue.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex
 {

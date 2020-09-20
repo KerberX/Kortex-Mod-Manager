@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Fallout3.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::SaveManager::BethesdaSave
 {

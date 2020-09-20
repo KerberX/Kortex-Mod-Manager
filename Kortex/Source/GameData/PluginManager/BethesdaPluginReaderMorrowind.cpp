@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "BethesdaPluginReaderMorrowind.h"
 #include "GameData/IGamePlugin.h"
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {

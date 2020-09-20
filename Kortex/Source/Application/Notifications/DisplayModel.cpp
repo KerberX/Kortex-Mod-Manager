@@ -2,9 +2,10 @@
 #include "DisplayModel.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/Notification.hpp>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxUxTheme.h>
-using namespace KxDataView2;
+#include <kxf/UI/Dialogs/TaskDialog.h>
+#include <kxf/Drawing/UxTheme.h>
+
+using namespace kxf::UI::DataView;
 
 namespace
 {
@@ -25,7 +26,7 @@ namespace Kortex::Notifications
 		{
 			case ColumnRef::ActionRemove:
 			{
-				return ImageProvider::GetBitmap(Imagekxf::ResourceID::BellMinus);
+				return ImageProvider::GetBitmap(ImageResourceID::BellMinus);
 			}
 			case ColumnRef::Icon:
 			{
@@ -58,7 +59,7 @@ namespace Kortex::Notifications
 		};
 		return VirtualListModel::GetToolTip(node, column);
 	}
-	bool DisplayModel::GetAttributes(const Node& node, const Column& column, const CellState& cellState, CellAttributes& attributes) const
+	bool DisplayModel::GetAttributes(const Node& node, const Column& column, const CellState& cellState, CellAttribute& attributes) const
 	{
 		const INotification& notification = GetItem(node);
 		switch (column.GetID<ColumnRef>())
@@ -67,7 +68,7 @@ namespace Kortex::Notifications
 			{
 				if (cellState.IsHotTracked() && column.IsHotTracked())
 				{
-					attributes.Options().Enable(CellOption::HighlightItem);
+					attributes.Options().AddOption(CellOption::HighlightItem);
 					return true;
 				}
 				break;
@@ -76,7 +77,7 @@ namespace Kortex::Notifications
 		return false;
 	}
 
-	void DisplayModel::OnSelectItem(Event& event)
+	void DisplayModel::OnSelectItem(ItemEvent& event)
 	{
 		if (event.GetNode() && event.GetColumn())
 		{
@@ -95,7 +96,7 @@ namespace Kortex::Notifications
 			};
 		}
 	}
-	void DisplayModel::OnActivateItem(Event& event)
+	void DisplayModel::OnActivateItem(ItemEvent& event)
 	{
 		if (event.GetNode() && event.GetColumn())
 		{
@@ -108,7 +109,7 @@ namespace Kortex::Notifications
 					INotificationCenter::GetInstance()->HideNotificationsWindow();
 					BroadcastProcessor::Get().CallAfter([&notification]()
 					{
-						KxTaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), KxID_NONE, notification.GetCaption(), notification.GetMessage());
+						kxf::UI::TaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), wxID_NONE, notification.GetCaption(), notification.GetMessage());
 						dialog.SetMainIcon(notification.GetBitmap());
 						dialog.ShowModal();
 					});
@@ -121,9 +122,9 @@ namespace Kortex::Notifications
 	kxf::String DisplayModel::FormatText(const INotification& notification) const
 	{
 		return kxf::String::Format(wxS("<font color='%1'>%2</font>\r\n%3"),
-								KxUxTheme::GetDialogMainInstructionColor(*GetView()).ToString(KxColor::C2S::HTML),
-								notification.GetCaption(),
-								notification.GetMessage()
+								   kxf::UxTheme::GetDialogMainInstructionColor(*GetView()).ToString(kxf::C2SFormat::HTML),
+								   notification.GetCaption(),
+								   notification.GetMessage()
 		);
 	}
 
@@ -135,13 +136,13 @@ namespace Kortex::Notifications
 
 	void DisplayModel::CreateView(wxWindow* parent)
 	{
-		View* view = new View(parent, KxID_NONE, CtrlStyle::NoHeader);
-		view->ToggleWindowStyle(wxBORDER_NONE);
+		View* view = new View(parent, wxID_NONE, CtrlStyle::NoHeader);
+		view->ModWindowStyle(static_cast<CtrlStyle>(kxf::UI::WindowBorder::None), true);
 		view->SetEmptyControlLabel(KTr("NotificationCenter.NoNotifications"));
 		view->AssignModel(this);
 
-		view->Bind(EvtITEM_SELECTED, &DisplayModel::OnSelectItem, this);
-		view->Bind(EvtITEM_ACTIVATED, &DisplayModel::OnActivateItem, this);
+		view->Bind(ItemEvent::EvtItemSelected, &DisplayModel::OnSelectItem, this);
+		view->Bind(ItemEvent::EvtItemActivated, &DisplayModel::OnActivateItem, this);
 		view->SetUniformRowHeight(m_BitmapSize.GetHeight() * 1.5);
 
 		view->AppendColumn<BitmapRenderer>(wxEmptyString, ColumnRef::Icon, m_BitmapSize.GetWidth() + view->FromDIP(8));

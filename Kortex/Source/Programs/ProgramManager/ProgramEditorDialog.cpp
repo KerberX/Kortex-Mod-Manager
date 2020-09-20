@@ -2,29 +2,29 @@
 #include "ProgramEditorDialog.h"
 #include <Kortex/ProgramManager.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxFileItem.h>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxButton.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxFileItem.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxButton.h>
 
 namespace Kortex::ProgramManager
 {
 	void ProgramEditorDialog::CreateUI(wxWindow* parent)
 	{
 		kxf::String caption = m_Program ? KTr("ProgramManager.Menu.EditProgram") : KTr("ProgramManager.Menu.AddProgram");
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, FromDIP(wxSize(640, wxDefaultCoord)), KxBTN_OK|KxBTN_CANCEL))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, FromDIP(kxf::Size(640, wxDefaultCoord)), KxBTN_OK|KxBTN_CANCEL))
 		{
 			wxFlexGridSizer* mainSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing);
 			mainSizer->AddGrowableCol(1, 1);
 
-			m_ContentPanel = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ContentPanel = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ContentPanel->SetSizer(mainSizer);
 
 			// Name
 			{
-				KxLabel* label = new KxLabel(m_ContentPanel, KxID_NONE, KTr("Generic.Name") + wxS(":"));
-				m_NameInput = new KxTextBox(m_ContentPanel, KxID_NONE);
+				KxLabel* label = new KxLabel(m_ContentPanel, wxID_NONE, KTr("Generic.Name") + wxS(":"));
+				m_NameInput = new KxTextBox(m_ContentPanel, wxID_NONE);
 				m_NameInput->SetFocus();
 
 				mainSizer->Add(label);
@@ -33,10 +33,10 @@ namespace Kortex::ProgramManager
 
 			// Executable
 			{
-				KxLabel* label = new KxLabel(m_ContentPanel, KxID_NONE, KTr("ProgramManager.List.Executable") + wxS(":"));
-				m_ExecutableInput = new KxTextBox(m_ContentPanel, KxID_NONE);
+				KxLabel* label = new KxLabel(m_ContentPanel, wxID_NONE, KTr("ProgramManager.List.Executable") + wxS(":"));
+				m_ExecutableInput = new KxTextBox(m_ContentPanel, wxID_NONE);
 
-				KxButton* button = new KxButton(m_ContentPanel, KxID_NONE, KTr("Generic.BrowseFile"));
+				KxButton* button = new KxButton(m_ContentPanel, wxID_NONE, KTr("Generic.BrowseFile"));
 				button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 				{
 					if (kxf::String path = BrowseForLocation(m_ExecutableInput->GetValue(), false); !path.IsEmpty())
@@ -53,16 +53,16 @@ namespace Kortex::ProgramManager
 
 				wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 				sizer->Add(m_ExecutableInput, 1, wxEXPAND);
-				sizer->Add(button, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+				sizer->Add(button, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 				mainSizer->Add(sizer, 1, wxEXPAND);
 			}
 
 			// Working folder
 			{
-				KxLabel* label = new KxLabel(m_ContentPanel, KxID_NONE, KTr("ProgramManager.List.WorkingDirectory") + wxS(":"));
-				m_WorkingFolderInput = new KxTextBox(m_ContentPanel, KxID_NONE);
+				KxLabel* label = new KxLabel(m_ContentPanel, wxID_NONE, KTr("ProgramManager.List.WorkingDirectory") + wxS(":"));
+				m_WorkingFolderInput = new KxTextBox(m_ContentPanel, wxID_NONE);
 
-				KxButton* button = new KxButton(m_ContentPanel, KxID_NONE, KTr("Generic.BrowseFolder"));
+				KxButton* button = new KxButton(m_ContentPanel, wxID_NONE, KTr("Generic.BrowseFolder"));
 				button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 				{
 					if (kxf::String path = BrowseForLocation(m_WorkingFolderInput->GetValue(), true); !path.IsEmpty())
@@ -75,14 +75,14 @@ namespace Kortex::ProgramManager
 
 				wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 				sizer->Add(m_WorkingFolderInput, 1, wxEXPAND);
-				sizer->Add(button, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+				sizer->Add(button, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 				mainSizer->Add(sizer, 1, wxEXPAND);
 			}
 
 			// Arguments
 			{
-				KxLabel* label = new KxLabel(m_ContentPanel, KxID_NONE, KTr("ProgramManager.List.Arguments") + wxS(":"));
-				m_ArgumentsInput = new KxTextBox(m_ContentPanel, KxID_NONE);
+				KxLabel* label = new KxLabel(m_ContentPanel, wxID_NONE, KTr("ProgramManager.List.Arguments") + wxS(":"));
+				m_ArgumentsInput = new KxTextBox(m_ContentPanel, wxID_NONE);
 				
 				wxFont font = m_ArgumentsInput->GetFont();
 				font.SetFaceName(wxS("Consolas"));
@@ -94,7 +94,7 @@ namespace Kortex::ProgramManager
 
 			SetupValues();
 
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			PostCreate();
 			AdjustWindow();
 			Center();
@@ -112,7 +112,7 @@ namespace Kortex::ProgramManager
 	}
 	kxf::String ProgramEditorDialog::BrowseForLocation(const kxf::String& path, bool isDirectory)
 	{
-		KxFileBrowseDialog dialog(this, KxID_NONE, isDirectory ? KxFBD_OPEN_FOLDER : KxFBD_OPEN);
+		KxFileBrowseDialog dialog(this, wxID_NONE, isDirectory ? KxFBD_OPEN_FOLDER : KxFBD_OPEN);
 		if (isDirectory)
 		{
 			dialog.SetFolder(path.BeforeLast('\\'));

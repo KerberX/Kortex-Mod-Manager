@@ -7,7 +7,7 @@
 #include "Sources/INIFileSource.h"
 #include "Sources/XMLFileSource.h"
 #include "Sources/NullSource.h"
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::GameConfig
 {

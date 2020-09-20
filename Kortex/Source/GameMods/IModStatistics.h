@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex::ModStatistics
 {
@@ -39,7 +39,7 @@ namespace Kortex::ModStatistics
 
 namespace Kortex
 {
-	class IModStatistics: public KxSingletonPtr<IModStatistics>
+	class IModStatistics: public kxf::SingletonPtr<IModStatistics>
 	{
 		public:
 			virtual size_t GetStatCount() const = 0;

@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <Kx/EventSystem/BroadcastProcessor.h>
+#include <kxf/EventSystem/EventBroadcastProcessor.h>
 
 namespace Kortex
 {
@@ -9,7 +9,7 @@ namespace Kortex
 
 namespace Kortex
 {
-	class BroadcastProcessor: public KxBroadcastProcessor
+	class BroadcastProcessor: public kxf::EventBroadcastProcessor
 	{
 		public:
 			static BroadcastProcessor& Get();
@@ -25,7 +25,7 @@ namespace Kortex
 
 namespace Kortex
 {
-	class BroadcastReciever: public KxBroadcastReciever
+	class BroadcastReciever: public kxf::EventBroadcastReciever
 	{
 		public:
 			BroadcastReciever(BroadcastProcessor& processor)
@@ -40,29 +40,27 @@ namespace Kortex
 		public:
 			BroadcastProcessor& GetProcessor()
 			{
-				return static_cast<BroadcastProcessor&>(KxBroadcastReciever::GetProcessor());
+				return static_cast<BroadcastProcessor&>(kxf::EventBroadcastReciever::GetProcessor());
 			}
 			const BroadcastProcessor& GetProcessor() const
 			{
-				return static_cast<const BroadcastProcessor&>(KxBroadcastReciever::GetProcessor());
+				return static_cast<const BroadcastProcessor&>(kxf::EventBroadcastReciever::GetProcessor());
 			}
 	};
 }
 
 namespace Kortex
 {
-	class BroadcastEvent: public wxNotifyEvent
+	class BroadcastEvent: public kxf::BasicEvent
 	{
 		public:
-			BroadcastEvent()
-				:wxNotifyEvent(KxEvent::EvtNull)
-			{
-			}
+			BroadcastEvent() = default;
 
 		public:
-			BroadcastEvent* Clone() const override
+			// IEvent
+			std::unique_ptr<IEvent> Move() noexcept override
 			{
-				return new BroadcastEvent(*this);
+				return std::make_unique<BroadcastEvent>(std::move(*this));
 			}
 	};
 }

@@ -5,7 +5,7 @@
 #include "GameConfig/ConfigManger/ItemGroup.h"
 #include "GameConfig/ConfigManger/Item.h"
 #include "GameConfig/ConfigManger/ISource.h"
-#include <KxFramework/KxTranslation.h>
+#include <kxf::UI::Framework/KxTranslation.h>
 class IWorkspace;
 class IMainWindow;
 

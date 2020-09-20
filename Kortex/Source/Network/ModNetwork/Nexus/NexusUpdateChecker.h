@@ -5,7 +5,7 @@
 #include "Network/NetworkModInfo.h"
 #include "NexusNetworkReply.h"
 #include "NexusUpdateThread.h"
-#include <KxFramework/KxTimer.h>
+#include <kxf::UI::Framework/KxTimer.h>
 
 namespace Kortex
 {

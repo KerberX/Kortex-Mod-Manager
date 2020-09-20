@@ -6,9 +6,9 @@
 #include <Kortex/ModManager.hpp>
 #include <Kortex/PackageManager.hpp>
 #include <Kortex/GameInstance.hpp>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::Application::OName
 {

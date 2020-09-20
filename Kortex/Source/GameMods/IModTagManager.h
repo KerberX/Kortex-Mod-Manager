@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "IModTag.h"
 #include "Application/IManager.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -15,7 +15,7 @@ namespace Kortex
 
 	class IModTagManager:
 		public ManagerWithTypeInfo<IManager, ModTagManager::Internal::TypeInfo>,
-		public KxSingletonPtr<IModTagManager>
+		public kxf::SingletonPtr<IModTagManager>
 	{
 		public:
 			IModTagManager();

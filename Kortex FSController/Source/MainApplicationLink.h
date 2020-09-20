@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "IPC/MainApplication.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace KxVFS
 {
@@ -20,7 +20,7 @@ namespace Kortex::FSController
 {
 	class RecievingWindow;
 
-	class MainApplicationLink: public IPC::MainApplication, public KxSingletonPtr<MainApplicationLink>
+	class MainApplicationLink: public IPC::MainApplication, public kxf::SingletonPtr<MainApplicationLink>
 	{
 		private:
 			VirtualFileSystem::FSControllerService* m_Service = nullptr;

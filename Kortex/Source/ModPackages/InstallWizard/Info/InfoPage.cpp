@@ -7,7 +7,7 @@
 #include "Utility/Common.h"
 #include "Utility/Log.h"
 #include "Utility/UI.h"
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace
 {
@@ -143,13 +143,13 @@ namespace Kortex::InstallWizard
 	}
 	wxWindow* InfoPage::CreateDocumentsTab()
 	{
-		m_DocumentsContainer = new KxSplitterWindow(m_TabsContainer, KxID_NONE);
+		m_DocumentsContainer = new kxf::UI::SplitterWindow(m_TabsContainer, wxID_NONE);
 		m_DocumentsContainer->SetName("VSplitter");
 		m_DocumentsContainer->SetMinimumPaneSize(200);
-		m_DocumentsContainer->SetSashColor(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Window, Theme::ColorFlags::Background));
+		m_DocumentsContainer->SetSashColor(IThemeManager::GetActive().GetColor(Theme::ColorIndex::Window, Theme::ColorFlag::Background));
 
 		// List
-		m_DocumentsList = new KxListBox(m_DocumentsContainer, KxID_NONE);
+		m_DocumentsList = new KxListBox(m_DocumentsContainer, wxID_NONE);
 		m_DocumentsList->Bind(wxEVT_LISTBOX, [this](wxCommandEvent& event)
 		{
 			OnSelectDocument(event.GetInt());
@@ -163,7 +163,7 @@ namespace Kortex::InstallWizard
 	}
 	wxWindow* InfoPage::CreateScreenshotsTab()
 	{
-		m_ScreenshotsView = new KxThumbView(m_TabsContainer, KxID_NONE, KxThumbView::DefaultStyle|wxBORDER_NONE);
+		m_ScreenshotsView = new KxThumbView(m_TabsContainer, wxID_NONE, KxThumbView::DefaultStyle|wxBORDER_NONE);
 		m_ScreenshotsView->Bind(KxEVT_THUMBVIEW_ACTIVATED, [this](wxCommandEvent& event)
 		{
 			m_CurrentImageIndex = event.GetInt();
@@ -230,7 +230,7 @@ namespace Kortex::InstallWizard
 		AddString(KTr("PackageCreator.PageInfo.BasicInfo.Author"), info.GetAuthor(), InfoKind::None, true);
 		AddSites();
 		AddUserData();
-		AddString(KTr("PackageCreator.PageInfo.BasicInfo.Tags"), wxEmptyString, InfoKind::Tags, true, Imagekxf::ResourceID::Tags);
+		AddString(KTr("PackageCreator.PageInfo.BasicInfo.Tags"), wxEmptyString, InfoKind::Tags, true, ImageResourceID::Tags);
 
 		m_InfoDisplayModel->ItemsChanged();
 	}
@@ -299,9 +299,9 @@ namespace Kortex::InstallWizard
 
 			if (!wizard.IsOptionEnabled(DialogOptions::Debug) && existingMod && existingMod->IsInstalled())
 			{
-				KxTaskDialog dialog(&wizard, KxID_NONE, KTr("InstallWizard.Reinstall.Caption"), KTr("InstallWizard.Reinstall.Message"), KxBTN_YES|KxBTN_NO);
+				KxTaskDialog dialog(&wizard, wxID_NONE, KTr("InstallWizard.Reinstall.Caption"), KTr("InstallWizard.Reinstall.Message"), KxBTN_YES|KxBTN_NO);
 				dialog.SetMainIcon(KxICON_WARNING);
-				allowSwitch = dialog.ShowModal() == KxID_YES;
+				allowSwitch = dialog.ShowModal() == wxID_YES;
 			}
 		}
 
@@ -316,7 +316,7 @@ namespace Kortex::InstallWizard
 	
 	wxWindow* InfoPage::Create()
 	{
-		m_TabsContainer = new KxAuiNotebook(GetPageContainer(), KxID_NONE, KxAuiNotebook::DefaultStyle|wxBORDER_NONE);
+		m_TabsContainer = new KxAuiNotebook(GetPageContainer(), wxID_NONE, KxAuiNotebook::DefaultStyle|wxBORDER_NONE);
 		m_TabsContainer->AddPage(CreateInfoTab(), KTr("InstallWizard.Page.Info"), true);
 		m_TabsContainer->AddPage(CreateDescriptionTab(), KTr("Generic.Description"));
 		m_TabsContainer->AddPage(CreateDocumentsTab(), KTr("InstallWizard.Page.Documnets"));

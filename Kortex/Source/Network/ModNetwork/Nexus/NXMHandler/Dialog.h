@@ -2,9 +2,9 @@
 #include <Kortex/Kortex.hpp>
 #include "DisplayModel.h"
 #include "OptionStore.h"
-#include <KxFramework/KxStdDialog.h>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxPanel.h>
 #include <Kx/System/FileTypeManager.h>
 
 namespace Kortex::NetworkManager

@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "LabeledValue.h"
-class KxAuiToolBar;
+class kxf::UI::AuiToolBar;
 class KxURI;
 
 namespace Kortex
@@ -11,7 +11,7 @@ namespace Kortex
 
 namespace Kortex::Utility::UI
 {
-	KxAuiToolBarItem* CreateToolBarButton(KxAuiToolBar* toolBar,
+	kxf::UI::AuiToolBarItem* CreateToolBarButton(kxf::UI::AuiToolBar* toolBar,
 										  const kxf::String& label,
 										  const kxf::ResourceID& imageID = {},
 										  wxItemKind kind = wxITEM_NORMAL,

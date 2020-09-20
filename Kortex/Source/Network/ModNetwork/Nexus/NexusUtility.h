@@ -3,8 +3,8 @@
 #include "Network/Common.h"
 #include "Network/IModNetwork.h"
 #include "NexusNetworkReply.h"
-#include <KxFramework/KxJSON.h>
-#include <KxFramework/KxHTTPStatusCode.h>
+#include <kxf::UI::Framework/KxJSON.h>
+#include <kxf::UI::Framework/KxHTTPStatusCode.h>
 class KxCURLReplyBase;
 
 namespace Kortex::NetworkManager

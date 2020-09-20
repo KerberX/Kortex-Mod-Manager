@@ -6,12 +6,12 @@
 #include <Kortex/ProgramManager.hpp>
 #include <Kortex/PluginManager.hpp>
 #include "Utility/UniquePtrVector.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxProgressDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxProcess.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {
@@ -132,12 +132,12 @@ namespace Kortex::PluginManager
 	{
 		if (toolItem.GetExecutable().IsEmpty() || !KxFile(toolItem.GetExecutable()).IsFileExist())
 		{
-			KxTaskDialog dalog(Workspace::GetInstance(), KxID_NONE, KTrf("PluginManager.Sorting.Missing.Caption", toolItem.GetName()), KTr("PluginManager.Sorting.Missing.Message"), KxBTN_OK|KxBTN_CANCEL, KxICON_WARNING);
-			if (dalog.ShowModal() == KxID_OK)
+			KxTaskDialog dalog(Workspace::GetInstance(), wxID_NONE, KTrf("PluginManager.Sorting.Missing.Caption", toolItem.GetName()), KTr("PluginManager.Sorting.Missing.Message"), KxBTN_OK|KxBTN_CANCEL, KxICON_WARNING);
+			if (dalog.ShowModal() == wxID_OK)
 			{
-				KxFileBrowseDialog browseDialog(Workspace::GetInstance(), KxID_NONE, KxFBD_OPEN);
+				KxFileBrowseDialog browseDialog(Workspace::GetInstance(), wxID_NONE, KxFBD_OPEN);
 				browseDialog.AddFilter("*.exe", KTr("FileFilter.Programs"));
-				if (browseDialog.ShowModal() == KxID_OK)
+				if (browseDialog.ShowModal() == wxID_OK)
 				{
 					toolItem.SetExecutable(browseDialog.GetResult());
 					return true;
@@ -161,10 +161,10 @@ namespace Kortex::PluginManager
 			process->SetOptionEnabled(KxPROCESS_DETACHED, false);
 			KxProcess& processRef = *process;
 
-			KxProgressDialog* dialog = new KxProgressDialog(Workspace::GetInstance(), KxID_NONE, KTr("PluginManager.Sorting.Waiting.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_CANCEL);
+			KxProgressDialog* dialog = new KxProgressDialog(Workspace::GetInstance(), wxID_NONE, KTr("PluginManager.Sorting.Waiting.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_CANCEL);
 			dialog->Bind(KxEVT_STDDIALOG_BUTTON, [&process = *process](wxNotifyEvent& event)
 			{
-				if (event.GetId() == KxID_CANCEL)
+				if (event.GetId() == wxID_CANCEL)
 				{
 					process.Terminate(-1, true);
 				}
@@ -190,7 +190,7 @@ namespace Kortex::PluginManager
 			});
 
 			IMainWindow::GetInstance()->GetFrame().Disable();
-			dialog->SetMainIcon(KxICON_INFORMATION);
+			dialog->SetMainIcon(kxf::StdIcon::Information);
 			dialog->Pulse();
 			dialog->Show();
 

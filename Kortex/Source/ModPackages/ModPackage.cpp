@@ -3,11 +3,11 @@
 #include "PackageProject/Serializer/NativeSerializer.h"
 #include "PackageProject/Serializer/LegacySerializer.h"
 #include "PackageProject/Serializer/FOModSerializer.h"
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxStreamDelegate.h>
-#include <KxFramework/KxShell.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxStreamDelegate.h>
+#include <kxf::UI::Framework/KxShell.h>
 
 namespace
 {

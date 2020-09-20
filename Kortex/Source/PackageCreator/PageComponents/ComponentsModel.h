@@ -4,7 +4,7 @@
 #include "PackageCreator/PageComponents/ComponentsModelNode.h"
 #include "PackageProject/ModPackageProject.h"
 #include "PackageProject/ComponentsSection.h"
-#include <KxFramework/KxDataView.h>
+#include <kxf::UI::Framework/KxDataView.h>
 class KxImageView;
 
 namespace Kortex::PackageDesigner
@@ -87,8 +87,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 			void RemoveGroup(ComponentsModelNode* node, const PackageProject::ComponentGroup* group);
 			void RemoveEntry(ComponentsModelNode* node, const PackageProject::ComponentItem* entry);
 	
-			KxMenu* CreateAllItemsMenu();
-			void CreateAllItemsMenuEntry(KxMenu* menu, ComponentsModelNode* node, const kxf::String& name, AllItemsFunc func);
+			kxf::UI::Menu* CreateAllItemsMenu();
+			void CreateAllItemsMenuEntry(kxf::UI::Menu* menu, ComponentsModelNode* node, const kxf::String& name, AllItemsFunc func);
 	
 			void AllSteps_Name(ComponentsModelNode* node, const kxf::String& name);
 			void AllSteps_Conditions(ComponentsModelNode* node, const kxf::String& name);

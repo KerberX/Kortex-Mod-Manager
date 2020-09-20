@@ -18,15 +18,15 @@
 #include "Network/ModNetwork/LoversLab.h"
 #include "Network/ModNetwork/TESALL.h"
 
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxListBox.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxSlider.h>
-#include <KxFramework/KxDataViewComboBox.h>
-#include <KxFramework/KxCollapsiblePane.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxStdDialogSimple.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxListBox.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxSlider.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxCollapsiblePane.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxStdDialogSimple.h>
 
 #pragma warning(disable: 4302) // 'reinterpret_cast': truncation from 'void *' to 'int'
 #pragma warning(disable: 4311) // 'reinterpret_cast': pointer truncation from 'void *' to 'int'
@@ -127,7 +127,7 @@ namespace Kortex::PackageDesigner
 		nameIDSizer->Add(m_NameInput, 1, wxEXPAND|wxRIGHT, 6 * LayoutConstants::HorizontalSpacing);
 
 		m_IDInput = AddControlsRow(nameIDSizer, KTr("PackageCreator.PageInfo.BasicInfo.ID"), CreateInputField(m_Pane));
-		m_IDInput->SetMaxSize(wxSize(150, -1));
+		m_IDInput->SetMaxSize(kxf::Size(150, -1));
 
 		m_VersionInput = AddControlsRow(basicInfoSizer, KTr("PackageCreator.PageInfo.BasicInfo.Version"), CreateInputField(m_Pane));
 		m_AuthorInput = AddControlsRow(basicInfoSizer, KTr("PackageCreator.PageInfo.BasicInfo.Author"), CreateInputField(m_Pane));
@@ -139,12 +139,12 @@ namespace Kortex::PackageDesigner
 			m_TagsModel->Create(m_Controller, m_Pane, sizer);
 		}
 
-		m_DescriptionButton = AddControlsRow(basicInfoSizer, KTr("PackageCreator.PageInfo.BasicInfo.Description"), new KxButton(m_Pane, KxID_NONE, KTr(KxID_EDIT)), 0);
+		m_DescriptionButton = AddControlsRow(basicInfoSizer, KTr("PackageCreator.PageInfo.BasicInfo.Description"), new KxButton(m_Pane, wxID_NONE, KTr(wxID_EDIT)), 0);
 
 		// Additional info
 		wxBoxSizer* collapsePaneContainerSizer = new wxBoxSizer(wxVERTICAL);
 		m_PaneSizer->Add(collapsePaneContainerSizer, 0, wxEXPAND|wxLEFT, ms_LeftMargin);
-		KxCollapsiblePane* pCollapsePane = new KxCollapsiblePane(m_Pane, KxID_NONE, KTr("PackageCreator.PageInfo.BasicInfo.AdditionalData"));
+		KxCollapsiblePane* pCollapsePane = new KxCollapsiblePane(m_Pane, wxID_NONE, KTr("PackageCreator.PageInfo.BasicInfo.AdditionalData"));
 		collapsePaneContainerSizer->Add(pCollapsePane, 0, wxEXPAND);
 
 		wxFlexGridSizer* collapsePaneSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
@@ -154,8 +154,8 @@ namespace Kortex::PackageDesigner
 
 		m_TranslatedNameInput = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.BasicInfo.TranslatedName"), CreateInputField(pCollapsePane->GetPane()));
 		m_TranslatorNameInput = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.BasicInfo.Translatior"), CreateInputField(pCollapsePane->GetPane()));
-		m_UserDataButton = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.BasicInfo.UserData"), new KxButton(pCollapsePane->GetPane(), KxID_NONE, KTr(KxID_EDIT)), 0);
-		m_DocumentsButton = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.BasicInfo.Documents"), new KxButton(pCollapsePane->GetPane(), KxID_NONE, KTr(KxID_EDIT)), 0);
+		m_UserDataButton = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.BasicInfo.UserData"), new KxButton(pCollapsePane->GetPane(), wxID_NONE, KTr(wxID_EDIT)), 0);
+		m_DocumentsButton = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.BasicInfo.Documents"), new KxButton(pCollapsePane->GetPane(), wxID_NONE, KTr(wxID_EDIT)), 0);
 
 		// Bind events
 		m_IDInput->Bind(wxEVT_TEXT, [this](wxCommandEvent& event)
@@ -193,7 +193,7 @@ namespace Kortex::PackageDesigner
 		{
 			UI::TextEditDialog dialog(this);
 			dialog.SetText(GetProjectInfo().GetDescription());
-			if (dialog.ShowModal() == KxID_OK && dialog.IsModified())
+			if (dialog.ShowModal() == wxID_OK && dialog.IsModified())
 			{
 				GetProjectInfo().SetDescription(dialog.GetText());
 				m_Controller->ChangeNotify();
@@ -239,7 +239,7 @@ namespace Kortex::PackageDesigner
 		{
 			m_WebSitesTESALLID->Bind(wxEVT_TEXT, &PageInfo::OnEditSite<TESALLModNetwork>, this);
 		}
-		m_WebSitesButton = AddControlsRow(sitesSizer, KTr("PackageCreator.PageInfo.Sites.AdditionalSites"), new KxButton(m_Pane, KxID_NONE, KTr(KxID_EDIT)), 0);
+		m_WebSitesButton = AddControlsRow(sitesSizer, KTr("PackageCreator.PageInfo.Sites.AdditionalSites"), new KxButton(m_Pane, wxID_NONE, KTr(wxID_EDIT)), 0);
 
 		m_WebSitesButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 		{
@@ -283,13 +283,13 @@ namespace Kortex::PackageDesigner
 		// Package path
 		wxBoxSizer* pathSizer = AddControlsRow2(m_Pane, configSizer, KTr("PackageCreator.PageInfo.Config.PackageOutputFile"), new wxBoxSizer(wxHORIZONTAL));
 		m_InstallBackageFileInput = CreateInputField(m_Pane);
-		KxButton* installBackageFileButton = new KxButton(m_Pane, KxID_NONE, KTr(KxID_SELECT_FILE));
+		KxButton* installBackageFileButton = new KxButton(m_Pane, wxID_NONE, KTr(wxID_SELECT_FILE));
 
 		pathSizer->Add(m_InstallBackageFileInput, 1, wxEXPAND);
-		pathSizer->Add(installBackageFileButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		pathSizer->Add(installBackageFileButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 
 		// Compression level
-		m_CompressionLevel = AddControlsRow(configSizer, KTr("PackageCreator.PageInfo.Config.CompressionLevel"), new KxComboBox(m_Pane, KxID_NONE));
+		m_CompressionLevel = AddControlsRow(configSizer, KTr("PackageCreator.PageInfo.Config.CompressionLevel"), new KxComboBox(m_Pane, wxID_NONE));
 		auto AddCompressionLevel = [this](const kxf::String& id, int level)
 		{
 			m_CompressionLevel->Append(kxf::String::Format("%d - %s", level, KTr(id)), reinterpret_cast<void*>(level));
@@ -304,7 +304,7 @@ namespace Kortex::PackageDesigner
 		/* Advanced */
 		wxBoxSizer* collapsePaneContainerSizer = new wxBoxSizer(wxVERTICAL);
 		m_PaneSizer->Add(collapsePaneContainerSizer, 0, wxEXPAND|wxLEFT, ms_LeftMargin);
-		KxCollapsiblePane* collapsePane = new KxCollapsiblePane(m_Pane, KxID_NONE, KTr("PackageCreator.PageInfo.Config.CompressionAdvanced"));
+		KxCollapsiblePane* collapsePane = new KxCollapsiblePane(m_Pane, wxID_NONE, KTr("PackageCreator.PageInfo.Config.CompressionAdvanced"));
 		collapsePaneContainerSizer->Add(collapsePane, 0, wxEXPAND);
 
 		wxFlexGridSizer* collapsePaneSizer = new wxFlexGridSizer(2, LayoutConstants::VerticalSpacing, 0);
@@ -313,22 +313,22 @@ namespace Kortex::PackageDesigner
 		collapsePane->GetPane()->SetSizer(collapsePaneSizer);
 
 		// Compression Method
-		m_CompressionMethod = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.Config.CompressionMethod"), new KxComboBox(collapsePane->GetPane(), KxID_NONE));
+		m_CompressionMethod = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.Config.CompressionMethod"), new KxComboBox(collapsePane->GetPane(), wxID_NONE));
 		m_CompressionMethod->AddItem("LZMA");
 		m_CompressionMethod->AddItem("LZMA2");
 		m_CompressionMethod->AddItem("PPMd");
 		m_CompressionMethod->AddItem("BZip2");
 
 		// Dictionary size
-		m_CompressionDictionarySize = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.Config.DictionarySize"), new KxSlider(collapsePane->GetPane(), KxID_NONE, PackageProject::ConfigSection::ms_DefaultDictionarySize, PackageProject::ConfigSection::ms_MinDictionarySize, PackageProject::ConfigSection::ms_MaxDictionarySize, KxSlider::DefaultStyle|wxSL_TICKS));
-		m_CompressionDictionarySize->SetMaxSize(wxSize(wxDefaultCoord, 23));
+		m_CompressionDictionarySize = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.Config.DictionarySize"), new KxSlider(collapsePane->GetPane(), wxID_NONE, PackageProject::ConfigSection::ms_DefaultDictionarySize, PackageProject::ConfigSection::ms_MinDictionarySize, PackageProject::ConfigSection::ms_MaxDictionarySize, KxSlider::DefaultStyle|wxSL_TICKS));
+		m_CompressionDictionarySize->SetMaxSize(kxf::Size(wxDefaultCoord, 23));
 		m_CompressionDictionarySizeMemory = AddControlsRow(collapsePaneSizer, KTr("PackageCreator.PageInfo.Config.DictionarySize.Memory"), CreateNormalLabel(collapsePane->GetPane(), wxEmptyString));
 
 		// Checkboxes
-		m_CompressionUseMultithreading = new wxCheckBox(collapsePane->GetPane(), KxID_ANY, KTr("PackageCreator.PageInfo.Config.UseMultithreadedCompression"));
+		m_CompressionUseMultithreading = new wxCheckBox(collapsePane->GetPane(), wxID_ANY, KTr("PackageCreator.PageInfo.Config.UseMultithreadedCompression"));
 		collapsePaneSizer->Add(m_CompressionUseMultithreading, 1, wxEXPAND);
 
-		m_CompressionSolidArchive = new wxCheckBox(collapsePane->GetPane(), KxID_ANY, KTr("PackageCreator.PageInfo.Config.SolidArchive"));
+		m_CompressionSolidArchive = new wxCheckBox(collapsePane->GetPane(), wxID_ANY, KTr("PackageCreator.PageInfo.Config.SolidArchive"));
 		collapsePaneSizer->Add(m_CompressionSolidArchive, 1, wxEXPAND);
 
 		// Bind events
@@ -347,7 +347,7 @@ namespace Kortex::PackageDesigner
 				name = m_Controller->GetProjectName();
 			}
 
-			KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
+			KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_SAVE);
 			dialog.SetOptionEnabled(KxFBD_DONT_ADD_TO_RECENT);
 			dialog.SetOptionEnabled(KxFBD_NO_CHANGE_CWD);
 			dialog.SetDefaultExtension("kmp");
@@ -358,7 +358,7 @@ namespace Kortex::PackageDesigner
 			dialog.AddFilter("*.fomod", KTr("FileFilter.ModPackageFOMod"));
 			dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				kxf::String path = dialog.GetResult();
 				GetProjectConfig().SetInstallPackageFile(path);
@@ -452,7 +452,7 @@ namespace Kortex::PackageDesigner
 	{
 		m_PaneSizer = new wxBoxSizer(wxVERTICAL);
 
-		m_Pane = new KxScrolledPanel(this, KxID_NONE, wxDefaultPosition, wxDefaultSize);
+		m_Pane = new KxScrolledPanel(this, wxID_NONE, wxDefaultPosition, wxDefaultSize);
 		m_Pane->SetSizer(m_PaneSizer);
 		IThemeManager::GetActive().Apply(m_Pane);
 

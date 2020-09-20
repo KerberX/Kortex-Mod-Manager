@@ -1,6 +1,6 @@
 #pragma once
 #include "Utility/UniqueID.h"
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex::NetworkManager::Internal
 {

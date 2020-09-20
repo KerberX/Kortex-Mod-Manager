@@ -3,9 +3,9 @@
 #include "Application/IManager.h"
 #include "PackageProject/Common.h"
 #include "PackageProject/RequirementsSection.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxComponentSystem.h>
-class KxMenu;
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxComponentSystem.h>
+class kxf::UI::Menu;
 
 namespace Kortex
 {
@@ -22,7 +22,7 @@ namespace Kortex
 	class IPackageManager:
 		public ManagerWithTypeInfo<IManager, PackageDesigner::Internal::TypeInfo>,
 		public KxComponentContainer,
-		public KxSingletonPtr<IPackageManager>
+		public kxf::SingletonPtr<IPackageManager>
 	{
 		friend class ModPackagesModule;
 
@@ -53,6 +53,6 @@ namespace Kortex
 			virtual const PackageProject::RequirementItem::Vector& GetStdRequirements() const = 0;
 			virtual const PackageProject::RequirementItem* FindStdReqirement(const kxf::String& id) const = 0;
 
-			virtual void OnModListMenu(KxMenu& menu, const std::vector<IGameMod*>& selectedMods, IGameMod* focusedMod) = 0;
+			virtual void OnModListMenu(kxf::UI::Menu& menu, const std::vector<IGameMod*>& selectedMods, IGameMod* focusedMod) = 0;
 	};
 }

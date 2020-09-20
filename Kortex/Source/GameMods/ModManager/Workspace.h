@@ -4,20 +4,20 @@
 #include "Application/BookWorkspaceContainer.h"
 #include "GameMods/IGameMod.h"
 #include "Programs/IProgramItem.h"
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxAuiNotebook.h>
-#include <KxFramework/KxNotebook.h>
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxTreeList.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxTextBox.h>
-#include <KxFramework/KxListBox.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxAuiNotebook.h>
+#include <kxf::UI::Framework/KxNotebook.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/KxTreeList.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxTextBox.h>
+#include <kxf::UI::Framework/KxListBox.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxImageView.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 class KxSearchBox;
 class KxBitmapComboBox;
-class KxMenuEvent;
+class kxf::UI::MenuEvent;
 
 namespace Kortex
 {
@@ -157,7 +157,7 @@ namespace Kortex::ModManager
 namespace Kortex::ModManager
 {
 	class DisplayModel;
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		friend class WorkspaceContainer;
 		friend class VFSProgramItem;
@@ -167,24 +167,24 @@ namespace Kortex::ModManager
 			bool m_InitiallyDisabled = true;
 
 			wxBoxSizer* m_MainSizer = nullptr;
-			KxSplitterWindow* m_SplitterLeftRight = nullptr;
+			kxf::UI::SplitterWindow* m_SplitterLeftRight = nullptr;
 
 			// Left pane
 			wxBoxSizer* m_LeftPaneSizer = nullptr;
 
 			// ToolBar
-			KxAuiToolBar* m_ModsToolBar = nullptr;
+			kxf::UI::AuiToolBar* m_ModsToolBar = nullptr;
 
 			KxComboBox* m_ToolBar_Profiles = nullptr;
-			KxAuiToolBarItem* m_ToolBar_EditProfiles = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_EditProfiles = nullptr;
 
-			KxAuiToolBarItem* m_ToolBar_AddMod = nullptr;
-			KxMenu* m_ToolBar_AddModMenu = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_AddMod = nullptr;
+			kxf::UI::Menu* m_ToolBar_AddModMenu = nullptr;
 
-			KxAuiToolBarItem* m_ToolBar_ChangeDisplayMode = nullptr;
-			KxMenu* m_ToolBar_DisplayModeMenu = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_ChangeDisplayMode = nullptr;
+			kxf::UI::Menu* m_ToolBar_DisplayModeMenu = nullptr;
 
-			KxAuiToolBarItem* m_ToolBar_Tools = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_Tools = nullptr;
 			KxSearchBox* m_SearchBox = nullptr;
 
 			// Mod manager
@@ -217,14 +217,14 @@ namespace Kortex::ModManager
 			bool ShowChangeModIDDialog(IGameMod& mod);
 			void ProcessSelectProfile(const kxf::String& newProfileID);
 			void OnSelectProfile(wxCommandEvent& event);
-			void OnShowProfileEditor(KxAuiToolBarEvent& event);
+			void OnShowProfileEditor(kxf::UI::AuiToolBarEvent& event);
 
 			void OnUpdateModLayoutNeeded(ModEvent& event);
 			void OnBeginReload(ModEvent& event);
 			void OnEndReload(ModEvent& event);
 			
-			void OnDisplayModeMenu(KxAuiToolBarEvent& event);
-			void OnToolsMenu(KxAuiToolBarEvent& event);
+			void OnDisplayModeMenu(kxf::UI::AuiToolBarEvent& event);
+			void OnToolsMenu(kxf::UI::AuiToolBarEvent& event);
 			void OnMainFSToggled(VirtualFSEvent& event);
 			void OnMainFSToggleError(VirtualFSEvent& event);
 			void OnProfileSelected(ProfileEvent& event);
@@ -232,18 +232,18 @@ namespace Kortex::ModManager
 			void OnUpdateProgramsList(ProgramEvent& event);
 			void OnSelectProgram(wxCommandEvent& event);
 			
-			void OnAddMod_Empty(KxMenuEvent& event);
-			void OnAddMod_FromFolder(KxMenuEvent& event);
-			void OnAddMod_InstallPackage(KxMenuEvent& event);
+			void OnAddMod_Empty(kxf::UI::MenuEvent& event);
+			void OnAddMod_FromFolder(kxf::UI::MenuEvent& event);
+			void OnAddMod_InstallPackage(kxf::UI::MenuEvent& event);
 
 			void InstallMod(IGameMod& mod);
 			void UninstallMod(IGameMod& mod, bool eraseLog);
 			void OnModSerach(wxCommandEvent& event);
-			void OnModSearchColumnsChanged(KxMenuEvent& event);
+			void OnModSearchColumnsChanged(kxf::UI::MenuEvent& event);
 
 			void ClearControls();
 			void DisplayModInfo(IGameMod* mod);
-			void CreateViewContextMenu(KxMenu& contextMenu, const IGameMod::RefVector& selectedMods, IGameMod* focusedMod);
+			void CreateViewContextMenu(kxf::UI::Menu& contextMenu, const IGameMod::RefVector& selectedMods, IGameMod* focusedMod);
 
 		protected:
 			bool OnCreateWorkspace() override;
@@ -260,7 +260,7 @@ namespace Kortex::ModManager
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Puzzle;
+				return ImageResourceID::Puzzle;
 			}
 			
 			IWorkspaceContainer* GetPreferredContainer() const override;

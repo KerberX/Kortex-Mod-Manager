@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BethesdaArchive.h"
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace
 {

@@ -12,8 +12,8 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/ModTagManager.hpp>
 #include "Utility/Common.h"
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxShell.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxShell.h>
 
 namespace Kortex::PackageProject
 {

@@ -3,7 +3,7 @@
 #include "Utility/Common.h"
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxMenu.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
 
 namespace Kortex::NetworkManager::NXMHandler
 {
@@ -25,7 +25,7 @@ namespace Kortex::NetworkManager::NXMHandler
 		using namespace KxDataView2;
 
 		// View
-		View* view = new View(parent, KxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
+		View* view = new View(parent, wxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
 		view->AssignModel(this);
 		view->SetUniformRowHeight(view->GetDefaultRowHeight(UniformHeight::Explorer));
 
@@ -55,7 +55,7 @@ namespace Kortex::NetworkManager::NXMHandler
 		view->Bind(EvtITEM_ACTIVATED, &DisplayModel::OnActivate, this);
 		view->Bind(EvtCOLUMN_HEADER_RCLICK, [view](Event& event)
 		{
-			KxMenu menu;
+			kxf::UI::Menu menu;
 			if (view->CreateColumnSelectionMenu(menu))
 			{
 				view->OnColumnSelectionMenu(menu);

@@ -4,10 +4,10 @@
 #include "RefTranslator.h"
 #include "Resources/DefaultImageProvider.h"
 #include "VariablesTable/DynamicVariableTable.h"
-#include <KxFramework/KxApp.h>
-#include <KxFramework/kxf::ImageList.h>
-#include <KxFramework/kxf::ImageSet.h>
-#include <KxFramework/KxDPIAwareness.h>
+#include <kxf::UI::Framework/KxApp.h>
+#include <kxf::UI::Framework/kxf::ImageList.h>
+#include <kxf::UI::Framework/kxf::ImageSet.h>
+#include <kxf::UI::Framework/KxDPIAwareness.h>
 
 namespace Kortex
 {

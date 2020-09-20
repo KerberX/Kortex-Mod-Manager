@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Definition.h"
 #include "ITypeDetector.h"
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::GameConfig
 {

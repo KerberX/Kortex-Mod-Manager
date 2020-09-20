@@ -3,11 +3,11 @@
 #include "GameInstance/GameID.h"
 #include "Resources/IImageProvider.h"
 #include "Options/Option.h"
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxTranslation.h>
-#include <KxFramework/kxf::Version.h>
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxTranslation.h>
+#include <kxf::UI::Framework/kxf::Version.h>
+#include <kxf::UI::Framework/KxURI.h>
 class kxf::ImageList;
 class kxf::ImageSet;
 
@@ -39,7 +39,7 @@ namespace Kortex
 namespace Kortex
 {
 	class IApplication:
-		public KxSingletonPtr<IApplication>,
+		public kxf::SingletonPtr<IApplication>,
 		public Application::WithOptions<IApplication>
 	{
 		friend class SystemApplication;

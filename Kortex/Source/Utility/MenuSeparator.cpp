@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Utility/MenuSeparator.h"
-#include <KxFramework/KxMenu.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
 
 namespace Kortex::Utility
 {
-	MenuSeparator::MenuSeparator(KxMenu& menu, Where insertWhere)
+	MenuSeparator::MenuSeparator(kxf::UI::Menu& menu, Where insertWhere)
 		:m_Menu(menu), m_ItemCount(menu.GetMenuItemCount()), m_Where(insertWhere)
 	{
 	}

@@ -1,13 +1,13 @@
 #pragma once
 #include "stdafx.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 
 namespace Kortex
 {
 	class IVirtualFileSystem;
 
-	class IVFSService: public KxSingletonPtr<IVFSService>
+	class IVFSService: public kxf::SingletonPtr<IVFSService>
 	{
 		friend class IVirtualFileSystem;
 

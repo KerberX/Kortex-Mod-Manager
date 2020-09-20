@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxComboBoxDialog.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
+#include <kxf::UI::Framework/KxComboBoxDialog.h>
 class KxTextBox;
 class KxCheckBox;
 class KxComboBox;

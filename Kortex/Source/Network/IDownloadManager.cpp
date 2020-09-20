@@ -6,12 +6,12 @@
 #include "Archive/Common.h"
 #include "Utility/Common.h"
 #include "UI/ProgressOverlay.h"
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxFile.h>
 #include <Kx/FileSystem/LegacyDrive.h>
-#include <KxFramework/KxRegistry.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxUtility.h>
+#include <kxf::UI::Framework/KxRegistry.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxUtility.h>
 
 using namespace KxFileSystem;
 

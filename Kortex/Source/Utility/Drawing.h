@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxStringUtility.h>
+#include <kxf::UI::Framework/KxStringUtility.h>
 
 namespace Kortex::Utility::Drawing
 {

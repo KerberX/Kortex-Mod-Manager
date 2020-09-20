@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SelectorDisplayModelCB.h"
 #include <Kortex/ModTagManager.hpp>
-#include <KxFramework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
 
 namespace Kortex::ModTagManager
 {
@@ -11,7 +11,7 @@ namespace Kortex::ModTagManager
 		m_ComboView->SetDataViewFlags(KxDV_NO_HEADER);
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_ALT_POPUP_WINDOW);
 		m_ComboView->SetOptionEnabled(KxDVCB_OPTION_FORCE_GET_STRING_VALUE_ON_DISMISS);
-		m_ComboView->Create(window, KxID_NONE);
+		m_ComboView->Create(window, wxID_NONE);
 
 		m_ComboView->Bind(KxEVT_DVCB_GET_STRING_VALUE, &SelectorDisplayModelCB::OnGetStringValue, this);
 		return m_ComboView;

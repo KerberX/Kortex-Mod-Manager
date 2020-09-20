@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ItemOptions.h"
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace
 {

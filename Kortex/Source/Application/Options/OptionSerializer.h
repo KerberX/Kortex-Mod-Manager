@@ -1,8 +1,16 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-class KxDataViewCtrl;
-class KxSplitterWindow;
+
 class wxTopLevelWindow;
+namespace kxf::UI
+{
+	class SplitterWindow;
+
+	namespace DataView
+	{
+		class View;
+	}
+}
 
 namespace KxDataView2
 {
@@ -29,9 +37,8 @@ namespace Kortex::Application::OptionSerializer
 	class UILayout
 	{
 		public:
-			static void DataViewLayout(AppOption& option, SerializationMode mode, KxDataViewCtrl* dataView);
-			static void DataView2Layout(AppOption& option, SerializationMode mode, KxDataView2::View* dataView);
-			static void SplitterLayout(AppOption& option, SerializationMode mode, KxSplitterWindow* window);
+			static void DataViewLayout(AppOption& option, SerializationMode mode, kxf::UI::DataView::View* dataView);
+			static void SplitterLayout(AppOption& option, SerializationMode mode, kxf::UI::SplitterWindow* window);
 			static void WorkspaceContainerLayout(AppOption& option, SerializationMode mode, IWorkspaceContainer& container);
 			static void WindowGeometry(AppOption& option, SerializationMode mode, wxTopLevelWindow* window);
 	};

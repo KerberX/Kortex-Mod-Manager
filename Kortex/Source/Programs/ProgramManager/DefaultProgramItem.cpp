@@ -3,8 +3,8 @@
 #include "DefaultProgramManager.h"
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace
 {

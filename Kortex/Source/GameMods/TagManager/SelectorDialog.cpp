@@ -3,9 +3,9 @@
 #include <Kortex/ModTagManager.hpp>
 #include <Kortex/ApplicationOptions.hpp>
 #include "Utility/Common.h"
-#include <KxFramework/KxDataViewComboBox.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace Kortex::Application::OName
 {
@@ -34,7 +34,7 @@ namespace Kortex::ModTagManager
 	}
 	void SelectorDialog::OnAddTag(wxCommandEvent& event)
 	{
-		IModTagManager::GetInstance()->EmplaceTagWith(wxEmptyString, Utility::MakeBracketedLabel(KTr(KxID_NEW)));
+		IModTagManager::GetInstance()->EmplaceTagWith(wxEmptyString, Utility::MakeBracketedLabel(KTr(wxID_NEW)));
 		RefreshItems();
 
 		KxDataViewItem newItem = GetItem(GetItemCount() - 1);
@@ -43,8 +43,8 @@ namespace Kortex::ModTagManager
 	}
 	void SelectorDialog::OnRemoveTag(wxCommandEvent& event)
 	{
-		KxTaskDialog dialog(this, KxID_NONE, KTr("TagManager.RemoveTag.Message"), {}, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-		if (dialog.ShowModal() == KxID_YES)
+		KxTaskDialog dialog(this, wxID_NONE, KTr("TagManager.RemoveTag.Message"), {}, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			KxDataViewItem item = GetView()->GetSelection();
 			IModTag* tag = GetDataEntry(GetRow(item));
@@ -75,8 +75,8 @@ namespace Kortex::ModTagManager
 	}
 	void SelectorDialog::OnLoadDefaultTags(wxCommandEvent& event)
 	{
-		KxTaskDialog dialog(this, KxID_NONE, KTr("TagManager.LoadDefaultTags.Message"), {}, KxBTN_YES|KxBTN_NO, KxICON_QUESTION);
-		if (dialog.ShowModal() == KxID_YES)
+		KxTaskDialog dialog(this, wxID_NONE, KTr("TagManager.LoadDefaultTags.Message"), {}, KxBTN_YES|KxBTN_NO, KxICON_QUESTION);
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			IModTagManager::GetInstance()->LoadDefaultTags();
 			m_IsModified = true;
@@ -87,23 +87,23 @@ namespace Kortex::ModTagManager
 	SelectorDialog::SelectorDialog(wxWindow* parent, const kxf::String& caption)
 		:SelectorDisplayModel(true)
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 
-			m_RemoveButton = AddButton(KxID_REMOVE, wxEmptyString, true).As<KxButton>();
+			m_RemoveButton = AddButton(wxID_REMOVE, wxEmptyString, true).As<KxButton>();
 			m_RemoveButton->Bind(wxEVT_BUTTON, &SelectorDialog::OnRemoveTag, this);
 			m_RemoveButton->Disable();
 
-			m_AddButton = AddButton(KxID_ADD, wxEmptyString, true).As<KxButton>();
+			m_AddButton = AddButton(wxID_ADD, wxEmptyString, true).As<KxButton>();
 			m_AddButton->Bind(wxEVT_BUTTON, &SelectorDialog::OnAddTag, this);
 
-			m_LoadDefaultTagsButton = AddButton(KxID_DEFAULT, KTr("TagManager.LoadDefaultTags"), true).As<KxButton>();
+			m_LoadDefaultTagsButton = AddButton(wxID_DEFAULT, KTr("TagManager.LoadDefaultTags"), true).As<KxButton>();
 			m_LoadDefaultTagsButton->Bind(wxEVT_BUTTON, &SelectorDialog::OnLoadDefaultTags, this);
 
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 
@@ -112,7 +112,7 @@ namespace Kortex::ModTagManager
 			GetView()->Bind(KxEVT_DATAVIEW_ITEM_SELECTED, &SelectorDialog::OnSelectItem, this);
 			GetOptions().LoadDataViewLayout(GetView());
 
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(980, 720)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(980, 720)));
 			GetView()->SetFocus();
 		}
 	}

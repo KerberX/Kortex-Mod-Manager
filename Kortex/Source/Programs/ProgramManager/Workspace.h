@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxPanel.h>
 
 namespace Kortex
 {
@@ -13,7 +13,7 @@ namespace Kortex::ProgramManager
 {
 	class DisplayModel;
 
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		private:
 			BroadcastReciever m_BroadcastReciever;
@@ -38,7 +38,7 @@ namespace Kortex::ProgramManager
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::ApplicationRun;
+				return ImageResourceID::ApplicationRun;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 	};

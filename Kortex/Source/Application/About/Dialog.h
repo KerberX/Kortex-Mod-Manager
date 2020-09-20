@@ -1,9 +1,9 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxStdDialog.h>
-#include <KxFramework/KxAuiNotebook.h>
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxAuiNotebook.h>
+#include <kxf::UI::Framework/KxImageView.h>
+#include <kxf::UI::Framework/KxPanel.h>
 class KxHTMLWindow;
 class wxHtmlLinkEvent;
 
@@ -50,7 +50,7 @@ namespace Kortex::Application
 			}
 
 		private:
-			wxSize GetLogoSize() const;
+			kxf::Size GetLogoSize() const;
 			kxf::String GetCaption() const override;
 
 			wxWindow* CreateTab_Info();

@@ -13,10 +13,10 @@
 #include "Utility/Common.h"
 #include "Utility/String.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxTextBoxDialog.h>
-#include <KxFramework/KxComboBoxDialog.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/DataView/KxDataViewMainWindow.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxComboBoxDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/DataView/KxDataViewMainWindow.h>
 
 namespace Kortex::PackageDesigner::PageComponentsNS
 {
@@ -397,7 +397,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				else
 				{
-					value = KxDataViewBitmapTextValue(step->GetName(), ImageProvider::GetBitmap(Imagekxf::ResourceID::Direction));
+					value = KxDataViewBitmapTextValue(step->GetName(), ImageProvider::GetBitmap(ImageResourceID::Direction));
 				}
 				break;
 			}
@@ -425,7 +425,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				else
 				{
-					value = KxDataViewBitmapTextValue(group->GetName(), ImageProvider::GetBitmap(Imagekxf::ResourceID::Folder));
+					value = KxDataViewBitmapTextValue(group->GetName(), ImageProvider::GetBitmap(ImageResourceID::Folder));
 				}
 				break;
 			}
@@ -455,7 +455,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				}
 				else
 				{
-					value = KxDataViewBitmapTextValue(entry->GetName(), ImageProvider::GetBitmap(Imagekxf::ResourceID::Block));
+					value = KxDataViewBitmapTextValue(entry->GetName(), ImageProvider::GetBitmap(ImageResourceID::Block));
 				}
 				break;
 			}
@@ -805,7 +805,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 						{
 							FileDataSelectorDialog dialog(GetView(), GetItemLabel(), m_Controller);
 							dialog.SetDataVector(entry->GetFileData(), &m_Controller->GetProject()->GetFileData());
-							if (dialog.ShowModal() == KxID_OK)
+							if (dialog.ShowModal() == wxID_OK)
 							{
 								entry->GetFileData() = dialog.GetSelectedItems();
 								NotifyChangedItem(event.GetItem());
@@ -819,7 +819,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 						{
 							RequirementsSelectorDialog dialog(GetView(), GetItemLabel(), m_Controller);
 							dialog.SetDataVector(entry->GetRequirements(), &m_Controller->GetProject()->GetRequirements());
-							if (dialog.ShowModal() == KxID_OK)
+							if (dialog.ShowModal() == wxID_OK)
 							{
 								entry->GetRequirements() = dialog.GetSelectedItems();
 								NotifyChangedItem(item);
@@ -833,7 +833,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 						{
 							UI::TextEditDialog dialog(GetView());
 							dialog.SetText(entry->GetDescription());
-							if (dialog.ShowModal() == KxID_OK && dialog.IsModified())
+							if (dialog.ShowModal() == wxID_OK && dialog.IsModified())
 							{
 								entry->SetDescription(dialog.GetText());
 								NotifyChangedItem(item);
@@ -858,28 +858,28 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 		if (column)
 		{
-			KxMenu contextMenu;
+			kxf::UI::Menu contextMenu;
 	
 			// All items
 			{
-				KxMenu* allItemsMenu = CreateAllItemsMenu();
+				kxf::UI::Menu* allItemsMenu = CreateAllItemsMenu();
 				CreateAllItemsMenuEntry(allItemsMenu, node, KTr("Generic.Name"), &ComponentsModel::AllSteps_Name);
 				CreateAllItemsMenuEntry(allItemsMenu, node, KTr("PackageCreator.PageComponents.Conditions"), &ComponentsModel::AllSteps_Conditions);
 	
-				KxMenuItem* item = contextMenu.Add(allItemsMenu, KTr("PackageCreator.PageComponents.AllSteps"));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Direction));
+				kxf::UI::MenuItem* item = contextMenu.Add(allItemsMenu, KTr("PackageCreator.PageComponents.AllSteps"));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Direction));
 			}
 			if (node)
 			{
 				ComponentsModelNode* parent = GetParentStep(node);
 				if (parent && parent->GetStep())
 				{
-					KxMenu* allItemsMenu = CreateAllItemsMenu();
+					kxf::UI::Menu* allItemsMenu = CreateAllItemsMenu();
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("Generic.Name"), &ComponentsModel::AllGroups_Name);
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.SelectionMode"), &ComponentsModel::AllGroups_SelectionMode);
 	
-					KxMenuItem* item = contextMenu.Add(allItemsMenu, KTrf("PackageCreator.PageComponents.AllGroupsOf", parent->GetStep()->GetName()));
-					item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Folder));
+					kxf::UI::MenuItem* item = contextMenu.Add(allItemsMenu, KTrf("PackageCreator.PageComponents.AllGroupsOf", parent->GetStep()->GetName()));
+					item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Folder));
 				}
 			}
 			if (node && (node->GetGroup() || node->GetEntry() || node->IsEntryItem()))
@@ -887,7 +887,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				ComponentsModelNode* parent = GetParentGroup(node);
 				if (parent && parent->GetGroup())
 				{
-					KxMenu* allItemsMenu = CreateAllItemsMenu();
+					kxf::UI::Menu* allItemsMenu = CreateAllItemsMenu();
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("Generic.Name"), &ComponentsModel::AllEntries_Name);
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.TypeDescriptor"), &ComponentsModel::AllEntries_DefaultTypeDescriptor);
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.FileData"), &ComponentsModel::AllEntries_FileData);
@@ -897,8 +897,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.Conditions"), &ComponentsModel::AllEntries_Conditions);
 					CreateAllItemsMenuEntry(allItemsMenu, parent, KTr("PackageCreator.PageComponents.AssignedFlags"), &ComponentsModel::AllEntries_AssignedFlags);
 	
-					KxMenuItem* item = contextMenu.Add(allItemsMenu, KTrf("PackageCreator.PageComponents.AllEntriesOf", parent->GetGroup()->GetName()));
-					item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Block));
+					kxf::UI::MenuItem* item = contextMenu.Add(allItemsMenu, KTrf("PackageCreator.PageComponents.AllEntriesOf", parent->GetGroup()->GetName()));
+					item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Block));
 					item->SetClientData(node);
 				}
 			}
@@ -906,44 +906,44 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 			// Add item
 			{
-				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddStep, KTr("PackageCreator.PageComponents.AddStep")));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DirectionPlus));
+				kxf::UI::MenuItem* item = contextMenu.Add(new kxf::UI::MenuItem(MenuID::AddStep, KTr("PackageCreator.PageComponents.AddStep")));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DirectionPlus));
 				item->Enable(true);
 			}
 			{
-				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddGroup, KTr("PackageCreator.PageComponents.AddGroup")));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
+				kxf::UI::MenuItem* item = contextMenu.Add(new kxf::UI::MenuItem(MenuID::AddGroup, KTr("PackageCreator.PageComponents.AddGroup")));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
 				item->Enable(node);
 			}
 			{
-				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddEntry, KTr("PackageCreator.PageComponents.AddEntry")));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BlockPlus));
+				kxf::UI::MenuItem* item = contextMenu.Add(new kxf::UI::MenuItem(MenuID::AddEntry, KTr("PackageCreator.PageComponents.AddEntry")));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BlockPlus));
 				item->Enable(node && (node->GetGroup() || node->GetEntry() || node->IsEntryItem()));
 			}
 			{
-				KxMenuItem* item = contextMenu.Add(new KxMenuItem(MenuID::AddEntriesFromFiles, KTr("PackageCreator.PageComponents.AddEntriesFromFiles")));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FoldersPlus));
+				kxf::UI::MenuItem* item = contextMenu.Add(new kxf::UI::MenuItem(MenuID::AddEntriesFromFiles, KTr("PackageCreator.PageComponents.AddEntriesFromFiles")));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FoldersPlus));
 				item->Enable(node && (node->GetGroup() || node->GetEntry() || node->IsEntryItem()));
 			}
 	
 			// Remove item
-			KxMenuItem* menuItemRemove = nullptr;
+			kxf::UI::MenuItem* menuItemRemove = nullptr;
 			if (node)
 			{
 				contextMenu.AddSeparator();
-				menuItemRemove = contextMenu.Add(new KxMenuItem(KxID_REMOVE));
+				menuItemRemove = contextMenu.Add(new kxf::UI::MenuItem(wxID_REMOVE));
 				menuItemRemove->Enable(false);
 	
 				if (const PackageProject::ComponentStep* step = node->GetStep())
 				{
-					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DirectionMinus));
+					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DirectionMinus));
 					menuItemRemove->SetItemLabel(kxf::String::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveStep"), step->GetName()));
 					menuItemRemove->SetClientData(node);
 					menuItemRemove->Enable(true);
 				}
 				else if (const PackageProject::ComponentGroup* group = node->GetGroup())
 				{
-					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderMinus));
+					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderMinus));
 					menuItemRemove->SetItemLabel(kxf::String::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveGroup"), group->GetName()));
 					menuItemRemove->SetClientData(node);
 					menuItemRemove->Enable(true);
@@ -952,7 +952,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				{
 					const PackageProject::ComponentItem* entry = node->GetEntry() ? node->GetEntry() : node->GetParent()->GetEntry();
 	
-					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BlockMinus));
+					menuItemRemove->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BlockMinus));
 					menuItemRemove->SetItemLabel(kxf::String::Format("%s \"%s\"", KTr("PackageCreator.PageComponents.RemoveEntry"), entry->GetName()));
 					menuItemRemove->SetClientData(node->GetEntry() ? node : node->GetParent());
 					menuItemRemove->Enable(true);
@@ -982,7 +982,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 					break;
 				}
 	
-				case KxID_REMOVE:
+				case wxID_REMOVE:
 				{
 					ComponentsModelNode* node = static_cast<ComponentsModelNode*>(menuItemRemove->GetClientData());
 					if (const PackageProject::ComponentStep* step = node->GetStep())
@@ -1216,8 +1216,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	}
 	void ComponentsModel::RemoveStep(ComponentsModelNode* node, const PackageProject::ComponentStep* step)
 	{
-		KxTaskDialog dialog(GetViewTLW(), KxID_NONE, KTrf("PackageCreator.RemoveStepDialog", step->GetName()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-		if (dialog.ShowModal() == KxID_YES)
+		KxTaskDialog dialog(GetViewTLW(), wxID_NONE, KTrf("PackageCreator.RemoveStepDialog", step->GetName()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			PackageProject::ComponentStep::Vector& steps = GetComponents().GetSteps();
 	
@@ -1234,8 +1234,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	}
 	void ComponentsModel::RemoveGroup(ComponentsModelNode* node, const PackageProject::ComponentGroup* group)
 	{
-		KxTaskDialog dialog(GetViewTLW(), KxID_NONE, KTrf("PackageCreator.RemoveGroupDialog", group->GetName()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-		if (dialog.ShowModal() == KxID_YES)
+		KxTaskDialog dialog(GetViewTLW(), wxID_NONE, KTrf("PackageCreator.RemoveGroupDialog", group->GetName()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			PackageProject::ComponentGroup::Vector& groups = node->GetParent()->GetStep()->GetGroups();
 			ComponentsModelNode::Vector& nodes = node->GetParent()->GetChildren();
@@ -1267,16 +1267,16 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		ExapndAndSelect(this, GetView(), expandedItems, selectedItem);
 	}
 	
-	KxMenu* ComponentsModel::CreateAllItemsMenu()
+	kxf::UI::Menu* ComponentsModel::CreateAllItemsMenu()
 	{
-		return new KxMenu();
+		return new kxf::UI::Menu();
 	}
-	void ComponentsModel::CreateAllItemsMenuEntry(KxMenu* menu, ComponentsModelNode* node, const kxf::String& name, AllItemsFunc func)
+	void ComponentsModel::CreateAllItemsMenuEntry(kxf::UI::Menu* menu, ComponentsModelNode* node, const kxf::String& name, AllItemsFunc func)
 	{
-		KxMenuItem* item = menu->Add(new KxMenuItem(name));
+		kxf::UI::MenuItem* item = menu->Add(new kxf::UI::MenuItem(name));
 		if (node)
 		{
-			item->Bind(KxEVT_MENU_SELECT, [this, func, node](KxMenuEvent& event)
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, func, node](kxf::UI::MenuEvent& event)
 			{
 				(this->*func)(node, event.GetItem()->GetItemLabelText());
 			});
@@ -1285,8 +1285,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 	void ComponentsModel::AllSteps_Name(ComponentsModelNode* node, const kxf::String& name)
 	{
-		KxTextBoxDialog dialog(GetViewTLW(), KxID_NONE, name);
-		if (dialog.ShowModal() == KxID_OK)
+		KxTextBoxDialog dialog(GetViewTLW(), wxID_NONE, name);
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& step: GetComponents().GetSteps())
 			{
@@ -1299,7 +1299,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		PackageProject::ComponentItem tempEntry;
 		ConditionGroupDialog dialog(GetViewTLW(), name, m_Controller, tempEntry.GetTDConditionGroup());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: GetComponents().GetSteps())
 			{
@@ -1313,8 +1313,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		PackageProject::ComponentGroup::Vector& groups = node->GetStep()->GetGroups();
 	
-		KxTextBoxDialog dialog(GetViewTLW(), KxID_NONE, name);
-		if (dialog.ShowModal() == KxID_OK)
+		KxTextBoxDialog dialog(GetViewTLW(), wxID_NONE, name);
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& group: groups)
 			{
@@ -1327,9 +1327,9 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		PackageProject::ComponentGroup::Vector& groups = node->GetStep()->GetGroups();
 	
-		KxComboBoxDialog dialog(GetView(), KxID_NONE, name);
+		KxComboBoxDialog dialog(GetView(), wxID_NONE, name);
 		dialog.SetItems(m_SelectionModeEditor.GetItems());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: groups)
 			{
@@ -1343,8 +1343,8 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
-		KxTextBoxDialog dialog(GetView(), KxID_NONE, name);
-		if (dialog.ShowModal() == KxID_OK)
+		KxTextBoxDialog dialog(GetView(), wxID_NONE, name);
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{
@@ -1357,9 +1357,9 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
-		KxComboBoxDialog dialog(GetView(), KxID_NONE, name);
+		KxComboBoxDialog dialog(GetView(), wxID_NONE, name);
 		dialog.SetItems(m_TypeDescriptorEditor.GetItems());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{
@@ -1374,7 +1374,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 		FileDataSelectorDialog dialog(GetView(), name, m_Controller);
 		dialog.SetDataVector({}, &m_Controller->GetProject()->GetFileData());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{
@@ -1389,7 +1389,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 		RequirementsSelectorDialog dialog(GetView(), name, m_Controller);
 		dialog.SetDataVector({}, &m_Controller->GetProject()->GetRequirements());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{
@@ -1402,11 +1402,11 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	{
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 		const PackageProject::ImageItem::Vector& images = GetInterface().GetImages();
-		KxComboBoxDialog dialog(GetView(), KxID_NONE, name, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL, KxComboBoxDialog::DefaultStyle);
+		KxComboBoxDialog dialog(GetView(), wxID_NONE, name, wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL, KxComboBoxDialog::DefaultStyle);
 	
 		UpdateImageEditorList();
 		dialog.SetItems(m_ImagesEditor.GetItems());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			int index = dialog.GetSelection();
 			if (index >= 0)
@@ -1426,7 +1426,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		PackageProject::ComponentItem tempEntry;
 	
 		ConditionGroupDialogWithTypeDescriptor dialog(GetView(), name, m_Controller, tempEntry.GetTDConditionGroup(), tempEntry);
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{
@@ -1443,7 +1443,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 	
 		ConditionFlagsDialog dialog(GetView(), name, m_Controller);
 		dialog.SetDataVector(tempEntry.GetConditionFlags());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{
@@ -1457,7 +1457,7 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		PackageProject::ComponentItem::Vector& entries = node->GetGroup()->GetItems();
 	
 		UI::TextEditDialog dialog(GetView());
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			for (auto& entry: entries)
 			{

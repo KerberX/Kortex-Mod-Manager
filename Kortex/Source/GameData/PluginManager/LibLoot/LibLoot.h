@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 
 namespace Kortex::Utility
 {
@@ -10,7 +10,7 @@ namespace Kortex::Utility
 
 namespace Kortex::PluginManager
 {
-	class LibLoot: public KxSingletonPtr<LibLoot>
+	class LibLoot: public kxf::SingletonPtr<LibLoot>
 	{
 		public:
 			static kxf::String GetLibraryName();

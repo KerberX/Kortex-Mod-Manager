@@ -2,11 +2,11 @@
 #include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
 #include "Common.h"
-#include <KxFramework/KxSingleton.h>
-class KxAuiToolBarEvent;
-class KxAuiToolBarItem;
-class KxMenuEvent;
-class KxMenu;
+#include <kxf::UI::Framework/KxSingleton.h>
+class kxf::UI::AuiToolBarEvent;
+class kxf::UI::AuiToolBarItem;
+class kxf::UI::MenuEvent;
+class kxf::UI::Menu;
 
 namespace Kortex
 {
@@ -20,7 +20,7 @@ namespace Kortex
 
 	class NetworkModule:
 		public ModuleWithTypeInfo<IModule, Internal::NetworkModuleTypeInfo>,
-		public KxSingletonPtr<NetworkModule>
+		public kxf::SingletonPtr<NetworkModule>
 	{
 		private:
 			std::unique_ptr<INetworkManager> m_NetworkManager;

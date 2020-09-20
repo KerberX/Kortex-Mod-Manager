@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "IGameProfile.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::GameInstance
 {

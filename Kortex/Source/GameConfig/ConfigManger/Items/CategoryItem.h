@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "GameConfig/ConfigManger/IViewItem.h"
-#include <KxFramework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
 
 namespace Kortex::GameConfig
 {

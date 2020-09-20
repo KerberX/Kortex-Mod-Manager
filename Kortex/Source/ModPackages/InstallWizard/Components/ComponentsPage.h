@@ -2,10 +2,10 @@
 #include <Kortex/Kortex.hpp>
 #include "../WizardPage.h"
 #include "../StepStack.h"
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxHTMLWindow.h>
-#include <KxFramework/KxAuiNotebook.h>
-#include <KxFramework/KxSplitterWindow.h>
+#include <kxf::UI::Framework/KxImageView.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxAuiNotebook.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
 
 namespace Kortex::InstallWizard
 {
@@ -30,8 +30,8 @@ namespace Kortex::InstallWizard
 			using DisplayModelNode = ComponentsPageNS::DisplayModelNode;
 
 		private:
-			KxSplitterWindow* m_SplitterV = nullptr;
-			KxSplitterWindow* m_SplitterHRight = nullptr;
+			kxf::UI::SplitterWindow* m_SplitterV = nullptr;
+			kxf::UI::SplitterWindow* m_SplitterHRight = nullptr;
 
 			ComponentsPageNS::DisplayModel* m_ComponentsModel = nullptr;
 			RequirementsPageNS::DisplayModel* m_RequirementsModel = nullptr;

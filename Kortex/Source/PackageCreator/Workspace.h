@@ -3,15 +3,15 @@
 #include "Application/DefaultWorkspace.h"
 #include "Application/BookWorkspaceContainer.h"
 #include "WorkspaceDocument.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxSimplebook.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxTextBox.h>
-#include <KxFramework/KxTreeList.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxMenu.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
+#include <kxf::UI::Framework/kxf::UI::Simplebook.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/KxTextBox.h>
+#include <kxf::UI::Framework/KxTreeList.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
 
 namespace Kortex
 {
@@ -39,7 +39,7 @@ namespace Kortex::PackageDesigner
 
 		private:
 			Workspace& m_Workspace;
-			KxSimplebook* m_BookCtrl = nullptr;
+			kxf::UI::Simplebook* m_BookCtrl = nullptr;
 			KxTreeList* m_PagesList = nullptr;
 
 		private:
@@ -73,7 +73,7 @@ namespace Kortex::PackageDesigner
 
 namespace Kortex::PackageDesigner
 {
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		friend class PageBase;
 		friend class WorkspaceDocument;
@@ -81,12 +81,12 @@ namespace Kortex::PackageDesigner
 		private:
 			WorkspaceDocument m_WorkspaceDocument;
 
-			KxAuiToolBar* m_MenuBar = nullptr;
-			KxAuiToolBarItem* m_MenuBar_Project = nullptr;
-			KxAuiToolBarItem* m_MenuBar_Import = nullptr;
-			KxAuiToolBarItem* m_MenuBar_Build = nullptr;
+			kxf::UI::AuiToolBar* m_MenuBar = nullptr;
+			kxf::UI::AuiToolBarItem* m_MenuBar_Project = nullptr;
+			kxf::UI::AuiToolBarItem* m_MenuBar_Import = nullptr;
+			kxf::UI::AuiToolBarItem* m_MenuBar_Build = nullptr;
 
-			KxSplitterWindow* m_SplitterLeftRight = nullptr;
+			kxf::UI::SplitterWindow* m_SplitterLeftRight = nullptr;
 			KxPanel* m_RightPane = nullptr;
 
 			// Pages
@@ -104,13 +104,13 @@ namespace Kortex::PackageDesigner
 			void CreateBuildMenu();
 
 			void DoLoadAllPages();
-			void OnNewProject(KxMenuEvent& event);
-			void OnOpenProject(KxMenuEvent& event);
-			void OnSaveProject(KxMenuEvent& event);
-			void OnImportProject(KxMenuEvent& event);
-			void OnExportProject(KxMenuEvent& event);
-			void OnBuildProject(KxMenuEvent& event);
-			void OnBuildProjectPreview(KxMenuEvent& event);
+			void OnNewProject(kxf::UI::MenuEvent& event);
+			void OnOpenProject(kxf::UI::MenuEvent& event);
+			void OnSaveProject(kxf::UI::MenuEvent& event);
+			void OnImportProject(kxf::UI::MenuEvent& event);
+			void OnExportProject(kxf::UI::MenuEvent& event);
+			void OnBuildProject(kxf::UI::MenuEvent& event);
+			void OnBuildProjectPreview(kxf::UI::MenuEvent& event);
 
 		protected:
 			bool OnCreateWorkspace() override;
@@ -127,7 +127,7 @@ namespace Kortex::PackageDesigner
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Box;
+				return ImageResourceID::Box;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

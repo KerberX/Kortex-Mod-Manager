@@ -3,11 +3,11 @@
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/ModManager.hpp>
 #include "Utility/UniquePtrVector.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxProgressDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxProcess.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex
 {

@@ -27,7 +27,7 @@ namespace Kortex
 			bool m_ShouldSkipExistingMods = false;
 
 		protected:
-			kxf::String GetProfileMatchingMessage(KxIconType* icon = nullptr) const;
+			kxf::String GetProfileMatchingMessage(kxf::StdIcon* icon = nullptr) const;
 		
 			const kxf::String& GetSelectedProfile() const
 			{

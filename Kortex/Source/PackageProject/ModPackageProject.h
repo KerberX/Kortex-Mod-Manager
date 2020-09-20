@@ -7,7 +7,7 @@
 #include "RequirementsSection.h"
 #include "ComponentsSection.h"
 #include "Common.h"
-#include <KxFramework/kxf::Version.h>
+#include <kxf::UI::Framework/kxf::Version.h>
 
 namespace Kortex
 {

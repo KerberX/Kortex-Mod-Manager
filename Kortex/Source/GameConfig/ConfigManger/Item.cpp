@@ -5,9 +5,9 @@
 #include "GameConfig/IConfigManager.h"
 #include "GameConfig/ConfigManger/DisplayModel.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/DataView2/DataView2.h>
-#include <KxFramework/KxStringUtility.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/KxStringUtility.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::GameConfig
 {
@@ -239,7 +239,7 @@ namespace Kortex::GameConfig
 		{
 			if (m_HasChanges)
 			{
-				return KxDataView2::BitmapTextValue(GetViewString(id), ImageProvider::GetBitmap(Imagekxf::ResourceID::PencilSmall));
+				return KxDataView2::BitmapTextValue(GetViewString(id), ImageProvider::GetBitmap(ImageResourceID::PencilSmall));
 			}
 			else
 			{

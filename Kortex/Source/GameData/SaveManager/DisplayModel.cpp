@@ -5,8 +5,8 @@
 #include "VirtualFileSystem/VirtualFSEvent.h"
 #include "UI/ImageViewerDialog.h"
 #include "Utility/DateTime.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::SaveManager
 {
@@ -45,7 +45,7 @@ namespace Kortex::SaveManager
 		{
 			case ColumnID::Bitmap:
 			{
-				return save.HasThumbBitmap() ? save.GetThumbBitmap() : ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossWhite);
+				return save.HasThumbBitmap() ? save.GetThumbBitmap() : ImageProvider::GetBitmap(ImageResourceID::CrossWhite);
 			}
 			case ColumnID::Name:
 			{
@@ -382,7 +382,7 @@ namespace Kortex::SaveManager
 	{
 		using namespace KxDataView2;
 
-		View* view = new View(parent, KxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
+		View* view = new View(parent, wxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
 		view->AssignModel(this);
 
 		// Events

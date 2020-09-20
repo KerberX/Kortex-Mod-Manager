@@ -41,7 +41,7 @@ namespace Kortex::PackageDesigner
 		public:
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Image;
+				return ImageResourceID::Image;
 			}
 			kxf::String GetID() const override;
 			kxf::String GetPageName() const override;

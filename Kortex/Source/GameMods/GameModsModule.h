@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -16,7 +16,7 @@ namespace Kortex
 
 	class GameModsModule:
 		public ModuleWithTypeInfo<IModule, Internal::GameModsTypeInfo>,
-		public KxSingletonPtr<GameModsModule>
+		public kxf::SingletonPtr<GameModsModule>
 	{
 		private:
 			std::unique_ptr<IModManager> m_ModManager;

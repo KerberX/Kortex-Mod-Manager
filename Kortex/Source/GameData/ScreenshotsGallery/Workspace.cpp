@@ -5,11 +5,11 @@
 #include "GameMods/ModManager/Workspace.h"
 #include "GameInstance/IGameInstance.h"
 #include "UI/ImageViewerDialog.h"
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxTextBox.h>
-#include <KxFramework/KxThumbView.h>
-#include <KxFramework/KxShellMenu.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxTextBox.h>
+#include <kxf::UI::Framework/KxThumbView.h>
+#include <kxf::UI::Framework/KxShellMenu.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 namespace Kortex::ScreenshotsGallery
 {
@@ -18,8 +18,8 @@ namespace Kortex::ScreenshotsGallery
 		m_MainSizer = new wxBoxSizer(wxVERTICAL);
 		SetSizer(m_MainSizer);
 
-		m_ViewPane = new KxThumbView(this, KxID_NONE);
-		m_ViewPane->SetSpacing(wxSize(LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing));
+		m_ViewPane = new KxThumbView(this, wxID_NONE);
+		m_ViewPane->SetSpacing(kxf::Size(LayoutConstants::VerticalSpacing, LayoutConstants::HorizontalSpacing));
 		m_MainSizer->Add(m_ViewPane, 1, wxEXPAND);
 		IThemeManager::GetActive().Apply(m_ViewPane);
 
@@ -105,7 +105,7 @@ namespace Kortex::ScreenshotsGallery
 			KxShellMenu menu(path);
 			if (menu.IsOK())
 			{
-				menu.Bind(KxEVT_MENU_HOVER, [](KxMenuEvent& event)
+				menu.Bind(KxEVT_MENU_HOVER, [](kxf::UI::MenuEvent& event)
 				{
 					IMainWindow::GetInstance()->SetStatus(event.GetHelpString());
 				});

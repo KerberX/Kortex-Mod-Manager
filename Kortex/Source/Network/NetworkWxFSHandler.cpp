@@ -2,9 +2,9 @@
 #include "NetworkWxFSHandler.h"
 #include "INetworkManager.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxINet.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxINet.h>
 
 namespace Kortex::NetworkManager
 {

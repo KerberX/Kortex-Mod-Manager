@@ -3,7 +3,7 @@
 #include "Application/DefaultWorkspace.h"
 #include "Workspace.h"
 #include "Utility/LabeledValue.h"
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxPanel.h>
 class KxLabel;
 class KxTextBox;
 
@@ -38,7 +38,7 @@ namespace Kortex::PackageDesigner
 		public:
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Box;
+				return ImageResourceID::Box;
 			}
 			kxf::String GetName() const override;
 			IWorkspaceContainer* GetPreferredContainer() const override
@@ -89,7 +89,7 @@ namespace Kortex::PackageDesigner
 				sizer->Add(object, objectProportion, wxEXPAND);
 				return object;
 			}
-			static KxAuiToolBar* CreateListToolBar(wxWindow* window, bool isVertical = false, bool showText = false);
+			static kxf::UI::AuiToolBar* CreateListToolBar(wxWindow* window, bool isVertical = false, bool showText = false);
 		
 			static void ShowTooltipWarning(wxWindow* window, const kxf::String& message, const wxRect& rect = KxNullWxRect);
 			static void WarnIDCollision(wxWindow* window, const wxRect& rect = KxNullWxRect);

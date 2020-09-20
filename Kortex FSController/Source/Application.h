@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
-#include <KxFramework/KxApp.h>
-#include <KxFramework/KxProcess.h>
+#include <kxf::UI::Framework/KxApp.h>
+#include <kxf::UI::Framework/KxProcess.h>
 
 namespace Kortex::VirtualFileSystem
 {

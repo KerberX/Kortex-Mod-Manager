@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <Kortex/PluginManager.hpp>
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {

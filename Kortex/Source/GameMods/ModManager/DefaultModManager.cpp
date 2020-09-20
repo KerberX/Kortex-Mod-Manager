@@ -17,14 +17,14 @@
 #include "Utility/UniquePtrVector.h"
 #include "Utility/OperationWithProgress.h"
 #include "UI/ProgressOverlay.h"
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxProgressDialog.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::ModManager
 {

@@ -13,15 +13,16 @@
 #include "VirtualFileSystem/VirtualFSEvent.h"
 #include "Utility/Log.h"
 #include "Utility/UI.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxShell.h>
+#include <kxf/UI/Dialogs/TaskDialog.h>
+#include <kxf/System/SystemProcess.h>
+#include <kxf/System/ShellOperations.h>
+#include <wx/wupdlock.h>
 
 namespace Kortex::Application
 {
 	void MainWindowWorkspaceContainer::Create()
 	{
-		m_BookCtrl = new KxSimplebook(&m_MainWindow, KxID_NONE);
+		m_BookCtrl = new kxf::UI::Simplebook(&m_MainWindow, wxID_NONE);
 		m_BookCtrl->SetBackgroundColour(m_MainWindow.GetBackgroundColour());
 		m_BookCtrl->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()));
 	}
@@ -60,14 +61,14 @@ namespace Kortex::Application
 
 		auto NewToolBar = [this](int proportion = 1, bool hasText = false, int flags = 0)
 		{
-			flags |= KxAuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND|wxAUI_TB_HORIZONTAL|wxAUI_TB_HORZ_LAYOUT;
+			flags |= kxf::UI::AuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND|wxAUI_TB_HORIZONTAL|wxAUI_TB_HORZ_LAYOUT;
 			if (hasText)
 			{
 				flags |= wxAUI_TB_TEXT;
 			}
 
-			KxAuiToolBar* toolBar = new KxAuiToolBar(this, KxID_NONE, flags);
-			toolBar->SetToolBorderPadding(FromDIP(LayoutConstants::HorizontalSpacing_SMALL));
+			kxf::UI::AuiToolBar* toolBar = new kxf::UI::AuiToolBar(this, wxID_NONE, flags);
+			toolBar->SetToolBorderPadding(FromDIP(LayoutConstants::HorizontalSpacingSmall));
 			toolBar->SetMargins(FromDIP(LayoutConstants::HorizontalSpacing), FromDIP(LayoutConstants::HorizontalSpacing), FromDIP(LayoutConstants::VerticalSpacing), FromDIP(LayoutConstants::VerticalSpacing + 1));
 			IThemeManager::GetActive().Apply(toolBar);
 
@@ -79,19 +80,19 @@ namespace Kortex::Application
 		m_ToolBar = NewToolBar(1, true);
 		{
 			m_ToolBar_MainMenu = m_ToolBar->AddTool(kxf::String::Format("%8s%s%8s", "", "Kortex", ""), wxNullBitmap, wxITEM_DROPDOWN);
-			m_ToolBar_MainMenu->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
-			m_ToolBar_MainMenu->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& evnt)
+			m_ToolBar_MainMenu->AddOption(kxf::UI::AuiToolBarItemOption::MenuOnLeftClick);
+			m_ToolBar_MainMenu->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& evnt)
 			{
-				KxMenu menu;
+				kxf::UI::Menu menu;
 				CreateMainMenu(menu);
 
-				DWORD alignment = 0;
-				wxPoint pos = m_ToolBar_MainMenu->GetDropdownMenuPosition(&alignment);
+				kxf::FlagSet<kxf::Alignment> alignment;
+				kxf::Point pos = m_ToolBar_MainMenu->GetDropdownMenuPosition(&alignment);
 				menu.Show(m_ToolBar, pos, alignment);
 			});
 
 			wxImage icon = ImageProvider::GetImage(wxS("kortex-logo"));
-			wxSize size = Utility::BitmapSize().FromSystemSmallIcon();
+			kxf::Size size = Utility::BitmapSize().FromSystemSmallIcon();
 			size.Scale(1.15, 1.15);
 			m_ToolBar_MainMenu->SetBitmap(icon.Rescale(size.GetWidth(), size.GetHeight(), wxIMAGE_QUALITY_HIGH));
 
@@ -102,14 +103,14 @@ namespace Kortex::Application
 		// Quick ToolBar
 		m_QuickToolBar = NewToolBar(0, true);
 		{
-			INetworkManager::GetInstance()->AddToolbarButton(*m_QuickToolBar, Imagekxf::ResourceID::KortexLogoSmall);
+			INetworkManager::GetInstance()->AddToolbarButton(*m_QuickToolBar, ImageResourceID::KortexLogoSmall);
 			m_QuickToolBar->AddSeparator();
-			INotificationCenter::GetInstance()->AddToolbarButton(*m_QuickToolBar, Imagekxf::ResourceID::Bell);
+			INotificationCenter::GetInstance()->AddToolbarButton(*m_QuickToolBar, ImageResourceID::Bell);
 
-			m_QuickToolBar_QuickSettingsMenu = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(Imagekxf::ResourceID::Gear), wxITEM_NORMAL);
-			m_QuickToolBar_QuickSettingsMenu->Bind(KxEVT_AUI_TOOLBAR_CLICK, &MainWindow::OnQSMButton, this);
+			m_QuickToolBar_QuickSettingsMenu = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(ImageResourceID::Gear), wxITEM_NORMAL);
+			m_QuickToolBar_QuickSettingsMenu->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &MainWindow::OnQSMButton, this);
 
-			m_QuickToolBar_Help = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(Imagekxf::ResourceID::QuestionFrame), wxITEM_NORMAL);
+			m_QuickToolBar_Help = m_QuickToolBar->AddTool(wxEmptyString, ImageProvider::GetBitmap(ImageResourceID::QuestionFrame), wxITEM_NORMAL);
 		}
 		m_QuickToolBar->Realize();
 	}
@@ -117,7 +118,7 @@ namespace Kortex::Application
 	{
 		const int iconWidth = Utility::BitmapSize().FromSystemSmallIcon().GetWidth();
 
-		m_StatusBar = new KxStatusBarEx(this, KxID_NONE, 5);
+		m_StatusBar = new kxf::UI::StatusBarEx(this, wxID_NONE, 5);
 		m_StatusBar->SetImageList(&ImageProvider::GetImageList());
 		m_StatusBar->SetStatusWidths({iconWidth, -3, -3, -1, FromDIP(50)});
 		SetStatusBar(m_StatusBar);
@@ -136,7 +137,7 @@ namespace Kortex::Application
 
 			IDownloadManager::GetInstance()->QueueUnknownDownload(uri);
 		}
-		return KxFrame::MSWWindowProc(msg, wParam, lParam);
+		return kxf::UI::Frame::MSWWindowProc(msg, wParam, lParam);
 	}
 
 	void MainWindow::CreateWorkspaces()
@@ -144,9 +145,9 @@ namespace Kortex::Application
 		m_ToolBar_InsertionIndex = m_ToolBar->AddSeparator()->GetIndex();
 
 		// Add workspaces menu
-		KxAuiToolBarItem* toolBarButton = Utility::UI::CreateToolBarButton(m_ToolBar, ITranslator::GetVariable(Variables::KVAR_GAME_NAME));
+		kxf::UI::AuiToolBarItem* toolBarButton = Utility::UI::CreateToolBarButton(m_ToolBar, ITranslator::GetVariable(Variables::KVAR_GAME_NAME));
 		toolBarButton->SetBitmap(Utility::BitmapSize(m_ToolBar->GetToolBitmapSize()).ScaleMaintainRatio(IGameInstance::GetActive()->GetIcon()));
-		toolBarButton->SetOptionEnabled(KxAUI_TBITEM_OPTION_LCLICK_MENU);
+		toolBarButton->AddOption(kxf::UI::AuiToolBarItemOption::MenuOnLeftClick);
 		toolBarButton->SetDropdownMenu(&m_WorkspacesMenu);
 
 		// Create workspaces
@@ -155,20 +156,20 @@ namespace Kortex::Application
 		m_ToolBar->UpdateUI();
 		m_ToolBar->SetOverflowVisible(!m_ToolBar->IsItemsFits());
 	}
-	void MainWindow::CreateMainMenu(KxMenu& mainMenu)
+	void MainWindow::CreateMainMenu(kxf::UI::Menu& mainMenu)
 	{
 		{
-			KxMenuItem* item = mainMenu.Add(new KxMenuItem(KTr("MainMenu.Settings")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ApplicationTask));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = mainMenu.Add(new kxf::UI::MenuItem(KTr("MainMenu.Settings")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ApplicationTask));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
 				Settings::Window(this).ShowModal();
 			});
 		}
 		mainMenu.AddSeparator();
 		{
-			KxMenuItem* item = mainMenu.Add(new KxMenuItem(KTr("MainMenu.ChangeInstance")));
-			item->Bind(KxEVT_MENU_SELECT, &MainWindow::OnChangeInstance, this);
+			kxf::UI::MenuItem* item = mainMenu.Add(new kxf::UI::MenuItem(KTr("MainMenu.ChangeInstance")));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, &MainWindow::OnChangeInstance, this);
 			item->Enable(!IModManager::GetInstance()->GetFileSystem().IsEnabled());
 		}
 		mainMenu.AddSeparator();
@@ -187,15 +188,15 @@ namespace Kortex::Application
 
 		// Add about
 		{
-			KxMenuItem* item = mainMenu.Add(new KxMenuItem(KTr("MainMenu.About")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::InformationFrame));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = mainMenu.Add(new kxf::UI::MenuItem(KTr("MainMenu.About")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::InformationFrame));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
 				AboutDialog(this).ShowModal();
 			});
 		}
 	}
-	void MainWindow::AddLocationsMenu(KxMenu& mainMenu)
+	void MainWindow::AddLocationsMenu(kxf::UI::Menu& mainMenu)
 	{
 		// TODO: Rewrite that shit and move it out of here
 		// Set predefined locations
@@ -234,7 +235,7 @@ namespace Kortex::Application
 			#endif
 	}
 
-		KxMenu* locationsMenu = new KxMenu();
+		kxf::UI::Menu* locationsMenu = new kxf::UI::Menu();
 		for (const Utility::LabeledValue& entry: m_Locations)
 		{
 			if (!entry.HasLabel() && !entry.HasValue())
@@ -243,23 +244,23 @@ namespace Kortex::Application
 			}
 			else
 			{
-				KxMenuItem* item = locationsMenu->Add(new KxMenuItem(KVarExp(entry.GetLabel())));
-				item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Folder));
-				item->Bind(KxEVT_MENU_SELECT, [this, &entry](KxMenuEvent& event)
+				kxf::UI::MenuItem* item = locationsMenu->Add(new kxf::UI::MenuItem(KVarExp(entry.GetLabel())));
+				item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Folder));
+				item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, &entry](kxf::UI::MenuEvent& event)
 				{
 					// Create the folder, shouldn't be harmful.
 					KxFile folder(KVarExp(entry.GetValue()));
 					folder.CreateFolder();
 
-					return KxShell::Execute(this, folder.GetFullPath(), wxS("open"));
+					return kxf::Shell::Execute(this, folder.GetFullPath(), wxS("open"));
 				});
 			}
 		}
-		mainMenu.Add(locationsMenu, KTr("MainMenu.OpenLocation"))->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
+		mainMenu.Add(locationsMenu, KTr("MainMenu.OpenLocation"))->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
 		mainMenu.AddSeparator();
 }
 
-	void MainWindow::OnQSMButton(KxAuiToolBarEvent& event)
+	void MainWindow::OnQSMButton(kxf::UI::AuiToolBarEvent& event)
 	{
 		// TODO: Decide what to do with 'Quick Settings Menu' button. It's currently unused.
 	}
@@ -271,8 +272,8 @@ namespace Kortex::Application
 		{
 			if (IModManager::GetInstance()->GetFileSystem().IsEnabled())
 			{
-				KxTaskDialog dialog(this, KxID_NONE, KTr("VFS.AskUnmountOnExit"), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_QUESTION);
-				if (dialog.ShowModal() != KxID_YES)
+				KxTaskDialog dialog(this, wxID_NONE, KTr("VFS.AskUnmountOnExit"), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_QUESTION);
+				if (dialog.ShowModal() != wxID_YES)
 				{
 					event.Veto();
 					return;
@@ -287,7 +288,7 @@ namespace Kortex::Application
 				if (workspace.IsCreated())
 				{
 					IWorkspaceDocument* controller = workspace->GetWorkspaceController();
-					if (controller && controller->AskForSave(event.CanVeto()) != KxID_OK)
+					if (controller && controller->AskForSave(event.CanVeto()) != wxID_OK)
 					{
 						veto = true;
 						return false;
@@ -329,12 +330,12 @@ namespace Kortex::Application
 			GetAInstanceOption().SaveWindowGeometry(this);
 		}
 	}
-	void MainWindow::OnChangeInstance(KxMenuEvent& event)
+	void MainWindow::OnChangeInstance(kxf::UI::MenuEvent& event)
 	{
 		// TODO: reimplement 'WorkspaceController' functions somewhere [2]
 		/*
 		IWorkspaceDocument* controller = GetCurrentWorkspace()->GetWorkspaceController();
-		if (controller && controller->AskForSave() == KxID_CANCEL)
+		if (controller && controller->AskForSave() == wxID_CANCEL)
 		{
 			return;
 		}
@@ -351,12 +352,12 @@ namespace Kortex::Application
 		if (isActive)
 		{
 			m_StatusBar->SetStatusText(KTr("VFS.Status.Active"));
-			m_StatusBar->SetStatusImage((int)Imagekxf::ResourceID::TickCircleFrame, 0);
+			m_StatusBar->SetStatusImage((int)ImageResourceID::TickCircleFrame, 0);
 		}
 		else
 		{
 			m_StatusBar->SetStatusText(KTr("VFS.Status.Inactive"));
-			m_StatusBar->SetStatusImage((int)Imagekxf::ResourceID::InformationFrameEmpty, 0);
+			m_StatusBar->SetStatusImage((int)ImageResourceID::InformationFrameEmpty, 0);
 		}
 		IThemeManager::GetActive().Apply(m_StatusBar, isActive);
 	}
@@ -367,8 +368,8 @@ namespace Kortex::Application
 
 	bool MainWindow::Create(wxWindow* parent)
 	{
-		const wxSize minSize(850, 600);
-		if (KxFrame::Create(parent, KxID_NONE, IApplication::GetInstance()->GetName(), wxDefaultPosition, minSize, MainWindow::DefaultStyle))
+		const kxf::Size minSize(850, 600);
+		if (kxf::UI::Frame::Create(parent, wxID_NONE, IApplication::GetInstance()->GetName(), wxDefaultPosition, minSize, MainWindow::DefaultStyle))
 		{
 			IThemeManager::GetActive().Apply(static_cast<IMainWindow*>(this));
 			SetWindowUserData(GetUniqueID());
@@ -407,7 +408,7 @@ namespace Kortex::Application
 		if (m_StatusBar)
 		{
 			m_StatusBar->SetStatusText(label, index + 1);
-			m_StatusBar->SetStatusImage(image.AsInt(), index + 1);
+			m_StatusBar->SetStatusImage(image.GetInt(), index + 1);
 		}
 	}
 	void MainWindow::SetStatusProgress(int current)
@@ -425,22 +426,22 @@ namespace Kortex::Application
 		}
 	}
 
-	KxAuiToolBarItem* MainWindow::AddToolBarItem(IWorkspace& workspace)
+	kxf::UI::AuiToolBarItem* MainWindow::AddToolBarItem(IWorkspace& workspace)
 	{
-		KxAuiToolBarItem* item = m_ToolBar->AddTool(workspace.GetName(), ImageProvider::GetBitmap(workspace.GetIcon()), wxITEM_NORMAL, workspace.GetName());
+		kxf::UI::AuiToolBarItem* item = m_ToolBar->AddTool(workspace.GetName(), ImageProvider::GetBitmap(workspace.GetIcon()), wxITEM_NORMAL, workspace.GetName());
 		item->SetIndex(m_ToolBar_InsertionIndex);
-		item->Bind(KxEVT_AUI_TOOLBAR_CLICK, [&workspace](wxEvent& event)
+		item->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [&workspace](wxEvent& event)
 		{
 			workspace.SwitchHere();
 		});
 
 		return item;
 	}
-	KxMenuItem* MainWindow::AddToolBarMenuItem(IWorkspace& workspace)
+	kxf::UI::MenuItem* MainWindow::AddToolBarMenuItem(IWorkspace& workspace)
 	{
-		KxMenuItem* item = m_WorkspacesMenu.AddItem(workspace.GetName());
+		kxf::UI::MenuItem* item = m_WorkspacesMenu.AddItem(workspace.GetName());
 		item->SetBitmap(ImageProvider::GetBitmap(workspace.GetIcon()));
-		item->Bind(KxEVT_MENU_SELECT, [&workspace](wxEvent& event)
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, [&workspace](wxEvent& event)
 		{
 			workspace.SwitchHere();
 		});

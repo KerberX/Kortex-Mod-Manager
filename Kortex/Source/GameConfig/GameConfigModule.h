@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/IModule.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -14,7 +14,7 @@ namespace Kortex
 
 	class GameConfigModule:
 		public ModuleWithTypeInfo<IModule, Internal::GameConfigModuleTypeInfo>,
-		public KxSingletonPtr<GameConfigModule>
+		public kxf::SingletonPtr<GameConfigModule>
 	{
 		friend class IMainWindow;
 

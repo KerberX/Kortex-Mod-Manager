@@ -2,8 +2,8 @@
 #include <Kortex/Kortex.hpp>
 #include "Programs/IProgramItem.h"
 #include "Programs/IProgramManager.h"
-#include <KxFramework/KxStdDialog.h>
-#include <KxFramework/KxTextBox.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxTextBox.h>
 
 namespace Kortex::ProgramManager
 {

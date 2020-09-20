@@ -1,11 +1,11 @@
 #pragma once
 #include <WinUser.h>
 #include "Message.h"
-#include <KxFramework/KxFrame.h>
+#include <kxf::UI::Framework/kxf::UI::Frame.h>
 
 namespace Kortex::IPC
 {
-	class ProcessingWindow: public KxFrame
+	class ProcessingWindow: public kxf::UI::Frame
 	{
 		public:
 			static kxf::String GetWindowName();

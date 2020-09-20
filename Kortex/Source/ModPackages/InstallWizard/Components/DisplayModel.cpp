@@ -3,9 +3,9 @@
 #include <Kortex/PackageManager.hpp>
 #include "DisplayModel.h"
 #include "PackageCreator/PageBase.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxUxTheme.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxUxTheme.h>
 
 namespace
 {
@@ -267,11 +267,11 @@ namespace Kortex::InstallWizard::ComponentsPageNS
 		{
 			case PackageProject::TypeDescriptor::NotUsable:
 			{
-				return ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossCircleFrame);
+				return ImageProvider::GetBitmap(ImageResourceID::CrossCircleFrame);
 			}
 			case PackageProject::TypeDescriptor::CouldBeUsable:
 			{
-				return ImageProvider::GetBitmap(Imagekxf::ResourceID::Exclamation);
+				return ImageProvider::GetBitmap(ImageResourceID::Exclamation);
 			}
 		};
 		return wxNullBitmap;
@@ -376,7 +376,7 @@ namespace Kortex::InstallWizard::ComponentsPageNS
 			}
 			else if (const PackageProject::ComponentItem* entry = node->GetEntry())
 			{
-				KxTaskDialog dialog(GetViewTLW(), KxID_NONE, KTr(KxID_INFO), GetMessageTypeDescriptor(entry->GetTDCurrentValue()), KxBTN_OK, KxICON_INFORMATION);
+				KxTaskDialog dialog(GetViewTLW(), wxID_NONE, KTr(wxID_INFO), GetMessageTypeDescriptor(entry->GetTDCurrentValue()), KxBTN_OK, kxf::StdIcon::Information);
 				dialog.ShowModal();
 			}
 		}

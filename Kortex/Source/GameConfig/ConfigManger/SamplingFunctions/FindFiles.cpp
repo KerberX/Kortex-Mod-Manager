@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FindFiles.h"
-#include <KxFramework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
 
 namespace Kortex::GameConfig::SamplingFunction
 {

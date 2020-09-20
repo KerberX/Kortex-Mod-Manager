@@ -11,11 +11,11 @@
 #include "Utility/Common.h"
 #include "Utility/Log.h"
 #include "Utility/DateTime.h"
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxJSON.h>
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxJSON.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 
 namespace Kortex::NetworkManager
 {
@@ -117,7 +117,7 @@ namespace Kortex::NetworkManager
 		m_LastCheckDate = m_Thread.GetCheckDate();
 		SaveUpdateInfo();
 
-		//INotificationCenter::Notify(m_Nexus, KTrf("NetworkManager.UpdateCheck.AutoCheckDone", m_Thread.GetUpdatesCount()), KxICON_INFORMATION);
+		//INotificationCenter::Notify(m_Nexus, KTrf("NetworkManager.UpdateCheck.AutoCheckDone", m_Thread.GetUpdatesCount()), kxf::StdIcon::Information);
 		m_UpdateCheckInProgress = false;
 	}
 
@@ -219,7 +219,7 @@ namespace Kortex::NetworkManager
 			}
 
 			m_UpdateCheckInProgress = true;
-			//INotificationCenter::Notify(m_Nexus, KTr("NetworkManager.UpdateCheck.AutoCheckStarted"), KxICON_INFORMATION);
+			//INotificationCenter::Notify(m_Nexus, KTr("NetworkManager.UpdateCheck.AutoCheckStarted"), kxf::StdIcon::Information);
 
 			if (m_Thread.Run(m_UpdateInfo))
 			{

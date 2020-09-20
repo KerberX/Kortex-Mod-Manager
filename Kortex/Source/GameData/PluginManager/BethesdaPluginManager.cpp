@@ -3,13 +3,13 @@
 #include <Kortex/ModManager.hpp>
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxProgressDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxProcess.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
 
 namespace Kortex::PluginManager
 {

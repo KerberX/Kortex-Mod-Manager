@@ -3,7 +3,8 @@
 #include "TrayPopup.h"
 #include <Kortex/Application.hpp>
 #include "Utility/Log.h"
-#include <KxFramework/KxSystem.h>
+#include <kxf/System/Win32Error.h>
+#include <kxf/System/COM.h>
 #include <windowsx.h>
 
 namespace
@@ -23,7 +24,7 @@ namespace
 
 namespace Kortex::Notifications
 {
-	void TrayPopupHandler::OnNotificationEvent(int eventID, int iconID, const wxPoint& pos)
+	void TrayPopupHandler::OnNotificationEvent(int eventID, int iconID, const kxf::Point& pos)
 	{
 		switch (eventID)
 		{
@@ -56,7 +57,7 @@ namespace Kortex::Notifications
 		m_NotifyInfo.hWnd = m_Handle;
 		m_NotifyInfo.uID = m_NotifyIconID;
 		m_NotifyInfo.uCallbackMessage = m_NotifyMessage;
-		m_NotifyInfo.guidItem = m_NotifyGUID;
+		m_NotifyInfo.guidItem = kxf::COM::ToGUID(m_NotifyGUID);
 		m_NotifyInfo.uVersion = NOTIFYICON_VERSION_4;
 		m_NotifyInfo.uFlags = NIF_STATE|NIF_INFO|NIF_TIP|NIF_MESSAGE|NIF_SHOWTIP|NIF_GUID;
 		m_NotifyInfo.dwInfoFlags = NIIF_LARGE_ICON;
@@ -78,9 +79,11 @@ namespace Kortex::Notifications
 	void TrayPopupHandler::InitGUID()
 	{
 		AppOption option = Application::GetGlobalOptionOf<IApplication>().ConstructElement("NotificationGUID");
-		if (m_NotifyGUID.FromString(option.GetValue()) != KxUUIDStatus::OK)
+		
+		m_NotifyGUID = kxf::UniversallyUniqueID::CreateFromString(option.GetValue());
+		if (!m_NotifyGUID)
 		{
-			m_NotifyGUID.Create();
+			m_NotifyGUID = kxf::UniversallyUniqueID::Create();
 		}
 		option.SetValue(m_NotifyGUID.ToString());
 	}
@@ -93,7 +96,7 @@ namespace Kortex::Notifications
 			TrayPopupHandler* self = reinterpret_cast<TrayPopupHandler*>(::GetWindowLongPtrW(handle, GWLP_USERDATA));
 			if (self && message == self->m_NotifyMessage)
 			{
-				self->OnNotificationEvent(LOWORD(lParam), HIWORD(lParam), wxPoint(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+				self->OnNotificationEvent(LOWORD(lParam), HIWORD(lParam), kxf::Point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
 				return (LRESULT)0;
 			}
 			return ::DefWindowProcW(handle, message, wParam, lParam);
@@ -102,7 +105,7 @@ namespace Kortex::Notifications
 		m_Atom = ::RegisterClassExW(&m_WindowClass);
 		if (!m_Atom)
 		{
-			Utility::Log::LogError("Failed to register window class '%1': %2", m_WindowClass.lpszClassName, KxSystem::GetLastErrorMessage());
+			Utility::Log::LogError("Failed to register window class '%1': %2", m_WindowClass.lpszClassName, kxf::Win32Error::GetLastError().GetMessage());
 		}
 	}
 	void TrayPopupHandler::CreateWindow()
@@ -112,7 +115,7 @@ namespace Kortex::Notifications
 
 		if (!m_Handle)
 		{
-			Utility::Log::LogError("Failed to create window of class '%1': %2", m_WindowClass.lpszClassName, KxSystem::GetLastErrorMessage());
+			Utility::Log::LogError("Failed to create window of class '%1': %2", m_WindowClass.lpszClassName, kxf::Win32Error::GetLastError().GetMessage());
 		}
 	}
 

@@ -4,8 +4,8 @@
 #include <Kortex/Application.hpp>
 #include "Utility/UI.h"
 #include "Utility/BitmapSize.h"
-#include <KxFramework/KxURI.h>
-#include <KxFramework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxURI.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
 
 namespace
 {
@@ -54,7 +54,7 @@ namespace
 
 namespace Kortex::Application
 {
-	wxSize AboutDialog::GetLogoSize() const
+	kxf::Size AboutDialog::GetLogoSize() const
 	{
 		return FromDIP(Utility::BitmapSize().FromSystemIcon().GetSize() * 4);
 	}
@@ -65,7 +65,7 @@ namespace Kortex::Application
 
 	wxWindow* AboutDialog::CreateTab_Info()
 	{
-		KxPanel* panel = new KxPanel(m_TabView, KxID_NONE);
+		KxPanel* panel = new KxPanel(m_TabView, wxID_NONE);
 		wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 		panel->SetSizer(sizer);
 
@@ -97,7 +97,7 @@ namespace Kortex::Application
 
 	KxHTMLWindow* AboutDialog::CreateHTMLWindow(wxWindow* parent)
 	{
-		KxHTMLWindow* window = new KxHTMLWindow(parent ? parent : m_TabView, KxID_NONE, wxEmptyString, wxBORDER_NONE);
+		KxHTMLWindow* window = new KxHTMLWindow(parent ? parent : m_TabView, wxID_NONE, wxEmptyString, wxBORDER_NONE);
 		window->Bind(wxEVT_HTML_LINK_CLICKED, &AboutDialog::OnLinkClicked, this);
 		return window;
 	}
@@ -126,19 +126,19 @@ namespace Kortex::Application
 	AboutDialog::AboutDialog(wxWindow* parent)
 		:m_AppInfo(std::make_unique<About::AppNode>())
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, GetCaption(), wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, GetCaption(), wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
 			SetDefaultBackgroundColor();
 			GetContentWindow()->SetBackgroundColour(GetBackgroundColour());
 
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide((wxOrientation)0);
 
-			m_Logo = new KxImageView(m_ContentPanel, KxID_NONE, wxBORDER_NONE);
+			m_Logo = new KxImageView(m_ContentPanel, wxID_NONE, wxBORDER_NONE);
 			m_Logo->SetBitmap(ImageProvider::GetBitmap("kortex-logo"));
 			m_Logo->SetScaleMode(KxImageView_ScaleMode::KxIV_SCALE_ASPECT_FIT);
 
-			m_TabView = new KxAuiNotebook(m_ContentPanel, KxID_NONE);
+			m_TabView = new KxAuiNotebook(m_ContentPanel, wxID_NONE);
 			m_TabView->Bind(wxEVT_AUINOTEBOOK_PAGE_CHANGED, &AboutDialog::OnTabChanged, this);
 
 			m_TabView->InsertPage((int)TabID::Info, CreateTab_Info(), KTr("Generic.Info"), true);
@@ -147,7 +147,7 @@ namespace Kortex::Application
 
 			PostCreate(wxDefaultPosition);
 			GetContentWindowSizer()->Prepend(m_Logo, 0, wxEXPAND)->SetMinSize(GetLogoSize());
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(780, 490)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(780, 490)));
 		}
 	}
 	AboutDialog::~AboutDialog()

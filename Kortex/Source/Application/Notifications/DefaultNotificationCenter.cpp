@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "DefaultNotificationCenter.h"
 #include "DisplayModel.h"
-#include "Application/Resources/Imagekxf::ResourceID.h"
+#include "Application/Resources/ImageResourceID.h"
 #include "Utility/Log.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/Notification.hpp>
-#include <KxFramework/KxAuiToolBar.h>
+#include <kxf/System/SystemInformation.h>
+#include <kxf/UI/Controls/AUI/AuiToolBar.h>
 #include <wx/popupwin.h>
 
 namespace Kortex::Notifications
@@ -22,7 +23,7 @@ namespace Kortex::Notifications
 		}
 		m_PpoupToolbar->UpdateUI();
 	}
-	void DefaultNotificationCenter::OnClearNotifications(KxAuiToolBarEvent& event)
+	void DefaultNotificationCenter::OnClearNotifications(kxf::UI::AuiToolBarEvent& event)
 	{
 		ClearNotifications();
 	}
@@ -35,7 +36,7 @@ namespace Kortex::Notifications
 		}
 	}
 
-	void DefaultNotificationCenter::OnSetToolbarButton(KxAuiToolBarItem& button)
+	void DefaultNotificationCenter::OnSetToolbarButton(kxf::UI::AuiToolBarItem& button)
 	{
 		m_Button = &button;
 		m_Button->SetShortHelp(KTr("NotificationCenter.Name"));
@@ -45,20 +46,20 @@ namespace Kortex::Notifications
 		wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 		m_PopupWindow = new wxPopupTransientWindow(&m_Button->GetToolBar(), wxBORDER_THEME);
 		IThemeManager::GetActive().Apply(m_PopupWindow);
-		m_PopupWindow->SetInitialSize(m_PopupWindow->FromDIP(wxSize(325, 425)));
+		m_PopupWindow->SetInitialSize(m_PopupWindow->FromDIP(kxf::Size(325, 425)));
 		m_PopupWindow->SetSizer(sizer);
 
 		// Toolbar
-		m_PpoupToolbar = new KxAuiToolBar(m_PopupWindow, KxID_NONE);
+		m_PpoupToolbar = new kxf::UI::AuiToolBar(m_PopupWindow, wxID_NONE);
 		m_PpoupToolbar->SetMargins(m_PopupWindow->FromDIP(LayoutConstants::HorizontalSpacing), m_PopupWindow->FromDIP(LayoutConstants::VerticalSpacing));
 		m_PpoupToolbar_Label = m_PpoupToolbar->AddLabel(wxEmptyString);
 		m_PpoupToolbar->AddStretchSpacer();
 		
 		{
-			m_PpoupToolbar_ClearNotifications = m_PpoupToolbar->AddTool(wxEmptyString, ImageProvider::GetBitmap(Imagekxf::ResourceID::Broom));
+			m_PpoupToolbar_ClearNotifications = m_PpoupToolbar->AddTool(wxEmptyString, ImageProvider::GetBitmap(ImageResourceID::Broom));
 			m_PpoupToolbar_ClearNotifications->SetEnabled(false);
 			m_PpoupToolbar_ClearNotifications->SetShortHelp(KTr("NotificationCenter.ClearNotifications"));
-			m_PpoupToolbar_ClearNotifications->Bind(KxEVT_AUI_TOOLBAR_CLICK, &DefaultNotificationCenter::OnClearNotifications, this);
+			m_PpoupToolbar_ClearNotifications->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &DefaultNotificationCenter::OnClearNotifications, this);
 		}
 
 		m_PpoupToolbar->Realize();
@@ -68,9 +69,9 @@ namespace Kortex::Notifications
 		// Notifications list
 		m_PopupDisplayModel = new DisplayModel();
 		m_PopupDisplayModel->CreateView(m_PopupWindow);
-		sizer->Add(m_PopupDisplayModel->GetView(), 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing_SMALL);
+		sizer->Add(m_PopupDisplayModel->GetView(), 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacingSmall);
 	}
-	void DefaultNotificationCenter::OnToolbarButton(KxAuiToolBarEvent& event)
+	void DefaultNotificationCenter::OnToolbarButton(kxf::UI::AuiToolBarEvent& event)
 	{
 		if (IsNotificationsDisplayed())
 		{
@@ -89,11 +90,11 @@ namespace Kortex::Notifications
 		{
 			if (!isEmpty)
 			{
-				m_Button->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::BellRedCircle));
+				m_Button->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::BellRedCircle));
 			}
 			else
 			{
-				m_Button->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Bell));
+				m_Button->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Bell));
 			}
 		}
 		if (m_PpoupToolbar_ClearNotifications)
@@ -135,13 +136,13 @@ namespace Kortex::Notifications
 	{
 		if (m_PopupWindow)
 		{
-			wxPoint pos = m_Button->GetToolBar().ClientToScreen(m_Button->GetDropdownMenuPosition());
-			const int offset = wxSystemSettings::GetMetric(wxSYS_SMALLICON_X);
-			const int screenWidth = wxSystemSettings::GetMetric(wxSYS_SCREEN_X);
-			const int rightSide = pos.x + m_PopupWindow->GetSize().GetWidth();
+			kxf::Point pos = m_Button->GetToolBar().ClientToScreen(m_Button->GetDropdownMenuPosition());
+			const int offset = kxf::System::GetMetric(kxf::SystemSizeMetric::IconSmall).GetWidth();
+			const int screenWidth = kxf::System::GetMetric(kxf::SystemSizeMetric::Screen).GetWidth();
+			const int rightSide = pos.GetX() + m_PopupWindow->GetSize().GetWidth();
 			if (rightSide > screenWidth)
 			{
-				pos.x -= (rightSide - screenWidth) + offset;
+				pos.X() -= (rightSide - screenWidth) + offset;
 			}
 
 			m_PopupWindow->Layout();

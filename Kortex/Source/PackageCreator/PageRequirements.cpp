@@ -8,10 +8,10 @@
 #include "PageComponents/RequirementsSelectorModel.h"
 #include "ModPackages/IPackageManager.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxTextBoxDialog.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace Kortex::PackageDesigner
 {
@@ -90,18 +90,18 @@ namespace Kortex::PackageDesigner
 		m_GroupsModel->Create(m_Controller, this, sizer);
 
 		// Default groups button
-		m_DefaultGroupsButton = new KxButton(this, KxID_NONE, KTr("PackageCreator.PageRequirements.DefaultGroups"));
+		m_DefaultGroupsButton = new KxButton(this, wxID_NONE, KTr("PackageCreator.PageRequirements.DefaultGroups"));
 		m_DefaultGroupsButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
 		{
 			PageComponentsNS::RequirementsSelectorDialog dialog(this, m_DefaultGroupsButton->GetLabel(), m_Controller);
 			dialog.SetDataVector(GetProjectRequirements().GetDefaultGroup(), &m_Controller->GetProject()->GetRequirements());
-			if (dialog.ShowModal() == KxID_OK)
+			if (dialog.ShowModal() == wxID_OK)
 			{
 				GetProjectRequirements().GetDefaultGroup() = dialog.GetSelectedItems();
 				m_Controller->ChangeNotify();
 			}
 		});
-		sizer->Add(m_DefaultGroupsButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		sizer->Add(m_DefaultGroupsButton, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 	}
 	void PageRequirements::CreateEntriesControls()
 	{
@@ -129,21 +129,21 @@ namespace Kortex::PackageDesigner
 		m_MainSizer->Add(sizer, 0, wxEXPAND|wxLEFT, ms_LeftMargin);
 
 		// Categories
-		m_StdReqs_Categories = new KxComboBox(this, KxID_NONE);
+		m_StdReqs_Categories = new KxComboBox(this, wxID_NONE);
 		m_StdReqs_Categories->Bind(wxEVT_COMBOBOX, &PageRequirements::OnSelectStdReqCategory, this);
 		sizer->Add(m_StdReqs_Categories, 0, wxEXPAND)->SetMinSize(200, wxDefaultCoord);
 
 		// List
-		m_StdReqs_List = new KxComboBox(this, KxID_NONE);
+		m_StdReqs_List = new KxComboBox(this, wxID_NONE);
 		m_StdReqs_List->Enable(false);
 		m_StdReqs_List->Bind(wxEVT_COMBOBOX, &PageRequirements::OnSelectStdReq, this);
-		sizer->Add(m_StdReqs_List, 1, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		sizer->Add(m_StdReqs_List, 1, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 
 		// Add button
-		m_StdReqs_Add = new KxButton(this, KxID_NONE, KTr(KxID_ADD));
+		m_StdReqs_Add = new KxButton(this, wxID_NONE, KTr(wxID_ADD));
 		m_StdReqs_Add->Enable(false);
 		m_StdReqs_Add->Bind(wxEVT_BUTTON, &PageRequirements::OnAddStdReq, this);
-		sizer->Add(m_StdReqs_Add, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacing_SMALL);
+		sizer->Add(m_StdReqs_Add, 0, wxEXPAND|wxLEFT, LayoutConstants::HorizontalSpacingSmall);
 
 		// Add items
 		LoadStdReqs();

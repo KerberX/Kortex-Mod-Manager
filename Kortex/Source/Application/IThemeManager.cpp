@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "IThemeManager.h"
 #include "Application/SystemApplication.h"
-#include <KxFramework/KxSystem.h>
-#include <KxFramework/KxSystemSettings.h>
+#include <kxf/System/SystemInformation.h>
 
 namespace
 {
@@ -31,7 +30,7 @@ namespace Kortex
 	{
 		if (g_Win8OrGreater == Win8OrGreater::Unknown)
 		{
-			g_Win8OrGreater = KxSystem::IsWindows8OrGreater() ? Win8OrGreater::True : Win8OrGreater::False;
+			g_Win8OrGreater = kxf::System::IsWindows8OrGreater() ? Win8OrGreater::True : Win8OrGreater::False;
 		}
 		return g_Win8OrGreater == Win8OrGreater::True;
 	}

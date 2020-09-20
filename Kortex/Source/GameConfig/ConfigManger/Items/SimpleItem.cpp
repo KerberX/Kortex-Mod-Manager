@@ -2,7 +2,7 @@
 #include "SimpleItem.h"
 #include "GameConfig/ConfigManger/ItemGroup.h"
 #include "Utility/Common.h"
-#include <KxFramework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
 
 namespace
 {

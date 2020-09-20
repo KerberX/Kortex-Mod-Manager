@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BethesdaPlugin2.h"
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {

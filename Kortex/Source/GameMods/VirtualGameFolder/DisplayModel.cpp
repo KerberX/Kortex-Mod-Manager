@@ -5,9 +5,9 @@
 #include "GameMods/ModManager/Workspace.h"
 #include "Utility/DateTime.h"
 #include "Utility/UI.h"
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxLibrary.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxLibrary.h>
 #include <Kx/System/FileTypeManager.h>
 
 namespace
@@ -32,7 +32,7 @@ namespace Kortex::VirtualGameFolder
 		GetView()->Bind(KxEVT_DATAVIEW_ITEM_CONTEXT_MENU, &DisplayModel::OnContextMenu, this);
 		GetView()->Bind(KxEVT_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK, [this](KxDataViewEvent& event)
 		{
-			KxMenu menu;
+			kxf::UI::Menu menu;
 			if (GetView()->CreateColumnSelectionMenu(menu))
 			{
 				GetView()->OnColumnSelectionMenu(menu);
@@ -152,7 +152,7 @@ namespace Kortex::VirtualGameFolder
 						if (!bitmap.IsOk())
 						{
 							// Couldn't get bitmap from system, use our own
-							bitmap = ImageProvider::GetBitmap(node->IsDirectory() ? Imagekxf::ResourceID::Folder : Imagekxf::ResourceID::Document);
+							bitmap = ImageProvider::GetBitmap(node->IsDirectory() ? ImageResourceID::Folder : ImageResourceID::Document);
 						}
 						m_IconCache.insert_or_assign(node, bitmap);
 
@@ -165,7 +165,7 @@ namespace Kortex::VirtualGameFolder
 					KxDataViewBitmapTextValue data(mod.GetName());
 					if (node->HasAlternativesFromActiveMods())
 					{
-						data.SetBitmap(ImageProvider::GetBitmap(node->IsDirectory() ? Imagekxf::ResourceID::ExclamationCircleFrameEmpty : Imagekxf::ResourceID::Exclamation));
+						data.SetBitmap(ImageProvider::GetBitmap(node->IsDirectory() ? ImageResourceID::ExclamationCircleFrameEmpty : ImageResourceID::Exclamation));
 					}
 					value = data;
 					break;

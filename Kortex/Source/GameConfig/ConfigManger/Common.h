@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
 
 namespace Kortex::GameConfig
 {

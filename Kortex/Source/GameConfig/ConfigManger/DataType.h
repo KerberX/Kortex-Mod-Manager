@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Common.h"
-#include <KxFramework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
 class kxf::XMLNode;
 
 namespace Kortex::GameConfig

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "SkyrimSE.h"
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxLZ4Stream.h>
-#include <KxFramework/KxMemoryStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxLZ4Stream.h>
+#include <kxf::UI::Framework/KxMemoryStream.h>
 
 namespace
 {

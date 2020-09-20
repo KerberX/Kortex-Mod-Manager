@@ -2,8 +2,8 @@
 #include <Kortex/PluginManager.hpp>
 #include <Kortex/ModManager.hpp>
 #include "Bethesda2DisplayModel.h"
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {

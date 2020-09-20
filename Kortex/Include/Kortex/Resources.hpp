@@ -3,4 +3,4 @@
 
 #include "Application/Resources/IImageProvider.h"
 #include "Application/Resources/kxf::ResourceID.h"
-#include "Application/Resources/Imagekxf::ResourceID.h"
+#include "Application/Resources/ImageResourceID.h"

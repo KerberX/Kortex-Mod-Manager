@@ -1,7 +1,7 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "GameMods/IModImporter.h"
-#include <KxFramework/KxINI.h>
+#include <kxf::UI::Framework/KxINI.h>
 
 namespace Kortex::ModManager
 {

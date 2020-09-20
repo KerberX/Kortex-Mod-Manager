@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
 
 namespace Kortex::ModManager
 {

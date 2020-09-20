@@ -3,11 +3,11 @@
 #include <Kortex/ModManager.hpp>
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxCheckBox.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxCheckBox.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace
 {
@@ -82,7 +82,7 @@ namespace Kortex::ProfileEditor
 						{
 							if (IGameInstance::GetActive()->HasProfile(name))
 							{
-								KxTaskDialog(GetViewTLW(), KxID_NONE, KTr(KxID_RENAME), KTr("ModManager.Profile.AlreadyExist"), KxBTN_OK, KxICON_WARNING).ShowModal();
+								KxTaskDialog(GetViewTLW(), wxID_NONE, KTr(wxID_RENAME), KTr("ModManager.Profile.AlreadyExist"), KxBTN_OK, KxICON_WARNING).ShowModal();
 								return false;
 							}
 
@@ -99,7 +99,7 @@ namespace Kortex::ProfileEditor
 							}
 							else
 							{
-								KxTaskDialog(GetViewTLW(), KxID_NONE, KTr(KxID_RENAME), KTr("ModManager.Profile.RenameFailed"), KxBTN_OK, KxICON_ERROR).ShowModal();
+								KxTaskDialog(GetViewTLW(), wxID_NONE, KTr(wxID_RENAME), KTr("ModManager.Profile.RenameFailed"), KxBTN_OK, KxICON_ERROR).ShowModal();
 							}
 						}
 					}
@@ -226,8 +226,8 @@ namespace Kortex::ProfileEditor
 					return;
 				}
 
-				KxTaskDialog dialog(GetView(), KxID_NONE, KTr(KxID_REMOVE), KTr("ModManager.Profile.RemoveDialog"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-				if (dialog.ShowModal() == KxID_YES)
+				KxTaskDialog dialog(GetView(), wxID_NONE, KTr(wxID_REMOVE), KTr("ModManager.Profile.RemoveDialog"), KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+				if (dialog.ShowModal() == wxID_YES)
 				{
 					const kxf::String profileID = profile->GetID();
 					if (IGameInstance::GetActive()->RemoveProfile(*profile))
@@ -250,24 +250,24 @@ namespace Kortex::ProfileEditor
 
 	Dialog::Dialog(wxWindow* parent)
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, KTr("ModManager.Profile.Configure"), wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, KTr("ModManager.Profile.Configure"), wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 
-			m_RemoveButton = AddButton(KxID_REMOVE, wxEmptyString, true).As<KxButton>();
+			m_RemoveButton = AddButton(wxID_REMOVE, wxEmptyString, true).As<KxButton>();
 			m_RemoveButton->Bind(wxEVT_BUTTON, &Dialog::OnRemoveProfile, this);
 			m_RemoveButton->Disable();
 
-			m_AddButton = AddButton(KxID_ADD, wxEmptyString, true).As<KxButton>();
+			m_AddButton = AddButton(wxID_ADD, wxEmptyString, true).As<KxButton>();
 			m_AddButton->Bind(wxEVT_BUTTON, &Dialog::OnAddProfile, this);
 
-			m_CopyButton = AddButton(KxID_COPY, wxEmptyString, true).As<KxButton>();
+			m_CopyButton = AddButton(wxID_COPY, wxEmptyString, true).As<KxButton>();
 			m_CopyButton->Bind(wxEVT_BUTTON, &Dialog::OnCopyProfile, this);
 			m_CopyButton->Disable();
 
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 
@@ -277,7 +277,7 @@ namespace Kortex::ProfileEditor
 			SetDataVector(&IGameInstance::GetActive()->GetProfiles());
 			RefreshItems();
 
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(500, 375)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(500, 375)));
 			GetView()->SetFocus();
 		}
 	}

@@ -23,7 +23,7 @@ namespace Kortex::UI::WebViewBackend
 	Generic::Generic(wxWindow* parent, wxEvtHandler& evthandler, long style)
 		:m_EvtHandler(evthandler)
 	{
-		if (KxHTMLWindow::Create(parent, KxID_NONE, wxEmptyString, style))
+		if (KxHTMLWindow::Create(parent, wxID_NONE, wxEmptyString, style))
 		{
 			Bind(wxEVT_HTML_LINK_CLICKED, &Generic::OnLinkClicked, this);
 		}

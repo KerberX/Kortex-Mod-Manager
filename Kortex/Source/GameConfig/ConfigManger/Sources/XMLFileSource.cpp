@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "XMLFileSource.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::GameConfig
 {

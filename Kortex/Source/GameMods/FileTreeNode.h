@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxFileItem.h>
+#include <kxf::UI::Framework/KxFileItem.h>
 
 namespace Kortex
 {

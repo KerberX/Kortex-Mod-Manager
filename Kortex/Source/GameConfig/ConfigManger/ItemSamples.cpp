@@ -10,7 +10,7 @@
 #include "SamplingFunctions/FindFiles.h"
 #include "GameConfig/IConfigManager.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxSystem.h>
+#include <kxf::UI::Framework/KxSystem.h>
 
 namespace
 {

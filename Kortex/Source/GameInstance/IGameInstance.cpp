@@ -8,10 +8,10 @@
 #include "Utility/BitmapSize.h"
 #include "Utility/Common.h"
 #include "Util.h"
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace
 {

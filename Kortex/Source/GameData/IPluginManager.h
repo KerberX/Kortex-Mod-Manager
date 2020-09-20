@@ -3,8 +3,8 @@
 #include "PluginManager/Common.h"
 #include "IGamePlugin.h"
 #include "Application/IManager.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex
 {
@@ -51,7 +51,7 @@ namespace Kortex
 {
 	class IPluginManager:
 		public KxRTTI::ExtendInterface<IPluginManager, ManagerWithTypeInfo<IManager, PluginManager::Internal::TypeInfo>>,
-		public KxSingletonPtr<IPluginManager>
+		public kxf::SingletonPtr<IPluginManager>
 	{
 		KxRTTI_DeclareIID(IPluginManager, {0x2afbf097, 0x2a6d, 0x42e0, {0x8e, 0xe7, 0x37, 0x39, 0x6, 0xf3, 0x28, 0x11}});
 

@@ -15,12 +15,12 @@
 #include <Kortex/GameInstance.hpp>
 #include "Utility/BitmapSize.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxSplashWindow.h>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxSplashWindow.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 
 namespace Kortex::Application
 {
@@ -110,7 +110,7 @@ namespace Kortex::Application
 			const int defaultRowHeight = Utility::BitmapSize().FromSystemSmallIcon().GetHeight() + m_InitProgressDialog->FromDIP(4);
 			wxSystemOptions::SetOption("KxDataViewCtrl::DefaultRowHeight", defaultRowHeight);
 			wxSystemOptions::SetOption("KxDataView2::DefaultRowHeight", defaultRowHeight);
-			wxSystemOptions::SetOption("KxMenu::AllowOwnerDraw", false);
+			wxSystemOptions::SetOption("kxf::UI::Menu::AllowOwnerDraw", false);
 
 			// Init systems
 			Utility::Log::LogInfo("Begin initializing core systems");
@@ -184,23 +184,23 @@ namespace Kortex::Application
 	
 	void DefaultApplication::OnError(LogEvent& event)
 	{
-		KxIconType iconType = KxICON_NONE;
-		Imagekxf::ResourceID iconImageID = Imagekxf::ResourceID::None;
+		kxf::StdIcon iconType = kxf::StdIcon::None;
+		ImageResourceID iconImageID = ImageResourceID::None;
 
 		if (event.GetLevel() == LogEvent::EvtInfo)
 		{
-			iconType = KxICON_INFORMATION;
-			iconImageID = Imagekxf::ResourceID::InformationFrame;
+			iconType = kxf::StdIcon::Information;
+			iconImageID = ImageResourceID::InformationFrame;
 		}
 		else if (event.GetLevel() == LogEvent::EvtWarning)
 		{
 			iconType = KxICON_WARNING;
-			iconImageID = Imagekxf::ResourceID::ExclamationCircleFrame;
+			iconImageID = ImageResourceID::ExclamationCircleFrame;
 		}
 		else if (event.GetLevel() == LogEvent::EvtError || event.GetLevel() == LogEvent::EvtCritical)
 		{
 			iconType = KxICON_ERROR;
-			iconImageID = Imagekxf::ResourceID::CrossCircleFrame;
+			iconImageID = ImageResourceID::CrossCircleFrame;
 		}
 
 		kxf::String caption;
@@ -213,7 +213,7 @@ namespace Kortex::Application
 			}
 			else
 			{
-				caption = KTr(KxID_ERROR);
+				caption = KTr(wxID_ERROR);
 			}
 			message = event.GetString();
 		}
@@ -225,7 +225,7 @@ namespace Kortex::Application
 
 		auto ShowMessage = [&, window = event.GetWindow()]()
 		{
-			KxTaskDialog dialog(window ? window : GetTopWindow(), KxID_NONE, caption, message, KxBTN_OK, iconType);
+			KxTaskDialog dialog(window ? window : GetTopWindow(), wxID_NONE, caption, message, KxBTN_OK, iconType);
 			dialog.SetOptionEnabled(KxTD_HYPERLINKS_ENABLED);
 			if (event.GetLevel() == LogEvent::EvtInfo)
 			{
@@ -236,7 +236,7 @@ namespace Kortex::Application
 				dialog.ShowModal();
 				if (event.IsCritical())
 				{
-					ExitApp(KxID_ERROR);
+					ExitApp(wxID_ERROR);
 				}
 			}
 		};
@@ -272,16 +272,16 @@ namespace Kortex::Application
 		wxWindowID ret = dialog.ShowModal();
 		IGameInstance* selectedInstance = dialog.GetSelectedInstance();
 
-		if (ret == KxID_OK && (selectedInstance && m_StartupInstanceID != selectedInstance->GetInstanceID()))
+		if (ret == wxID_OK && (selectedInstance && m_StartupInstanceID != selectedInstance->GetInstanceID()))
 		{
-			KxTaskDialog confirmDialog(m_MainWindow, KxID_NONE, KTr("InstanceSelection.ChangeInstanceDialog.Caption"), KTr("InstanceSelection.ChangeInstanceDialog.Message"), KxBTN_NONE, KxICON_WARNING);
-			confirmDialog.AddButton(KxID_YES, KTr("InstanceSelection.ChangeInstanceDialog.Yes"));
-			confirmDialog.AddButton(KxID_NO, KTr("InstanceSelection.ChangeInstanceDialog.No"));
-			confirmDialog.AddButton(KxID_CANCEL, KTr("InstanceSelection.ChangeInstanceDialog.Cancel"));
-			confirmDialog.SetDefaultButton(KxID_CANCEL);
+			KxTaskDialog confirmDialog(m_MainWindow, wxID_NONE, KTr("InstanceSelection.ChangeInstanceDialog.Caption"), KTr("InstanceSelection.ChangeInstanceDialog.Message"), KxBTN_NONE, KxICON_WARNING);
+			confirmDialog.AddButton(wxID_YES, KTr("InstanceSelection.ChangeInstanceDialog.Yes"));
+			confirmDialog.AddButton(wxID_NO, KTr("InstanceSelection.ChangeInstanceDialog.No"));
+			confirmDialog.AddButton(wxID_CANCEL, KTr("InstanceSelection.ChangeInstanceDialog.Cancel"));
+			confirmDialog.SetDefaultButton(wxID_CANCEL);
 
 			ret = confirmDialog.ShowModal();
-			if (ret != KxID_CANCEL)
+			if (ret != wxID_CANCEL)
 			{
 				// Set new game root
 				IConfigurableGameInstance* configurableInstance = nullptr;
@@ -293,7 +293,7 @@ namespace Kortex::Application
 				GetGlobalOption(OName::Instances, OName::Active).SetValue(selectedInstance->GetInstanceID());
 
 				// Restart if user agreed
-				if (ret == KxID_YES)
+				if (ret == wxID_YES)
 				{
 					ScheduleRestart();
 				}
@@ -429,11 +429,11 @@ namespace Kortex::Application
 	bool DefaultApplication::ShowFirstTimeConfigDialog(wxWindow* parent)
 	{
 		kxf::String message = kxf::String::Format("%s\r\n\r\n%s: %s", KTr("Init.ProfilesPath2"), KTr("Generic.DefaultValue"), m_DefaultInstancesFolder);
-		KxTaskDialog messageDialog(parent, KxID_NONE, KTr("Init.ProfilesPath1"), message, KxBTN_NONE);
-		messageDialog.AddButton(KxID_YES, KTr("Generic.UseDefaultValue"));
-		messageDialog.AddButton(KxID_NO, KTr("Generic.BrowseFolder"));
+		KxTaskDialog messageDialog(parent, wxID_NONE, KTr("Init.ProfilesPath1"), message, KxBTN_NONE);
+		messageDialog.AddButton(wxID_YES, KTr("Generic.UseDefaultValue"));
+		messageDialog.AddButton(wxID_NO, KTr("Generic.BrowseFolder"));
 
-		if (messageDialog.ShowModal() == KxID_YES)
+		if (messageDialog.ShowModal() == wxID_YES)
 		{
 			m_InstancesFolder = m_DefaultInstancesFolder;
 			m_Variables.SetVariable(Variables::KVAR_INSTANCES_DIR, m_InstancesFolder);
@@ -441,9 +441,9 @@ namespace Kortex::Application
 		}
 		else
 		{
-			KxFileBrowseDialog folderDialog(m_InitProgressDialog, KxID_NONE, KxFBD_OPEN_FOLDER);
+			KxFileBrowseDialog folderDialog(m_InitProgressDialog, wxID_NONE, KxFBD_OPEN_FOLDER);
 			folderDialog.SetFolder(m_DefaultInstancesFolder);
-			if (folderDialog.ShowModal() == KxID_OK)
+			if (folderDialog.ShowModal() == wxID_OK)
 			{
 				m_InstancesFolder = folderDialog.GetResult();
 				m_Variables.SetVariable(Variables::KVAR_INSTANCES_DIR, m_InstancesFolder);
@@ -483,7 +483,7 @@ namespace Kortex::Application
 
 			GameInstance::SelectionDialog dialog(parent);
 			wxWindowID ret = dialog.ShowModal();
-			if (ret == KxID_OK)
+			if (ret == wxID_OK)
 			{
 				// Instance ID
 				m_StartupInstanceID = dialog.GetSelectedInstance()->GetInstanceID();
@@ -509,7 +509,7 @@ namespace Kortex::Application
 				}
 				return true;
 			}
-			else if (ret == KxID_CANCEL)
+			else if (ret == wxID_CANCEL)
 			{
 				Utility::Log::LogInfo("Instance loading canceled. Exiting.");
 				ExitApp();

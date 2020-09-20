@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <KxFramework/KxXML.h>
+#include <kxf::UI::Framework/KxXML.h>
 
 namespace Kortex::IPC
 {

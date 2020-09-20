@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Sciter.h"
-#include <KxFramework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
 
 namespace Kortex::UI::WebViewBackend
 {
@@ -61,7 +61,7 @@ namespace Kortex::UI::WebViewBackend
 			button.SetTagName("button");
 			button.SetStyleAttribute("display", "flex");
 			button.SetAttribute("type", "button");
-			button.SetText(KTr(KxID_OPEN));
+			button.SetText(KTr(wxID_OPEN));
 
 			button.AttachEventHandler(m_SpoilerButtonHandler);
 			return true;
@@ -101,12 +101,12 @@ namespace Kortex::UI::WebViewBackend
 			if (content.GetStyleAttribute("display") == "block")
 			{
 				content.SetStyleAttribute("display", "none");
-				button.SetText(KTr(KxID_OPEN));
+				button.SetText(KTr(wxID_OPEN));
 			}
 			else
 			{
 				content.SetStyleAttribute("display", "block");
-				button.SetText(KTr(KxID_CLOSE));
+				button.SetText(KTr(wxID_CLOSE));
 			}
 		}
 	}
@@ -123,7 +123,7 @@ namespace Kortex::UI::WebViewBackend
 	Sciter::Sciter(wxWindow* parent, wxEvtHandler& evthandler, long style)
 		:m_EvtHandler(evthandler)
 	{
-		if (WindowWrapper::Create(parent, KxID_NONE, wxDefaultPosition, wxDefaultSize, style))
+		if (WindowWrapper::Create(parent, wxID_NONE, wxDefaultPosition, wxDefaultSize, style))
 		{
 			Bind(KxSciter::BehaviorEvent::EvtHyperlinkClick, &Sciter::OnHyperlink, this);
 			Bind(KxSciter::BehaviorEvent::EvtDocumentReady, &Sciter::OnLoaded, this);

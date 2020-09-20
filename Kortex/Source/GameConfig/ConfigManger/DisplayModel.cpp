@@ -5,7 +5,7 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/GameConfig.hpp>
 #include <Kortex/Utility.hpp>
-#include <KxFramework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
 
 namespace Kortex::GameConfig
 {
@@ -68,43 +68,43 @@ namespace Kortex::GameConfig
 		Item* item = event.GetNode() ? event.GetNode()->QueryInterface<Item>() : nullptr;
 		KxDataView2::Column* column = event.GetColumn();
 
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_EDIT, m_Translator.GetString("ConfigManager.Menu.EditValue")));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PencilSmall));
+			kxf::UI::MenuItem* menuItem = menu.Add(new kxf::UI::MenuItem(wxID_EDIT, m_Translator.GetString("ConfigManager.Menu.EditValue")));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PencilSmall));
 			menuItem->SetDefault();
 			menuItem->Enable(item);
 		}
 		{
-			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_UNDO, m_Translator.GetString("ConfigManager.Menu.DiscardChange")));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossWhite));
+			kxf::UI::MenuItem* menuItem = menu.Add(new kxf::UI::MenuItem(wxID_UNDO, m_Translator.GetString("ConfigManager.Menu.DiscardChange")));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::CrossWhite));
 			menuItem->Enable(item && item->HasChanges());
 		}
 		{
-			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_REFRESH, m_Translator.GetString(KxID_REFRESH)));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ArrowCircleDouble));
+			kxf::UI::MenuItem* menuItem = menu.Add(new kxf::UI::MenuItem(wxID_REFRESH, m_Translator.GetString(wxID_REFRESH)));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ArrowCircleDouble));
 		}
 
 		menu.AddSeparator();
 		{
-			KxMenuItem* menuItem = menu.Add(new KxMenuItem(KxID_DELETE, m_Translator.GetString("ConfigManager.Menu.RemoveValue")));
-			menuItem->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::MinusSmall));
+			kxf::UI::MenuItem* menuItem = menu.Add(new kxf::UI::MenuItem(wxID_DELETE, m_Translator.GetString("ConfigManager.Menu.RemoveValue")));
+			menuItem->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::MinusSmall));
 			menuItem->Enable(item);
 		}
 
 		switch (menu.Show(GetView()))
 		{
-			case KxID_EDIT:
+			case wxID_EDIT:
 			{
 				item->OnActivate(*GetView()->GetColumnByID(ColumnID::Value));
 				break;
 			}
-			case KxID_UNDO:
+			case wxID_UNDO:
 			{
 				item->DiscardChanges();
 				break;
 			}
-			case KxID_REFRESH:
+			case wxID_REFRESH:
 			{
 				if (OnAskRefreshView())
 				{
@@ -115,7 +115,7 @@ namespace Kortex::GameConfig
 				break;
 			}
 
-			case KxID_DELETE:
+			case wxID_DELETE:
 			{
 				item->DeleteValue();
 				break;
@@ -138,7 +138,7 @@ namespace Kortex::GameConfig
 	{
 		using namespace KxDataView2;
 
-		KxDataView2::View* view = new View(parent, KxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
+		KxDataView2::View* view = new View(parent, wxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
 		view->SetModel(this);
 		if (sizer)
 		{
@@ -158,7 +158,7 @@ namespace Kortex::GameConfig
 		{
 			if (!m_DisableColumnsMenu)
 			{
-				KxMenu menu;
+				kxf::UI::Menu menu;
 				view->CreateColumnSelectionMenu(menu);
 				view->OnColumnSelectionMenu(menu);
 			}

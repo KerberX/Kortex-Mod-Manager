@@ -1,14 +1,14 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
-#include <KxFramework/KxSplitterWindow.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxTextBox.h>
-#include <KxFramework/KxTreeList.h>
-#include <KxFramework/KxMenu.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/KxTextBox.h>
+#include <kxf::UI::Framework/KxTreeList.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 class KxSearchBox;
 class KxHTMLWindow;
 
@@ -22,10 +22,10 @@ namespace Kortex::PluginManager
 {
 	class PluginViewModel;
 
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		public:
-			static Imagekxf::ResourceID GetStatusImageForPlugin(const IGamePlugin* plugin = nullptr);
+			static ImageResourceID GetStatusImageForPlugin(const IGamePlugin* plugin = nullptr);
 
 		private:
 			BroadcastReciever m_BroadcastReciever;
@@ -43,8 +43,8 @@ namespace Kortex::PluginManager
 		private:
 			void CreateModelView();
 			void OnModSerach(wxCommandEvent& event);
-			void UpdatePluginTypeCounter(KxMenuItem* item);
-			void OnRunLootAPI(KxMenuEvent& event);
+			void UpdatePluginTypeCounter(kxf::UI::MenuItem* item);
+			void OnRunLootAPI(kxf::UI::MenuEvent& event);
 
 			void OnBeginReload(ModEvent& event);
 			void OnEndReload(ModEvent& event);
@@ -58,7 +58,7 @@ namespace Kortex::PluginManager
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::PlugDisconnect;
+				return ImageResourceID::PlugDisconnect;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 
@@ -68,9 +68,9 @@ namespace Kortex::PluginManager
 				return m_ModelView;
 			}
 		
-			void OnCreateViewContextMenu(KxMenu& menu, const IGamePlugin* plugin);
-			void OnCreateSortingToolsMenu(KxMenu& menu, const IGamePlugin* plugin);
-			void OnCreateImportExportMenu(KxMenu& menu, const IGamePlugin* plugin);
+			void OnCreateViewContextMenu(kxf::UI::Menu& menu, const IGamePlugin* plugin);
+			void OnCreateSortingToolsMenu(kxf::UI::Menu& menu, const IGamePlugin* plugin);
+			void OnCreateImportExportMenu(kxf::UI::Menu& menu, const IGamePlugin* plugin);
 
 			void ProcessSelection(const IGamePlugin* plugin = nullptr);
 			void HighlightPlugin(const IGamePlugin* plugin = nullptr);

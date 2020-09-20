@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GetVideoAdapters.h"
-#include <KxFramework/KxSystemSettings.h>
+#include <kxf::UI::Framework/KxSystemSettings.h>
 
 namespace Kortex::GameConfig::SamplingFunction
 {

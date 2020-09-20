@@ -9,9 +9,9 @@
 #include <Kortex/DownloadManager.hpp>
 #include <Kortex/GameInstance.hpp>
 #include "Utility/Common.h"
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxJSON.h>
-#include <KxFramework/KxMenu.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxJSON.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
 
 namespace Kortex::NetworkManager
 {
@@ -182,21 +182,21 @@ namespace Kortex::NetworkManager
 			return true;
 		}
 	}
-	void NexusRepository::OnToolBarMenu(KxMenu& menu)
+	void NexusRepository::OnToolBarMenu(kxf::UI::Menu& menu)
 	{
-		KxMenuItem* item = menu.Add(new KxMenuItem(KTr("NetworkManager.NXMHandler.Caption"), wxEmptyString, wxITEM_CHECK));
-		item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::ModNetwork_Nexus));
-		item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+		kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(KTr("NetworkManager.NXMHandler.Caption"), wxEmptyString, wxITEM_CHECK));
+		item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::ModNetwork_Nexus));
+		item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 		{
 			ConfigureNXMHandler();
 		});
 	}
-	void NexusRepository::OnDownloadMenu(KxMenu& menu, DownloadItem* download)
+	void NexusRepository::OnDownloadMenu(kxf::UI::Menu& menu, DownloadItem* download)
 	{
 		if (download && download->GetModNetwork() == &m_Nexus)
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KTr("NetworkManager.Nexus.CopyNXM")));
-			item->Bind(KxEVT_MENU_SELECT, [this, download](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(KTr("NetworkManager.Nexus.CopyNXM")));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, download](kxf::UI::MenuEvent& event)
 			{
 				Utility::CopyTextToClipboard(ConstructNXM(download->GetNetworkModInfo(), download->GetTargetGame()).BuildUnescapedURI());
 			});

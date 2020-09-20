@@ -12,7 +12,7 @@
 #include "BethesdaSave/Fallout4.h"
 #include <Kortex/SaveManager.hpp>
 #include <Kortex/GameInstance.hpp>
-#include <KxFramework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
 
 namespace
 {

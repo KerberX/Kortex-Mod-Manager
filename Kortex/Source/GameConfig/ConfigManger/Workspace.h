@@ -2,15 +2,15 @@
 #include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
 #include "DisplayModel.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxButton.h>
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxButton.h>
+#include <kxf::UI::Framework/KxPanel.h>
 
 namespace Kortex::GameConfig
 {
 	class Workspace:
 		public Application::DefaultWindowWorkspace<KxPanel>,
-		public KxSingletonPtr<Workspace>
+		public kxf::SingletonPtr<Workspace>
 	{
 		private:
 			wxBoxSizer* m_MainSizer = nullptr;
@@ -38,7 +38,7 @@ namespace Kortex::GameConfig
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::GearPencil;
+				return ImageResourceID::GearPencil;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

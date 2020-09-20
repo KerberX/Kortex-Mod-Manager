@@ -5,10 +5,10 @@
 #include "ModRepositoryRequest.h"
 #include "ModRepositoryReply.h"
 #include "ModRepositoryLimits.h"
-#include <KxFramework/KxComponentSystem.h>
-#include <KxFramework/KxFileItem.h>
+#include <kxf::UI::Framework/KxComponentSystem.h>
+#include <kxf::UI::Framework/KxFileItem.h>
 #include <optional>
-class KxMenu;
+class kxf::UI::Menu;
 
 namespace Kortex
 {
@@ -21,7 +21,7 @@ namespace Kortex
 	{
 		public:
 			virtual ModRepositoryLimits GetRequestLimits() const = 0;
-			virtual void OnDownloadMenu(KxMenu& menu, DownloadItem* download = nullptr) = 0;
+			virtual void OnDownloadMenu(kxf::UI::Menu& menu, DownloadItem* download = nullptr) = 0;
 			virtual bool QueryDownload(const KxFileItem& fileItem, const DownloadItem& download, ModFileReply& fileReply) = 0;
 			
 			virtual bool QueueDownload(const kxf::String& link) = 0;

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "IVariableTable.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxSystem.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxSystem.h>
 
 namespace Kortex
 {

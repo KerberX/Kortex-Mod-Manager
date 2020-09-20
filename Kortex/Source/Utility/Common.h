@@ -19,7 +19,7 @@ namespace Kortex::Utility
 	}
 
 	// Canonical ratio of a given size such as '16:9' for 1920x1080 or an empty string if the ratio can not be determined.
-	kxf::String GetResolutionRatio(const wxSize& resolution);
+	kxf::String GetResolutionRatio(const kxf::Size& resolution);
 
 	// Checks if extension matches one of masks (* and ? symbols are supported). Masks in 'extensions' should be without dot and in lowercase.
 	bool FileExtensionMatches(const kxf::String& filePath, const KxStringVector& extensions);
@@ -41,7 +41,7 @@ namespace Kortex::Utility
 	kxf::String MakeBracketedLabel(const kxf::String& text, const wxUniChar& cLeft = wxS('<'), const wxUniChar& cRight = wxS('>'));
 	inline kxf::String MakeNoneLabel()
 	{
-		return MakeBracketedLabel(KxID_NONE, wxS('<'), wxS('>'));
+		return MakeBracketedLabel(wxID_NONE, wxS('<'), wxS('>'));
 	}
 
 	template<class TItems>

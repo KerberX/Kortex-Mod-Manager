@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/InfoSection.h"
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 
 namespace Kortex::PackageDesigner::PageInfoNS
 {

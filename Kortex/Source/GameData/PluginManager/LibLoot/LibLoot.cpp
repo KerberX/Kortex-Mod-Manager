@@ -5,8 +5,8 @@
 #include <Kortex/Application.hpp>
 #include "Utility/OperationWithProgress.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxSystem.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxSystem.h>
 #include "loot/api.h"
 #include "loot/enum/game_type.h"
 #include "loot/loot_version.h"

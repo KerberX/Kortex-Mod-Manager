@@ -24,7 +24,7 @@ namespace Kortex::InstallWizard
 	wxWindow* CompletedPage::Create()
 	{
 		wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-		m_Panel = new KxPanel(GetPageContainer(), KxID_NONE);
+		m_Panel = new KxPanel(GetPageContainer(), wxID_NONE);
 		m_Panel->SetSizer(sizer);
 
 		m_Label = PackageDesigner::PageBase::CreateCaptionLabel(m_Panel, wxEmptyString);

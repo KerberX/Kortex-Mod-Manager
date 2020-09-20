@@ -3,10 +3,10 @@
 #include "PackageCreator/WorkspaceDocument.h"
 #include "PackageCreator/PageBase.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxDataViewComboBox.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxDataViewComboBox.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace
 {
@@ -136,18 +136,18 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		KxDataViewItem item = event.GetItem();
 		const PackageProject::FlagItem* entry = GetDataEntry(GetRow(item));
 
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddFlag, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FlagPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddFlag, KTr(wxID_ADD)));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FlagPlus));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(entry != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 
@@ -158,12 +158,12 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 				OnAddFlag();
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveFlag(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -185,19 +185,19 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		if (PackageProject::FlagItem* entry = GetDataEntry(GetRow(item)))
 		{
 			kxf::String deletedName = entry->GetDeletedName();
-			KxTaskDialog dialog(GetViewTLW(), KxID_NONE, KTrf("PackageCreator.Conditions.RemoveFlagDialog.Caption", entry->GetName()), KTrf("PackageCreator.Conditions.RemoveFlagDialog.Message", deletedName), KxBTN_CANCEL, KxICON_WARNING);
-			dialog.AddButton(KxID_REMOVE, KTr("PackageCreator.Conditions.RemoveFlagDialog.Remove"));
-			dialog.AddButton(KxID_RENAME, KTr("PackageCreator.Conditions.RemoveFlagDialog.RemoveRename"));
+			KxTaskDialog dialog(GetViewTLW(), wxID_NONE, KTrf("PackageCreator.Conditions.RemoveFlagDialog.Caption", entry->GetName()), KTrf("PackageCreator.Conditions.RemoveFlagDialog.Message", deletedName), KxBTN_CANCEL, KxICON_WARNING);
+			dialog.AddButton(wxID_REMOVE, KTr("PackageCreator.Conditions.RemoveFlagDialog.Remove"));
+			dialog.AddButton(wxID_RENAME, KTr("PackageCreator.Conditions.RemoveFlagDialog.RemoveRename"));
 
 			switch (dialog.ShowModal())
 			{
-				case KxID_REMOVE:
+				case wxID_REMOVE:
 				{
 					TrackRemoveID(entry->GetName());
 					RemoveItemAndNotify(*GetDataVector(), item);
 					return;
 				}
-				case KxID_RENAME:
+				case wxID_RENAME:
 				{
 					TrackChangeID(entry->GetName(), entry->GetDeletedName());
 					entry->SetName(deletedName);
@@ -273,20 +273,20 @@ namespace Kortex::PackageDesigner::PageComponentsNS
 		:ConditionFlagsModel(controller)
 		//m_WindowOptions("ConditionFlagsDialog", "Window"), m_ViewOptions("ConditionGroupDialog", "View")
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 
 			m_Sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(m_Sizer);
 			PostCreate();
 
 			// List
 			ConditionFlagsModel::Create(controller, m_ViewPane, m_Sizer);
 
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(700, 400)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(700, 400)));
 			//KProgramOptionSerializer::LoadDataViewLayout(GetView(), m_ViewOptions);
 			//KProgramOptionSerializer::LoadWindowSize(this, m_WindowOptions);
 		}

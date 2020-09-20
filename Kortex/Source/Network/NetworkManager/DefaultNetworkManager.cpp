@@ -8,11 +8,11 @@
 #include "Network/ModNetwork/LoversLab.h"
 #include "Network/ModNetwork/TESALL.h"
 #include "Utility/MenuSeparator.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxMenu.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
 
 namespace
 {
@@ -101,7 +101,7 @@ namespace Kortex::NetworkManager
 		return true;
 	}
 
-	void DefaultNetworkManager::OnSetToolbarButton(KxAuiToolBarItem& button)
+	void DefaultNetworkManager::OnSetToolbarButton(kxf::UI::AuiToolBarItem& button)
 	{
 		m_LoginButton = &button;
 
@@ -126,15 +126,15 @@ namespace Kortex::NetworkManager
 	}
 	void DefaultNetworkManager::CreateMenu()
 	{
-		KxMenu::EndMenu();
-		m_Menu = new KxMenu();
+		kxf::UI::Menu::EndMenu();
+		m_Menu = new kxf::UI::Menu();
 		m_LoginButton->AssignDropdownMenu(m_Menu);
 
 		for (const auto& modNetwork: m_ModNetworks)
 		{
-			if (KxMenu* subMenu = new KxMenu(); true)
+			if (kxf::UI::Menu* subMenu = new kxf::UI::Menu(); true)
 			{
-				KxMenuItem* rootItem = m_Menu->Add(subMenu, modNetwork->GetName());
+				kxf::UI::MenuItem* rootItem = m_Menu->Add(subMenu, modNetwork->GetName());
 				rootItem->SetBitmap(ImageProvider::GetBitmap(modNetwork->GetIcon()));
 
 				ModNetworkAuth* authenticable = modNetwork->TryGetComponent<ModNetworkAuth>();
@@ -142,7 +142,7 @@ namespace Kortex::NetworkManager
 
 				// Add default source toggle
 				{
-					KxMenuItem* item = subMenu->Add(new KxMenuItem(wxEmptyString, wxEmptyString, wxITEM_CHECK));
+					kxf::UI::MenuItem* item = subMenu->Add(new kxf::UI::MenuItem(wxEmptyString, wxEmptyString, wxITEM_CHECK));
 					item->SetClientData(modNetwork.get());
 					item->Enable(false);
 
@@ -162,7 +162,7 @@ namespace Kortex::NetworkManager
 						{
 							item->Enable();
 							item->SetItemLabel(KTr("NetworkManager.ModNetwork.MakeDefault"));
-							item->Bind(KxEVT_MENU_SELECT, &DefaultNetworkManager::OnSelectDefaultModSource, this);
+							item->Bind(kxf::UI::MenuEvent::EvtSelect, &DefaultNetworkManager::OnSelectDefaultModSource, this);
 						}
 					}
 					else
@@ -192,16 +192,16 @@ namespace Kortex::NetworkManager
 							label = KTr("NetworkManager.SignIn");
 						}
 
-						KxMenuItem* item = subMenu->Add(new KxMenuItem(label));
-						item->Bind(KxEVT_MENU_SELECT, &DefaultNetworkManager::OnSignInOut, this);
+						kxf::UI::MenuItem* item = subMenu->Add(new kxf::UI::MenuItem(label));
+						item->Bind(kxf::UI::MenuEvent::EvtSelect, &DefaultNetworkManager::OnSignInOut, this);
 						item->SetBitmap(authenticable->GetUserPicture());
 						item->SetClientData(modNetwork.get());
 					}
 					if (!authenticable->IsAuthenticated())
 					{
-						KxMenuItem* item = subMenu->Add(new KxMenuItem(KTr("NetworkManager.RetrySignIn")));
+						kxf::UI::MenuItem* item = subMenu->Add(new kxf::UI::MenuItem(KTr("NetworkManager.RetrySignIn")));
 						item->Enable(authenticable->LoadCredentials().has_value());
-						item->Bind(KxEVT_MENU_SELECT, [authenticable](KxMenuEvent& event)
+						item->Bind(kxf::UI::MenuEvent::EvtSelect, [authenticable](kxf::UI::MenuEvent& event)
 						{
 							authenticable->ValidateAuth();
 						});
@@ -233,13 +233,13 @@ namespace Kortex::NetworkManager
 						}
 						label = kxf::String::Format(wxS("%1: [%2]"), KTr(wxS("NetworkManager.QueryLimits")), label);
 
-						KxMenuItem* item = subMenu->Add(new KxMenuItem(label));
-						item->SetBitmap(ImageProvider::GetBitmap(limits.AnyLimitDepleted() ? Imagekxf::ResourceID::Exclamation : Imagekxf::ResourceID::TickCircleFrame));
+						kxf::UI::MenuItem* item = subMenu->Add(new kxf::UI::MenuItem(label));
+						item->SetBitmap(ImageProvider::GetBitmap(limits.AnyLimitDepleted() ? ImageResourceID::Exclamation : ImageResourceID::TickCircleFrame));
 						item->SetClientData(modNetwork.get());
-						item->Bind(KxEVT_MENU_SELECT, [&modNetwork](KxMenuEvent& event)
+						item->Bind(kxf::UI::MenuEvent::EvtSelect, [&modNetwork](kxf::UI::MenuEvent& event)
 						{
-							KxTaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), KxID_NONE, KTr("NetworkManager.QueryLimits"));
-							dialog.SetMainIcon(KxICON_INFORMATION);
+							KxTaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), wxID_NONE, KTr("NetworkManager.QueryLimits"));
+							dialog.SetMainIcon(kxf::StdIcon::Information);
 							dialog.SetOptionEnabled(KxTD_SIZE_TO_CONTENT);
 							dialog.SetMessage(KTrf("NetworkManager.QueryLimits.Description", modNetwork->GetName()));
 							dialog.ShowModal();
@@ -259,18 +259,18 @@ namespace Kortex::NetworkManager
 	{
 		BroadcastProcessor::Get().CallAfter([this]()
 		{
-			KxMenu::EndMenu();
+			kxf::UI::Menu::EndMenu();
 			UpdateButton();
 		});
 	}
 
-	void DefaultNetworkManager::OnSignInOut(KxMenuEvent& event)
+	void DefaultNetworkManager::OnSignInOut(kxf::UI::MenuEvent& event)
 	{
 		IModNetwork* modNetwork = static_cast<IModNetwork*>(event.GetItem()->GetClientData());
 		if (auto auth = modNetwork->TryGetComponent<ModNetworkAuth>(); auth && auth->IsAuthenticated())
 		{
-			KxTaskDialog dialog(event.GetInvokingWindow(), KxID_NONE, KTrf("NetworkManager.SignOutMessage", modNetwork->GetName()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
-			if (dialog.ShowModal() == KxID_YES)
+			KxTaskDialog dialog(event.GetInvokingWindow(), wxID_NONE, KTrf("NetworkManager.SignOutMessage", modNetwork->GetName()), wxEmptyString, KxBTN_YES|KxBTN_NO, KxICON_WARNING);
+			if (dialog.ShowModal() == wxID_YES)
 			{
 				auth->SignOut();
 				AdjustDefaultModNetwork();
@@ -288,7 +288,7 @@ namespace Kortex::NetworkManager
 			QueueUIUpdate();
 		}
 	}
-	void DefaultNetworkManager::OnSelectDefaultModSource(KxMenuEvent& event)
+	void DefaultNetworkManager::OnSelectDefaultModSource(kxf::UI::MenuEvent& event)
 	{
 		using namespace Application;
 
@@ -298,7 +298,7 @@ namespace Kortex::NetworkManager
 		UpdateButton();
 		GetAInstanceOption(OName::ModNetwork).SetAttribute(OName::Default, modNetwork->GetName());
 	}
-	void DefaultNetworkManager::OnToolbarButton(KxAuiToolBarEvent& event)
+	void DefaultNetworkManager::OnToolbarButton(kxf::UI::AuiToolBarEvent& event)
 	{
 		CreateMenu();
 		m_LoginButton->ShowDropdownMenuLeftAlign();

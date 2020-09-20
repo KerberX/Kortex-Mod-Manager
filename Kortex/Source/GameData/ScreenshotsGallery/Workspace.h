@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/DefaultWorkspace.h"
-#include <KxFramework/KxSingleton.h>
-#include <KxFramework/KxPanel.h>
+#include <kxf::UI::Framework/KxSingleton.h>
+#include <kxf::UI::Framework/KxPanel.h>
 class KxTextBox;
 class KxThumbView;
 
@@ -17,7 +17,7 @@ namespace Kortex::UI
 
 namespace Kortex::ScreenshotsGallery
 {
-	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public KxSingletonPtr<Workspace>
+	class Workspace: public Application::DefaultWindowWorkspace<KxPanel>, public kxf::SingletonPtr<Workspace>
 	{
 		private:
 			wxBoxSizer* m_MainSizer = nullptr;
@@ -48,7 +48,7 @@ namespace Kortex::ScreenshotsGallery
 			kxf::String GetName() const override;
 			kxf::ResourceID GetIcon() const override
 			{
-				return Imagekxf::ResourceID::Pictures;
+				return ImageResourceID::Pictures;
 			}
 			IWorkspaceContainer* GetPreferredContainer() const override;
 

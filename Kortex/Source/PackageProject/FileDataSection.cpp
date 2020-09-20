@@ -3,7 +3,7 @@
 #include "ModPackageProject.h"
 #include "Utility/Common.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace Kortex::PackageProject
 {

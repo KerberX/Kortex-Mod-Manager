@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "RefStackTranslator.h"
-#include <KxFramework/KxTranslation.h>
+#include <kxf::UI::Framework/KxTranslation.h>
 
 namespace
 {

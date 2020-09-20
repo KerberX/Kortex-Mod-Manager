@@ -3,10 +3,10 @@
 #include <Kortex/ModManager.hpp>
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxINI.h>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxINI.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {

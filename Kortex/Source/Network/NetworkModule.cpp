@@ -7,7 +7,7 @@ namespace Kortex
 {
 	namespace Internal
 	{
-		const SimpleModuleInfo NetworkModuleTypeInfo("Network", "NetworkModule.Name", "1.0", Imagekxf::ResourceID::ModNetwork_Unknown);
+		const SimpleModuleInfo NetworkModuleTypeInfo("Network", "NetworkModule.Name", "1.0", ImageResourceID::ModNetwork_Unknown);
 	}
 
 	void NetworkModule::OnInit()

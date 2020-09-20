@@ -3,8 +3,8 @@
 #include "Nexus.h"
 #include "Network/INetworkManager.h"
 #include "Application/INotificationCenter.h"
-#include <KxFramework/KxIndexedEnum.h>
-#include <KxFramework/KxCURL.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/KxCURL.h>
 
 namespace
 {

@@ -1,106 +1,106 @@
 #include "stdafx.h"
 #include "TextEditDialog.h"
 #include <Kortex/Application.hpp>
-#include "Application/Resources/Imagekxf::ResourceID.h"
+#include "Application/Resources/ImageResourceID.h"
 #include "Utility/UI.h"
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxStyledTextBox.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxBitmapComboBox.h>
-#include <KxFramework/KxComboBox.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxUtility.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxStyledTextBox.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxBitmapComboBox.h>
+#include <kxf::UI::Framework/KxComboBox.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxUtility.h>
 #include <memory>
 
 namespace Kortex::UI
 {
 	bool TextEditDialog::Create(wxWindow* parent)
 	{
-		if (KxStdDialog::Create(parent, KxID_NONE, KTr("TextEditor.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
+		if (KxStdDialog::Create(parent, wxID_NONE, KTr("TextEditor.Caption"), wxDefaultPosition, wxDefaultSize, KxBTN_OK|KxBTN_CANCEL))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 			SetInitialSize(parent->GetSize().Scale(0.85f, 0.85f));
 
 			/* View */
 			wxBoxSizer* viewSizer = new wxBoxSizer(wxVERTICAL);
-			m_View = new KxPanel(m_ContentPanel, KxID_NONE);
+			m_View = new KxPanel(m_ContentPanel, wxID_NONE);
 			m_View->SetSizer(viewSizer);
 			IThemeManager::GetActive().Apply(m_View);
 
 			/* ToolBar */
-			m_ToolBar = new KxAuiToolBar(m_View, KxID_NONE, KxAuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND);
+			m_ToolBar = new kxf::UI::AuiToolBar(m_View, wxID_NONE, kxf::UI::AuiToolBar::DefaultStyle|wxAUI_TB_PLAIN_BACKGROUND);
 			m_ToolBar->SetBackgroundColour(m_View->GetBackgroundColour());
 			viewSizer->Add(m_ToolBar, 0, wxEXPAND);
 
 			// Edit mode
-			m_ToolBar_SwitchMode = Utility::UI::CreateToolBarButton(m_ToolBar, KTr("TextEditor.ToolBar.Mode"), Imagekxf::ResourceID::Edit);
-			m_ToolBar_SwitchMode->Bind(KxEVT_AUI_TOOLBAR_CLICK, &TextEditDialog::OnSwitchMode, this);
+			m_ToolBar_SwitchMode = Utility::UI::CreateToolBarButton(m_ToolBar, KTr("TextEditor.ToolBar.Mode"), ImageResourceID::Edit);
+			m_ToolBar_SwitchMode->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &TextEditDialog::OnSwitchMode, this);
 			m_ToolBar->AddSeparator();
 
 			// Save/Load
-			m_ToolBar_Save = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_SAVE), Imagekxf::ResourceID::Disk);
-			m_ToolBar_Save->Bind(KxEVT_AUI_TOOLBAR_CLICK, &TextEditDialog::OnSaveLoadFile, this);
+			m_ToolBar_Save = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_SAVE), ImageResourceID::Disk);
+			m_ToolBar_Save->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &TextEditDialog::OnSaveLoadFile, this);
 
-			m_ToolBar_Open = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_OPEN), Imagekxf::ResourceID::FolderOpen);
-			m_ToolBar_Open->Bind(KxEVT_AUI_TOOLBAR_CLICK, &TextEditDialog::OnSaveLoadFile, this);
+			m_ToolBar_Open = Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_OPEN), ImageResourceID::FolderOpen);
+			m_ToolBar_Open->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, &TextEditDialog::OnSaveLoadFile, this);
 			m_ToolBar->AddSeparator();
 
 			// Undo/Redo
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_UNDO), Imagekxf::ResourceID::ArrowCurve180Left)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_UNDO), ImageResourceID::ArrowCurve180Left)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				m_Editor->Undo();
 			});
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_REDO), Imagekxf::ResourceID::ArrowCircle135Left)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_REDO), ImageResourceID::ArrowCircle135Left)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				m_Editor->Redo();
 			});
 			m_ToolBar->AddSeparator();
 
 			// Styles
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_BOLD), Imagekxf::ResourceID::EditBold)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_BOLD), ImageResourceID::EditBold)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("b");
 			});
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_ITALIC), Imagekxf::ResourceID::EditItalic)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_ITALIC), ImageResourceID::EditItalic)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("i");
 			});
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_UNDERLINE), Imagekxf::ResourceID::EditUnderline)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_UNDERLINE), ImageResourceID::EditUnderline)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("u");
 			});
 			m_ToolBar->AddSeparator();
 
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_JUSTIFY_LEFT), Imagekxf::ResourceID::EditAlignmentLeft)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_JUSTIFY_LEFT), ImageResourceID::EditAlignmentLeft)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("div", "align", "left");
 			});
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_JUSTIFY_CENTER), Imagekxf::ResourceID::EditAlignmentCenter)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_JUSTIFY_CENTER), ImageResourceID::EditAlignmentCenter)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("div", "align", "center");
 			});
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_JUSTIFY_RIGHT), Imagekxf::ResourceID::EditAlignmentRight)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_JUSTIFY_RIGHT), ImageResourceID::EditAlignmentRight)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("div", "align", "right");
 			});
-			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(KxID_JUSTIFY_FILL), Imagekxf::ResourceID::EditAlignmentJustify)->Bind(KxEVT_AUI_TOOLBAR_CLICK, [this](KxAuiToolBarEvent& event)
+			Utility::UI::CreateToolBarButton(m_ToolBar, KTr(wxID_JUSTIFY_FILL), ImageResourceID::EditAlignmentJustify)->Bind(kxf::UI::AuiToolBarEvent::EvtItemClick, [this](kxf::UI::AuiToolBarEvent& event)
 			{
 				ToggleTag("div", "align", "justify");
 			});
 
 			// Heading
-			m_HeadingList = new KxBitmapComboBox(m_ToolBar, KxID_ANY);
+			m_HeadingList = new KxBitmapComboBox(m_ToolBar, wxID_ANY);
 			m_HeadingList->SetImageList(const_cast<kxf::ImageList*>(&ImageProvider::GetImageList()));
 			m_ToolBar->AddControl(m_HeadingList, KTr("TextEditor.ToolBar.Heading"));
 
 			const int maxHeading = 6;
 			for (int i = 1; i <= maxHeading; i++)
 			{
-				m_HeadingList->AddItem(kxf::String::Format("%1 %2", KTr("TextEditor.ToolBar.Heading"), i), (int)Imagekxf::ResourceID::EditHeading + i);
+				m_HeadingList->AddItem(kxf::String::Format("%1 %2", KTr("TextEditor.ToolBar.Heading"), i), (int)ImageResourceID::EditHeading + i);
 			}
 			m_HeadingList->SetSelection(0);
 			m_HeadingList->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
@@ -112,7 +112,7 @@ namespace Kortex::UI
 			m_ToolBar->AddStretchSpacer();
 
 			// Background color
-			wxColourPickerCtrl* backgroundColorPicker = new wxColourPickerCtrl(m_ToolBar, KxID_NONE);
+			wxColourPickerCtrl* backgroundColorPicker = new wxColourPickerCtrl(m_ToolBar, wxID_NONE);
 			backgroundColorPicker->Bind(wxEVT_COLOURPICKER_CHANGED, [this](wxColourPickerEvent& event)
 			{
 				if (KxHTMLWindow* htmlWindow = GetHTMLBackend())
@@ -135,7 +135,7 @@ namespace Kortex::UI
 
 			// Rendering mode
 			{
-				KxComboBox* rendererList = new KxComboBox(m_ToolBar, KxID_NONE);
+				KxComboBox* rendererList = new KxComboBox(m_ToolBar, wxID_NONE);
 				rendererList->Bind(wxEVT_COMBOBOX, [this, rendererList](wxCommandEvent& event)
 				{
 					wxGraphicsRenderer* renderer = static_cast<wxGraphicsRenderer*>(rendererList->GetClientData(event.GetSelection()));
@@ -171,14 +171,14 @@ namespace Kortex::UI
 			m_ToolBar->Realize();
 
 			// Tabs
-			m_Container = new wxSimplebook(m_View, KxID_NONE);
+			m_Container = new wxSimplebook(m_View, wxID_NONE);
 			viewSizer->Add(m_Container, 1, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
 			IThemeManager::GetActive().Apply(m_Container);
 
 			PostCreate(wxDefaultPosition);
 
 			/* Editor page */
-			m_Editor = new KxStyledTextBox(m_Container, KxID_NONE);
+			m_Editor = new KxStyledTextBox(m_Container, wxID_NONE);
 			m_Container->AddPage(m_Editor, wxEmptyString, true);
 			backgroundColorPicker->SetColour(m_Editor->GetBackgroundColour());
 
@@ -216,7 +216,7 @@ namespace Kortex::UI
 		m_Editor->SetModified(false);
 		m_Editor->EmptyUndoBuffer();
 	}
-	void TextEditDialog::OnSwitchMode(KxAuiToolBarEvent& event)
+	void TextEditDialog::OnSwitchMode(kxf::UI::AuiToolBarEvent& event)
 	{
 		DoShowPreview(m_EditMode);
 	}
@@ -233,7 +233,7 @@ namespace Kortex::UI
 	}
 	void TextEditDialog::OnOK(wxNotifyEvent& event)
 	{
-		if (event.GetId() == KxID_OK)
+		if (event.GetId() == wxID_OK)
 		{
 			OnPrepareSaveText();
 			m_IsTextModified = m_Editor->IsModified();
@@ -244,16 +244,16 @@ namespace Kortex::UI
 		}
 		event.Skip();
 	}
-	void TextEditDialog::OnSaveLoadFile(KxAuiToolBarEvent& event)
+	void TextEditDialog::OnSaveLoadFile(kxf::UI::AuiToolBarEvent& event)
 	{
 		bool save = event.GetEventObject() == m_ToolBar_Save;
 
-		KxFileBrowseDialog dialog(this, KxID_NONE, save ? KxFBD_SAVE : KxFBD_OPEN);
+		KxFileBrowseDialog dialog(this, wxID_NONE, save ? KxFBD_SAVE : KxFBD_OPEN);
 		dialog.AddFilter("*.txt", KTr("FileFilter.Text"));
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 		dialog.SetDefaultExtension("txt");
 
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			if (save)
 			{
@@ -297,7 +297,7 @@ namespace Kortex::UI
 		{
 			m_Preview.LoadText(m_Editor->GetValue());
 			m_Container->ChangeSelection(1);
-			m_ToolBar_SwitchMode->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::EditCodeDivision));
+			m_ToolBar_SwitchMode->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::EditCodeDivision));
 			m_Preview.GetWindow()->SetFocus();
 
 			m_EditMode = false;
@@ -305,7 +305,7 @@ namespace Kortex::UI
 		else
 		{
 			m_Container->ChangeSelection(0);
-			m_ToolBar_SwitchMode->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::Edit));
+			m_ToolBar_SwitchMode->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::Edit));
 			m_Editor->SetEditable(IsEditable());
 			m_Editor->SetFocus();
 
@@ -314,7 +314,7 @@ namespace Kortex::UI
 
 		for (size_t i = 0; i < m_ToolBar->GetToolCount(); i++)
 		{
-			KxAuiToolBarItem* item = m_ToolBar->FindToolByIndex(i);
+			kxf::UI::AuiToolBarItem* item = m_ToolBar->FindToolByIndex(i);
 			if (item)
 			{
 				item->SetEnabled(m_EditMode);

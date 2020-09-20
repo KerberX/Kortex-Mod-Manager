@@ -3,9 +3,9 @@
 #include "PackageCreator/PageBase.h"
 #include "UI/TextEditDialog.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxURI.h>
-#include <KxFramework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxURI.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
 
 namespace
 {
@@ -120,7 +120,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 						{
 							UI::TextEditDialog dialog(GetView());
 							dialog.SetText(entry->GetValue());
-							if (dialog.ShowModal() == KxID_OK && dialog.IsModified())
+							if (dialog.ShowModal() == wxID_OK && dialog.IsModified())
 							{
 								entry->SetValue(dialog.GetText());
 								NotifyChangedItem(item);
@@ -137,18 +137,18 @@ namespace Kortex::PackageDesigner::PageInfoNS
 		KxDataViewItem item = event.GetItem();
 		const Utility::LabeledValue* entry = GetDataEntry(GetRow(item));
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddSite, KTr(KxID_ADD)));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::PlusSmall));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddSite, KTr(wxID_ADD)));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::PlusSmall));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(entry != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 	
@@ -159,12 +159,12 @@ namespace Kortex::PackageDesigner::PageInfoNS
 				OnAddSite();
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveSite(item);
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -209,13 +209,13 @@ namespace Kortex::PackageDesigner::PageInfoNS
 	{
 		UseInlineEditor(bUseInlineEditor);
 	
-		if (KxStdDialog::Create(parent, KxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
+		if (KxStdDialog::Create(parent, wxID_NONE, caption, wxDefaultPosition, wxDefaultSize, KxBTN_OK))
 		{
-			SetMainIcon(KxICON_NONE);
+			SetMainIcon(kxf::StdIcon::None);
 			SetWindowResizeSide(wxBOTH);
 	
 			wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-			m_ViewPane = new KxPanel(GetContentWindow(), KxID_NONE);
+			m_ViewPane = new KxPanel(GetContentWindow(), wxID_NONE);
 			m_ViewPane->SetSizer(sizer);
 			PostCreate();
 	
@@ -223,7 +223,7 @@ namespace Kortex::PackageDesigner::PageInfoNS
 			IncRef();
 			SitesModel::Create(controller, m_ViewPane, sizer);
 	
-			AdjustWindow(wxDefaultPosition, FromDIP(wxSize(700, 400)));
+			AdjustWindow(wxDefaultPosition, FromDIP(kxf::Size(700, 400)));
 			//KProgramOptionSerializer::LoadDataViewLayout(GetView(), m_ViewOptions);
 			//KProgramOptionSerializer::LoadWindowSize(this, m_WindowOptions);
 		}

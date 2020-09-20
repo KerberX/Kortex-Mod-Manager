@@ -9,10 +9,10 @@
 #include "VirtualFileSystem/VirtualFSEvent.h"
 #include "DefaultModManager.h"
 #include "Utility/Log.h"
-#include <KxFramework/KxProcess.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxProcess.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
 #include <Kx/Async.hpp>
 
 namespace
@@ -138,7 +138,7 @@ namespace Kortex::ModManager
 			mainWindow->GetFrame().Disable();
 		}
 
-		m_StatusDialog = new KxProgressDialog(&mainWindow->GetFrame(), KxID_NONE, wxEmptyString, wxDefaultPosition, wxDefaultSize, KxBTN_NONE);
+		m_StatusDialog = new KxProgressDialog(&mainWindow->GetFrame(), wxID_NONE, wxEmptyString, wxDefaultPosition, wxDefaultSize, KxBTN_NONE);
 		m_StatusDialog->SetCaption(IsEnabled() ? KTr("VFS.MountingCaptionDisable") : KTr("VFS.MountingCaptionEnable"));
 		m_StatusDialog->SetLabel(KTr("VFS.MountingMessage"));
 		m_StatusDialog->Pulse();
@@ -338,7 +338,7 @@ namespace Kortex::ModManager
 						{
 							BroadcastProcessor::Get().QueueEvent(VirtualFSEvent::EvtMainToggleError, *this, true);
 
-							KxTaskDialog dialog(m_StatusDialog, KxID_NONE, {}, {}, KxBTN_RETRY|KxBTN_CANCEL, KxICON_WARNING);
+							KxTaskDialog dialog(m_StatusDialog, wxID_NONE, {}, {}, KxBTN_RETRY|KxBTN_CANCEL, KxICON_WARNING);
 							dialog.SetCaption(KTr("VFS.ActiveProcesses.Caption"));
 							dialog.SetMessage(KTr("VFS.ActiveProcesses.Message"));
 
@@ -361,7 +361,7 @@ namespace Kortex::ModManager
 							dialog.SetExMessage(processesList);
 							dialog.SetOptionEnabled(KxTD_Options::KxTD_EXMESSAGE_EXPANDED);
 
-							if (dialog.ShowModal() == KxID_RETRY)
+							if (dialog.ShowModal() == wxID_RETRY)
 							{
 								KxAsync::DelayedCall([this]()
 								{

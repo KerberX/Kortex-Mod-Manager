@@ -3,8 +3,8 @@
 #include <Kortex/ModManager.hpp>
 #include <Kortex/NetworkManager.hpp>
 #include <Kortex/GameInstance.hpp>
-#include <KxFramework/KxFileItem.h>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxFileItem.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 #include "Archive/Common.h"
 #include "Utility/Common.h"
 

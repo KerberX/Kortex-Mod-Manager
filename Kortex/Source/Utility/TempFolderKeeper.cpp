@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "TempFolderKeeper.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxMath.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxMath.h>
 
 namespace
 {

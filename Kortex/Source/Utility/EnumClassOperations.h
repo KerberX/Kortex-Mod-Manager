@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxEnumClassOperations.h>
+#include <kxf::UI::Framework/KxEnumClassOperations.h>
 
 namespace Kortex
 {

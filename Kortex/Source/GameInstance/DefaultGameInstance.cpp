@@ -11,17 +11,17 @@
 #include "Utility/Common.h"
 #include "Utility/Log.h"
 #include "Util.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxFileFinder.h>
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxRegistry.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxFileOperationEvent.h>
-#include <KxFramework/KxDualProgressDialog.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxRegistry.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileOperationEvent.h>
+#include <kxf::UI::Framework/KxDualProgressDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
 
 namespace
 {
@@ -234,7 +234,7 @@ namespace Kortex::GameInstance
 	{
 		return GetDefaultIconLocation();
 	}
-	wxBitmap DefaultGameInstance::GetIcon(const wxSize& iconSize) const
+	wxBitmap DefaultGameInstance::GetIcon(const kxf::Size& iconSize) const
 	{
 		wxBitmap bitmap = LoadIcon(GetIconLocation());
 		return [&](const wxBitmap& bitmap)

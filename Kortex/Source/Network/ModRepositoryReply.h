@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Common.h"
-#include <KxFramework/kxf::Version.h>
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/kxf::Version.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex
 {

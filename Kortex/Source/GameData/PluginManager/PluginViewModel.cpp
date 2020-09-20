@@ -7,9 +7,9 @@
 #include "UI/TextEditDialog.h"
 #include "Utility/MenuSeparator.h"
 #include "Utility/UI.h"
-#include <KxFramework/KxMenu.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/kxf::UI::Menu.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::PluginManager
 {
@@ -22,7 +22,7 @@ namespace Kortex::PluginManager
 		GetView()->Bind(KxEVT_DATAVIEW_ITEM_CONTEXT_MENU, &PluginViewModel::OnContextMenu, this);
 		GetView()->Bind(KxEVT_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK, [this](KxDataViewEvent& event)
 		{
-			KxMenu menu;
+			kxf::UI::Menu menu;
 			if (GetView()->CreateColumnSelectionMenu(menu))
 			{
 				GetView()->OnColumnSelectionMenu(menu);
@@ -131,21 +131,21 @@ namespace Kortex::PluginManager
 		KxDataViewColumn* column = event.GetColumn();
 		const IGamePlugin* plugin = GetDataEntry(GetRow(item));
 
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		IPluginManager* manager = IPluginManager::GetInstance();
 		Workspace* workspace = Workspace::GetInstance();
 
 		// Base items
 		{
-			KxMenuItem* item = menu.AddItem(KTr("PluginManager.ActivateAll"));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = menu.AddItem(KTr("PluginManager.ActivateAll"));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
 				SetAllEnabled(true);
 			});
 		}
 		{
-			KxMenuItem* item = menu.AddItem(KTr("PluginManager.DeactivateAll"));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = menu.AddItem(KTr("PluginManager.DeactivateAll"));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
 				SetAllEnabled(false);
 			});
@@ -158,9 +158,9 @@ namespace Kortex::PluginManager
 			{
 				kxf::String description = bethesdaPlugin->GetDescription();
 
-				KxMenuItem* item = menu.AddItem(KTr("Generic.Description"));
+				kxf::UI::MenuItem* item = menu.AddItem(KTr("Generic.Description"));
 				item->Enable(!description.IsEmpty());
-				item->Bind(KxEVT_MENU_SELECT, [this, description](KxMenuEvent& event)
+				item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, description](kxf::UI::MenuEvent& event)
 				{
 					UI::TextEditDialog dialog(GetView());
 					dialog.SetText(description);
@@ -171,7 +171,7 @@ namespace Kortex::PluginManager
 			}
 
 			// Plugin select event
-			auto SelectPlugin = [this](KxMenuEvent& event)
+			auto SelectPlugin = [this](kxf::UI::MenuEvent& event)
 			{
 				const IGamePlugin* entry = IPluginManager::GetInstance()->FindPluginByName(event.GetItem()->GetItemLabelText());
 				SelectItem(GetItemByEntry(entry), true);
@@ -181,8 +181,8 @@ namespace Kortex::PluginManager
 			// Dependencies
 			{
 				KxStringVector dependenciesList = bethesdaPlugin->GetRequiredPlugins();
-				KxMenu* dependenciesMenu = new KxMenu();
-				KxMenuItem* dependenciesMenuItem = menu.Add(dependenciesMenu,
+				kxf::UI::Menu* dependenciesMenu = new kxf::UI::Menu();
+				kxf::UI::MenuItem* dependenciesMenuItem = menu.Add(dependenciesMenu,
 															kxf::String::Format(wxS("%s (%zu)"),
 															KTr("PluginManager.PluginDependencies"),
 															dependenciesList.size())
@@ -191,17 +191,17 @@ namespace Kortex::PluginManager
 
 				for (const kxf::String& name: dependenciesList)
 				{
-					KxMenuItem* item = dependenciesMenu->AddItem(name);
+					kxf::UI::MenuItem* item = dependenciesMenu->AddItem(name);
 					item->SetBitmap(ImageProvider::GetBitmap(workspace->GetStatusImageForPlugin(manager->FindPluginByName(name))));
 				}
-				dependenciesMenu->Bind(KxEVT_MENU_SELECT, SelectPlugin);
+				dependenciesMenu->Bind(kxf::UI::MenuEvent::EvtSelect, SelectPlugin);
 			}
 
 			// Dependent plugins
 			{
 				IGamePlugin::RefVector dependentList = plugin->GetDependentPlugins();
-				KxMenu* dependentMenu = new KxMenu();
-				KxMenuItem* dependentMenuItem = menu.Add(dependentMenu,
+				kxf::UI::Menu* dependentMenu = new kxf::UI::Menu();
+				kxf::UI::MenuItem* dependentMenuItem = menu.Add(dependentMenu,
 														 kxf::String::Format(wxS("%1 (%2)"),
 														 KTr("PluginManager.DependentPlugins"),
 														 dependentList.size())
@@ -210,10 +210,10 @@ namespace Kortex::PluginManager
 
 				for (const IGamePlugin* depEntry: dependentList)
 				{
-					KxMenuItem* item = dependentMenu->AddItem(depEntry->GetName());
+					kxf::UI::MenuItem* item = dependentMenu->AddItem(depEntry->GetName());
 					item->SetBitmap(ImageProvider::GetBitmap(workspace->GetStatusImageForPlugin(depEntry)));
 				}
-				dependentMenu->Bind(KxEVT_MENU_SELECT, SelectPlugin);
+				dependentMenu->Bind(kxf::UI::MenuEvent::EvtSelect, SelectPlugin);
 			}
 		}
 
@@ -228,10 +228,10 @@ namespace Kortex::PluginManager
 		// Misc options
 		if (MenuSeparatorBefore sep(menu); true)
 		{
-			KxMenuItem* item = menu.AddItem(KTr("Generic.FileLocation"));
+			kxf::UI::MenuItem* item = menu.AddItem(KTr("Generic.FileLocation"));
 			item->Enable(plugin);
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderOpen));
-			item->Bind(KxEVT_MENU_SELECT, [plugin](KxMenuEvent& event)
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderOpen));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [plugin](kxf::UI::MenuEvent& event)
 			{
 				KxShell::OpenFolderAndSelectItem(plugin->GetFullPath());
 			});

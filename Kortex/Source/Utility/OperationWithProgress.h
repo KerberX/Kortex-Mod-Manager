@@ -1,9 +1,9 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "QuickThread.h"
-#include <KxFramework/KxDualProgressDialog.h>
-#include <KxFramework/KxFileOperationEvent.h>
-#include <KxFramework/KxWithOptions.h>
+#include <kxf::UI::Framework/KxDualProgressDialog.h>
+#include <kxf::UI::Framework/KxFileOperationEvent.h>
+#include <kxf::UI::Framework/KxWithOptions.h>
 
 // TODO: These threading classes are inherently broken, try not to use them. Rewrite as soon as possible.
 // Consider use of 'KxThread' class.

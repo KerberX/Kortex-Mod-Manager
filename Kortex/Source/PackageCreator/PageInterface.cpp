@@ -5,8 +5,8 @@
 #include "Workspace.h"
 #include "WorkspaceDocument.h"
 #include <Kortex/Application.hpp>
-#include <KxFramework/KxLabel.h>
-#include <KxFramework/KxComboBox.h>
+#include <kxf::UI::Framework/KxLabel.h>
+#include <kxf::UI::Framework/KxComboBox.h>
 
 namespace Kortex::PackageDesigner
 {

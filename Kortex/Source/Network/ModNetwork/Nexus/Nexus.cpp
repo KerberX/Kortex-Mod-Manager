@@ -4,14 +4,14 @@
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/Application.hpp>
 #include "Utility/String.h"
-#include <KxFramework/KxCURL.h>
-#include <KxFramework/KxJSON.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxSystem.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxComparator.h>
-#include <KxFramework/KxIndexedEnum.h>
-#include <KxFramework/KxWebSocket.h>
+#include <kxf::UI::Framework/KxCURL.h>
+#include <kxf::UI::Framework/KxJSON.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxSystem.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxComparator.h>
+#include <kxf::UI::Framework/KxIndexedEnum.h>
+#include <kxf::UI::Framework/KxWebSocket.h>
 #include <Kx/Async/DelayedCall.h>
 
 namespace Kortex::Variables
@@ -84,7 +84,7 @@ namespace Kortex::NetworkManager
 
 	kxf::ResourceID NexusModNetwork::GetIcon() const
 	{
-		return Imagekxf::ResourceID::ModNetwork_Nexus;
+		return ImageResourceID::ModNetwork_Nexus;
 	}
 	kxf::String NexusModNetwork::GetName() const
 	{
@@ -324,7 +324,7 @@ namespace Kortex::NetworkManager
 		return infoVector;
 	}
 
-	void NexusModNetwork::OnToolBarMenu(KxMenu& menu)
+	void NexusModNetwork::OnToolBarMenu(kxf::UI::Menu& menu)
 	{
 		m_Auth.OnToolBarMenu(menu);
 		m_Repository.OnToolBarMenu(menu);

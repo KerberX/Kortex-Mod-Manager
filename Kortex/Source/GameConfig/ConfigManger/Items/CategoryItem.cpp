@@ -2,7 +2,7 @@
 #include "CategoryItem.h"
 #include "GameConfig/IGameConfigManager.h"
 #include "GameConfig/ConfigManger/Common.h"
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::GameConfig
 {

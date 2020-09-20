@@ -5,14 +5,14 @@
 
 namespace Kortex
 {
-	wxSize IMainWindow::GetDialogBestSize(const wxWindow* dialog)
+	kxf::Size IMainWindow::GetDialogBestSize(const wxWindow* dialog)
 	{
 		int screenWidth = wxSystemSettings::GetMetric(wxSYS_SCREEN_X);
 		int screenHeight = wxSystemSettings::GetMetric(wxSYS_SCREEN_Y);
 		float scaleX = 0.85f;
 		float scaleY = scaleX;
 
-		return wxSize(screenWidth * scaleX, screenHeight * scaleY);
+		return kxf::Size(screenWidth * scaleX, screenHeight * scaleY);
 	}
 
 	void IMainWindow::InitializeWorkspaces()

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "StructItem.h"
-#include <KxFramework/DataView2/DataView2.h>
-#include <KxFramework/KxStringUtility.h>
+#include <kxf::UI::Framework/DataView2/DataView2.h>
+#include <kxf::UI::Framework/KxStringUtility.h>
 #include <regex>
 
 namespace Kortex::GameConfig

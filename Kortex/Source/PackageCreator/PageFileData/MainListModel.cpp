@@ -5,11 +5,11 @@
 #include "PackageCreator/WorkspaceDocument.h"
 #include <Kortex/Application.hpp>
 #include "Utility/OperationWithProgress.h"
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxFileOperationEvent.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxTextBoxDialog.h>
-#include <KxFramework/KxString.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxFileOperationEvent.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxString.h>
 
 namespace
 {
@@ -93,7 +93,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			{
 				case ColumnID::ID:
 				{
-					value = KxDataViewBitmapTextValue(item->GetID(), ImageProvider::GetBitmap(item->QueryInterface<PackageProject::FolderItem>() ? Imagekxf::ResourceID::Folder : Imagekxf::ResourceID::Document));
+					value = KxDataViewBitmapTextValue(item->GetID(), ImageProvider::GetBitmap(item->QueryInterface<PackageProject::FolderItem>() ? ImageResourceID::Folder : ImageResourceID::Document));
 					break;
 				}
 				case ColumnID::Source:
@@ -223,7 +223,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 				{
 					if (PackageProject::FileItem* item = GetDataEntry(GetRow(event.GetItem())))
 					{
-						KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN);
+						KxFileBrowseDialog dialog(GetView(), wxID_NONE, KxFBD_OPEN);
 						if (item->QueryInterface<PackageProject::FolderItem>())
 						{
 							dialog.SetFolder(item->GetSource());
@@ -235,7 +235,7 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 							dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 						}
 	
-						if (dialog.ShowModal() == KxID_OK)
+						if (dialog.ShowModal() == wxID_OK)
 						{
 							item->SetSource(dialog.GetResult());
 							NotifyChangedItem(event.GetItem());
@@ -271,38 +271,38 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	{
 		PackageProject::FileItem* fileItem = GetDataEntry(GetRow(event.GetItem()));
 	
-		KxMenu menu;
+		kxf::UI::Menu menu;
 		{
-			KxMenu* allItems = CreateAllItemsMenu(menu);
+			kxf::UI::Menu* allItems = CreateAllItemsMenu(menu);
 			CreateAllItemsMenuEntry(allItems, ColumnID::Destination);
 			CreateAllItemsMenuEntry(allItems, ColumnID::Priority);
 			menu.AddSeparator();
 		}
 	
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddFile, KTr("PackageCreator.AddFile")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::DocumentPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddFile, KTr("PackageCreator.AddFile")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::DocumentPlus));
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddFolder, KTr("PackageCreator.AddFolder")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddFolder, KTr("PackageCreator.AddFolder")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderPlus));
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::AddMultipleFolders, KTr("PackageCreator.AddMultipleFolders")));
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FoldersPlus));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::AddMultipleFolders, KTr("PackageCreator.AddMultipleFolders")));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FoldersPlus));
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(MenuID::ReplaceFolderContent, KTr("PackageCreator.PageFileData.ReplaceFolderContent")));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(MenuID::ReplaceFolderContent, KTr("PackageCreator.PageFileData.ReplaceFolderContent")));
 			item->Enable(fileItem && fileItem->QueryInterface<PackageProject::FolderItem>());
-			item->SetBitmap(ImageProvider::GetBitmap(Imagekxf::ResourceID::FolderArrow));
+			item->SetBitmap(ImageProvider::GetBitmap(ImageResourceID::FolderArrow));
 		}
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_REMOVE, KTr(KxID_REMOVE)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_REMOVE, KTr(wxID_REMOVE)));
 			item->Enable(fileItem != nullptr);
 		}
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KxID_CLEAR, KTr(KxID_CLEAR)));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxID_CLEAR, KTr(wxID_CLEAR)));
 			item->Enable(!IsEmpty());
 		}
 		
@@ -328,12 +328,12 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 				OnReplaceFolderContent(event.GetItem(), *fileItem->QueryInterface<PackageProject::FolderItem>());
 				break;
 			}
-			case KxID_REMOVE:
+			case wxID_REMOVE:
 			{
 				OnRemoveElement(event.GetItem());
 				break;
 			}
-			case KxID_CLEAR:
+			case wxID_CLEAR:
 			{
 				OnClearList();
 				break;
@@ -346,8 +346,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 		{
 			case ColumnID::Destination:
 			{
-				KxTextBoxDialog dialog(GetViewTLW(), KxID_NONE, column->GetTitle());
-				if (dialog.ShowModal() == KxID_OK)
+				KxTextBoxDialog dialog(GetViewTLW(), wxID_NONE, column->GetTitle());
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					for (auto& item: *GetDataVector())
 					{
@@ -359,9 +359,9 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 			}
 			case ColumnID::Priority:
 			{
-				KxTextBoxDialog dialog(GetViewTLW(), KxID_NONE, column->GetTitle());
+				KxTextBoxDialog dialog(GetViewTLW(), wxID_NONE, column->GetTitle());
 				dialog.GetDialogMainCtrl()->SetValidator(m_PriorityRenderer->GetValidator());
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					long value = -2;
 					if (dialog.GetValue().ToCLong(&value) && value > -2)
@@ -380,9 +380,9 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	
 	void MainListModel::OnAddFile()
 	{
-		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN);
+		KxFileBrowseDialog dialog(GetView(), wxID_NONE, KxFBD_OPEN);
 		dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
-		if (dialog.ShowModal() == KxID_OK)
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			kxf::String source = dialog.GetResult();
 			kxf::String target = source.AfterLast('\\');
@@ -406,8 +406,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	}
 	void MainListModel::OnAddFolder()
 	{
-		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN_FOLDER);
-		if (dialog.ShowModal() == KxID_OK)
+		KxFileBrowseDialog dialog(GetView(), wxID_NONE, KxFBD_OPEN_FOLDER);
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			kxf::String source = dialog.GetResult();
 			kxf::String id = source.AfterLast('\\');
@@ -440,8 +440,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	}
 	void MainListModel::OnAddMultipleFolders()
 	{
-		KxFileBrowseDialog dialog(GetView(), KxID_NONE, KxFBD_OPEN_FOLDER);
-		if (dialog.ShowModal() == KxID_OK)
+		KxFileBrowseDialog dialog(GetView(), wxID_NONE, KxFBD_OPEN_FOLDER);
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			kxf::String source = dialog.GetResult();
 			auto operation = new Utility::OperationWithProgressDialog<KxFileOperationEvent>(true, GetView());
@@ -476,8 +476,8 @@ namespace Kortex::PackageDesigner::PageFileDataNS
 	}
 	void MainListModel::OnReplaceFolderContent(const KxDataViewItem& item, PackageProject::FolderItem& folderEntry)
 	{
-		KxFileBrowseDialog dialog(GetViewTLW(), KxID_NONE, KxFBD_OPEN_FOLDER);
-		if (dialog.ShowModal() == KxID_OK)
+		KxFileBrowseDialog dialog(GetViewTLW(), wxID_NONE, KxFBD_OPEN_FOLDER);
+		if (dialog.ShowModal() == wxID_OK)
 		{
 			kxf::String source = dialog.GetResult();
 	

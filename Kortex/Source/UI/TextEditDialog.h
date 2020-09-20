@@ -1,24 +1,24 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
 #include "WebView.h"
 class KxPanel;
 class KxHTMLWindow;
 class KxBitmapComboBox;
 class KxStyledTextBox;
-class KxAuiToolBar;
-class KxAuiToolBarItem;
-class KxAuiToolBarEvent;
+class kxf::UI::AuiToolBar;
+class kxf::UI::AuiToolBarItem;
+class kxf::UI::AuiToolBarEvent;
 
 namespace Kortex::UI
 {
 	class TextEditDialog: public KxStdDialog
 	{
 		private:
-			KxAuiToolBar* m_ToolBar = nullptr;
-			KxAuiToolBarItem* m_ToolBar_SwitchMode = nullptr;
-			KxAuiToolBarItem* m_ToolBar_Save = nullptr;
-			KxAuiToolBarItem* m_ToolBar_Open = nullptr;
+			kxf::UI::AuiToolBar* m_ToolBar = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_SwitchMode = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_Save = nullptr;
+			kxf::UI::AuiToolBarItem* m_ToolBar_Open = nullptr;
 			KxBitmapComboBox* m_HeadingList = nullptr;
 
 			KxPanel* m_View = nullptr;
@@ -61,10 +61,10 @@ namespace Kortex::UI
 			void OnNewTextSet();
 			void OnPrepareSaveText();
 			void ClearUndoHistory();
-			void OnSwitchMode(KxAuiToolBarEvent& event);
+			void OnSwitchMode(kxf::UI::AuiToolBarEvent& event);
 			void OnKey(wxKeyEvent& event);
 			void OnOK(wxNotifyEvent& event);
-			void OnSaveLoadFile(KxAuiToolBarEvent& event);
+			void OnSaveLoadFile(kxf::UI::AuiToolBarEvent& event);
 
 			void ToggleTag(const kxf::String& tagStart, const kxf::String& tagEnd);
 			void ToggleTag(const kxf::String& tagName, const kxf::String& attributeName, const kxf::String& attributeValue)

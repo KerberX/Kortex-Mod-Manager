@@ -6,7 +6,7 @@
 #include "ModManager/Common.h"
 #include "Network/Common.h"
 #include "Network/NetworkModInfo.h"
-#include <KxFramework/KxSingleton.h>
+#include <kxf::UI::Framework/KxSingleton.h>
 
 namespace Kortex
 {
@@ -26,7 +26,7 @@ namespace Kortex
 {
 	class IModManager:
 		public KxRTTI::ExtendInterface<IModManager, ManagerWithTypeInfo<IManager, ModManager::Internal::TypeInfo>>,
-		public KxSingletonPtr<IModManager>
+		public kxf::SingletonPtr<IModManager>
 	{
 		KxRTTI_DeclareIID(IModManager, {0xec61c172, 0xa750, 0x4be9, {0xb0, 0x9d, 0x27, 0xe8, 0x8c, 0x49, 0x36, 0xb2}});
 

@@ -119,29 +119,20 @@ namespace Kortex
 			void NotifyChange();
 
 		public:
-			void SaveDataViewLayout(const KxDataViewCtrl* dataView)
+			void SaveDataViewLayout(const kxf::UI::DataView::View* dataView)
 			{
-				m_UISerializer.DataViewLayout(*this, SerializationMode::Save, const_cast<KxDataViewCtrl*>(dataView));
+				m_UISerializer.DataViewLayout(*this, SerializationMode::Save, const_cast<kxf::UI::DataView::View*>(dataView));
 			}
-			void LoadDataViewLayout(KxDataViewCtrl* dataView) const
+			void LoadDataViewLayout(kxf::UI::DataView::View* dataView) const
 			{
 				m_UISerializer.DataViewLayout(const_cast<AppOption&>(*this), SerializationMode::Load, dataView);
 			}
 
-			void SaveDataViewLayout(const KxDataView2::View* dataView)
+			void SaveSplitterLayout(const kxf::UI::SplitterWindow* splitter)
 			{
-				m_UISerializer.DataView2Layout(*this, SerializationMode::Save, const_cast<KxDataView2::View*>(dataView));
+				m_UISerializer.SplitterLayout(*this, SerializationMode::Save, const_cast<kxf::UI::SplitterWindow*>(splitter));
 			}
-			void LoadDataViewLayout(KxDataView2::View* dataView) const
-			{
-				m_UISerializer.DataView2Layout(const_cast<AppOption&>(*this), SerializationMode::Load, dataView);
-			}
-
-			void SaveSplitterLayout(const KxSplitterWindow* splitter)
-			{
-				m_UISerializer.SplitterLayout(*this, SerializationMode::Save, const_cast<KxSplitterWindow*>(splitter));
-			}
-			void LoadSplitterLayout(KxSplitterWindow* splitter) const
+			void LoadSplitterLayout(kxf::UI::SplitterWindow* splitter) const
 			{
 				m_UISerializer.SplitterLayout(const_cast<AppOption&>(*this), SerializationMode::Load, splitter);
 			}

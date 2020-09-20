@@ -56,7 +56,7 @@ namespace Kortex::Application
 		protected:
 			void CreateWorkspaceWindow(wxWindow& parent) override
 			{
-				if (TWindow::Create(&parent, KxID_NONE))
+				if (TWindow::Create(&parent, wxID_NONE))
 				{
 					ApplyWorkspaceTheme();
 				}

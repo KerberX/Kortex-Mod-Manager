@@ -1,7 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
 #include "Application/INotification.h"
-#include "KxFramework/KxUUID.h"
 
 namespace Kortex::Notifications
 {

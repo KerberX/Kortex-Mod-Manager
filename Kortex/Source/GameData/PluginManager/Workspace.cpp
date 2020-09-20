@@ -9,15 +9,15 @@
 #include "GameMods/ModManager/Workspace.h"
 #include "UI/ImageViewerDialog.h"
 #include "Utility/OperationWithProgress.h"
-#include <KxFramework/KxSearchBox.h>
-#include <KxFramework/KxNotebook.h>
-#include <KxFramework/KxAuiNotebook.h>
-#include <KxFramework/KxHTMLWindow.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxShell.h>
+#include <kxf::UI::Framework/KxSearchBox.h>
+#include <kxf::UI::Framework/KxNotebook.h>
+#include <kxf::UI::Framework/KxAuiNotebook.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxShell.h>
 
 namespace
 {
@@ -86,15 +86,15 @@ namespace
 
 namespace Kortex::PluginManager
 {
-	Imagekxf::ResourceID Workspace::GetStatusImageForPlugin(const IGamePlugin* plugin)
+	ImageResourceID Workspace::GetStatusImageForPlugin(const IGamePlugin* plugin)
 	{
 		if (plugin)
 		{
-			return plugin->IsActive() ? Imagekxf::ResourceID::TickCircleFrameEmpty : Imagekxf::ResourceID::InformationFrameEmpty;
+			return plugin->IsActive() ? ImageResourceID::TickCircleFrameEmpty : ImageResourceID::InformationFrameEmpty;
 		}
 		else
 		{
-			return Imagekxf::ResourceID::CrossCircleEmpty;
+			return ImageResourceID::CrossCircleEmpty;
 		}
 	}
 
@@ -111,7 +111,7 @@ namespace Kortex::PluginManager
 			m_ModelView->RefreshItems();
 		}
 	}
-	void Workspace::UpdatePluginTypeCounter(KxMenuItem* item)
+	void Workspace::UpdatePluginTypeCounter(kxf::UI::MenuItem* item)
 	{
 		using namespace MenuCounter;
 
@@ -154,7 +154,7 @@ namespace Kortex::PluginManager
 				if (pluginsConfig.HasPluginLimit())
 				{
 					item->SetItemLabel(kxf::String::Format("%1: %2/%3", KTr("PluginManager.PluginCounter.Active"), count, pluginsConfig.GetPluginLimit()));
-					item->SetBitmap(ImageProvider::GetBitmap(count >= static_cast<size_t>(pluginsConfig.GetPluginLimit()) ? Imagekxf::ResourceID::Exclamation : Imagekxf::ResourceID::TickCircleFrame));
+					item->SetBitmap(ImageProvider::GetBitmap(count >= static_cast<size_t>(pluginsConfig.GetPluginLimit()) ? ImageResourceID::Exclamation : ImageResourceID::TickCircleFrame));
 				}
 			}
 			else
@@ -172,7 +172,7 @@ namespace Kortex::PluginManager
 			}
 		}
 	}
-	void Workspace::OnRunLootAPI(KxMenuEvent& event)
+	void Workspace::OnRunLootAPI(kxf::UI::MenuEvent& event)
 	{
 		auto operation = new Utility::OperationWithProgressDialog<KxFileOperationEvent>(true, this);
 		operation->OnRun([operation]()
@@ -209,7 +209,7 @@ namespace Kortex::PluginManager
 		m_MainSizer = new wxBoxSizer(wxVERTICAL);
 		m_MainSizer->Add(m_ModelView->GetView(), 1, wxEXPAND);
 
-		m_SearchBox = new KxSearchBox(this, KxID_NONE);
+		m_SearchBox = new KxSearchBox(this, wxID_NONE);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_SEARCH_BTN, &Workspace::OnModSerach, this);
 		m_SearchBox->Bind(wxEVT_SEARCHCTRL_CANCEL_BTN, &Workspace::OnModSerach, this);
 		m_MainSizer->Add(m_SearchBox, 0, wxEXPAND|wxTOP, LayoutConstants::VerticalSpacing);
@@ -268,22 +268,22 @@ namespace Kortex::PluginManager
 		return result;
 	}
 
-	void Workspace::OnCreateViewContextMenu(KxMenu& menu, const IGamePlugin* plugin)
+	void Workspace::OnCreateViewContextMenu(kxf::UI::Menu& menu, const IGamePlugin* plugin)
 	{
 		using namespace MenuCounter;
 
 		// Plugin type counter
 		auto AddCounter = [this, &menu](uint32_t type)
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(wxEmptyString));
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(wxEmptyString));
 			item->SetClientObject(new MenuCounter::CounterData(type));
 			item->Enable(false);
 		};
-		menu.Bind(KxEVT_MENU_OPEN, [this](KxMenuEvent& event)
+		menu.Bind(KxEVT_MENU_OPEN, [this](kxf::UI::MenuEvent& event)
 		{
 			for (const auto& item: event.GetMenu()->GetMenuItems())
 			{
-				UpdatePluginTypeCounter(static_cast<KxMenuItem*>(item));
+				UpdatePluginTypeCounter(static_cast<kxf::UI::MenuItem*>(item));
 			}
 			event.Skip();
 		});
@@ -301,16 +301,16 @@ namespace Kortex::PluginManager
 			AddCounter(PluginType::Light);
 		}
 	}
-	void Workspace::OnCreateSortingToolsMenu(KxMenu& menu, const IGamePlugin* plugin)
+	void Workspace::OnCreateSortingToolsMenu(kxf::UI::Menu& menu, const IGamePlugin* plugin)
 	{
-		KxMenu* sortingMenu = nullptr;
+		kxf::UI::Menu* sortingMenu = nullptr;
 		const Config& pluginsConfig = IPluginManager::GetInstance()->GetConfig();
 		if (pluginsConfig.HasSortingTools() || LibLoot::GetInstance())
 		{
-			sortingMenu = new KxMenu();
+			sortingMenu = new kxf::UI::Menu();
 			menu.AddSeparator();
 
-			KxMenuItem* item = menu.Add(sortingMenu, KTr("PluginManager.Sorting"));
+			kxf::UI::MenuItem* item = menu.Add(sortingMenu, KTr("PluginManager.Sorting"));
 			item->Enable(IModManager::GetInstance()->GetFileSystem().IsEnabled());
 		}
 
@@ -322,8 +322,8 @@ namespace Kortex::PluginManager
 			{
 				hasLoot = true;
 
-				KxMenuItem* item = sortingMenu->Add(new KxMenuItem("LOOT API"));
-				item->Bind(KxEVT_MENU_SELECT, &Workspace::OnRunLootAPI, this);
+				kxf::UI::MenuItem* item = sortingMenu->Add(new kxf::UI::MenuItem("LOOT API"));
+				item->Bind(kxf::UI::MenuEvent::EvtSelect, &Workspace::OnRunLootAPI, this);
 			}
 
 			// Sorting tools
@@ -336,9 +336,9 @@ namespace Kortex::PluginManager
 
 				for (const SortingToolItem& toolItem: sortingTools)
 				{
-					KxMenuItem* item = sortingMenu->Add(new KxMenuItem(toolItem.GetName()));
+					kxf::UI::MenuItem* item = sortingMenu->Add(new kxf::UI::MenuItem(toolItem.GetName()));
 					item->SetBitmap(KxShell::GetFileIcon(toolItem.GetExecutable(), true));
-					item->Bind(KxEVT_MENU_SELECT, [this, toolItem](KxMenuEvent& event)
+					item->Bind(kxf::UI::MenuEvent::EvtSelect, [this, toolItem](kxf::UI::MenuEvent& event)
 					{
 						IPluginManager::GetInstance()->Save();
 						IPluginManager::GetInstance()->RunSortingTool(toolItem);
@@ -347,41 +347,41 @@ namespace Kortex::PluginManager
 			}
 		}
 	}
-	void Workspace::OnCreateImportExportMenu(KxMenu& menu, const IGamePlugin* plugin)
+	void Workspace::OnCreateImportExportMenu(kxf::UI::Menu& menu, const IGamePlugin* plugin)
 	{
 		menu.AddSeparator();
 		{
-			KxMenuItem* item = menu.Add(new KxMenuItem(KTr("PluginManager.Tools.ImportList")));
-			item->Bind(KxEVT_MENU_SELECT, [this](KxMenuEvent& event)
+			kxf::UI::MenuItem* item = menu.Add(new kxf::UI::MenuItem(KTr("PluginManager.Tools.ImportList")));
+			item->Bind(kxf::UI::MenuEvent::EvtSelect, [this](kxf::UI::MenuEvent& event)
 			{
-				KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_OPEN);
+				KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_OPEN);
 				dialog.AddFilter("*.txt", KTr("FileFilter.Text"));
 				dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					IPluginManager::GetInstance()->SyncWithPluginsList(KxTextFile::ReadToArray(dialog.GetResult()));
 				}
 			});
 		}
 		{
-			KxMenuItem* itemAll = menu.Add(new KxMenuItem(KTr("PluginManager.Tools.ExportList")));
-			KxMenuItem* itemActive = menu.Add(new KxMenuItem(KTr("PluginManager.Tools.ExportListActive")));
+			kxf::UI::MenuItem* itemAll = menu.Add(new kxf::UI::MenuItem(KTr("PluginManager.Tools.ExportList")));
+			kxf::UI::MenuItem* itemActive = menu.Add(new kxf::UI::MenuItem(KTr("PluginManager.Tools.ExportListActive")));
 
-			auto Event = [this, itemActive](KxMenuEvent& event)
+			auto Event = [this, itemActive](kxf::UI::MenuEvent& event)
 			{
-				KxFileBrowseDialog dialog(this, KxID_NONE, KxFBD_SAVE);
+				KxFileBrowseDialog dialog(this, wxID_NONE, KxFBD_SAVE);
 				dialog.AddFilter("*.txt", KTr("FileFilter.Text"));
 				dialog.AddFilter("*", KTr("FileFilter.AllFiles"));
 				dialog.SetDefaultExtension("txt");
 
-				if (dialog.ShowModal() == KxID_OK)
+				if (dialog.ShowModal() == wxID_OK)
 				{
 					bool activeOnly = event.GetId() == itemActive->GetId();
 					KxTextFile::WriteToFile(dialog.GetResult(), IPluginManager::GetInstance()->GetPluginsList(activeOnly));
 				}
 			};
-			itemAll->Bind(KxEVT_MENU_SELECT, Event);
-			itemActive->Bind(KxEVT_MENU_SELECT, Event);
+			itemAll->Bind(kxf::UI::MenuEvent::EvtSelect, Event);
+			itemActive->Bind(kxf::UI::MenuEvent::EvtSelect, Event);
 		}
 	}
 
@@ -399,7 +399,7 @@ namespace Kortex::PluginManager
 			}
 			else
 			{
-				mainWindow->SetStatus(wxEmptyString, statusIndex, Imagekxf::ResourceID::CrossCircleFrame);
+				mainWindow->SetStatus(wxEmptyString, statusIndex, ImageResourceID::CrossCircleFrame);
 			}
 		}
 	}

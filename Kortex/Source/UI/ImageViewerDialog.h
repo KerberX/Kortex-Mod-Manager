@@ -1,12 +1,12 @@
 #pragma once;
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxPanel.h>
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxStdDialog.h>
-#include <KxFramework/KxSlider.h>
-#include <KxFramework/KxImageView.h>
-#include <KxFramework/KxHTMLWindow.h>
-#include <KxFramework/KxSplitterWindow.h>
+#include <kxf::UI::Framework/KxPanel.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxStdDialog.h>
+#include <kxf::UI::Framework/KxSlider.h>
+#include <kxf::UI::Framework/KxImageView.h>
+#include <kxf::UI::Framework/KxHTMLWindow.h>
+#include <kxf::UI::Framework/kxf::UI::SplitterWindow.h>
 #include <Kx/EventSystem/Event.h>
 #include "Archive/GenericArchive.h"
 
@@ -106,12 +106,12 @@ namespace Kortex::UI
 	class ImageViewerDialog: public KxStdDialog
 	{
 		private:
-			KxSplitterWindow* m_Splitter = nullptr;
+			kxf::UI::SplitterWindow* m_Splitter = nullptr;
 			KxImageView* m_ImageView = nullptr;
 			KxHTMLWindow* m_Description = nullptr;
-			KxAuiToolBar* m_ToolBar = nullptr;
-			KxAuiToolBarItem* m_Backward = nullptr;
-			KxAuiToolBarItem* m_Forward = nullptr;
+			kxf::UI::AuiToolBar* m_ToolBar = nullptr;
+			kxf::UI::AuiToolBarItem* m_Backward = nullptr;
+			kxf::UI::AuiToolBarItem* m_Forward = nullptr;
 			KxSlider* m_ScaleSlider = nullptr;
 			kxf::String m_FilePath;
 	

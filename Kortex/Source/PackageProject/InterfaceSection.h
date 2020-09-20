@@ -3,7 +3,7 @@
 #include "ProjectSection.h"
 #include "Utility/LabeledValue.h"
 #include "Utility/WithBitmap.h"
-#include <KxFramework/KxColor.h>
+#include <kxf::UI::Framework/KxColor.h>
 
 namespace Kortex::PackageProject
 {
@@ -17,7 +17,7 @@ namespace Kortex::PackageProject
 			kxf::String m_Description;
 			bool m_IsVisiable = true;
 			bool m_FadeEnabled = false;
-			wxSize m_Size = wxDefaultSize;
+			kxf::Size m_Size = wxDefaultSize;
 	
 		public:
 			ImageItem(const kxf::String& path = wxEmptyString, const kxf::String& description = wxEmptyString, bool isVisible = true);
@@ -72,11 +72,11 @@ namespace Kortex::PackageProject
 				m_FadeEnabled = value;
 			}
 	
-			wxSize GetSize() const
+			kxf::Size GetSize() const
 			{
 				return m_Size;
 			}
-			void SetSize(const wxSize& tSize)
+			void SetSize(const kxf::Size& tSize)
 			{
 				m_Size = tSize;
 			}

@@ -9,8 +9,8 @@
 #include "Utility/Common.h"
 #include "Utility/UI.h"
 #include "Utility/BitmapSize.h"
-#include <KxFramework/KxTextBoxDialog.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxTextBoxDialog.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 namespace
 {
@@ -174,7 +174,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 	{
 		if (id.IsEmpty())
 		{
-			KxTaskDialog msg(GetView(), KxID_NONE, KTr("InstallWizard.ChangeID.Invalid"), wxEmptyString, KxBTN_OK, KxICON_WARNING);
+			KxTaskDialog msg(GetView(), wxID_NONE, KTr("InstallWizard.ChangeID.Invalid"), wxEmptyString, KxBTN_OK, KxICON_WARNING);
 			msg.ShowModal();
 			return false;
 		}
@@ -243,7 +243,7 @@ namespace Kortex::InstallWizard::InfoPageNS
 		using namespace KxDataView2;
 
 		// View
-		View* view = new View(parent, KxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
+		View* view = new View(parent, wxID_NONE, CtrlStyle::VerticalRules|CtrlStyle::CellFocus|CtrlStyle::FitLastColumn);
 		view->AssignModel(this);
 
 		// Columns

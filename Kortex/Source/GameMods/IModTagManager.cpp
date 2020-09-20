@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "IModTagManager.h"
 #include "GameMods/GameModsModule.h"
-#include <KxFramework/KxUtility.h>
+#include <kxf::UI::Framework/KxUtility.h>
 
 namespace
 {

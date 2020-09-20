@@ -5,10 +5,10 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/Notification.hpp>
 #include "Application/SystemApplication.h"
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxSystem.h>
-#include <KxFramework/KxFile.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxSystem.h>
+#include <kxf::UI::Framework/KxFile.h>
 
 namespace
 {
@@ -66,7 +66,7 @@ namespace Kortex::VirtualFileSystem
 			{
 				auto [exceptionMessage] = message.DeserializePayload<kxf::String>();
 
-				KxTaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), KxID_NONE, KTr("VFS.Service.UnhandledException"), exceptionMessage, KxBTN_OK, KxICON_ERROR);
+				KxTaskDialog dialog(&IMainWindow::GetInstance()->GetFrame(), wxID_NONE, KTr("VFS.Service.UnhandledException"), exceptionMessage, KxBTN_OK, KxICON_ERROR);
 				dialog.ShowModal();
 
 				Stop();

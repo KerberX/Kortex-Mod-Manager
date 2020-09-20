@@ -7,12 +7,12 @@
 #include "Network/ModNetwork/LoversLab.h"
 #include "Network/ModNetwork/TESALL.h"
 #include "PackageProject/ModPackageProject.h"
-#include <KxFramework/KxCrypto.h>
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxCrypto.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
 
 namespace
 {

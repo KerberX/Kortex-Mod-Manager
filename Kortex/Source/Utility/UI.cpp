@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "UI.h"
 #include "Application/Resources/IImageProvider.h"
-#include <KxFramework/KxAuiToolBar.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxURI.h>
+#include <kxf::UI::Framework/kxf::UI::AuiToolBar.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex::Utility::UI
 {
-	KxAuiToolBarItem* CreateToolBarButton(KxAuiToolBar* toolBar,
+	kxf::UI::AuiToolBarItem* CreateToolBarButton(kxf::UI::AuiToolBar* toolBar,
 										  const kxf::String& label,
 										  const kxf::ResourceID& imageID,
 										  wxItemKind kind,
@@ -16,7 +16,7 @@ namespace Kortex::Utility::UI
 	)
 	{
 		wxBitmap bitmap = ImageProvider::GetBitmap(imageID);
-		KxAuiToolBarItem* button = toolBar->AddTool(label, bitmap, kind);
+		kxf::UI::AuiToolBarItem* button = toolBar->AddTool(label, bitmap, kind);
 		if (!toolBar->HasFlag(wxAUI_TB_TEXT))
 		{
 			button->SetShortHelp(label);
@@ -27,9 +27,9 @@ namespace Kortex::Utility::UI
 
 	bool AskOpenURL(const KxURI& uri, wxWindow* parent)
 	{
-		KxTaskDialog dialog(parent, KxID_NONE, KTr("Generic.OpenWebSiteDialog.Caption"), uri.BuildUnescapedURI(), KxBTN_YES|KxBTN_NO);
+		KxTaskDialog dialog(parent, wxID_NONE, KTr("Generic.OpenWebSiteDialog.Caption"), uri.BuildUnescapedURI(), KxBTN_YES|KxBTN_NO);
 		dialog.SetOptionEnabled(KxTD_SIZE_TO_CONTENT);
-		if (dialog.ShowModal() == KxID_YES)
+		if (dialog.ShowModal() == wxID_YES)
 		{
 			return KxShell::Execute(parent, uri.BuildUnescapedURI());
 		}
@@ -37,14 +37,14 @@ namespace Kortex::Utility::UI
 	}
 	bool AskOpenURL(const LabeledValue::Vector& urlList, wxWindow* parent)
 	{
-		KxTaskDialog dialog(parent, KxID_NONE, KTr("Generic.OpenWebSiteListDialog.Caption"), wxEmptyString, KxBTN_CANCEL);
+		KxTaskDialog dialog(parent, wxID_NONE, KTr("Generic.OpenWebSiteListDialog.Caption"), wxEmptyString, KxBTN_CANCEL);
 		dialog.SetOptionEnabled(KxTD_SIZE_TO_CONTENT);
 		dialog.SetOptionEnabled(KxTD_CMDLINKS_ENABLED);
 		dialog.Bind(KxEVT_STDDIALOG_BUTTON, [parent, urlList](wxNotifyEvent& event)
 		{
-			if (event.GetId() != KxID_CANCEL)
+			if (event.GetId() != wxID_CANCEL)
 			{
-				KxShell::Execute(parent, urlList[event.GetId() - KxID_HIGHEST].GetValue());
+				KxShell::Execute(parent, urlList[event.GetId() - wxID_HIGHEST].GetValue());
 			}
 			event.Skip();
 		});
@@ -54,14 +54,14 @@ namespace Kortex::Utility::UI
 			const Utility::LabeledValue& url = urlList[i];
 			if (url.HasValue() && url.HasLabel())
 			{
-				dialog.AddButton(KxID_HIGHEST + i, kxf::String::Format("%s\n%s", url.GetLabel(), url.GetValue()));
+				dialog.AddButton(wxID_HIGHEST + i, kxf::String::Format("%s\n%s", url.GetLabel(), url.GetValue()));
 			}
 			else if (url.HasValue() && !url.HasLabel())
 			{
-				dialog.AddButton(KxID_HIGHEST + i, url.GetValue());
+				dialog.AddButton(wxID_HIGHEST + i, url.GetValue());
 			}
 		}
-		return dialog.ShowModal() != KxID_CANCEL;
+		return dialog.ShowModal() != wxID_CANCEL;
 	}
 
 	kxf::String MakeHTMLWindowPlaceholder(const kxf::String& text, const wxWindow* window)

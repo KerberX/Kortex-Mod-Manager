@@ -18,5 +18,5 @@
 #include <limits>
 #include <type_traits>
 
-// Kortex and KxFramework
+// Kortex and kxFramework
 #include <Kortex/Kortex.hpp>

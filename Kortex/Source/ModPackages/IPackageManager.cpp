@@ -12,13 +12,13 @@
 #include "Archive/GenericArchive.h"
 #include "Utility/Common.h"
 #include "Utility/OperationWithProgress.h"
-#include <KxFramework/KxXML.h>
-#include <KxFramework/KxLibrary.h>
-#include <KxFramework/KxShell.h>
-#include <KxFramework/KxFileStream.h>
-#include <KxFramework/KxArchiveEvent.h>
-#include <KxFramework/KxTaskDialog.h>
-#include <KxFramework/KxFileBrowseDialog.h>
+#include <kxf::UI::Framework/KxXML.h>
+#include <kxf::UI::Framework/KxLibrary.h>
+#include <kxf::UI::Framework/KxShell.h>
+#include <kxf::UI::Framework/KxFileStream.h>
+#include <kxf::UI::Framework/KxArchiveEvent.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFileBrowseDialog.h>
 
 namespace Kortex
 {
@@ -52,7 +52,7 @@ namespace Kortex
 			// Show warning message if something went wrong
 			if (thread->GetClientData() == nullptr)
 			{
-				KxTaskDialog dialog(window, KxID_NONE, KTrf("InstallWizard.LoadFailed.Caption", outPath), KTr("InstallWizard.LoadFailed.Message"), KxBTN_OK, KxICON_ERROR);
+				KxTaskDialog dialog(window, wxID_NONE, KTrf("InstallWizard.LoadFailed.Caption", outPath), KTr("InstallWizard.LoadFailed.Message"), KxBTN_OK, KxICON_ERROR);
 				dialog.ShowModal();
 			}
 		});

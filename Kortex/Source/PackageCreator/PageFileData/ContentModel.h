@@ -2,9 +2,9 @@
 #include <Kortex/Kortex.hpp>
 #include "PackageCreator/VectorModel.h"
 #include "PackageProject/FileDataSection.h"
-class KxAuiToolBar;
-class KxAuiToolBarItem;
-class KxAuiToolBarEvent;
+class kxf::UI::AuiToolBar;
+class kxf::UI::AuiToolBarItem;
+class kxf::UI::AuiToolBarEvent;
 
 namespace Kortex::PackageDesigner::PageFileDataNS
 {

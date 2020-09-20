@@ -1,6 +1,6 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include <KxFramework/KxCallAtScopeExit.h>
+#include <kxf::UI::Framework/KxCallAtScopeExit.h>
 #include <Kx/Sciter.hpp>
 #include "IWebView.h"
 class wxHtmlLinkEvent;

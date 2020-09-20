@@ -7,7 +7,7 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/ModManager.hpp>
 #include <Kortex/ModTagManager.hpp>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::ModManager
 {
@@ -98,7 +98,7 @@ namespace Kortex::ModManager
 			{
 				case ColumnID::Version:
 				{
-					KxIconType icon = KxICON_NONE;
+					kxf::StdIcon icon = kxf::StdIcon::None;
 					kxf::String message;
 
 					m_Mod->GetModSourceStore().Visit([&icon, &message](const ModSourceItem& item)
@@ -111,7 +111,7 @@ namespace Kortex::ModManager
 								const NetworkModUpdateInfo info = checker->GetUpdateInfo(item.GetModInfo());
 								if (info.AnyUpdated())
 								{
-									icon = KxICON_INFORMATION;
+									icon = kxf::StdIcon::Information;
 
 									message += KTrf("NetworkManager.UpdateTooltip.AnyUpdates", info.GetVersion(), modNetwork->GetName());
 									message += wxS("\r\n");
@@ -197,11 +197,11 @@ namespace Kortex::ModManager
 						auto [anyUpdates, anyDeletions] = HasAnyNetworkUpdates();
 						if (anyUpdates)
 						{
-							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(Imagekxf::ResourceID::InformationFrame));
+							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(ImageResourceID::InformationFrame));
 						}
 						else if (anyDeletions)
 						{
-							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(Imagekxf::ResourceID::Exclamation));
+							return KxDataView2::BitmapTextValue(version, ImageProvider::GetBitmap(ImageResourceID::Exclamation));
 						}
 					}
 					return version.ToString();

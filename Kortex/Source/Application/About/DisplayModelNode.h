@@ -1,8 +1,8 @@
 #pragma once
 #include <Kortex/Kortex.hpp>
-#include "Application/Resources/Imagekxf::ResourceID.h"
-#include <KxFramework/kxf::Version.h>
-#include <KxFramework/KxURI.h>
+#include "Application/Resources/ImageResourceID.h"
+#include <kxf::UI::Framework/kxf::Version.h>
+#include <kxf::UI::Framework/KxURI.h>
 
 namespace Kortex
 {
@@ -158,7 +158,7 @@ namespace Kortex::Application::About
 	class SoftwareNode: public GenericNode
 	{
 		public:
-			SoftwareNode(const kxf::String& name, const kxf::Version& version, const kxf::String& url, const kxf::ResourceID& iconID = Imagekxf::ResourceID::None)
+			SoftwareNode(const kxf::String& name, const kxf::Version& version, const kxf::String& url, const kxf::ResourceID& iconID = ImageResourceID::None)
 				:GenericNode(Type::Software, name, version, url, iconID)
 			{
 			}

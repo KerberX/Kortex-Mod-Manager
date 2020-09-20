@@ -5,7 +5,7 @@
 #include <Kortex/Resources.hpp>
 #include <Kortex/GameInstance.hpp>
 #include <Kortex/NetworkManager.hpp>
-#include <KxFramework/KxComparator.h>
+#include <kxf::UI::Framework/KxComparator.h>
 
 namespace Kortex::DownloadManager
 {
@@ -187,20 +187,20 @@ namespace Kortex::DownloadManager
 	{
 		if (!m_Item.IsOK())
 		{
-			return ImageProvider::GetBitmap(Imagekxf::ResourceID::ExclamationCircleFrame);
+			return ImageProvider::GetBitmap(ImageResourceID::ExclamationCircleFrame);
 		}
 		if (m_Item.IsCompleted())
 		{
-			return ImageProvider::GetBitmap(Imagekxf::ResourceID::TickCircleFrame);
+			return ImageProvider::GetBitmap(ImageResourceID::TickCircleFrame);
 		}
 		if (m_Item.IsFailed())
 		{
-			return ImageProvider::GetBitmap(Imagekxf::ResourceID::CrossCircleFrame);
+			return ImageProvider::GetBitmap(ImageResourceID::CrossCircleFrame);
 		}
 		if (m_Item.IsPaused() || m_Item.IsWaiting())
 		{
-			return ImageProvider::GetBitmap(Imagekxf::ResourceID::ExclamationCircleFrameEmpty);
+			return ImageProvider::GetBitmap(ImageResourceID::ExclamationCircleFrameEmpty);
 		}
-		return ImageProvider::GetBitmap(Imagekxf::ResourceID::TickCircleFrameEmpty);
+		return ImageProvider::GetBitmap(ImageResourceID::TickCircleFrameEmpty);
 	}
 }

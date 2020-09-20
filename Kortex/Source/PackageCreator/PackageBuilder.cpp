@@ -7,10 +7,10 @@
 #include "Utility/OperationWithProgress.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/InstallWizard.hpp>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxString.h>
-#include <KxFramework/KxTextFile.h>
-#include <KxFramework/KxTaskDialog.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxString.h>
+#include <kxf::UI::Framework/KxTextFile.h>
+#include <kxf::UI::Framework/KxTaskDialog.h>
 
 #define TestContinue()		if (!m_Thread.CanContinue()) { return; }
 
@@ -304,7 +304,7 @@ namespace Kortex::PackageDesigner
 				}
 			};
 
-			KxTaskDialog dialog(IApplication::GetInstance()->GetTopWindow(), KxID_NONE, KTr("PackageCreator.Build.CheckError"), message, KxBTN_OK, KxICON_WARNING);
+			KxTaskDialog dialog(IApplication::GetInstance()->GetTopWindow(), wxID_NONE, KTr("PackageCreator.Build.CheckError"), message, KxBTN_OK, KxICON_WARNING);
 			dialog.SetExMessage(KxString::Join(m_MissingFiles, "\r\n"));
 			dialog.ShowModal();
 		}
@@ -325,13 +325,13 @@ namespace Kortex::PackageDesigner
 				{
 					kxf::String path = m_Project.GetConfig().GetInstallPackageFile();
 					kxf::String size = KxFile(path).GetFormattedFileSize(2);
-					kxf::String info = kxf::String::Format("%s: \"%s\"\r\n%s: %s", KTr(KxID_FILE), path, KTr("Generic.Size"), size);
-					KxTaskDialog(IApplication::GetInstance()->GetTopWindow(), KxID_NONE, KTr("PackageCreator.Build.Complete"), info, KxBTN_OK, KxICON_INFORMATION).ShowModal();
+					kxf::String info = kxf::String::Format("%s: \"%s\"\r\n%s: %s", KTr(wxID_FILE), path, KTr("Generic.Size"), size);
+					KxTaskDialog(IApplication::GetInstance()->GetTopWindow(), wxID_NONE, KTr("PackageCreator.Build.Complete"), info, KxBTN_OK, kxf::StdIcon::Information).ShowModal();
 				}
 			}
 			else
 			{
-				KxTaskDialog(IApplication::GetInstance()->GetTopWindow(), KxID_NONE, KTr("PackageCreator.Build.BuildError"), wxEmptyString, KxBTN_OK, KxICON_ERROR).ShowModal();
+				KxTaskDialog(IApplication::GetInstance()->GetTopWindow(), wxID_NONE, KTr("PackageCreator.Build.BuildError"), wxEmptyString, KxBTN_OK, KxICON_ERROR).ShowModal();
 			}
 		}
 	}

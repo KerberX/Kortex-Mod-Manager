@@ -2,7 +2,7 @@
 #include <Kortex/Kortex.hpp>
 #include "IWebView.h"
 #include <wx/webview.h>
-#include <KxFramework/KxCOM.h>
+#include <kxf::UI::Framework/KxCOM.h>
 struct IWebBrowser2;
 struct IHTMLDocument2;
 

@@ -6,7 +6,7 @@
 #include <Kortex/Application.hpp>
 #include <Kortex/ApplicationOptions.hpp>
 #include <Kortex/NetworkManager.hpp>
-#include <KxFramework/KxFileFinder.h>
+#include <kxf::UI::Framework/KxFileFinder.h>
 #include <Kx/Async/DelayedCall.h>
 
 namespace Kortex::DownloadManager

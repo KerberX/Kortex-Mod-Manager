@@ -2,8 +2,8 @@
 #include "DisplayModel.h"
 #include <Kortex/Application.hpp>
 #include <Kortex/ModManager.hpp>
-#include <KxFramework/KxFile.h>
-#include <KxFramework/KxProgressDialog.h>
+#include <kxf::UI::Framework/KxFile.h>
+#include <kxf::UI::Framework/KxProgressDialog.h>
 
 namespace
 {

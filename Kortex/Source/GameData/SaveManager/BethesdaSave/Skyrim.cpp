@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Skyrim.h"
-#include <KxFramework/KxFileStream.h>
+#include <kxf::UI::Framework/KxFileStream.h>
 
 namespace Kortex::SaveManager::BethesdaSave
 {
